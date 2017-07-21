@@ -54,6 +54,78 @@
   </entry>
   
   <entry>
+    <title>About SVM</title>
+    <link href="http://yoursite.com/2017/07/21/svm/"/>
+    <id>http://yoursite.com/2017/07/21/svm/</id>
+    <published>2017-07-20T16:25:11.000Z</published>
+    <updated>2017-07-21T09:50:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务;</p>
+<p>一个直观的理解是: 我们构造的平面, 其距离样本的点距离越远越好;</p>
+<p>而对于线性不可分的情况，我们则可以通过构造映射函数，将其映射到高维空间, 变成一个线性可分的模型</p>
+<p>下面具体介绍这些思路的数学演绎过程</p>
+<h2 id="数学演绎"><a href="#数学演绎" class="headerlink" title="数学演绎"></a>数学演绎</h2><p>设我们的<code>输入样本</code>为: </p>
+<p>$$ { (x_1,y_1), … , (x_N, y_N)}$$</p>
+<p>其中: </p>
+<ul>
+<li>$x_i \in R^n $</li>
+<li>$y_i \in { -1, 1 }$</li>
+</ul>
+<p>首先考虑<code>线性可分</code>的情况;  此时设我们要求解的超平面为: </p>
+<p>$$\textbf{w}^T\textbf{x} + b = 0 $$</p>
+<p>则有: </p>
+<h3 id="间隔定义"><a href="#间隔定义" class="headerlink" title="间隔定义"></a>间隔定义</h3><p>我们定义函数间隔如下: </p>
+<p>$$\widehat{\gamma}_i = y_i (w \centerdot x + b )$$</p>
+<p>定义几何间隔如下 :<br>$$\gamma_i = y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|})$$</p>
+<p>可以看到几何间隔就是在$|w| = 1$ 时候的函数间隔，也是代表这个点到平面的实际几何距离；也有如下关系: </p>
+<p>$$ \gamma = \frac{\widehat {\gamma}}{| w |}$$</p>
+<h3 id="最优值定义"><a href="#最优值定义" class="headerlink" title="最优值定义"></a>最优值定义</h3><p>我们可以理解需要获取一个最大几何间隔的分离超平面(<code>为什么</code> ? ), 表针为: </p>
+<p>$$ \max \limits_{w,b} \gamma  \ s.t. \ \ \  y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|}) \geqslant  \gamma $$</p>
+<p>用函数间隔替换如下: </p>
+<p>$$ \max \limits_{w,b} \frac{\widehat {\gamma}}{| w |}   \ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  \widehat{\gamma} $$</p>
+<p>可以令 $\widehat{\gamma} = 1$,  则有: </p>
+<p>$$ \max \limits_{w,b} \frac{1}{| w |}   \ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  1 $$</p>
+<p>也就是: </p>
+<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2   \ s.t. \ \ \quad  y_i (w \centerdot x + b ) \geqslant  1 \quad i \in { 1, 2, … , N }$$</p>
+<p><code>也就是可以理解为</code> :  我们需要寻找合适的$w, b$，对应着一个超平面，使得所有的样本点到其的函数间隔都大于1；同时使得$|w|$最小</p>
+<p>上述方程的一个优化方法是:  通过对偶方法构造原来不等式的等价最优解（也就是拉格朗日对偶函数，具体太复杂了，就(也不懂)不展开了) ，总之如上的约束条件的等价对偶问题为:</p>
+<p>$$ \min \limits<em>{\alpha} \frac{1}{2} \sum</em>{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy<em>j - \sum</em>{i=1}^N\alpha<em>i \ s.t. \quad \sum</em>{i=1}^{N} \alpha_iy_i = 0 \ a_i (y_i(w*x<em>i + b) - 1) =0 \ \ w = \sum</em>{i=1}^{N} \alpha_i x_i y_i \ a_i \geqslant 0 \quad i \in { 1, 2, … , N } $$<br>(可以忽略$\alpha_i$ 为什么会出现)</p>
+<p>这里我们称令$a_i &gt; 0$ 成立的样本点为<code>支持向量</code>, 依照上面的定义，当$a_i &gt; 0 $时，则有: </p>
+<p>$$ y_i(w*x_i + b) - 1 =0$$</p>
+<p>也就是$x_i$ 一定是在间隔的边界</p>
+<h3 id="线性不可分情况"><a href="#线性不可分情况" class="headerlink" title="线性不可分情况"></a>线性不可分情况</h3><p>考虑到现实生活中，存在一些异常或者脏数据，此时我们可以每个样本点引入一个松弛变量$\xi_i$,  则约束条件可以变为 : </p>
+<p>$$ y_i (w \centerdot x_i + b ) \geqslant  1-\xi_i \quad i \in { 1, 2, … , N } $$</p>
+<p>同时目标函数可以变成: </p>
+<p>$$ \min \limits<em>{w,b} \frac{1}{2}{| w |}^2 + C \sum</em>{i=1}^{N} \xi_i$$</p>
+<p>其中 : C代表着惩罚系数，需要视具体的业务场景而定 ；C值越大，表明对误差的惩罚增大，反之则减小；</p>
+<p>忽略一些很复杂的计算，可以得到对偶问题如下: </p>
+<p>$$ \min \limits<em>{\alpha} \frac{1}{2} \sum</em>{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy<em>j - \sum</em>{i=1}^N\alpha<em>i \ s.t. \quad \sum</em>{i=1}^{N} \alpha_iy_i = 0 \  0 \leqslant a_i \leqslant C \quad i \in { 1, 2, … , N } $$</p>
+<p>从上面可以分析出: </p>
+<ul>
+<li>$w$是确定且唯一的</li>
+<li>$b$的解并不唯一</li>
+</ul>
+<h3 id="核函数及其应用"><a href="#核函数及其应用" class="headerlink" title="核函数及其应用"></a>核函数及其应用</h3><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><p><a href="https://zh.wikipedia.org/wiki/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA" target="_blank" rel="external">支持向量机</a></p>
+</li>
+<li><p><a href="https://en.wikipedia.org/wiki/Support_vector_machine" target="_blank" rel="external">Support vector machine</a> </p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;思路&quot;&gt;&lt;a href=&quot;#思路&quot; class=&quot;headerlink&quot; title=&quot;思路&quot;&gt;&lt;/a&gt;思路&lt;/h2&gt;&lt;p&gt;SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务;&lt;/p&gt;
+&lt;p&gt;一个直观的理解是: 我们构造的
+    
+    </summary>
+    
+    
+      <category term="ml" scheme="http://yoursite.com/tags/ml/"/>
+    
+  </entry>
+  
+  <entry>
     <title>weekly of 20170716</title>
     <link href="http://yoursite.com/2017/07/16/20170716/"/>
     <id>http://yoursite.com/2017/07/16/20170716/</id>
@@ -555,85 +627,6 @@
   </entry>
   
   <entry>
-    <title>About SVD</title>
-    <link href="http://yoursite.com/2017/05/06/svd/"/>
-    <id>http://yoursite.com/2017/05/06/svd/</id>
-    <published>2017-05-05T16:25:11.000Z</published>
-    <updated>2017-07-21T04:21:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>关于机器学习的任何文章仅限个人理解，会有颇多谬误之处</p>
-</blockquote>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>奇异值分解是一种非常重要的矩阵分解,  设A为m*n阶矩阵，r = rank A, 则具体形式如下:</p>
-<p>$$ A = U\sum V^T$$</p>
-<p>其中 :</p>
-<ul>
-<li>U : 是m*m阶单位正交矩阵，是有$AA^T$的特征向量构成的列向量组成的</li>
-<li>$\sum $ : 是m*n对角矩阵，这些是 $AA^T$及 $A^TA$的特征值的非零平方根，并与U和V的行向量相对应</li>
-<li>$V^T$ :  n*n阶单位正交矩阵，是由$A^TA$的特征向量构成的列向量组成的</li>
-</ul>
-<p>可以理解，我们对于任意一个矩阵，希望转换为一个我们更容易处理的方式，<code>SVD</code>有比较相对标准化的办法</p>
-<blockquote>
-<p>其他， 关于矩阵的相似和对角化</p>
-</blockquote>
-<p>对于任意一个方阵 M ，设 $M=PBP^{-1}$</p>
-<blockquote>
-<p>todo 关于矩阵相似的说明</p>
-</blockquote>
-<p>我们知道任意一个对称矩阵，即$A^T=A$，则A可以正交对角化，也就是: </p>
-<p>$$ A = P^{-1} D P$$</p>
-<p>其中 :</p>
-<ul>
-<li>D是对角矩阵，对应着A的特征值</li>
-<li>P的列向量对应这 A的特征向量</li>
-</ul>
-<p>证明 :</p>
-<h2 id="几何意义"><a href="#几何意义" class="headerlink" title="几何意义"></a>几何意义</h2><blockquote>
-<p>不同的说明</p>
-</blockquote>
-<p>从参考链接 $[1]$, 可以说明:  </p>
-<p>它的核心價值在於為矩陣 (線性變換) A 找出兩組理想的基底：在 A 的定義域的正交基底為 $\beta ={\mathbf{v}1,\ldots,\mathbf{v}_n}$，在 A 的到達域 (codomain) 的正交基底為 $\boldsymbol{\gamma}={\mathbf{u}_1,\ldots,\mathbf{u}<em>m}$，並滿足 $A\mathbf{v}</em>{i}=\sigma<em>{i}\mathbf{u}</em>{i}，1\le i\le r$。這個式子的重大意義是矩陣 A 將列空間基底 ${\mathbf{v}_1,\ldots,\mathbf{v}_r} $映至行空間基底 ${\mathbf{u}_1,\ldots,\mathbf{u}_r}$，同時指出向量長度的改變量，即非零奇異值 $\sigma_1,\ldots,\sigma_r (見上圖)。因此，若以 \boldsymbol{\beta}$ 和 $\boldsymbol{\gamma}$ 當作線性變換 A 的參考基底，便得出對角形式的矩陣表示，即奇異值矩陣 $\Sigma$</p>
-<p>```</p>
-<p>或者 :</p>
-<p>我們可以將 SVD 想成把變換矩陣 A 分解為旋轉 $V^T$，伸縮 $\Sigma$，再旋轉 U 三個步驟 </p>
-<p>或者 :</p>
-<p>SVD分解的几何意义就可以做如下的归纳：对于每一个线性映射 ${\displaystyle {\mathcal {T}}:K^{n}\rightarrow K^{m}} \mathcal T:K^n\rightarrow K^m， {\displaystyle {\mathcal {T}}} \mathcal T$的奇异值分解在原空间与像空间中分别找到一组标准正交基，使得 ${\displaystyle {\mathcal {T}}} \mathcal T把 {\displaystyle K^{n}} K^n$的第$ {\displaystyle i} i$个基向量映射为 ${\displaystyle K^{m}} K^m的第 {\displaystyle i} i$个基向量的非负倍数，并将 ${\displaystyle K^{n}} K^n$中余下的基向量映射为零向量。换句话说，线性变换 ${\displaystyle {\mathcal {T}}} \mathcal T$在这两组选定的基上的矩阵表示为所有对角元均为非负数的对角矩阵。</p>
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><blockquote>
-<p>most from wiki</p>
-</blockquote>
-<ul>
-<li>SVD 可以用于矩阵数量压缩 ： 用<code>r</code></li>
-<li>奇异值分解可以被用来计算矩阵的伪逆求; 伪逆通常可以用来求解最小二乘法问题</li>
-<li>奇异值分解在统计中的主要应用为主成分分析（PCA）。数据集的特征值（在SVD中用奇异值表征）按照重要性排列，降维的过程就是舍弃不重要的特征向量的过程，而剩下的特征向量张成空间为降维后的空间</li>
-</ul>
-<h2 id="与PCA关系"><a href="#与PCA关系" class="headerlink" title="与PCA关系"></a>与PCA关系</h2><p>对任意一个矩阵A(m*n)考虑到<code>pca</code>的目标为: </p>
-<p>设 B 为A的协方差矩阵，则</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li>[1] <a href="https://ccjou.wordpress.com/2009/09/01/%E5%A5%87%E7%95%B0%E5%80%BC%E5%88%86%E8%A7%A3-svd/" target="_blank" rel="external">奇異值分解 (SVD)</a></li>
-</ul>
-<ul>
-<li>[2] <a href="https://zh.wikipedia.org/wiki/%E5%A5%87%E5%BC%82%E5%80%BC%E5%88%86%E8%A7%A3" target="_blank" rel="external">奇异值分解</a></li>
-</ul>
-<ul>
-<li>[3] <a href="https://ccjou.wordpress.com/2009/05/27/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8%E5%9F%BA%E6%9C%AC%E5%AE%9A%E7%90%86-%E5%9B%9B/" target="_blank" rel="external">線性代數基本定理 (四)</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;关于机器学习的任何文章仅限个人理解，会有颇多谬误之处&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h2&gt;&lt;p&gt;奇异值分解是一种非
-    
-    </summary>
-    
-    
-      <category term="ml" scheme="http://yoursite.com/tags/ml/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Classification and logistic regression</title>
     <link href="http://yoursite.com/2017/05/06/classification_and_logistic_regression/"/>
     <id>http://yoursite.com/2017/05/06/classification_and_logistic_regression/</id>
@@ -731,6 +724,85 @@
     
       &lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h2&gt;&lt;p&gt;wiki概述:&lt;/p&gt;
 &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutt
+    
+    </summary>
+    
+    
+      <category term="ml" scheme="http://yoursite.com/tags/ml/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>About SVD</title>
+    <link href="http://yoursite.com/2017/05/06/svd/"/>
+    <id>http://yoursite.com/2017/05/06/svd/</id>
+    <published>2017-05-05T16:25:11.000Z</published>
+    <updated>2017-07-21T04:21:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>关于机器学习的任何文章仅限个人理解，会有颇多谬误之处</p>
+</blockquote>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>奇异值分解是一种非常重要的矩阵分解,  设A为m*n阶矩阵，r = rank A, 则具体形式如下:</p>
+<p>$$ A = U\sum V^T$$</p>
+<p>其中 :</p>
+<ul>
+<li>U : 是m*m阶单位正交矩阵，是有$AA^T$的特征向量构成的列向量组成的</li>
+<li>$\sum $ : 是m*n对角矩阵，这些是 $AA^T$及 $A^TA$的特征值的非零平方根，并与U和V的行向量相对应</li>
+<li>$V^T$ :  n*n阶单位正交矩阵，是由$A^TA$的特征向量构成的列向量组成的</li>
+</ul>
+<p>可以理解，我们对于任意一个矩阵，希望转换为一个我们更容易处理的方式，<code>SVD</code>有比较相对标准化的办法</p>
+<blockquote>
+<p>其他， 关于矩阵的相似和对角化</p>
+</blockquote>
+<p>对于任意一个方阵 M ，设 $M=PBP^{-1}$</p>
+<blockquote>
+<p>todo 关于矩阵相似的说明</p>
+</blockquote>
+<p>我们知道任意一个对称矩阵，即$A^T=A$，则A可以正交对角化，也就是: </p>
+<p>$$ A = P^{-1} D P$$</p>
+<p>其中 :</p>
+<ul>
+<li>D是对角矩阵，对应着A的特征值</li>
+<li>P的列向量对应这 A的特征向量</li>
+</ul>
+<p>证明 :</p>
+<h2 id="几何意义"><a href="#几何意义" class="headerlink" title="几何意义"></a>几何意义</h2><blockquote>
+<p>不同的说明</p>
+</blockquote>
+<p>从参考链接 $[1]$, 可以说明:  </p>
+<p>它的核心價值在於為矩陣 (線性變換) A 找出兩組理想的基底：在 A 的定義域的正交基底為 $\beta ={\mathbf{v}1,\ldots,\mathbf{v}_n}$，在 A 的到達域 (codomain) 的正交基底為 $\boldsymbol{\gamma}={\mathbf{u}_1,\ldots,\mathbf{u}<em>m}$，並滿足 $A\mathbf{v}</em>{i}=\sigma<em>{i}\mathbf{u}</em>{i}，1\le i\le r$。這個式子的重大意義是矩陣 A 將列空間基底 ${\mathbf{v}_1,\ldots,\mathbf{v}_r} $映至行空間基底 ${\mathbf{u}_1,\ldots,\mathbf{u}_r}$，同時指出向量長度的改變量，即非零奇異值 $\sigma_1,\ldots,\sigma_r (見上圖)。因此，若以 \boldsymbol{\beta}$ 和 $\boldsymbol{\gamma}$ 當作線性變換 A 的參考基底，便得出對角形式的矩陣表示，即奇異值矩陣 $\Sigma$</p>
+<p>```</p>
+<p>或者 :</p>
+<p>我們可以將 SVD 想成把變換矩陣 A 分解為旋轉 $V^T$，伸縮 $\Sigma$，再旋轉 U 三個步驟 </p>
+<p>或者 :</p>
+<p>SVD分解的几何意义就可以做如下的归纳：对于每一个线性映射 ${\displaystyle {\mathcal {T}}:K^{n}\rightarrow K^{m}} \mathcal T:K^n\rightarrow K^m， {\displaystyle {\mathcal {T}}} \mathcal T$的奇异值分解在原空间与像空间中分别找到一组标准正交基，使得 ${\displaystyle {\mathcal {T}}} \mathcal T把 {\displaystyle K^{n}} K^n$的第$ {\displaystyle i} i$个基向量映射为 ${\displaystyle K^{m}} K^m的第 {\displaystyle i} i$个基向量的非负倍数，并将 ${\displaystyle K^{n}} K^n$中余下的基向量映射为零向量。换句话说，线性变换 ${\displaystyle {\mathcal {T}}} \mathcal T$在这两组选定的基上的矩阵表示为所有对角元均为非负数的对角矩阵。</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><blockquote>
+<p>most from wiki</p>
+</blockquote>
+<ul>
+<li>SVD 可以用于矩阵数量压缩 ： 用<code>r</code></li>
+<li>奇异值分解可以被用来计算矩阵的伪逆求; 伪逆通常可以用来求解最小二乘法问题</li>
+<li>奇异值分解在统计中的主要应用为主成分分析（PCA）。数据集的特征值（在SVD中用奇异值表征）按照重要性排列，降维的过程就是舍弃不重要的特征向量的过程，而剩下的特征向量张成空间为降维后的空间</li>
+</ul>
+<h2 id="与PCA关系"><a href="#与PCA关系" class="headerlink" title="与PCA关系"></a>与PCA关系</h2><p>对任意一个矩阵A(m*n)考虑到<code>pca</code>的目标为: </p>
+<p>设 B 为A的协方差矩阵，则</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>[1] <a href="https://ccjou.wordpress.com/2009/09/01/%E5%A5%87%E7%95%B0%E5%80%BC%E5%88%86%E8%A7%A3-svd/" target="_blank" rel="external">奇異值分解 (SVD)</a></li>
+</ul>
+<ul>
+<li>[2] <a href="https://zh.wikipedia.org/wiki/%E5%A5%87%E5%BC%82%E5%80%BC%E5%88%86%E8%A7%A3" target="_blank" rel="external">奇异值分解</a></li>
+</ul>
+<ul>
+<li>[3] <a href="https://ccjou.wordpress.com/2009/05/27/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8%E5%9F%BA%E6%9C%AC%E5%AE%9A%E7%90%86-%E5%9B%9B/" target="_blank" rel="external">線性代數基本定理 (四)</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;关于机器学习的任何文章仅限个人理解，会有颇多谬误之处&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h2&gt;&lt;p&gt;奇异值分解是一种非
     
     </summary>
     
@@ -902,38 +974,6 @@
     
       &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://microsoft.github.io/reactxp/&quot; target=&quot;_blan
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://yoursite.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170402</title>
-    <link href="http://yoursite.com/2017/04/02/20170402/"/>
-    <id>http://yoursite.com/2017/04/02/20170402/</id>
-    <published>2017-04-02T12:30:46.000Z</published>
-    <updated>2017-07-21T04:21:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="http://blog.soul11201.com/notes/translate/2017/03/25/translate-nginx-oom.html" target="_blank" rel="external">Openresty OOM 臭虫</a> : 非常精细的一个bug追踪, 可以关注的是为什么”luajit拥有低地址空间的时, 效率更高”</p>
-</li>
-<li><p><a href="http://insights.thoughtworkers.org/safety-practices-in-tech-radar/" target="_blank" rel="external">技术雷达的安全实践</a> : 不少建议值得采纳, 包括:iframe的sandbox, HashiCorp Vault 和 Repsheet</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="https://wiki.mozilla.org/Security/Binary_Transparency" target="_blank" rel="external">Firefox: Security/Binary Transparency</a> : </li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><a href="http://explainshell.com/" target="_blank" rel="external">explainshell.com</a> : 挺有意思的小网站，功能如其名</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技
     
     </summary>
     

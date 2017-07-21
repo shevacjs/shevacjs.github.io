@@ -120,6 +120,103 @@
 
 
     
+      <article id="post-svm" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/21/svm/">About SVM</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/07/21/svm/" class="article-date">
+  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务;</p>
+<p>一个直观的理解是: 我们构造的平面, 其距离样本的点距离越远越好;</p>
+<p>而对于线性不可分的情况，我们则可以通过构造映射函数，将其映射到高维空间, 变成一个线性可分的模型</p>
+<p>下面具体介绍这些思路的数学演绎过程</p>
+<h2 id="数学演绎"><a href="#数学演绎" class="headerlink" title="数学演绎"></a>数学演绎</h2><p>设我们的<code>输入样本</code>为: </p>
+<p>$$ { (x_1,y_1), … , (x_N, y_N)}$$</p>
+<p>其中: </p>
+<ul>
+<li>$x_i \in R^n $</li>
+<li>$y_i \in { -1, 1 }$</li>
+</ul>
+<p>首先考虑<code>线性可分</code>的情况;  此时设我们要求解的超平面为: </p>
+<p>$$\textbf{w}^T\textbf{x} + b = 0 $$</p>
+<p>则有: </p>
+<h3 id="间隔定义"><a href="#间隔定义" class="headerlink" title="间隔定义"></a>间隔定义</h3><p>我们定义函数间隔如下: </p>
+<p>$$\widehat{\gamma}_i = y_i (w \centerdot x + b )$$</p>
+<p>定义几何间隔如下 :<br>$$\gamma_i = y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|})$$</p>
+<p>可以看到几何间隔就是在$|w| = 1$ 时候的函数间隔，也是代表这个点到平面的实际几何距离；也有如下关系: </p>
+<p>$$ \gamma = \frac{\widehat {\gamma}}{| w |}$$</p>
+<h3 id="最优值定义"><a href="#最优值定义" class="headerlink" title="最优值定义"></a>最优值定义</h3><p>我们可以理解需要获取一个最大几何间隔的分离超平面(<code>为什么</code> ? ), 表针为: </p>
+<p>$$ \max \limits_{w,b} \gamma  \ s.t. \ \ \  y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|}) \geqslant  \gamma $$</p>
+<p>用函数间隔替换如下: </p>
+<p>$$ \max \limits_{w,b} \frac{\widehat {\gamma}}{| w |}   \ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  \widehat{\gamma} $$</p>
+<p>可以令 $\widehat{\gamma} = 1$,  则有: </p>
+<p>$$ \max \limits_{w,b} \frac{1}{| w |}   \ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  1 $$</p>
+<p>也就是: </p>
+<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2   \ s.t. \ \ \quad  y_i (w \centerdot x + b ) \geqslant  1 \quad i \in { 1, 2, … , N }$$</p>
+<p><code>也就是可以理解为</code> :  我们需要寻找合适的$w, b$，对应着一个超平面，使得所有的样本点到其的函数间隔都大于1；同时使得$|w|$最小</p>
+<p>上述方程的一个优化方法是:  通过对偶方法构造原来不等式的等价最优解（也就是拉格朗日对偶函数，具体太复杂了，就(也不懂)不展开了) ，总之如上的约束条件的等价对偶问题为:</p>
+<p>$$ \min \limits<em>{\alpha} \frac{1}{2} \sum</em>{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy<em>j - \sum</em>{i=1}^N\alpha<em>i \ s.t. \quad \sum</em>{i=1}^{N} \alpha_iy_i = 0 \ a_i (y_i(w*x<em>i + b) - 1) =0 \ \ w = \sum</em>{i=1}^{N} \alpha_i x_i y_i \ a_i \geqslant 0 \quad i \in { 1, 2, … , N } $$<br>(可以忽略$\alpha_i$ 为什么会出现)</p>
+<p>这里我们称令$a_i &gt; 0$ 成立的样本点为<code>支持向量</code>, 依照上面的定义，当$a_i &gt; 0 $时，则有: </p>
+<p>$$ y_i(w*x_i + b) - 1 =0$$</p>
+<p>也就是$x_i$ 一定是在间隔的边界</p>
+<h3 id="线性不可分情况"><a href="#线性不可分情况" class="headerlink" title="线性不可分情况"></a>线性不可分情况</h3><p>考虑到现实生活中，存在一些异常或者脏数据，此时我们可以每个样本点引入一个松弛变量$\xi_i$,  则约束条件可以变为 : </p>
+<p>$$ y_i (w \centerdot x_i + b ) \geqslant  1-\xi_i \quad i \in { 1, 2, … , N } $$</p>
+<p>同时目标函数可以变成: </p>
+<p>$$ \min \limits<em>{w,b} \frac{1}{2}{| w |}^2 + C \sum</em>{i=1}^{N} \xi_i$$</p>
+<p>其中 : C代表着惩罚系数，需要视具体的业务场景而定 ；C值越大，表明对误差的惩罚增大，反之则减小；</p>
+<p>忽略一些很复杂的计算，可以得到对偶问题如下: </p>
+<p>$$ \min \limits<em>{\alpha} \frac{1}{2} \sum</em>{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy<em>j - \sum</em>{i=1}^N\alpha<em>i \ s.t. \quad \sum</em>{i=1}^{N} \alpha_iy_i = 0 \  0 \leqslant a_i \leqslant C \quad i \in { 1, 2, … , N } $$</p>
+<p>从上面可以分析出: </p>
+<ul>
+<li>$w$是确定且唯一的</li>
+<li>$b$的解并不唯一</li>
+</ul>
+<h3 id="核函数及其应用"><a href="#核函数及其应用" class="headerlink" title="核函数及其应用"></a>核函数及其应用</h3><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><p><a href="https://zh.wikipedia.org/wiki/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA" target="_blank" rel="external">支持向量机</a></p>
+</li>
+<li><p><a href="https://en.wikipedia.org/wiki/Support_vector_machine" target="_blank" rel="external">Support vector machine</a> </p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20170716" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -652,84 +749,6 @@
 
 
     
-      <article id="post-20170521" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/21/20170521/">weekly of 20170521</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/05/21/20170521/" class="article-date">
-  <time datetime="2017-05-21T12:30:52.000Z" itemprop="datePublished">2017-05-21</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://blog.appcanary.com/2017/http-security-headers.html" target="_blank" rel="external">Everything you need to know about HTTP security headers</a> : 对Http的安全相关的头部有非常清楚的介绍&amp;说明, 可以了解下</p>
-</li>
-<li><p><a href="https://littlemaninmyhead.wordpress.com/2015/09/28/so-you-want-to-learn-to-break-ciphers/" target="_blank" rel="external">SO, YOU WANT TO LEARN TO BREAK CIPHERS</a> : i没介绍了几个常见的密码破译的方法，非常巧妙，mark下，可以好好学习</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://blog.cloudflare.com/argo/" target="_blank" rel="external">Introducing Argo — A faster, more reliable, more secure Internet for everyone</a> : 智能的路由调度和层次cache</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=14364516" target="_blank" rel="external">Real-Time Adaptive Image Compression</a> : 一个新的图片压缩算法, 思路是通过机器学习来明确优化&amp;转码的方向, 不过代码相关的好像没有开放出来</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=14367311" target="_blank" rel="external">PostgreSQL 10 Beta 1 Released (postgresql.org)</a> : PostgreSQL感觉越来越强大，感觉在社区的影响力也越来越大</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5Nzc4OTA1Mw==&amp;mid=2659599256&amp;idx=1&amp;sn=69388fb9efeb5931a9d37507e530e20b&amp;chksm=8be9968abc9e1f9c8eb843c70a232ca753f180c5e2e73f3a14ad7198dffc9f18cdc4b39e7009#rd" target="_blank" rel="external">聊聊云计算架构的几个设计原则</a> : 混合云是趋势, 需要考虑公有云如何和业务结合, 提出了一些需要去关注的东西</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MjM5ODI5Njc2MA==&amp;mid=2655809341&amp;idx=1&amp;sn=6ce58a1f1f83cee2bfb80fa77707e451&amp;chksm=bd7422ea8a03abfce3f003510566e23aa9f2ec2c25e97643b2773f9f85764d86056c3cb5a077#rd" target="_blank" rel="external">用户时代，小米数据工场如何做技术架构与数据处理</a> : 感觉一些细节的介绍很有用，比如说<code>数据管理</code>, <code>HDFS 目录管理</code>等</p>
-</li>
-<li><p><a href="https://hacks.mozilla.org/2017/02/a-crash-course-in-just-in-time-jit-compilers/" target="_blank" rel="external">A crash course in just-in-time (JIT) compilers</a> : 对JIT的机制介绍通俗易懂</p>
-</li>
-<li><p><a href="http://pythonforengineers.com/python-for-scientists-and-engineers/" target="_blank" rel="external">Python for Scientists and Engineers</a> : 看起来是不错的python入门书籍，可以mark下</p>
-</li>
-<li><p><a href="https://www.microsoft.com/en-us/research/project/transform-data-by-example/" target="_blank" rel="external">Transform Data by Example</a> : Excel提供的新的插件功能，可以支持你输入一些item的demo结果，自动补全其他item的结果，思路&amp;功能都是非常巧妙的</p>
-</li>
-<li><p><a href="http://rr-project.org/" target="_blank" rel="external">Mozilla: rr</a> : 之前有听过，但没有细了解，今天看了他的说明文档，感觉还是很给力的: “rr aspires to be your primary debugging tool, replacing — well, enhancing — gdb. You record a failure once, then debug the recording, deterministically, as many times as you want. The same execution is replayed every time. “</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=14366070" target="_blank" rel="external">Ask HN: For those programming 10+ years, what do you wish you knew 4 years in?</a> : 最近挺喜欢看Hacker News上面的Ask, 干货感觉非常多, 不过看起来比较冗长，要有耐心</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/6OxDE-alfzWOz1DbmP2mPw" target="_blank" rel="external">来自Facebook的一些MySQL运维经验</a> : 都是干货, 可以采纳</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
       </nav>
@@ -753,6 +772,23 @@
 
 
 <script src="/js/script.js"></script>
-  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 </body>
 </html>

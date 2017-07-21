@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>About SVM - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="思路SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务; 一个直观的理解是: 我们构造的平面, 其距离样本的点距离越远越好; 而对于线性不可分的情况，我们则可以通过构造映射函数，将其映射到高维空间, 变成一个线性可分的模型 下面具体介绍这些思路的数学演绎过程 数学演绎设我们的输入样本为:  $$ { (x_1,y_1), … , (x_N, y_N)}$$">
+<meta name="keywords" content="ml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="About SVM">
+<meta property="og:url" content="http://yoursite.com/2017/07/21/svm/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="思路SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务; 一个直观的理解是: 我们构造的平面, 其距离样本的点距离越远越好; 而对于线性不可分的情况，我们则可以通过构造映射函数，将其映射到高维空间, 变成一个线性可分的模型 下面具体介绍这些思路的数学演绎过程 数学演绎设我们的输入样本为:  $$ { (x_1,y_1), … , (x_N, y_N)}$$">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-07-21T09:50:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="About SVM">
+<meta name="twitter:description" content="思路SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务; 一个直观的理解是: 我们构造的平面, 其距离样本的点距离越远越好; 而对于线性不可分的情况，我们则可以通过构造映射函数，将其映射到高维空间, 变成一个线性可分的模型 下面具体介绍这些思路的数学演绎过程 数学演绎设我们的输入样本为:  $$ { (x_1,y_1), … , (x_N, y_N)}$$">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-svm" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      About SVM
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/07/21/svm/" class="article-date">
+  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务;</p>
+<p>一个直观的理解是: 我们构造的平面, 其距离样本的点距离越远越好;</p>
+<p>而对于线性不可分的情况，我们则可以通过构造映射函数，将其映射到高维空间, 变成一个线性可分的模型</p>
+<p>下面具体介绍这些思路的数学演绎过程</p>
+<h2 id="数学演绎"><a href="#数学演绎" class="headerlink" title="数学演绎"></a>数学演绎</h2><p>设我们的<code>输入样本</code>为: </p>
+<p>$$ { (x_1,y_1), … , (x_N, y_N)}$$</p>
+<p>其中: </p>
+<ul>
+<li>$x_i \in R^n $</li>
+<li>$y_i \in { -1, 1 }$</li>
+</ul>
+<p>首先考虑<code>线性可分</code>的情况;  此时设我们要求解的超平面为: </p>
+<p>$$\textbf{w}^T\textbf{x} + b = 0 $$</p>
+<p>则有: </p>
+<h3 id="间隔定义"><a href="#间隔定义" class="headerlink" title="间隔定义"></a>间隔定义</h3><p>我们定义函数间隔如下: </p>
+<p>$$\widehat{\gamma}_i = y_i (w \centerdot x + b )$$</p>
+<p>定义几何间隔如下 :<br>$$\gamma_i = y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|})$$</p>
+<p>可以看到几何间隔就是在$|w| = 1$ 时候的函数间隔，也是代表这个点到平面的实际几何距离；也有如下关系: </p>
+<p>$$ \gamma = \frac{\widehat {\gamma}}{| w |}$$</p>
+<h3 id="最优值定义"><a href="#最优值定义" class="headerlink" title="最优值定义"></a>最优值定义</h3><p>我们可以理解需要获取一个最大几何间隔的分离超平面(<code>为什么</code> ? ), 表针为: </p>
+<p>$$ \max \limits_{w,b} \gamma  \ s.t. \ \ \  y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|}) \geqslant  \gamma $$</p>
+<p>用函数间隔替换如下: </p>
+<p>$$ \max \limits_{w,b} \frac{\widehat {\gamma}}{| w |}   \ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  \widehat{\gamma} $$</p>
+<p>可以令 $\widehat{\gamma} = 1$,  则有: </p>
+<p>$$ \max \limits_{w,b} \frac{1}{| w |}   \ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  1 $$</p>
+<p>也就是: </p>
+<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2   \ s.t. \ \ \quad  y_i (w \centerdot x + b ) \geqslant  1 \quad i \in { 1, 2, … , N }$$</p>
+<p><code>也就是可以理解为</code> :  我们需要寻找合适的$w, b$，对应着一个超平面，使得所有的样本点到其的函数间隔都大于1；同时使得$|w|$最小</p>
+<p>上述方程的一个优化方法是:  通过对偶方法构造原来不等式的等价最优解（也就是拉格朗日对偶函数，具体太复杂了，就(也不懂)不展开了) ，总之如上的约束条件的等价对偶问题为:</p>
+<p>$$ \min \limits<em>{\alpha} \frac{1}{2} \sum</em>{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy<em>j - \sum</em>{i=1}^N\alpha<em>i \ s.t. \quad \sum</em>{i=1}^{N} \alpha_iy_i = 0 \ a_i (y_i(w*x<em>i + b) - 1) =0 \ \ w = \sum</em>{i=1}^{N} \alpha_i x_i y_i \ a_i \geqslant 0 \quad i \in { 1, 2, … , N } $$<br>(可以忽略$\alpha_i$ 为什么会出现)</p>
+<p>这里我们称令$a_i &gt; 0$ 成立的样本点为<code>支持向量</code>, 依照上面的定义，当$a_i &gt; 0 $时，则有: </p>
+<p>$$ y_i(w*x_i + b) - 1 =0$$</p>
+<p>也就是$x_i$ 一定是在间隔的边界</p>
+<h3 id="线性不可分情况"><a href="#线性不可分情况" class="headerlink" title="线性不可分情况"></a>线性不可分情况</h3><p>考虑到现实生活中，存在一些异常或者脏数据，此时我们可以每个样本点引入一个松弛变量$\xi_i$,  则约束条件可以变为 : </p>
+<p>$$ y_i (w \centerdot x_i + b ) \geqslant  1-\xi_i \quad i \in { 1, 2, … , N } $$</p>
+<p>同时目标函数可以变成: </p>
+<p>$$ \min \limits<em>{w,b} \frac{1}{2}{| w |}^2 + C \sum</em>{i=1}^{N} \xi_i$$</p>
+<p>其中 : C代表着惩罚系数，需要视具体的业务场景而定 ；C值越大，表明对误差的惩罚增大，反之则减小；</p>
+<p>忽略一些很复杂的计算，可以得到对偶问题如下: </p>
+<p>$$ \min \limits<em>{\alpha} \frac{1}{2} \sum</em>{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy<em>j - \sum</em>{i=1}^N\alpha<em>i \ s.t. \quad \sum</em>{i=1}^{N} \alpha_iy_i = 0 \  0 \leqslant a_i \leqslant C \quad i \in { 1, 2, … , N } $$</p>
+<p>从上面可以分析出: </p>
+<ul>
+<li>$w$是确定且唯一的</li>
+<li>$b$的解并不唯一</li>
+</ul>
+<h3 id="核函数及其应用"><a href="#核函数及其应用" class="headerlink" title="核函数及其应用"></a>核函数及其应用</h3><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><p><a href="https://zh.wikipedia.org/wiki/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA" target="_blank" rel="external">支持向量机</a></p>
+</li>
+<li><p><a href="https://en.wikipedia.org/wiki/Support_vector_machine" target="_blank" rel="external">Support vector machine</a> </p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/07/23/20170723/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          weekly of 20170723
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/16/20170716/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20170716&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<div class="share_addthis">
+  <div class="sharing addthis_toolbox share">
+    <a class="addthis_button_facebook_like"></a>
+    <a class="addthis_button_tweet"></a>
+    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
+</div>
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
