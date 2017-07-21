@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>关于nginx的tcp代理支持 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="TCP代理简述所谓的TCP proxy是一个用于代理tcp协议的中间代理；比如类似我们的http代理, 我们的mysqlproxy等; tcp代理相比于其他的proxy，具有如下特征:  由于TCP代理是传输层的代理，所以能支持更多的业务，无论是http, mysql, redis, websocket等应用层协议他都能代理 由于TCP代理是底层的协议，所以虽然能代理，但是对业务的控制能力也变弱(">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于nginx的tcp代理支持">
+<meta property="og:url" content="http://yoursite.com/2016/01/10/tcp_proxy/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="TCP代理简述所谓的TCP proxy是一个用于代理tcp协议的中间代理；比如类似我们的http代理, 我们的mysqlproxy等; tcp代理相比于其他的proxy，具有如下特征:  由于TCP代理是传输层的代理，所以能支持更多的业务，无论是http, mysql, redis, websocket等应用层协议他都能代理 由于TCP代理是底层的协议，所以虽然能代理，但是对业务的控制能力也变弱(">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2016/01/10/tcp_proxy/nginx-plus-load-balancing.png">
+<meta property="og:updated_time" content="2017-07-21T06:46:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于nginx的tcp代理支持">
+<meta name="twitter:description" content="TCP代理简述所谓的TCP proxy是一个用于代理tcp协议的中间代理；比如类似我们的http代理, 我们的mysqlproxy等; tcp代理相比于其他的proxy，具有如下特征:  由于TCP代理是传输层的代理，所以能支持更多的业务，无论是http, mysql, redis, websocket等应用层协议他都能代理 由于TCP代理是底层的协议，所以虽然能代理，但是对业务的控制能力也变弱(">
+<meta name="twitter:image" content="http://yoursite.com/2016/01/10/tcp_proxy/nginx-plus-load-balancing.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-tcp_proxy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      关于nginx的tcp代理支持
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/01/10/tcp_proxy/" class="article-date">
+  <time datetime="2016-01-10T06:17:31.000Z" itemprop="datePublished">2016-01-10</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="TCP代理简述"><a href="#TCP代理简述" class="headerlink" title="TCP代理简述"></a>TCP代理简述</h2><p>所谓的TCP proxy是一个用于代理tcp协议的中间代理；比如类似我们的http代理, 我们的mysqlproxy等; tcp代理相比于其他的proxy，具有如下特征:</p>
+<ul>
+<li>由于TCP代理是传输层的代理，所以能支持更多的业务，无论是http, mysql, redis, websocket等应用层协议他都能代理</li>
+<li>由于TCP代理是底层的协议，所以虽然能代理，但是对业务的控制能力也变弱(只能拿到传输层的信息): 比如我们不能像http代理那样，通过cookie，refer做请求的转发和控制</li>
+</ul>
+<p>其实，我们也可以把他理解为一个LVS, 或者公司内的BGW(他们是IP层的负载均衡代理); 但是又比他们稍微高一点</p>
+<p>如下是简单的一个不同网络层的软件的示范:</p>
+<table>
+<thead>
+<tr>
+<th>网络层</th>
+<th>具体软件/技术</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IP</td>
+<td>LVS, BGW</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td>haproxy, nginx</td>
+</tr>
+<tr>
+<td>HTTP</td>
+<td>nginx, haproxy</td>
+</tr>
+</tbody>
+</table>
+<h2 id="nginx的TCP代理功能简述"><a href="#nginx的TCP代理功能简述" class="headerlink" title="nginx的TCP代理功能简述"></a>nginx的TCP代理功能简述</h2><p>nginx是从1.9.0版本开始支持tcp代理, 称之为<a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html" target="_blank" rel="external">stream</a>模块, 发展到现在的1.9.9版本, 已经初步具备了tcp proxy的功能了, 如下是一个简单的nginx stream配置; 可以注意到:</p>
+<ul>
+<li>tcp代理是一个stream模块, 要放在stream段</li>
+<li>http里面的很多功能，比如access_log, realip 等都不能使用(可以思考为什么)</li>
+</ul>
+<p>通过下面的配置，我们就可以实现一个mysql的proxy，自动做几个db的负载均衡；图来自于<a href="https://www.nginx.com/blog/mysql-high-availability-with-nginx-plus-and-galera-cluster/" target="_blank" rel="external">nginx官方文档</a></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="section">stream</span> &#123;</div><div class="line">    <span class="attribute">upstream</span> db &#123;</div><div class="line">        <span class="attribute">server</span> db1:<span class="number">3306</span>;</div><div class="line">        <span class="attribute">server</span> db2:<span class="number">3306</span>;</div><div class="line">        <span class="attribute">server</span> db3:<span class="number">3306</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="section">server</span> &#123;</div><div class="line">        <span class="attribute">listen</span> <span class="number">3306</span>;</div><div class="line">        <span class="attribute">proxy_pass</span> db;</div><div class="line">        <span class="attribute">proxy_connect_timeout</span> <span class="number">1s</span>; <span class="comment"># detect failure quickly</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>架构示意图:</p>
+<p><img src="./nginx-plus-load-balancing.png" alt="nginx tcp proxy demo"></p>
+<h2 id="关于nginx-tcp代理注意点"><a href="#关于nginx-tcp代理注意点" class="headerlink" title="关于nginx tcp代理注意点"></a>关于nginx tcp代理注意点</h2><p>如果你准备要写一个nginx stream模块的扩展，你会发现和之前的http差异会比较大，下面简单说几点现在写stream proxy总结的一些问题</p>
+<h3 id="文档未稳定"><a href="#文档未稳定" class="headerlink" title="文档未稳定"></a>文档未稳定</h3><p>现在nginx还没文档化nginx stream扩展的具体开发模式，从源码上面查看，nginx也是一直在调整，比如1.9.0和1.9.9的module定义就有所不同，如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// 1.9.0 源码</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">ngx_stream_module_t</span>  ngx_stream_upstream_hash_module_ctx = &#123;</div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* create main configuration */</span></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* init main configuration */</span></div><div class="line"></div><div class="line">    ngx_stream_upstream_hash_create_conf,  <span class="comment">/* create server configuration */</span></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* merge server configuration */</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 1.9.9 源码, 多了 postconfiguration 定义</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">ngx_stream_module_t</span>  ngx_stream_upstream_hash_module_ctx = &#123;</div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* postconfiguration */</span> </div><div class="line"></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* create main configuration */</span></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* init main configuration */</span></div><div class="line"></div><div class="line">    ngx_stream_upstream_hash_create_conf,  <span class="comment">/* create server configuration */</span></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* merge server configuration */</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>可以看到, 连核心的module定义都有所调整, 所以这个方面估计还需要进一步观察</p>
+<h3 id="调试有一定的成本"><a href="#调试有一定的成本" class="headerlink" title="调试有一定的成本"></a>调试有一定的成本</h3><p>要注意到我们现在是在写tcp proxy，所以之前用于调试的curl, access_log都不能直接使用了; 依照我现在的个人经验，推荐大家熟悉如下两个工具:</p>
+<ul>
+<li>nc : arbitrary TCP and UDP connections and listens<ul>
+<li>作为server端，可以尝试 : nc -lk </li>
+<li>作为client端，可以尝试 : echo “xxx” | nc {host} {port} 或者 nc {host} {post} (后者会保持长连接)</li>
+</ul>
+</li>
+</ul>
+<p>nc 可以让我们非常简单的去发送tcp的包体，用于作为我们测试的原始流量, 也可以非常简单的搭建一个tcp server</p>
+<ul>
+<li>tcpdump :<ul>
+<li>命令大概如下(最基本的) : tcpdump -vvv -nn -X -i any (host 10.46.178.51 and port 12388)(condition)</li>
+<li>要求对tcp的协议交互有较深的理解, 各种flag</li>
+</ul>
+</li>
+</ul>
+<p>关于nc和tcpdump, 文章的末尾给了几个链接，是非常适合系统性学习的</p>
+<h3 id="关于日志"><a href="#关于日志" class="headerlink" title="关于日志"></a>关于日志</h3><p>由于tcp proxy的特殊性，导致其现在还不大方便有类似http模块access_log的日志(http有请求的概念，但是tcp没有); 所以tcp proxy的日志基本上都是通过error log体现的<br>贴吧线上的常规日志级别是notice, 如果我们要观察比如一个client连接，发送多少数据之类的，建议把日志级别调成<code>info</code>级别; 如下是大概的info级别的日志信息:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">2016/01/10 00:32:17 [info] 9530#0: *13 client 127.0.0.1:45607 connected to 0.0.0.0:12345</div><div class="line">2016/01/10 00:32:17 [info] 9530#0: *13 proxy 10.46.178.51:60713 connected to 10.36.89.18:12388</div><div class="line">2016/01/10 00:32:49 [info] 9530#0: *13 client disconnected, bytes from/to client:16/0, bytes from/to upstream:0/16</div></pre></td></tr></table></figure>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>关于tcpdump的:</p>
+<ul>
+<li><a href="https://danielmiessler.com/study/tcpdump/" target="_blank" rel="external">A tcpdump Primer with Examples</a> :  tcpdump工具非常不错的说明，便于理解</li>
+<li><p><a href="https://sokratisg.net/2012/04/01/udp-tcp-checksum-errors-from-tcpdump-nic-hardware-offloading/" target="_blank" rel="external">UDP/TCP Checksum errors from tcpdump &amp; NIC Hardware Offloading</a> : 关于tcpdump的<code>incorret chksum</code>问题说明</p>
+</li>
+<li><p><a href="http://www.thegeekstuff.com/2012/04/nc-command-examples/" target="_blank" rel="external">8 Practical Linux Netcat NC Command Examples</a></p>
+</li>
+</ul>
+<p>关于tcpproxy的文章:</p>
+<ul>
+<li><p><a href="https://www.nginx.com/resources/admin-guide/tcp-load-balancing/" target="_blank" rel="external">TCP LOAD BALANCING</a> : nginx官方blog，介绍如何具体配置nginx</p>
+</li>
+<li><p><a href="https://www.nginx.com/blog/mysql-high-availability-with-nginx-plus-and-galera-cluster/" target="_blank" rel="external">MySQL High Availability with NGINX Plus and Galera Cluster</a> : 一个tcp proxy的具体demo，用于做mysql的复杂均衡</p>
+</li>
+</ul>
+<p>下一篇文章会介绍<a href="http://gitlab.baidu.com/nginx/ngx_stream_keepalive_module/tree/master" target="_blank" rel="external">tcp proxy长连接</a>的实现；已经<a href="http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt" target="_blank" rel="external">proxy protocol</a>的情况以及使用</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/01/19/tcp_keepalive_proxy/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          让nginx支持TCP长连接代理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/12/19/ngx_variable_flag/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">nginx variable flag说明&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<div class="share_addthis">
+  <div class="sharing addthis_toolbox share">
+    <a class="addthis_button_facebook_like"></a>
+    <a class="addthis_button_tweet"></a>
+    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
+</div>
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

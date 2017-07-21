@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-21T05:42:36.000Z</updated>
+  <updated>2017-07-21T06:46:00.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,225 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20170723</title>
+    <link href="http://yoursite.com/2017/07/23/20170723/"/>
+    <id>http://yoursite.com/2017/07/23/20170723/</id>
+    <published>2017-07-23T06:15:31.000Z</published>
+    <updated>2017-07-21T06:46:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><a href="https://stackoverflow.com/channels" target="_blank" rel="external">Stack Overflow Channels</a> : Stack Overflow Channel是SO新退出的产品功能, 用于支持一些组织或者机构内部的问题交流&amp;沉淀, 感觉对于一些中小企业还是有帮助的</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="http://coolshell.cn/articles/17998.html" target="_blank" rel="external">LINUX PID 1 和 SYSTEMD</a> :  关于linux启动的systemd和<code>init 1</code>的恩恩怨怨</p>
+</li>
+<li><p><a href="https://jvns.ca/blog/2017/07/05/linux-tracing-systems/" target="_blank" rel="external">Linux tracing systems &amp; how they fit together</a> : 对Linux系统的trace工具有个系统性的介绍和分类，可以加深我们对这些分类工具和系统的理解</p>
+</li>
+<li><p><a href="https://techcrunch.com/2017/07/18/yandex-open-sources-catboost-a-gradient-boosting-machine-learning-librar/" target="_blank" rel="external">Yandex open sources CatBoost, a gradient boosting machine learning library</a> :  一个新的梯度学习算法库，可以了解参考下</p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><a href="http://wetest.qq.com/lab/view/320.html" target="_blank" rel="external">性能百万/s：腾讯轻量级全局流控方案详解</a> : 可以看到比较具体的实现，<code>租赁</code>机制是个不错的创新，可以在性能和功能上面有个合适的折衷</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><a href="http://road.ruanyifeng.com/2007/2007-12-12-joel-spolsky.html" target="_blank" rel="external">Joel Spolsky 在耶鲁大学的演讲</a> : 生活是自己的，好好工作，好好生活</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://stackoverflow.com/channels&quot; target=&quot;_blank&quot;
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://yoursite.com/tags/weekly/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>weekly of 20170716</title>
+    <link href="http://yoursite.com/2017/07/16/20170716/"/>
+    <id>http://yoursite.com/2017/07/16/20170716/</id>
+    <published>2017-07-16T06:15:30.000Z</published>
+    <updated>2017-07-21T06:46:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><p><a href="https://www.microsoft.com/en-us/seeing-ai/" target="_blank" rel="external">Seeing AI</a> : 微软新出来的app, “A free app that narrates the world around you. Designed for the low vision community, this research project harnesses the power of AI to describe people, text and objects”</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=14769762" target="_blank" rel="external">Redis 4.0 (groups.google.com)</a> : 感觉有不少特性值得关注，个人觉得有兴趣的包括:<code>PSYNC2</code>, <code>Redis modules</code>, <code>LFU eviction algorithm</code> , <code>MEMORY DOCTOR</code> 以及 <code>Active memory defragmentation</code></p>
+</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><a href="https://paragonie.com/book/pecl-libsodium" target="_blank" rel="external">Using Libsodium in PHP Projects</a> : LibSodium是一个php的安全基础库，会成为PHP 7.2的标准扩展，对于安全的php编程意义重大</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5Nzc4OTA1Mw==&amp;mid=2659599404&amp;idx=1&amp;sn=12c9a9da66286e398e5fd48fe338ad48" target="_blank" rel="external">携程的Web漏洞扫描系统实现细节</a> : 可以了解下, 总感觉很多关键点没说清楚，比如流量重放的脏数据问题,  数据镜像方案等(有点重)</p>
+</li>
+<li><p><a href="http://karpathy.github.io/neuralnets/" target="_blank" rel="external">Hacker’s guide to Neural Networks</a> : 关于深度学习的介绍，先mark</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://www.microsoft.com/en-us/seeing-ai/&quot; targ
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://yoursite.com/tags/weekly/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>weekly of 20170709</title>
+    <link href="http://yoursite.com/2017/07/09/20170709/"/>
+    <id>http://yoursite.com/2017/07/09/20170709/</id>
+    <published>2017-07-09T06:15:30.000Z</published>
+    <updated>2017-07-21T06:46:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><a href="https://www.computer.org/csdl/mags/ic/2017/03/mic2017030012.html" target="_blank" rel="external">Two Decades of Recommender Systems at Amazon.com</a> : AWS关于他们推荐系统的介绍，可以好好学习</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="http://nginx.org/en/docs/dev/development_guide.html#introduction" target="_blank" rel="external">Nginx Development guide</a> : Nginx官方的开发手册, 先mark</p>
+</li>
+<li><p><a href="https://blog.haschek.at/2017/how-to-defend-your-website-with-zip-bombs.html" target="_blank" rel="external">How to defend your website with ZIP bombs</a> : 通过<code>zip boom</code> 来应对一些恶意的扫描</p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><a href="https://blog.acolyer.org/2017/06/29/twitter-heron-towards-extensible-streaming-engines/" target="_blank" rel="external">Twitter Heron: towards extensible streaming engines</a> : Heron是一个Twritter开源的实时流解决方案，相比于storm/spark, 其特点是可插拔的组件架构, 感觉整个设计理念可以学习下; 同时还可以关注<a href="https://blog.acolyer.org/2017/06/30/dhalion-self-regulating-stream-processing-in-heron/" target="_blank" rel="external">Dhalion: self-regulating stream processing in Heron</a> 另外一个系统，目标是致力于让Heron变成一个<code>self-regulating</code>系统</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://startupsventurecapital.com/essential-cheat-sheets-for-machine-learning-and-deep-learning-researchers-efb6a8ebd2e5" target="_blank" rel="external">Essential Cheat Sheets for Machine Learning and Deep Learning Engineers</a> : 好几个cheat sheets, 感觉挺不错的</p>
+</li>
+<li><p><a href="https://joshondesign.com/2017/07/02/hire_old_programmer" target="_blank" rel="external">Five Reasons Why You Should Hire an Old Programmer</a> : 可以当做自己需要去培养的能力，包括<code>Experience</code>, <code>Judgement</code>, <code>Deep Knowledge</code>, <code>Wide Knowledge</code> 和 <code>Communication Skills</code></p>
+</li>
+<li><p><a href="https://www.kernel.org/doc/html/v4.10/process/coding-style.html" target="_blank" rel="external">Linux kernel coding style</a> : linux内核的编码风格, 大部分的编码方式自己还是比如认同了；除了括号的换行要求</p>
+</li>
+<li><p><a href="https://www.leiphone.com/news/201707/86tSZrqgcVFXEfnc.html" target="_blank" rel="external">谷歌大神Jeff Dean对话Talking Machine：我们要推动机器学习再上一层楼</a> : 佩服的人</p>
+</li>
+<li><p><a href="http://www.yinwang.org/blog-cn/2017/07/06/master-pl" target="_blank" rel="external">如何掌握所有的程序语言</a> : 王垠的新文章，关于如何学习所有语言的, 可以试试”自己实现所有的语言特性”, 相关推荐的文章包括<a href="https://www.zhihu.com/question/62097662" target="_blank" rel="external">知乎: 如何评价王垠新博文《如何掌握所有的程序语言》？</a> 以及 <a href="http://www.yinwang.org/blog-cn/2017/05/23/kotlin" target="_blank" rel="external">Kotlin 和 Checked Exception</a> 介绍checked exception</p>
+</li>
+<li><p><a href="https://medium.com/@matelabs_ai/public-data-sets-use-these-to-train-machine-learning-models-on-mateverse-4dda18a27851" target="_blank" rel="external">Public Data Sets: Use these to train Machine Learning models on Mateverse</a> : 推荐的一些公开的dataset, mark下</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.computer.org/csdl/mags/ic/2017/03/mic20
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://yoursite.com/tags/weekly/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>weekly of 20170702</title>
+    <link href="http://yoursite.com/2017/07/02/20170702/"/>
+    <id>http://yoursite.com/2017/07/02/20170702/</id>
+    <published>2017-07-02T06:15:29.000Z</published>
+    <updated>2017-07-21T06:46:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><a href="https://news.ycombinator.com/item?id=14663790" target="_blank" rel="external">Analysis of the Alexa Top 1M sites (mozilla.org)</a> : 对前100W流量的网站的安全设施的分析(包括http头部, csp策略等), 总体的结论是，趋势来看，网站的安全保障性是越来越好的; 评论上面两个论点可以关注，其一是<a href="https://ejj.io/cost-of-security-headers/" target="_blank" rel="external">The Cost Of Security Headers</a> 注重说明 任何安全设施都不是免费午餐, 落地实践需要考虑相关的副作用，包括<code>HTTP Public Key Pinning (HPKP)</code> 或者 <code>HTTP Strict Transport Security</code>, 另外是一个paper, <a href="https://www.sba-research.org/wp-content/uploads/publications/usenixTLSpreprint.pdf" target="_blank" rel="external">On the Usability of Deploying HTTPS</a> 讨论https落地部署的可行性(包括简便，可持续等)</li>
+</ul>
+<ul>
+<li><a href="https://github.com/Microsoft/ELL" target="_blank" rel="external">Microsoft: Embedded Learning Library</a> : The Embedded Learning Library (ELL) allows you to build and deploy machine-learned pipelines onto embedded platforms, like Raspberry Pis, Arduinos, micro:bits, and other microcontrollers. </li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://engineering.talkdesk.com/stream-processing-metamorphosis-9b97f75097a" target="_blank" rel="external">Stream Processing Metamorphosis - A Kafka’s tale</a> : 可以理解是kafka的软文, 现在对kafaka印象也是不错的</p>
+</li>
+<li><p><a href="https://0x0d.im/archives/get-visitor-qq-number-through-dns-rebinding.html" target="_blank" rel="external">通过 DNS Rebinding 获取访客 QQ 号</a> : 对Mac QQ的漏洞的介绍, 好像此漏洞已经修复了, 不过里面的两个推荐文章可以关注，包括<a href="https://ricterz.me/posts/Use%20DNS%20Rebinding%20to%20Bypass%20IP%20Restriction" target="_blank" rel="external">Use DNS Rebinding to Bypass IP Restriction</a> 和 <a href="http://blog.knownsec.com/2015/03/jsonp_security_technic/" target="_blank" rel="external">JSONP 安全攻防技术</a></p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650996610&amp;idx=1&amp;sn=f5f59cfe8ab83613600b9efc0906d5c5" target="_blank" rel="external">微信后台基于时间序的海量数据冷热分级架构设计实践</a> : 感觉非常奇怪的设计，微信的几个系统设计感觉都非常奇怪；脱离社区，可用性扩展性感觉偏弱；不知道是不是真的是因为他们的流量太大导致还是其他方面的因素</p>
+</li>
+<li><p><a href="http://tech.meituan.com/thrifycopy_and_faultdrill_system.html" target="_blank" rel="external">美团点评酒店后台故障演练系统</a> : 在线压测的系统看过很多，总感觉没有特别满意和靠谱的，大多数系统的普适性都不是很强</p>
+</li>
+<li><p><a href="http://ticki.github.io/blog/how-lz4-works/" target="_blank" rel="external">How LZ4 works</a> : LZ4的工作机制和原理, mark，没完成看懂</p>
+</li>
+<li><p><a href="https://fly.io/articles/why-fast-pages-are-important/" target="_blank" rel="external">Why App Speed Matters: Revenue</a> : 关于速度和收入的关系, 有个不是那么完美的论述</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=14670602" target="_blank" rel="external">Apache RocketMQ</a> : 阿里开源解决方案RocketMQ的介绍</p>
+</li>
+<li><p><a href="https://blog.vivekpanyam.com/scaling-a-web-service-load-balancing/" target="_blank" rel="external">Scaling a Web Service: Load Balancing</a> : 对LB的介绍还是非常系统</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="http://www.freebuf.com/news/137844.html" target="_blank" rel="external">Google和必应都无法替代的10大深网搜索引擎</a> : 先mark，里面的东西可以试试</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=14642193" target="_blank" rel="external">How https works</a> : 关键看评论, 里面推荐了不少干货和问题</p>
+</li>
+<li><p><a href="http://xyz.insightdataengineering.com/blog/pipeline_map/" target="_blank" rel="external">Interactive map for architecting big data pipelines</a> : 交互式的大数据的技术栈的展示</p>
+</li>
+<li><p><a href="https://ying-zhang.github.io/cloud/2017/spanner-truetime-cap/" target="_blank" rel="external">Spanner, TrueTime 和CAP理论</a> : 英文的翻译版，可以加上对spanner设计的理解</p>
+</li>
+<li><p><a href="https://www.zhihu.com/question/20830906/answer/190831888" target="_blank" rel="external">deep learning 可以用来做推荐系统吗？</a> : 可以了解下</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=14663790&quot; targ
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://yoursite.com/tags/weekly/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>weekly of 20170625</title>
+    <link href="http://yoursite.com/2017/06/25/20170625/"/>
+    <id>http://yoursite.com/2017/06/25/20170625/</id>
+    <published>2017-06-25T06:15:29.000Z</published>
+    <updated>2017-07-21T06:46:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://monkeylearn.com/blog/introduction-to-support-vector-machines-svm/" target="_blank" rel="external">An introduction to Support Vector Machines (SVM)</a> :  对SVM的概要介绍</p>
+</li>
+<li><p><a href="https://monkey.org/~marius/unix-tools-hints.html" target="_blank" rel="external">HINTS FOR WRITING UNIX TOOLS</a> : 写unix tool的一些建议和技巧，包括<code>Consume input from stdin, produce output to stdout</code>, <code>Output should be simple to parse and compose</code> 等</p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><a href="http://geek.csdn.net/news/detail/203834" target="_blank" rel="external">基于Spark的大规模机器学习在微博的应用</a> : 微博的machine learning在saprk方面的实践, 感觉微博的确在技术深度和公司还是有不少差距，但是其方案相对开源，也更符合业务大部分公司的需求, mark</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="http://liblb.com/index.html" target="_blank" rel="external">An Empirical Study of Load Balancing Algorithms</a> : 对于几个常见但是有用的负载均衡算法的介绍, 包括<code>Round-Robin</code>, <a href="http://liblb.com/p2c.html" target="_blank" rel="external">Two Random Choices</a>, <a href="http://liblb.com/consistent.html" target="_blank" rel="external">Consistent Hashing</a>, <a href="http://liblb.com/bounded.html" target="_blank" rel="external">Bounded Consistent Hashing</a> 感觉还是很有用的，可以收藏先</p>
+</li>
+<li><p><a href="https://github.com/RedisLabsModules/redis-ml" target="_blank" rel="external">Machine Learning Model Server on Redis</a> : Redis的机器学习扩展, “Redis-ML is a Redis module that implements several machine learning models as Redis data types”, 可以见中文介绍 <a href="https://mp.weixin.qq.com/s/P2XXF9Y7gEJwsFHiHIAVpw" target="_blank" rel="external">用Redis-ML模块实现实时机器学习!</a></p>
+</li>
+<li><p><a href="https://conferences.oreilly.com/velocity/vl-ca/public/schedule/proceedings" target="_blank" rel="external">O’Reilly Velocity Conferences Sliders</a> : 一些PPT材料，先mark，后续抽时间统一看下</p>
+</li>
+<li><p><a href="http://binarypuzzle.com/index.php" target="_blank" rel="external">Binary Puzzle</a> : 类似于数独的游戏</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://yoursite.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20170618</title>
@@ -336,66 +555,6 @@
   </entry>
   
   <entry>
-    <title>Classification and logistic regression</title>
-    <link href="http://yoursite.com/2017/05/06/classification_and_logistic_regression/"/>
-    <id>http://yoursite.com/2017/05/06/classification_and_logistic_regression/</id>
-    <published>2017-05-05T16:25:11.000Z</published>
-    <updated>2017-07-21T04:21:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="分类问题"><a href="#分类问题" class="headerlink" title="分类问题"></a>分类问题</h3><p>线性回归用来具体预测一个连续的value，对于离散值的预测是怎么样的呢？是否可以用同样的办法？这个是本节需要讨论的内容， 简单起见，我们先考虑一个二元的分类问题，多元的分类可以基于这个模型进行扩展 </p>
-<p>通常情况下，在二元分类问题上，我们会约定，结果集: </p>
-<p>$$ y \in { 0, 1 }$$</p>
-<p>其中1一般成为正例，0成为反例</p>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><blockquote>
-<p> <code>WARN</code>: 个人理解</p>
-</blockquote>
-<p>回到线性回归模型，我们是定义如下函数用于预测: </p>
-<p>$$ y = h_\theta(\overrightarrow{x})$$</p>
-<p>y是连续值；一个问题是，是否有办法用类似的办法解决我们的二元分类问题？</p>
-<p>一个自然的想法是，如果我们能把$h_\theta(x)$的结果控制在$[0, 1]$之间的话，可以把其定义为为正例(或者负例)的概率，也就是: </p>
-<p>$$ P(y=1|x : \theta) = h_\theta(x)$$</p>
-<p>这样的定义，我们可以理解为，给定一个输入$x$, 我们要做的是预测其为正例的概率；所以还是类似于一个线性回归的问题； 下面具体看，如何对这个问题进一步建模；</p>
-<p>首先，我们会用如下函数约束我们的输出 : </p>
-<p>$$ g(z) = \frac{1}{1+ e^{-z}}$$</p>
-<p>$$h_\theta(x) = g(\theta^Tx) = \frac{1}{1 + e^{-\theta^Tx}}$$</p>
-<p>这个函数具有良好的特性，比如说：返回结果总是属于(0, 1) ，还有他的导数性质(暂且不说)；</p>
-<p>其次，如上基于概率的思想，我们可以有如下定义:</p>
-<p>$$ P(y=1|x : \theta) = h_\theta(x)$$</p>
-<p>$$ P(y=0|x : \theta) = 1- h_\theta(x)$$</p>
-<p>就是可以写成，对于任意一个输入$x$, 给定$\theta$, 其概率函数为: </p>
-<p>$$ p(y|x;\theta) = (h<em>\theta(x))^y(1-h</em>\theta(x))^{1-y}$$</p>
-<p>所以，在已知数据集合${X, Y }$的情况下,  我们要做的就是求$\theta$的最优解</p>
-<p>我们定义的最大似然函数 : </p>
-<p>$$ L(\theta) = p(\overrightarrow{y}| X ; \theta)$$<br>$$ = \prod_i^m p(y^{(i)}|x^{(i)};\theta)$$</p>
-<p>令 ： </p>
-<p>$$l(\theta) = log L(\theta) = \sum_{i=1}^m p(y^{(i)} | x^{(i)}; \theta)$$</p>
-<p>其实要求的就是$l(\theta)$的最大值， 这里我们假定我们可以用梯度下降的办法求解，也就是求解$\theta$可以使用如下方程推导:</p>
-<p>$$ \theta_j : = \theta_j + \alpha \frac{\partial}{\partial\theta} J(\theta)$$</p>
-<p>通过对上面函数的求导，我们可以得到类似线性回归的模式:</p>
-<p>$$ \theta_j =  \theta<em>j + \alpha \ast ( y^{(i)}- h</em>{\theta}(x^{(i)}) ) \ast  x_j$$</p>
-<h3 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h3><p>依照上面的策略，我们可以知道对于一个输入$x$, 我们的$h_\theta(x)$是一个概率值，这样怎么定义结果的正例和负例呢？一般情况下，我们可以约定 :</p>
-<p>$$ y = 1,  if \ \  h_\theta(x)&gt; 0.5; else\ \ y = 0 $$</p>
-<h3 id="多元分类问题"><a href="#多元分类问题" class="headerlink" title="多元分类问题"></a>多元分类问题</h3><p>上面讨论的是二元分类的问题，如何应用于n $(n &gt; 2)$元分类呢？一个简单的办法是： <code>one-vs-all</code> : 也就是每次就区分一个分类和剩余分类；如此重复n次，大概如下: </p>
-<ul>
-<li><p>对于每个分类$i$, 训练他的逻辑回归函数$h_\theta^{(i)}(x)$；按照上面的定义，可以理解为，其对应着 $ y = i $的概率</p>
-</li>
-<li><p>对于一个新的输入 x, 我们计算 $\max \limits<em>i h</em>\theta^{(i)}(x)$, 对应着$i$分类</p>
-</li>
-</ul>
-<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;分类问题&quot;&gt;&lt;a href=&quot;#分类问题&quot; class=&quot;headerlink&quot; title=&quot;分类问题&quot;&gt;&lt;/a&gt;分类问题&lt;/h3&gt;&lt;p&gt;线性回归用来具体预测一个连续的value，对于离散值的预测是怎么样的呢？是否可以用同样的办法？这个是本节需要讨论的内容， 简
-    
-    </summary>
-    
-    
-      <category term="ml" scheme="http://yoursite.com/tags/ml/"/>
-    
-  </entry>
-  
-  <entry>
     <title>About PCA</title>
     <link href="http://yoursite.com/2017/05/06/pca/"/>
     <id>http://yoursite.com/2017/05/06/pca/</id>
@@ -512,6 +671,66 @@
 &lt;p&gt;关于机器学习的任何文章仅限个人理解，会有颇多谬误之处&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h2&gt;&lt;p&gt;奇异值分解是一种非
+    
+    </summary>
+    
+    
+      <category term="ml" scheme="http://yoursite.com/tags/ml/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Classification and logistic regression</title>
+    <link href="http://yoursite.com/2017/05/06/classification_and_logistic_regression/"/>
+    <id>http://yoursite.com/2017/05/06/classification_and_logistic_regression/</id>
+    <published>2017-05-05T16:25:11.000Z</published>
+    <updated>2017-07-21T04:21:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="分类问题"><a href="#分类问题" class="headerlink" title="分类问题"></a>分类问题</h3><p>线性回归用来具体预测一个连续的value，对于离散值的预测是怎么样的呢？是否可以用同样的办法？这个是本节需要讨论的内容， 简单起见，我们先考虑一个二元的分类问题，多元的分类可以基于这个模型进行扩展 </p>
+<p>通常情况下，在二元分类问题上，我们会约定，结果集: </p>
+<p>$$ y \in { 0, 1 }$$</p>
+<p>其中1一般成为正例，0成为反例</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><blockquote>
+<p> <code>WARN</code>: 个人理解</p>
+</blockquote>
+<p>回到线性回归模型，我们是定义如下函数用于预测: </p>
+<p>$$ y = h_\theta(\overrightarrow{x})$$</p>
+<p>y是连续值；一个问题是，是否有办法用类似的办法解决我们的二元分类问题？</p>
+<p>一个自然的想法是，如果我们能把$h_\theta(x)$的结果控制在$[0, 1]$之间的话，可以把其定义为为正例(或者负例)的概率，也就是: </p>
+<p>$$ P(y=1|x : \theta) = h_\theta(x)$$</p>
+<p>这样的定义，我们可以理解为，给定一个输入$x$, 我们要做的是预测其为正例的概率；所以还是类似于一个线性回归的问题； 下面具体看，如何对这个问题进一步建模；</p>
+<p>首先，我们会用如下函数约束我们的输出 : </p>
+<p>$$ g(z) = \frac{1}{1+ e^{-z}}$$</p>
+<p>$$h_\theta(x) = g(\theta^Tx) = \frac{1}{1 + e^{-\theta^Tx}}$$</p>
+<p>这个函数具有良好的特性，比如说：返回结果总是属于(0, 1) ，还有他的导数性质(暂且不说)；</p>
+<p>其次，如上基于概率的思想，我们可以有如下定义:</p>
+<p>$$ P(y=1|x : \theta) = h_\theta(x)$$</p>
+<p>$$ P(y=0|x : \theta) = 1- h_\theta(x)$$</p>
+<p>就是可以写成，对于任意一个输入$x$, 给定$\theta$, 其概率函数为: </p>
+<p>$$ p(y|x;\theta) = (h<em>\theta(x))^y(1-h</em>\theta(x))^{1-y}$$</p>
+<p>所以，在已知数据集合${X, Y }$的情况下,  我们要做的就是求$\theta$的最优解</p>
+<p>我们定义的最大似然函数 : </p>
+<p>$$ L(\theta) = p(\overrightarrow{y}| X ; \theta)$$<br>$$ = \prod_i^m p(y^{(i)}|x^{(i)};\theta)$$</p>
+<p>令 ： </p>
+<p>$$l(\theta) = log L(\theta) = \sum_{i=1}^m p(y^{(i)} | x^{(i)}; \theta)$$</p>
+<p>其实要求的就是$l(\theta)$的最大值， 这里我们假定我们可以用梯度下降的办法求解，也就是求解$\theta$可以使用如下方程推导:</p>
+<p>$$ \theta_j : = \theta_j + \alpha \frac{\partial}{\partial\theta} J(\theta)$$</p>
+<p>通过对上面函数的求导，我们可以得到类似线性回归的模式:</p>
+<p>$$ \theta_j =  \theta<em>j + \alpha \ast ( y^{(i)}- h</em>{\theta}(x^{(i)}) ) \ast  x_j$$</p>
+<h3 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h3><p>依照上面的策略，我们可以知道对于一个输入$x$, 我们的$h_\theta(x)$是一个概率值，这样怎么定义结果的正例和负例呢？一般情况下，我们可以约定 :</p>
+<p>$$ y = 1,  if \ \  h_\theta(x)&gt; 0.5; else\ \ y = 0 $$</p>
+<h3 id="多元分类问题"><a href="#多元分类问题" class="headerlink" title="多元分类问题"></a>多元分类问题</h3><p>上面讨论的是二元分类的问题，如何应用于n $(n &gt; 2)$元分类呢？一个简单的办法是： <code>one-vs-all</code> : 也就是每次就区分一个分类和剩余分类；如此重复n次，大概如下: </p>
+<ul>
+<li><p>对于每个分类$i$, 训练他的逻辑回归函数$h_\theta^{(i)}(x)$；按照上面的定义，可以理解为，其对应着 $ y = i $的概率</p>
+</li>
+<li><p>对于一个新的输入 x, 我们计算 $\max \limits<em>i h</em>\theta^{(i)}(x)$, 对应着$i$分类</p>
+</li>
+</ul>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;分类问题&quot;&gt;&lt;a href=&quot;#分类问题&quot; class=&quot;headerlink&quot; title=&quot;分类问题&quot;&gt;&lt;/a&gt;分类问题&lt;/h3&gt;&lt;p&gt;线性回归用来具体预测一个连续的value，对于离散值的预测是怎么样的呢？是否可以用同样的办法？这个是本节需要讨论的内容， 简
     
     </summary>
     
@@ -715,265 +934,6 @@
     <summary type="html">
     
       &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://yoursite.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170326</title>
-    <link href="http://yoursite.com/2017/03/26/20170326/"/>
-    <id>http://yoursite.com/2017/03/26/20170326/</id>
-    <published>2017-03-25T16:29:56.000Z</published>
-    <updated>2017-07-21T04:21:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="http://distill.pub/" target="_blank" rel="external">Distill</a> : google联合推出的机器学习教程网站，旨在吸引开发者书写更多机器学习入门，易理解和可视化的文章; 又是一个公益工程</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="http://www.infoq.com/cn/articles/differential-privacy-intro" target="_blank" rel="external">差分隐私简介</a> : 本文具体介绍了如何通过算法/系统的构建，来避免数据分析师对<br>个人隐私信息的窃取; 一个方法就是对结果数据进行一定的噪声处理; 相关方法已经被apple和google chrome都采用了; 通用可以参考: <a href="https://research.googleblog.com/2014/10/learning-statistics-with-privacy-aided.html" target="_blank" rel="external">Learning Statistics with Privacy, aided by the Flip of a Coin</a> </p>
-</li>
-<li><p><a href="http://mp.weixin.qq.com/s/RLMwyrLiPqZl-otniviqww" target="_blank" rel="external">深入Facebook图数据库系统（TAO）系列之三：TAO是如何有效支持多租户（Multi-tenancy）的</a> : 几个容灾策略的设计很精巧，可以考虑，包括<a href="https://en.wikipedia.org/wiki/CoDel" target="_blank" rel="external">CoDel</a> 算法</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://moderncrypto.org/mail-archive/messaging/2014/000780.html?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=social" target="_blank" rel="external">Modern anti-spam and E2E crypto</a> : 关于gmail anti-spam系统设计的介绍, 讲的非常清楚，具有很好的参考意义; 另外可以关注下<a href="https://news.ycombinator.com/item?id=12997025" target="_blank" rel="external">hacker news</a> 上面的讨论, 其中提到的<a href="https://en.wikipedia.org/wiki/Functional_encryption" target="_blank" rel="external">functional encryption</a> 也可以去关注下</p>
-</li>
-<li><p><a href="http://www.infoq.com/cn/presentations/how-to-build-a-million-level-log-search-engine-poseidon?utm_source=infoq&amp;utm_medium=videos_homepage&amp;utm_campaign=videos_row1" target="_blank" rel="external">如何打造一个百万亿级的日志搜索引擎：Poseidon</a> : 之前有看过相关新闻，今天具体看了其PPT; 总体感觉是一个非常接地气的实现, 相比于一拍脑袋的<code>ELK</code>，觉得更能满足显示需求</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://github.com/blog/2338-sha-1-collision-detection-on-github-com" target="_blank" rel="external">SHA-1 collision detection on GitHub.com</a> : 对于sha-1对git的影响说明的非常清楚, 大家可以了解下</p>
-</li>
-<li><p><a href="http://linuxperf.com/?p=176" target="_blank" rel="external">理解LINUX LOAD AVERAGE的误区</a> : “Linux把uninterruptible sleep进程算进load average的做法直接颠覆了load average的本来意义。所以在Linux系统上，load average这个指标基本失去了作用，因为你不知道它代表什么意思，当看到load average很高的时候，你不知道是runnable进程太多还是uninterruptible sleep进程太多，也就无法判断是CPU不够用还是IO设备有瓶颈”, 另外如果有大量低优先级的进程也会导致load很高, 但是cpu却不是瓶颈，需要结合cpu利用率一起看</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=13925238" target="_blank" rel="external">An advanced browser fingerprint calculator aimed mainly at Tor Browser users</a> :  主要看评论, 有人介绍了两个比较接地气的user track办法, 其一是使用flash cookie, 其二是使用图片的etags; 现在更推荐用第二种方案</p>
-</li>
-<li><p><a href="https://docs.surfly.com/" target="_blank" rel="external">The Surfly</a> : Surfly’s co-browsing technology enables you to share your browser with others, 解决类似于屏幕共享的需求，不过这里面主要focus在浏览器; 大概思路还在于”to send over the real HTML content “</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://distill.pub/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://yoursite.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170319</title>
-    <link href="http://yoursite.com/2017/03/19/20170319/"/>
-    <id>http://yoursite.com/2017/03/19/20170319/</id>
-    <published>2017-03-18T16:29:56.000Z</published>
-    <updated>2017-07-21T04:21:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><a href="https://opensource.googleblog.com/2017/03/guetzli-new-open-source-jpeg-encoder.html" target="_blank" rel="external">Announcing Guetzli: A New Open Source JPEG Encoder</a> : “a new open source algorithm that creates high quality JPEG images with file sizes 35% smaller than currently available methods”</p>
-</li>
-<li><p><a href="https://medium.com/@hoffa/hacker-news-on-bigquery-now-with-daily-updates-so-what-are-the-top-domains-963d3c68b2e2#.fvrs3wkmh" target="_blank" rel="external">Hacker News on BigQuery: Now with daily updates — So what are the top domains?</a> : 很赞同” BigQuery Public Datasets Program”的理念</p>
-</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://news.ycombinator.com/item?id=13856552" target="_blank" rel="external">syncthing</a> : 一个数据同步工具，感觉很给力, 下来可以试用下; 可以关注<a href="https://kastelo.net/2017/03/08/syncthing-kcp.html" target="_blank" rel="external">Advanced NAT traversal via UDP</a> 和 <a href="https://github.com/syncthing/syncthing/pull/3986" target="_blank" rel="external">Internal filesystem notification watch facility for near realtime sync</a> 两个相关文章;</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=13899829" target="_blank" rel="external">Lua VM running in a WASM environment</a> : 持续关注, 不知是否可以支持可信客户端;</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://thehftguy.com/2016/11/01/docker-in-production-an-history-of-failure/" target="_blank" rel="external">Docker in Production: A History of Failure</a> : 看看docker的问题, 虽然不全对，但是可以加深我们对docker的认知和理解</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5Nzc4OTA1Mw==&amp;mid=2659599059&amp;idx=1&amp;sn=af9af208d412c8dad088b538c72260ed&amp;chksm=8be997c1bc9e1ed757c61f5da1151c11721e8d1e6873f4908c4281ded846e4561b3fc8e4a19a#rd" target="_blank" rel="external">如何安全的存储用户密码？</a> : 对于密码存储的方式和方法，进行了非常系统和详细的介绍; 强烈推荐 &amp; mark</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzI4MjE3MTcwNA==&amp;mid=2664335359&amp;idx=1&amp;sn=015f84d1b04a0fe7aac0a1aa335bf4cf&amp;chksm=f0a427a8c7d3aebe84c137c3505639b07af744a584c2a748547968aecf7b6abab47c07296371&amp;mpshare=1&amp;scene=1&amp;srcid=03142AVQn9cL1eMLmsBb4cmX&amp;pass_ticket=HkUjgEyv%2Fadt2%2FxZf7VS04wYLPSApXsAq2TCbOqBbk9r1ci6NC8uKHgYruBkEe8v#rd" target="_blank" rel="external">互动直播的技术细节和解决方案实践经验谈</a> : 互动直播相比于之前的普通视频直播, 面临的延迟等问题更大, 具体介绍了百度云对于互动直播的支持和技术解决方案, 可以了解, 开阔下视野</p>
-</li>
-<li><p><a href="http://tech.meituan.com/SharkSDK.html" target="_blank" rel="external">美团点评移动网络优化实践</a> : 网络接入优化现在的优秀app的默认功能</p>
-</li>
-<li><p><a href="https://www.pipelinedb.com/blog/pipelinedb-0-9-7-delta-streams-and-towards-a-postgresql-extension" target="_blank" rel="external">PipelineDB 0.9.7 - Delta Streams and Towards a PostgreSQL Extension</a> : PipelineDB的理念和思路值得关注 </p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://fauna.com/blog/distributed-acid-transaction-performance" target="_blank" rel="external">120,000 distributed consistent writes per second with Calvin</a> : 先mark</p>
-</li>
-<li><p><a href="https://vimgifs.com/y/" target="_blank" rel="external">Vimgifs</a> : vim命令的gif展示，感觉外国人做好多事情都非常认真，细心</p>
-</li>
-<li><p><a href="https://www.netlifycms.org/" target="_blank" rel="external">netlifycms: An open-source CMS for your Git workflow</a> : 基于github接口的CMS系统，不用原生依赖存储，感觉还是很给力的，hacker news上面评价不错, 有空可以关注下</p>
-</li>
-<li><p><a href="https://github.com/chromium/badssl.com" target="_blank" rel="external">chromium/badssl.com</a> : Memorable site for testing clients against bad SSL configs</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&amp;mid=2650724442&amp;idx=1&amp;sn=d321d5195770982762cf138ad9fc68a4&amp;chksm=871b1c24b06c9532e1886afaba634311c64fc49ed5de2425f90fd50c61daa459bf91d0ac559f&amp;scene=0&amp;key=05a6fbe786a1ddb51c9f387d3bf18cf1c14be3fc51c5126f601aff076ab08fd47e185dfdf3630a88bc36543168d60327dad539f30b25803d9d5407b2a0e4525eba22685f22975c695d71537332420693&amp;ascene=7&amp;uin=MTgwOTU2NjU0MQ%3D%3D&amp;devicetype=android-24&amp;version=26050630&amp;nettype=WIFI&amp;abtest_cookie=AQABAAgAAQCAhh4AAAA%3D&amp;pass_ticket=JKudu6TNpIwQ11QhDz4%2BHUI1mPblIR7ptPSSa%2Ffun71r6VjXjB4YvdwqR99E7LZr&amp;wx_header=1" target="_blank" rel="external">谷歌微软等科技巨头数据科学面试107道真题：你能答出多少？</a> : 不少问题，值得好好思考和理解</p>
-</li>
-<li><p><a href="https://en.wikipedia.org/wiki/Anti-spam_techniques" target="_blank" rel="external">Anti-spam techniques</a> : 反作弊技术的概述, 值得持续跟进反思</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://opensource.googleblog.com/2017/03/guetzl
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://yoursite.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170312</title>
-    <link href="http://yoursite.com/2017/03/12/20170312/"/>
-    <id>http://yoursite.com/2017/03/12/20170312/</id>
-    <published>2017-03-11T16:29:56.000Z</published>
-    <updated>2017-07-21T04:21:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://tomassetti.me/antlr-mega-tutorial/" target="_blank" rel="external">The ANTLR mega tutorial</a> : “ANTLR is a parser generator, a tool that helps you to create parsers”</p>
-</li>
-<li><p><a href="https://medium.com/@homakov/request-for-a-new-header-state-of-the-art-9a1935bbad72#.fzzt4sc4b" target="_blank" rel="external">Request for a new header: State-Of-The-Art</a> :  文章提到，使用<code>State-Of-The-Art</code>这个http头部来默认表示开启类似于<code>X-Frame-Options: deny</code> 之类的安全头部, 不需要一个个手动添加; 贴吧需要尽快指定一个安全头部规范, 来保证相关的安全和隐私性</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzA5Nzc4OTA1Mw==&amp;mid=2659599049&amp;idx=1&amp;sn=86052fdb38eff619ad0311a274708219&amp;chksm=8be997dbbc9e1ecd585e9345d6b535015383b1493539bef8a0a83634b9684e7cdf4e42cca726#rd" target="_blank" rel="external">从Zipkin到Jaeger，Uber的分布式追踪之道</a> : 先mark, 了解下他们的分布式追踪方案</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="http://www.freebuf.com/articles/rookie/127533.html" target="_blank" rel="external">浅谈拒绝服务攻击的原理与防御（4）：新型DDOS攻击 – Websocket和临时透镜</a> : 关于安全科普的文章, <code>临时透镜</code>的概念很新颖, 值得继续关注; 另外可以参考另外一篇关于SSRF的介绍<a href="http://www.freebuf.com/articles/network/128508.html" target="_blank" rel="external">谷歌SSRF漏洞解析</a></p>
-</li>
-<li><p><a href="https://martinfowler.com/articles/serverless.html" target="_blank" rel="external">Serverless Architectures</a> : serverless架构说明, 非常长, 先mark</p>
-</li>
-<li><p><a href="https://github.com/donnemartin/system-design-primer" target="_blank" rel="external">system-design-primer</a> : 资料非常齐全</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://yoursite.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170305</title>
-    <link href="http://yoursite.com/2017/03/05/20170305/"/>
-    <id>http://yoursite.com/2017/03/05/20170305/</id>
-    <published>2017-03-04T16:29:56.000Z</published>
-    <updated>2017-07-21T04:21:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="https://hypothes.is/blog/annotation-is-now-a-web-standard/" target="_blank" rel="external">Annotation is now a web standard</a> : <code>标注</code>功能现在是web 浏览器的一个新标准，个人感觉内容分发等之类业务可以考虑进一步和此标准结合</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="http://new.gafferongames.com/post/why_cant_i_send_udp_packets_from_a_browser/" target="_blank" rel="external">Why can’t I send UDP packets from a browser?</a> : 一个很简单的问题，就是浏览器是否会发出UDP请求呢? 本文介绍了浏览器发送UDP场景的一些case, 比如说<code>QUIC</code>, <code>Websocket</code>等, 本文具体介绍了浏览器支持的不同协议, 以及不同协议支持的业务场景</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA3ODg4MDk0Ng==&amp;mid=2651113124&amp;idx=1&amp;sn=6417e2552676b8903461217911dfcac2" target="_blank" rel="external">网易乐得iOS无埋点数据SDK实践之路</a> : 贴吧这边是不是也可以调研考虑下?, 同样可以关注的还有<a href="http://tech.meituan.com/mt-mobile-analytics-practice.html" target="_blank" rel="external">美团点评前端无痕埋点实践</a></p>
-</li>
-<li><p><a href="https://research.fb.com/prophet-forecasting-at-scale/?" target="_blank" rel="external">Prophet: forecasting at scale</a> : Facebook开源的趋势预测库, 感觉接入挺方便的, 我们可以测试支持下, 另外同时也看到另外一个类似的工具<a href="http://unplu.gg/test_api.html" target="_blank" rel="external">Unplugg: An automated Forecasting API for timeseries data</a> 同样是用来分析时序数据</p>
-</li>
-<li><p><a href="http://www.cnblogs.com/bodhitree/p/6289023.html" target="_blank" rel="external">/dev/shm介绍</a> : Linux下面的内存文件系统, 可能会有用</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="http://weibo.com/ttarticle/p/show?id=2309404079547992658540" target="_blank" rel="external">【论文每日读】Learning from User Interactions in Personal Search</a> : 一个很新颖的想法, 不过部分东西不是很能理解, 明天再好好研究下</p>
-</li>
-<li><p><a href="https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/" target="_blank" rel="external">A cartoon intro to WebAssembly</a> : 一些系列文章, 对<code>WebAssembly</code> 有非常详细的介绍和说明; 个人感觉<code>WebAssembly</code>是不是可以应用于我们一些可行前端的构建和支持, 期待其快速的标准化和浏览器的支持</p>
-</li>
-<li><p><a href="http://rystsov.info/2017/02/15/simple-consensus.html" target="_blank" rel="external">In search of a simple consensus algorithm</a> : 对一个一致性协议的探讨, 作者认为<code>Single Decree Paxos is simpler than Multi-Paxos &amp; Raft</code> , 一些论证细节下来再研究下，先mark</p>
-</li>
-<li><p><a href="http://www.infoq.com/cn/news/2017/03/Shopify-solve-idea" target="_blank" rel="external">Shopify的闪购限流解决方案</a> : 一些限流方案&amp;思路值得学习, 很多思想和我们线上的反攻击验证码类似, 包括可以注意和进一步总结的<a href="http://security.stackexchange.com/questions/7398/secure-session-cookies/7409#7409" target="_blank" rel="external">Secure Session Cookies</a></p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://medium.com/@martinmalinda/save-time-by-transforming-images-in-the-command-line-c63c83e53b17#.ek048qbel" target="_blank" rel="external">Save time by transforming images in the command line</a> : 文章介绍了使用<code>ImageMagick</code> 这个工具, 在命令行环境下面进行图片处理和切换的一些技巧, 可以试试</p>
-</li>
-<li><p><a href="http://oserror.com/backend/raid-principle/" target="_blank" rel="external">程序员需要知道的RAID基本原理</a> : 说得非常直观，浅显易懂</p>
-</li>
-<li><p><a href="https://arxiv.org/abs/1702.07800" target="_blank" rel="external">On the Origin of Deep Learning</a> : This paper is a review of the evolutionary history of deep learning models, 关于深度学习的介绍和入门, 先mark</p>
-</li>
-<li><p><a href="http://n-gate.com/hackernews/" target="_blank" rel="external">Hackernews Weekly</a> : 该网站收集每周hacker news的热门文章, 如果精力有限，可以看看这里的内容</p>
-</li>
-<li><p><a href="http://insights.thoughtworkers.org/detailed-hsts/" target="_blank" rel="external">HSTS详解</a> : 关于HSTS的说明, 比较浅显易懂</p>
-</li>
-<li><p><a href="https://opensource.com/article/17/2/3-top-machine-learning-libraries-python" target="_blank" rel="external">Top 3 machine learning libraries for Python</a> : 三个关键字<code>Theano</code>, <code>TensorFlow</code> 和<code>scikit-learn</code></p>
-</li>
-<li><p><a href="https://www.lvh.io/posts/nonce-misuse-resistance-101.html" target="_blank" rel="external">Nonce misuse resistance 101</a> : 先mark</p>
-</li>
-<li><p><a href="https://zhuanlan.zhihu.com/p/25532724" target="_blank" rel="external">raft 经典场景分析</a> : mark</p>
-</li>
-<li><p><a href="http://blog.volema.com/nginx-insecurities.html#.WLvi3BJ96Rs" target="_blank" rel="external">Some cases of insecure NGINX configurations</a> : 挺有意思的, 一些配置的trick点; 可以关注下</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://hypothes.is/blog/annotation-is-now-a-web-st
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://yoursite.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170226</title>
-    <link href="http://yoursite.com/2017/02/26/20170226/"/>
-    <id>http://yoursite.com/2017/02/26/20170226/</id>
-    <published>2017-02-26T10:23:34.000Z</published>
-    <updated>2017-07-21T04:21:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><img src="https://imgsa.baidu.com/forum/w%3D580/sign=53bf6888a4345982c58ae59a3cf5310b/6f22928fa0ec08fa955fef5b50ee3d6d54fbda95.jpg" alt="image test"></p>
-</li>
-<li><p><a href="https://blog.cloudflare.com/incident-report-on-memory-leak-caused-by-cloudflare-parser-bug/" target="_blank" rel="external">Incident report on memory leak caused by Cloudflare parser bug</a> : Cloudflare由于proxy代码异常导致的敏感信息泄露的事情, 影响挺大的；另外可以参见<a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=1139" target="_blank" rel="external">Cloudflare Reverse Proxies are Dumping Uninitialized Memory</a> 以及<a href="https://github.com/pirate/sites-using-cloudflare/blob/master/README.md" target="_blank" rel="external">List of Sites possibly affected by Cloudflare’s</a></p>
-</li>
-<li><p>nginx新版本支持stale-while-revalidate和stale-if-error : 具体这两个特性的说明可以参看: <a href="https://www.mnot.net/blog/2007/12/12/stale" target="_blank" rel="external">Two HTTP Caching Extensions</a>, <a href="https://www.mnot.net/blog/2014/06/01/chrome_and_stale-while-revalidate" target="_blank" rel="external">Chrome and Stale-While-Revalidate</a>, 以及<a href="https://tools.ietf.org/html/rfc5861" target="_blank" rel="external">HTTP Cache-Control Extensions for Stale Content</a></p>
-</li>
-</ul>
-<ul>
-<li><a href="https://security.googleblog.com/2017/02/announcing-first-sha1-collision.html" target="_blank" rel="external">Announcing the first SHA1 collision</a> : </li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://scotthelme.co.uk/csrf-is-dead/" target="_blank" rel="external">Cross-Site Request Forgery is dead!</a> : 新引入的cookie头部属性<code>SameSite</code>可以大大预防和避免CSRF之类的攻击, 不过现在浏览器对此头部支持的不是很好; 可以看作者的<a href="https://scotthelme.co.uk/tough-cookies/" target="_blank" rel="external">Tough Cookies</a> 了解cookie头部里面有哪些安全属性可以设置</p>
-</li>
-<li><p><a href="https://blog.cloudflare.com/luajit-hacking-getting-next-out-of-the-nyi-list/" target="_blank" rel="external">LuaJIT Hacking: Getting next() out of the NYI list</a> : CloudFlare分享如何优化<code>next()</code>函数的实践；两个方面需要去学习, 一个是Luajit的<a href="http://wiki.luajit.org/NYI#libraries_base-library" target="_blank" rel="external">Not Yet Implemented</a> 之前理解不够深刻, 其次是<a href="https://github.com/cloudflare/loom" target="_blank" rel="external">cloudflare/loom</a> 可以研究下</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="https://zhuanlan.zhihu.com/p/21628977?refer=sangwf" target="_blank" rel="external">在数据采集上的痛苦、幻想与失望</a> : 关于无埋点的几个文章, 包括<a href="http://mp.weixin.qq.com/s/TqV9UNaPBGfBIWY64iApfA" target="_blank" rel="external">SDK无埋点技术在百分点的探索和实践</a> 以及 <a href="http://www.chinawebanalytics.cn/auto-event-tracking-good-bad-ugly/" target="_blank" rel="external">无埋点实现监测的真相——革新还是噱头？</a>, 对我们以后的数据体系建设是一个可以去思考的问题</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="http://mysql.taobao.org/monthly/2017/02/" target="_blank" rel="external">Mysql:数据库内核月报:2017/02</a> : 感觉干货非常多, 对mysql有兴趣的可以收藏起来</p>
-</li>
-<li><p><a href="https://zneak.github.io/fcd/2017/02/19/divisions.html" target="_blank" rel="external">How do compilers optimize divisions?</a> : 挺有意思的一个说明, 就是编译在编译除法指令的时候，很少会直接使用<code>div</code>指令，因为存在一些性能问题, 所有通常情况下会使用一些数值计算作为转换; 通用可以关注对官方工具<a href="https://zneak.github.io/fcd/" target="_blank" rel="external">fcd</a></p>
-</li>
-<li><p><a href="https://www.gcppodcast.com/post/episode-62-cloud-spanner-with-deepti-srivastava/" target="_blank" rel="external">62 Cloud Spanner with Deepti Srivastava</a> : 上面有不少Google Spanner的介绍, 这个周末好好梳理下</p>
-</li>
-<li><p><a href="https://www.blog.google/topics/journalism-news/expanding-fact-checking-google/" target="_blank" rel="external">Expanding Fact Checking at Google</a> : Google引入和推广他的<code>News Fact Checking</code>功能，其内部通过和多个社区和媒体的合作而成; 这方面感觉百度也需要考虑下</p>
-</li>
-<li><p><a href="https://github.com/k4m4/terminals-are-sexy" target="_blank" rel="external">terminals-are-sexy</a> : A curated list of Terminal frameworks, plugins &amp; resources for CLI lovers</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;img src=&quot;https://imgsa.baidu.com/forum/w%3D580/sign=53bf
     
     </summary>
     

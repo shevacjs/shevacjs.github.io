@@ -57,6 +57,368 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-about_nginx_cve_2016_4450" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/12/about_nginx_cve_2016_4450/">关于nginx的CVE-2016-4450的安全问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/06/12/about_nginx_cve_2016_4450/" class="article-date">
+  <time datetime="2016-06-12T07:34:36.000Z" itemprop="datePublished">2016-06-12</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="关于nginx的CVE-2016-4450的安全问题"><a href="#关于nginx的CVE-2016-4450的安全问题" class="headerlink" title="关于nginx的CVE-2016-4450的安全问题"></a>关于nginx的CVE-2016-4450的安全问题</h1><p>nginx在5-31凌晨发布了一个安全漏洞修复的说明: <a href="http://nginx.org/en/security_advisories.html" target="_blank" rel="external">NULL pointer dereference while writing client request body</a> , 关于漏洞的细节没有详述，仅仅在邮件里面说明如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">A special last buffer with cl-&gt;buf-&gt;pos set to NULL can be present in</div><div class="line">a chain when writing request body if chunked encoding was used.  This</div><div class="line">resulted in a NULL pointer dereference if it happened to be the only</div><div class="line">buffer left after a do...while loop iteration in ngx_write_chain_to_file().</div><div class="line"></div><div class="line">The problem originally appeared in nginx 1.3.9 with chunked encoding</div><div class="line">support.  Additionally, rev. 3832b608dc8d (nginx 1.9.13) changed the</div><div class="line">minimum number of buffers to trigger this from IOV_MAX (typically 1024)</div><div class="line">to NGX_IOVS_PREALLOCATE (typically 64).</div><div class="line"></div><div class="line">Fix is to skip such buffers in ngx_chain_to_iovec(), much like it is</div><div class="line">done in other places.</div></pre></td></tr></table></figure>
+<p>这里简单说下具体这个crash的分析&amp;复现过程</p>
+<h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2><p>从邮件和给予的<a href="http://nginx.org/download/patch.2016.write2.txt" target="_blank" rel="external">补丁</a>可以看出, 应该主要是如下核心代码出现问题:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* nginx 1.8.0 源码为例说明 */</span></div><div class="line"><span class="comment">/* 过滤了无关代码 */</span></div><div class="line"></div><div class="line"><span class="keyword">do</span> &#123;</div><div class="line">    prev = <span class="literal">NULL</span>;</div><div class="line">    iov = <span class="literal">NULL</span>;</div><div class="line">    size = <span class="number">0</span>;</div><div class="line"></div><div class="line">    vec.nelts = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="comment">/* create the iovec and coalesce the neighbouring bufs */</span></div><div class="line"></div><div class="line">    <span class="keyword">while</span> (cl &amp;&amp; vec.nelts &lt; IOV_MAX) &#123;</div><div class="line">        <span class="keyword">if</span> (prev == cl-&gt;buf-&gt;pos) &#123;</div><div class="line">            iov-&gt;iov_len += cl-&gt;buf-&gt;last - cl-&gt;buf-&gt;pos;</div><div class="line"></div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            iov = ngx_array_push(&amp;vec);</div><div class="line">            <span class="keyword">if</span> (iov == <span class="literal">NULL</span>) &#123;</div><div class="line">                <span class="keyword">return</span> NGX_ERROR;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        cl = cl-&gt;next;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125; <span class="keyword">while</span>(cl)</div></pre></td></tr></table></figure>
+<p>从上面的代码，简单的静态分析可以看出(个人感觉), 如果<code>prev == cl-&gt;buf-&gt;pos</code> 都是NULL的话，<code>iov</code> 也肯定是NULL, 如果走这个流程，就会发生段异常, 从这个 <code>do {} while()</code> 的结构来看, 是存在这个可能性的</p>
+<p>加上作者在邮件里面是阐述，大概可以猜测crash应该是如下条件会产生的:</p>
+<ul>
+<li>cl-&gt;buf-&gt;pos 为NULL : 满足条件是如果是input 是chunk编码, last_buf会是这样的</li>
+<li>prev : 也为 NULL :  满足条件是从<code>do-while</code>循环进入</li>
+</ul>
+<p>第二个条件是触发条件应该是： 在第二，三等次进入外层的<code>do-while</code>循环的时候(第一次肯定不行), 也就是写完一个IOV_MAX的时候</p>
+<p>所以总计下来构造如下特点的请求就可能导致nginx crash:</p>
+<ul>
+<li>输入包体为chunk</li>
+<li>输入包体的大小正好让nginx在写文件的时候, 多次写iov数组的时候，出发临界条件</li>
+</ul>
+<p>下面就看我们如果构造此类请求了</p>
+<h2 id="流程说明"><a href="#流程说明" class="headerlink" title="流程说明"></a>流程说明</h2><p>在具体看请求构造的时候，先简单说明nginx输入请求包体读取流程;<br>在支持<code>transfer-encoding:chunked</code>的请求下，nginx会解析进来的请求，然后将输入的内容以如下的形式组织:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">chain --------&gt;  chain ----------&gt; chain --------- chain</div><div class="line">   |               |                 |               |</div><div class="line">   |               |                 |               |</div><div class="line">   \/              \/                \/              \/</div><div class="line">   buf1            buf2              buf3            buf4 (last buf)</div></pre></td></tr></table></figure>
+<p>其中<code>last_buf</code> 代表一个请求内容的结束, 每个buf缓存一部分数据</p>
+<p>综上，如果要让他出现异常，只要让输入的请求，在nginx内部表针如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">chain --------&gt;  chain ----------&gt; chain ---(IOV_MAX)------- chain</div><div class="line">   |               |                 |                        |</div><div class="line">   |               |                 |                        |</div><div class="line">   \/              \/                \/                       \/</div><div class="line">   buf1            buf2              buf(IOV_MAX)          buf (last buf)</div></pre></td></tr></table></figure>
+<p>基于次，我们来看看需要构造多大的包体来让nginx crash</p>
+<h2 id="关键参数"><a href="#关键参数" class="headerlink" title="关键参数"></a>关键参数</h2><p>nginx内部有如下几个参数影响对请求包体的控制，如下 :</p>
+<ul>
+<li>client_max_body_size : 最大的body size</li>
+<li>client_body_buffer_size : client body在内存的缓存大小，如果超过这个，就要write到文件</li>
+</ul>
+<p>所以第一步, 我们发送的包体大小要小于<code>client_max_body_size</code> 并且 大于<code>client_body_buffer_size</code> </p>
+<p>第二步，我们需要构造的长度是约等于<code>IOV_MAX * buf</code> : </p>
+<ul>
+<li>正常在我们64位的linux机器上面可以理解buf大小大约是<code>16K</code>(具体为什么是16K还需要分析, 通过gdb可以看到)</li>
+<li>IOV_MAX 在不同的平台value也不一样，在64位机器比较明显是1024</li>
+</ul>
+<p>所以我们需要构造的body，在我们的平台上面至少是 : <code>16K * 1024 = 16M</code>, 而且为了不让被拆到不同的chain, 我们的<br><code>client_body_buffer_size</code> 也要大于16M , 但是这样又反过来会导致数据全部在内存，不会写文件，所以我们要构造的具体包体大小是:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">size = client_body_buffer_size + IOV_MAX * buf</div></pre></td></tr></table></figure>
+<p>其中<code>client_body_buffer_size</code> 和 <code>IOV_MAX * buf</code> 还要去一些水分(给nginx的内部数据结构用，但是范围基本是确定了)</p>
+<p>从上面的添加分析，可以看到其实要触发这个请求不容易，简单要求概括如下(在我们的机器平台上):</p>
+<ul>
+<li>client_body_buffer_size 配置大于 16M</li>
+<li>client_max_body_size 大于 32M</li>
+</ul>
+<p>如下是具体的复现过程:</p>
+<h2 id="请求复现"><a href="#请求复现" class="headerlink" title="请求复现"></a>请求复现</h2><p>如上，由于对<code>client_body_buffer_size</code>和<code>client_max_body_size</code> 有一定的要求，我们先构造如下一个nginx配置:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">server &#123;</div><div class="line">    listen 8094;</div><div class="line">    access_log logs/access_log main;</div><div class="line"></div><div class="line">    underscores_in_headers on;</div><div class="line">    ignore_invalid_headers off;</div><div class="line">    client_body_buffer_size 20m;</div><div class="line">    client_max_body_size 60m;</div><div class="line">    root /home/users/chenjiansen/nginx_lua_access/dir_list;</div><div class="line">    location = /set_cache &#123;</div><div class="line">        lua_need_request_body on;</div><div class="line">        content_by_lua &apos; ngx.say(&quot;aaa&quot;)&apos;;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>引入如下的gdb脚本，用于分析:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">define print_nginx_chain</div><div class="line">    set $total = 0</div><div class="line">    set $index = 0</div><div class="line">    set $cur = $arg0</div><div class="line">    while $cur</div><div class="line"></div><div class="line">        if $cur-&gt;buf-&gt;last_buf</div><div class="line">            print &quot;end last in chain&quot;</div><div class="line">            loop_break</div><div class="line">        end</div><div class="line"></div><div class="line">        set $cur_size =  ($cur-&gt;buf-&gt;last - $cur-&gt;buf-&gt;pos)</div><div class="line">        set $total = $total + ($cur-&gt;buf-&gt;last - $cur-&gt;buf-&gt;pos)</div><div class="line">        printf &quot;%p,pos:%p, last:%p, index:%u, size:%u, total:%u \n&quot;, $cur, $cur-&gt;buf-&gt;pos, $cur-&gt;buf-&gt;last, $index,</div><div class="line"> $cur_size, $total</div><div class="line">        set $cur = $cur-&gt;next</div><div class="line">        set $index = $index + 1</div><div class="line">    end</div><div class="line"></div><div class="line">    print $total</div><div class="line">end</div></pre></td></tr></table></figure>
+<p>开始测试, 如上，我们先随便构造一个范围区间在<code>36M</code> 左右的文件用于发送:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment"># 创建36M文件 aaa</span></div><div class="line">dd <span class="keyword">if</span>=pb_temp_data  ibs=1 count=37721088 of=aaa</div><div class="line"></div><div class="line"><span class="comment"># 用curl发送，注意编码</span></div><div class="line">curl --data-binary @aaa  <span class="string">"127.0.0.1:8094/set_cache"</span> -H<span class="string">"transfer-encoding:chunked"</span></div></pre></td></tr></table></figure>
+<p>在nginx的gdb设下如下断点:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">(gdb) b ngx_http_write_request_body</div><div class="line">(gdb) r</div><div class="line">Breakpoint 1, ngx_http_write_request_body (r=0xd5e170) at src/http/ngx_http_request_body.c:493</div><div class="line">493     rb = r-&gt;request_body;</div><div class="line">(gdb) n</div><div class="line">495     ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r-&gt;connection-&gt;log, 0,</div><div class="line">(gdb) print_nginx_chain_size rb-&gt;bufs</div><div class="line">$1 = 20961274</div></pre></td></tr></table></figure>
+<p>可以看到第一个chain用了<code>20961274</code>字节, 再看下第二个chain:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">    (gdb) print_nginx_chain rb-&gt;bufs</div><div class="line">    0xe2d6f0,pos:0x7fffe83dc010, last:0x7fffe83dec0a, index:0, size:11258, total:11258</div><div class="line">    0xe2d680,pos:0x7fffe83dec12, last:0x7fffe83dec52, index:1, size:64, total:11322</div><div class="line">    ---------</div><div class="line">    0x21f4e40,pos:0x1ddef8e, last:0x1de2f42, index:2044, size:16308, total:16743442</div><div class="line">--&gt; 0x21f4dd0,pos:0x1de2f4a, last:0x1de2f8a, index:2045, size:64, total:16743506 </div><div class="line">--&gt; 0x21f4d60,pos:0x1de2f8a, last:0x1de6f3e, index:2046, size:16308, total:16759814</div><div class="line">    0x21f4cf0,pos:0x1de6f46, last:0x1de6f86, index:2047, size:64, total:16759878</div><div class="line">    0x21f4c80,pos:0x1de6f86, last:0x1deaf3a, index:2048, size:16308, total:16776186</div><div class="line">    0x21f4c10,pos:0x1deaf42, last:0x1deaf6f, index:2049, size:45, total:16776231</div><div class="line">    0x21f4ba0,pos:0x1deaf6f, last:0x1dedb4e, index:2050, size:11231, total:16787462</div><div class="line">    $12 = &quot;end last in chain&quot;</div><div class="line">    $13 = 16787462</div></pre></td></tr></table></figure>
+<p>关注index是<code>2045</code>和<code>2046</code>那一行，由于需要除以2（细节问题）, 所以可以判断<code>total:16743506</code>这个大小应该是边界条件，也就是说我们需要发送一个: <code>16743506 + 20961274 = 37704780</code></p>
+<p>重新生成数据编译如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">dd <span class="keyword">if</span>=pb_temp_data  ibs=1 count=37721088 of=aaa</div><div class="line"></div><div class="line">curl --data-binary @aaa  <span class="string">"127.0.0.1:8094/set_cache"</span> -H<span class="string">"transfer-encoding:chunked"</span></div></pre></td></tr></table></figure>
+<p>成功出core</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>总体上看配置需要满足一定的条件才能出发core</li>
+<li>对于特定配置的文件，在不同平台，不同配置参数的情况下，出发的阈值并不一样，但是用户探测的成本也不算特别高</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-nginx_1_11_0" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/05/nginx_1_11_0/">nginx 1.11.0 特性说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/06/05/nginx_1_11_0/" class="article-date">
+  <time datetime="2016-06-05T15:16:20.000Z" itemprop="datePublished">2016-06-05</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这一期的feature比较多，具体如下:</p>
+<h2 id="feature说明"><a href="#feature说明" class="headerlink" title="feature说明"></a>feature说明</h2><ul>
+<li>对于一些upstream，支持<code>transparent</code> bind, 比如 proxy_bind etc.</li>
+<li>引入了新的变量<code>request_id</code>, <code>proxy_protocol_port</code> 和 <code>realip_remote_port</code>, 具体可以看: <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#variables" target="_blank" rel="external">http core variable</a></li>
+<li>对<code>ngx_http_realip_module</code>的些许增强</li>
+<li>安全相关的一些特性(待补充)</li>
+<li>对EPOLLRDHUP特性的引入</li>
+</ul>
+<h3 id="upstream-addr-bind"><a href="#upstream-addr-bind" class="headerlink" title="upstream addr bind"></a>upstream addr bind</h3><p>可以先参看<a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_bind" target="_blank" rel="external">proxy bind</a>指令的说明，引入<code>transparent</code>的主要特点是支持bind的话，只能是local IP address，现在可以支持绑定到非本地的ip地址, 不过这个需要比较高的权限</p>
+<p>可以考虑的问题是: 为什么有些时候需要强制bind到某些Ip，有哪些可以应用的场景?</p>
+<h3 id="ngx-http-realip-module增强"><a href="#ngx-http-realip-module增强" class="headerlink" title="ngx_http_realip_module增强"></a>ngx_http_realip_module增强</h3><p>包括：</p>
+<ul>
+<li>引入变量<code>realip_remote_port</code> : 记录客户端的端口信息</li>
+<li>支持基于<a href="http://tools.ietf.org/html/3986" target="_blank" rel="external">RFC 3986</a>协议的端口信息，可以替换为真实的client port</li>
+</ul>
+<p>后者意味着，如果BFE支持，我们现在有能力可以拿到客户端的真实port, 而不仅仅是ip, 对于一些作弊之类的判断有一定的提升效果</p>
+<h3 id="关于EPOLLRDHUP特性"><a href="#关于EPOLLRDHUP特性" class="headerlink" title="关于EPOLLRDHUP特性"></a>关于EPOLLRDHUP特性</h3><p>具体可以看这篇文章 <a href="http://no001.blog.51cto.com/1142339/1314657/" target="_blank" rel="external">EPOLL 事件之 EPOLLRDHUP</a> ，说是还是比较清楚的</p>
+<p>简单来说，一些比较老的linux内核，对于close操作，是通过一个read信号触发的，所以我们应用程序判断对方close的情况，一般是做两个事情，一个是响应读信号，其实尝试去读，如果读到了EOF，则表明close</p>
+<p>在新的内核里面，关闭操作是可以直接通过EPOLLRDHUP来标准的，这样在epoll层面，就能判断，可以减少业务的判别逻辑</p>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-weekly-of-20160605" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/05/weekly-of-20160605/">weekly of 20160605</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/06/05/weekly-of-20160605/" class="article-date">
+  <time datetime="2016-06-05T15:15:29.000Z" itemprop="datePublished">2016-06-05</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="应用实践"><a href="#应用实践" class="headerlink" title="应用实践"></a>应用实践</h2><ul>
+<li><p><a href="https://code.facebook.com/posts/1031317120284314/safety-check-streamlining-deployment-around-the-world/" target="_blank" rel="external">Safety Check: Streamlining deployment around the world</a> : facebook safety功能的实现机制，其中如何快速传播的思路很是精巧；同时，也可以感受到facebook对任何一个业务的技术上面的机制追求</p>
+</li>
+<li><p><a href="http://queue.acm.org/detail.cfm?id=2940294" target="_blank" rel="external">Debugging Distributed Systems</a> : 通过可视化的手段分析分布式系统的各种事件，文章不短，现在还没搞懂他和dapper系统的不同之处</p>
+</li>
+<li><p><a href="http://techblog.netflix.com/2016/04/its-all-about-testing-netflix.html" target="_blank" rel="external">It’s All A/Bout Testing: The Netflix Experimentation Platform</a> : netflix的文章, 先mark，周末再看</p>
+</li>
+<li><p><a href="http://tmq.qq.com/2016/06/test_online/" target="_blank" rel="external">利用线上数据提升移动app质量</a> : 个人比较认可的一个思路，随着移动互联网的发展，服务载体的app化，以及现在大数据的趋势，如何把这两个融合起来为产品的质量，体验提升更有用的保障的一个可以去review，思考的地方</p>
+</li>
+<li><p><a href="http://www.infoq.com/cn/articles/https-difficult" target="_blank" rel="external">HTTPS之难</a> : 作者具体介绍了在实施https的过程中遇到的一些问题，包括TLS性能相关的问题，referer信息等；文章整体还是比较接地气的</p>
+</li>
+</ul>
+<h2 id="资料工具"><a href="#资料工具" class="headerlink" title="资料工具"></a>资料工具</h2><ul>
+<li><p><a href="http://www.ha97.com/5702.html" target="_blank" rel="external">主流大数据采集平台的架构图解</a> : </p>
+</li>
+<li><p><a href="http://insights.thoughtworkers.org/ba-capability-and-development-path-in-thoughtworks/" target="_blank" rel="external">BA的广度和深度</a> : </p>
+</li>
+<li><p><a href="http://insights.thoughtworkers.org/bsi-app-developing/" target="_blank" rel="external">內建安全的软件开发</a> : 本文主要论证了在如下的移动互联网情况下，如何更好的做起安全的保障，提出服务的安全相关问题不应是一个事后的措施，而应该是整合到整个研发流程过程中的</p>
+</li>
+<li><p><a href="http://huoding.com/2011/07/13/91" target="_blank" rel="external">通过IOStat命令监控IO性能</a> : 关于IO的相关参数的详细说明</p>
+</li>
+<li><p><a href="http://www.infoq.com/cn/news/2016/05/big-data-machine-weekly-10" target="_blank" rel="external">大数据与机器学习周报 第10期：Twitter Heron正式开源</a> : infoq的关于大数据方面的资源list，感觉很不错, 值得收藏</p>
+</li>
+<li><p><a href="https://xituqu.com/207.html" target="_blank" rel="external">设计向 20+优秀的Icons图标合集</a> : mark, 画PPT的时候应该是需要用的</p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzA5Nzc4OTA1Mw==&amp;mid=512113734&amp;idx=1&amp;sn=868043069fee8ff6c95699ce5aae6658#rd" target="_blank" rel="external">Facebook开源软件列表</a> : 真心厉害，大部分开源的项目我们都耳熟能详，可以深入看的项目有<code>huxley</code>, <code>Stetho</code></p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-weekly-of-20160529" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/29/weekly-of-20160529/">weekly of 20160529</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/05/29/weekly-of-20160529/" class="article-date">
+  <time datetime="2016-05-29T15:01:29.000Z" itemprop="datePublished">2016-05-29</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><p><a href="http://tech.adroll.com/blog/data/2016/05/24/traildb-open-sourced.html" target="_blank" rel="external">Announcing TrailDB - An Efficient Library for Storing and Processing Event Data</a> : 关于event data数据存储的另外一个思路</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=11787152" target="_blank" rel="external">Same-site Cookies</a> : 新引入的”same-site”机制，通过次申明可以让浏览器在做跨越请求的时候，不携带目标域名的cookie，这个机制可以有效的解决CSRF的问题, 可以多看看<a href="https://news.ycombinator.com/item?id=11787152" target="_blank" rel="external">hacker news</a>上面讨论</p>
+</li>
+</ul>
+<h2 id="应用实践"><a href="#应用实践" class="headerlink" title="应用实践"></a>应用实践</h2><ul>
+<li><p><a href="http://techblog.netflix.com/2016/05/application-data-caching-using-ssds.html" target="_blank" rel="external">Application data caching using SSDs</a> : Netflix的文章，介绍如何支持全球的在线业务, 包括<a href="http://techblog.netflix.com/2016/03/global-cloud-active-active-and-beyond.html" target="_blank" rel="external">Global Cloud - Active-Active and Beyond</a></p>
+</li>
+<li><p><a href="http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html" target="_blank" rel="external">What Every Computer Scientist Should Know About Floating-Point Arithmetic</a> : 关于浮点计算的说明，都是英文，先mark，需要找个中文快速理解下</p>
+</li>
+<li><p><a href="https://blog.benjojo.co.uk/post/ssh-port-fluxing-with-totp" target="_blank" rel="external">TOTP SSH port fluxing</a> : <a href="https://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm" target="_blank" rel="external">TOTP</a>(Time-based One-time Password Algorithm)类似于我们的ssh token,  不过作者是利用动态token作为port的前缀, 类似的技术可以参看<a href="https://en.wikipedia.org/wiki/Port_knocking" target="_blank" rel="external">Port knocking</a></p>
+</li>
+<li><p><a href="http://weibo.com/ttarticle/p/show?id=2309403978986932807291" target="_blank" rel="external">用最少的机器支撑万亿级访问，微博6年Redis优化历程</a> : 微博的redis落地实践，对一些常见的问题的处理方案&amp;思路</p>
+</li>
+<li><p><a href="http://xiezhenye.com/2013/02/%E5%8A%A8%E6%80%81%E4%BF%AE%E6%94%B9%E8%BF%90%E8%A1%8C%E4%B8%AD%E8%BF%9B%E7%A8%8B%E7%9A%84-rlimit.html" target="_blank" rel="external">动态修改运行中进程的 rlimit</a> : 主要介绍了可以动态调整运行程序的rlimit参数的办法，采用系统调用<code>prlimit</code>或者trick的gdb修改, 文中的gdb代码比较恶心，可以参考这篇文章里面<a href="https://gregchapple.com/updating-ulimit-on-running-linux-process/" target="_blank" rel="external">Updating ulimit on a running Linux process</a>, gdb的强大之处</p>
+</li>
+</ul>
+<h2 id="资料工具"><a href="#资料工具" class="headerlink" title="资料工具"></a>资料工具</h2><ul>
+<li><p><a href="http://weibo.com/ttarticle/p/show?id=2309403978201981434927" target="_blank" rel="external">云舒，一个技术至上者的理想主义</a> : 听闻其名，看过其文，每一个牛逼的人都是对其信念和追求的用不停息的坚持</p>
+</li>
+<li><p><a href="https://eigenstate.org/notes/regex-debug" target="_blank" rel="external">Eigenstate : Regex Debugging</a> : 用于调试正则表达式，真是牛逼</p>
+</li>
+<li><p><a href="http://synisma.neocities.org/perf_scale_cheatsheet.pdf" target="_blank" rel="external">Software Performance &amp; Scalability: A Cheatsheet</a> : 还不错</p>
+</li>
+<li><p><a href="http://www.jianshu.com/p/05de8f667eea" target="_blank" rel="external">顶尖程序员不同于常人的5个区别</a> : 简单的励志文章，需要一直督促自己</p>
+</li>
+<li><p><a href="https://github.com/lichuang/Lua-Source-Internal" target="_blank" rel="external">lichuang/Lua-Source-Internal</a> : lua的源码剖析，比云风之前的文章还要详细，好好学习(有空真想自己写个lua的VM)</p>
+</li>
+<li><p><a href="http://openresty.org/posts/dynamic-tracing/" target="_blank" rel="external">动态追踪技术漫谈</a> : by 章亦春, 比较科普的文章；非凡之人，必有非凡的魄力，非凡的坚持</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-first-blog-of-Hexo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/21/first-blog-of-Hexo/">first blog of Hexo</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/05/21/first-blog-of-Hexo/" class="article-date">
+  <time datetime="2016-05-20T17:09:12.000Z" itemprop="datePublished">2016-05-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前主要采用jeklly 做blog生成器，不过由于之前的VPS有问题，现在算是直接没有了；真是令人忧伤</p>
+<p>这个VPS一定要坚持下去:)</p>
+<p>另外，这个周末，希望能讲之前的文章都迁移过来</p>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-weekly-of-20160522" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -120,7 +482,7 @@
 
 
     
-      <article id="post-waf" class="article article-type-post" itemscope itemprop="blogPost">
+      <article id="post-nginx_1_9_13" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -128,147 +490,46 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/12/waf/">业务防攻击与WAF调研</a>
+      <a class="article-title" href="/2016/03/30/nginx_1_9_13/">nginx 1.9.13 特性说明</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2015/05/12/waf/" class="article-date">
-  <time datetime="2015-05-12T09:00:37.000Z" itemprop="datePublished">2015-05-12</time>
+      <a href="/2016/03/30/nginx_1_9_13/" class="article-date">
+  <time datetime="2016-03-30T06:17:29.000Z" itemprop="datePublished">2016-03-30</time>
 </a>
       
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>by <a href="mailto:chenjiansen@baidu.com" target="_blank" rel="external">chenjiansen@baidu.com</a> </p>
-</blockquote>
-<h2 id="0x00-现有防攻击支持"><a href="#0x00-现有防攻击支持" class="headerlink" title="0x00 现有防攻击支持"></a>0x00 现有防攻击支持</h2><p>对具体的流量进行分析的话，流量攻击主要包括如下两个点:</p>
-<ul>
-<li>量 : 就是通过构造大量的请求，来影响服务器的服务质量</li>
-<li>质 : 就是伪造特定的请求，这类请求量不需要很大，但可能对系统的安全和稳定性有较大影响</li>
-</ul>
-<p><code>量</code>上面的攻击其实一直是大多数接入系统会重点关注和防御的，以百度而言，大致的接入防攻击有如下:</p>
-<ul>
-<li>BGW : 4层四层防攻击, 支持tcp代理，清洗</li>
-<li>911/BCS : 旁路式的流量检测和清洗，7层防攻击</li>
-<li>BFE : 主要提供了BDS, 同样是一个全局、旁路的七层防攻击体系</li>
-</ul>
-<p>可以看到主要是网络层的防御；虽然他们都会支持七层的防攻击，但由于理业务线有点远，导致效果一直不是很理想</p>
-<p>而<code>质</code>上面主要是只针对一些恶意伪造的请求，主要是针对系统的安全性漏洞,比如XSS攻击，SQL注入等,  这方面依我现在的了解，我们并没有做太多的事情</p>
-<p>总得而言，对我们来说，不大需要关注网络层的ddos攻击，更多的是需要<code>业务的防攻击支持以及安全性保障</code></p>
-<h2 id="0x01-业务防攻击现状"><a href="#0x01-业务防攻击现状" class="headerlink" title="0x01 业务防攻击现状"></a>0x01 业务防攻击现状</h2><p>现有的业务防攻击是通过nginx的扩展在接入层实现的，主要支持如下几个功能:</p>
-<ul>
-<li>IP黑白名单</li>
-<li>HTTP 请求过滤</li>
-<li>单机的分布式(ip, refer, url)支持</li>
-</ul>
+        <h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">*) Change: non-idempotent requests (POST, LOCK, PATCH) are no longer</div><div class="line">passed to the next server by default if a request has been sent to a</div><div class="line">backend; the &quot;non_idempotent&quot; parameter of the &quot;proxy_next_upstream&quot;</div><div class="line">directive explicitly allows retrying such requests.</div><div class="line"></div><div class="line">*) Feature: the ngx_http_perl_module can be built dynamically.</div><div class="line"></div><div class="line">*) Feature: UDP support in the stream module.</div><div class="line"></div><div class="line">*) Feature: the &quot;aio_write&quot; directive.</div><div class="line"></div><div class="line">*) Feature: now cache manager monitors number of elements in caches and</div><div class="line">tries to avoid cache keys zone overflows.</div><div class="line"></div><div class="line">*) Bugfix: &quot;task already active&quot; and &quot;second aio post&quot; alerts might</div><div class="line">appear in logs when using the &quot;sendfile&quot; and &quot;aio&quot; directives with</div><div class="line">subrequests.</div><div class="line"></div><div class="line">*) Bugfix: &quot;zero size buf in output&quot; alerts might appear in logs if</div><div class="line">caching was used and a client closed a connection prematurely.</div><div class="line"></div><div class="line">*) Bugfix: connections with clients might be closed needlessly if</div><div class="line">caching was used.</div><div class="line">Thanks to Justin Li.</div><div class="line"></div><div class="line">*) Bugfix: nginx might hog CPU if the &quot;sendfile&quot; directive was used on</div><div class="line">Linux or Solaris and a file being sent was changed during sending.</div><div class="line"></div><div class="line">*) Bugfix: connections might hang when using the &quot;sendfile&quot; and &quot;aio</div><div class="line">threads&quot; directives.</div><div class="line"></div><div class="line">*) Bugfix: in the &quot;proxy_pass&quot;, &quot;fastcgi_pass&quot;, &quot;scgi_pass&quot;, and</div><div class="line">&quot;uwsgi_pass&quot; directives when using variables.</div><div class="line">Thanks to Piotr Sikora.</div><div class="line"></div><div class="line">*) Bugfix: in the ngx_http_sub_filter_module.</div><div class="line"></div><div class="line">*) Bugfix: if an error occurred in a cached backend connection, the</div><div class="line">request was passed to the next server regardless of the</div><div class="line">proxy_next_upstream directive.</div><div class="line"></div><div class="line">*) Bugfix: &quot;CreateFile() failed&quot; errors when creating temporary files on</div><div class="line">Windows.</div></pre></td></tr></table></figure>
+<p>这一期的feature和功能还是很多的，下面重点说明几个: </p>
+<h2 id="upstream-重试策略"><a href="#upstream-重试策略" class="headerlink" title="upstream 重试策略"></a>upstream 重试策略</h2><p>这个问题的背景初现于<a href="https://trac.nginx.org/nginx/ticket/488#comment:4" target="_blank" rel="external">proxy_next_upstream_action to distinguish different network actions</a>, 整体意思是: 默认情况下，nginx对于upstream的重试，是不加以区别的，尤其对于一些非幂等操作的请求(PUT, LOCK, PATCH)也是如此，这样的策略对业务可能存在一定的风险, 所以需要加以控制，如下是新的<code>proxy_next_upstream</code>的说明 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">* non_idempotent</div><div class="line">normally, requests with a non-idempotent method (POST, LOCK, PATCH) are not passed to the next server if a request has been sent to an upstream server (1.9.13); enabling this option explicitly allows retrying such requests</div></pre></td></tr></table></figure>
+<p>也就是从<code>1.9.13</code> 版本开始，nginx默认不会重试一个已经发出去的POST请求, 需要通过<code>non_idempotent</code> 进行控制</p>
 <blockquote>
-<p>几个规则可以通过and/or运算组合成一个更强大的策略</p>
+<p>!!! : 这个和贴吧现有的策略不一致，迁移的时候需要注意</p>
 </blockquote>
-<p>可以理解是拥有初步的功能支持</p>
-<p>而现在防攻击主要面临的问题有:</p>
-<ul>
-<li>功能有限 : 包括:<ul>
-<li>数据都是单机的，对于分布式的攻击，效果有限</li>
-<li>action定义有限，只能简单返回异常码</li>
-</ul>
-</li>
-<li>可用性/友好性较差 : 现在的配置都是用XML描述的，用户难以理解其规则；添加规则的学习成本之类的也很高</li>
-<li>运维复杂<ul>
-<li>比如iplist更新之类的需要重启nginx</li>
-</ul>
-</li>
-<li>系统性 : 现在防攻击主要侧重在攻击上面，但其实没有建立<code>异常捕获+生产策略+线上应用</code> 的闭环，导致策略容易失效，对用户也会造成一定的误伤</li>
-</ul>
-<h2 id="0x02-WAF和业务防攻击"><a href="#0x02-WAF和业务防攻击" class="headerlink" title="0x02 WAF和业务防攻击"></a>0x02 WAF和业务防攻击</h2><p><a href="http://en.wikipedia.org/wiki/Application_firewall" target="_blank" rel="external">WAF</a>是业界对应用层防护的一个主要手段,这里我们主要关注软件waf，其中<a href="https://www.modsecurity.org/" target="_blank" rel="external">mod security</a>可以认为是一个事实的waf标准</p>
-<p>大多数软件的WAF都会支持如下功能:</p>
-<ul>
-<li>HTTP Protection （HTTP防御）: HTTP协议和本地定义使用的detectsviolations策略。 </li>
-<li>Real-time Blacklist Lookups（实时黑名单查询） : 利用第三方IP信誉。 </li>
-<li>HTTP Denial of Service Protections（HTTP的拒绝服务保护）: 防御HTTP的洪水攻击和HTTP Dos 攻击。  </li>
-<li>Common Web Attacks Protection（常见的Web攻击防护） : 检测常见的Web应用程序的安全攻击。  </li>
-<li>Automation Detection（自动化检测） : 检测机器人，爬虫，扫描仪和其他表面恶意活动。  </li>
-<li>Integration with AV Scanning for File Uploads（文件上传防病毒扫描） : 检测通过Web应用程序上传的恶意文件。  </li>
-<li>Tracking Sensitive Data（跟踪敏感数据） : 信用卡通道的使用，并阻止泄漏。  </li>
-<li>SQL注入检测/XSS攻击检测 </li>
-</ul>
-<p>实现层面的话，主要是通过规则的描述, 比较强依赖正则表达式, 比如如下是一个SQL注入的配置规则:</p>
-<blockquote>
-<p>FreeWAF源码</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&#123;</div><div class="line">	id = 41010,</div><div class="line">	action = "SCORE",</div><div class="line">	description = "SQL Injection attempt",</div><div class="line">	opts = &#123; score = 4, transform = 'uri_decode' &#125;,</div><div class="line">	var = &#123;</div><div class="line">		operator = "REGEX",</div><div class="line">		pattern = [=[(?i:\bor\b ?(?:\d&#123;1,10&#125;|[\'\"][^=]&#123;1,10&#125;[\'\"]) ?[=&lt;&gt;]+|(?i:'\s+x?or\s+.&#123;1,20&#125;[+\-!&lt;&gt;=])|\b(?i:x?or)\b\s+(\d&#123;1,10&#125;|'[^=]&#123;1,10&#125;')|\b(?i:x?or)\b\s+(\d&#123;1,10&#125;|'[^=]&#123;1,10&#125;')\s*?[=&lt;&gt;])]=],</div><div class="line">		type = "REQUEST_ARGS",</div><div class="line">		opts = &#123; key = "all" &#125;,</div><div class="line">	&#125;,</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
-<p>如上的规则大致会将请求arg里面含有<code>or 1</code>等请求标记为危险请求(比如加上危险的权重), 一些好的waf的实现，还具有请求打分等控制, 可以实现非常复杂的逻辑控制</p>
-<p><a href="http://www.scalescale.com/scaling-cloudflares-massive-waf/" target="_blank" rel="external">CloudFlare</a>多次在其blog介绍其waf的实现，但没有开放源代码。<a href="">FreeWAF</a>是我个人觉得写的相对不错的开源waf，功能强大，基本上涵盖了OWASP的CRS</p>
-<p>事实上，WAF本身是非常复杂的的(有机会可以拿出来单独讨论)，尤其是其SQLi, XSS防御之类的规则学习成本也是比较高的，需要对web安全有一定的了解。但是通用的WAF都提供了一个非常不错的策略描述，执行框架。对于贴吧和业务的业务防攻击需求，其完全是可以复用的，只不过在具体的策略的关注点和侧重点有所不同</p>
-<h2 id="0x03-我们的业务防攻击系统"><a href="#0x03-我们的业务防攻击系统" class="headerlink" title="0x03 我们的业务防攻击系统"></a>0x03 我们的业务防攻击系统</h2><p>需要实现的核心功能如下:</p>
-<ul>
-<li>支持热加载的ip黑白名单</li>
-<li>支持全局存储的分布式防攻击策略</li>
-<li>支持自定义的action处理</li>
-</ul>
-<p>其他可以考虑的功能包括(优先级较低):</p>
-<ul>
-<li>简单的SQL注入防御</li>
-<li>XSS防护</li>
-</ul>
-<blockquote>
-<p>安全相关的内容涉及东西较深，优先级也先降低</p>
-</blockquote>
-<p>大致的系统架构:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">                              ┌───────────┐</div><div class="line">┌──────────────────┐          │           │</div><div class="line">│                  │          │           │</div><div class="line">│    platform      │──notice─▶│           │</div><div class="line">│                  │          │           │</div><div class="line">└───▲─────────┬────┘          │           │</div><div class="line">    │         │               │ router    │</div><div class="line">┌───┴─────────▼────┐          │           │</div><div class="line">│                  │          │           │</div><div class="line">│ strategy analysis│◀───log───│           │</div><div class="line">│                  │          │           │</div><div class="line">└──────────────────┘          │           │</div><div class="line">                              └───────────┘</div></pre></td></tr></table></figure>
-<p>主要包括三个组件:</p>
-<ul>
-<li>router上面的waf扩展 : 负责waf的具体实现，nginx/lua的扩展耦合到router </li>
-<li>策略控制平台 : 负责策略的生产，推送到线上的控制等</li>
-<li>策略分析平台 : 负责对在线策略效果的分析, 反馈给策略控制平台</li>
-</ul>
-<h2 id="0x04-实现和风险考虑"><a href="#0x04-实现和风险考虑" class="headerlink" title="0x04 实现和风险考虑"></a>0x04 实现和风险考虑</h2><p>实现层面的话，希望用nginx/lua重写现有的防攻击策略,同时对现在的功能的不足进行加强, 带来的问题主要有:</p>
-<ul>
-<li>稳定性 : 采用一个分布式存储存取分布式数据(比如redis)，这样下游存储的稳定性直接影响请求的质量</li>
-<li>性能/延迟影响 : 主要对每个请求的延迟和系统总体cpu的影响，大概预估如下:<ul>
-<li>性能cpu占用 : 待评估</li>
-<li>延迟 : 如果依赖分布式存储，得看分布式存储的性能；本身的cpu耗时控制在1ms以内</li>
-</ul>
-</li>
-<li>迁移成本 : 由于整个策略的实现是重写的，因此我们需要保证一些老的规则能够顺利迁移到新的策略上面，可能需要提供一些脚本之类的自动生产</li>
-<li>实现成本 : 规则策略的定义和实现，需要考虑性能，灵活性, nginx/lua如何方便简洁支持多产品等，不过参考了一些开源的waf实现，相信会有帮助</li>
-</ul>
-<blockquote>
-<p>nginx/lua性能相关的配置设施会逐步完善和加强的, 相信有助于相关的性能优化</p>
-</blockquote>
-<p>同时我们还需要提供配套的平台来自动上层相关配置(以后策略不需要人工编辑)</p>
-<h2 id="0x05-参考文档"><a href="#0x05-参考文档" class="headerlink" title="0x05 参考文档"></a>0x05 参考文档</h2><ul>
-<li>公司内部的:<ul>
-<li><a href="http://wiki.babel.baidu.com/twiki/pub/Ps/OP/%E9%9D%99%E6%80%81%E9%9B%86%E7%BE%A4%E6%8E%A5%E5%85%A5bfe/%E6%B5%85%E8%B0%88http%E9%98%B2%E6%94%BB%E5%87%BB%E5%8F%8A%E8%AE%BE%E8%AE%A1_-_%E5%A4%A7%E5%92%96%E7%A7%80.pptx" target="_blank" rel="external">浅谈http防攻击及设计</a></li>
-<li><a href="http://wiki.babel.baidu.com/twiki/bin/view/Ps/OP/BDS" target="_blank" rel="external">Baidu Defense Server（BDS）官方主页</a> : BFE做的旁路防攻击支持</li>
-</ul>
-</li>
-<li><p>WAF科普</p>
-<ul>
-<li><a href="http://www.freebuf.com/articles/web/18084.html" target="_blank" rel="external">走进科学之WAF(Web Appllication Firewall)篇</a></li>
-<li><a href="http://drops.wooyun.org/tips/968" target="_blank" rel="external">深入了解SQL注入绕过waf和过滤机制</a></li>
-<li><a href="http://hebaodan.org/index.php/ModSecurity/SqlModule.html" target="_blank" rel="external">ModSecurity进阶篇-SQL注入模块分析</a> : 以及这个blog主人的文章</li>
-<li><a href="http://www.freebuf.com/tools/54221.html" target="_blank" rel="external">如何打造一款可靠的WAF（Web应用防火墙）</a></li>
-</ul>
-</li>
-<li><p>WAF实践</p>
-<ul>
-<li><a href="http://www.scalescale.com/scaling-cloudflares-massive-waf/" target="_blank" rel="external">Scaling CloudFlare’s Massive WAF</a></li>
-<li><a href="https://www.cryptobells.com/freewaf-a-high-performance-scalable-open-web-firewall/" target="_blank" rel="external">FreeWAF: A High-Performance, Scalable, Open Web Firewall</a></li>
-<li><a href="https://github.com/p0pr0ck5/FreeWAF" target="_blank" rel="external">FreeWAF: github链接</a></li>
-<li><a href="https://www.52os.net/articles/nginx-install-lua-and-lua-based-waf.html" target="_blank" rel="external">nginx配置lua模块和基于lua的waf</a></li>
-<li><a href="https://www.52os.net/articles/nginx-use-modsecurity-module-as-waf.html" target="_blank" rel="external">nginx配合modsecurity实现WAF功能</a></li>
-</ul>
-</li>
-</ul>
+<h2 id="aio-write"><a href="#aio-write" class="headerlink" title="aio_write"></a>aio_write</h2><p>这个指令允许，我们在写文件的时候，也是一个异步的过程，之前的<code>aio</code>主要是允许读操作进行异步，具体<a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#aio_write" target="_blank" rel="external">官方解释</a>如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">If aio is enabled, specifies whether it is used for writing files. Currently, this only works when using aio threads and is limited to writing temporary files with data received from proxied servers</div></pre></td></tr></table></figure>
+<p>注意 : 现在异步写只是在接收proxy的返回包体使用的，其他地方并未开启</p>
+<p>关于nginx的异步文件IO机制，具体可以见之前的一篇文章 : <a href="http://nginx.baidu.com/book/nginx_dev_manual/internal/io_in_linux_and_nginx.html" target="_blank" rel="external">linux和nginx下的异步文件IO管理</a></p>
+<h2 id="UDP-Proxy支持"><a href="#UDP-Proxy支持" class="headerlink" title="UDP Proxy支持"></a>UDP Proxy支持</h2><p>这个版本开始，同样开始支持UDP代理了, 整个UDP代理其实和做一个TCP代理，至少理解上面不会查很多，如下是一个具体UDP代理的配置</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="section">server</span> &#123;</div><div class="line">    <span class="attribute">listen</span> <span class="number">53</span> udp;</div><div class="line">    <span class="attribute">proxy_responses</span> <span class="number">1</span>;</div><div class="line">    <span class="attribute">proxy_timeout</span> <span class="number">20s</span>;</div><div class="line">    <span class="attribute">proxy_pass</span> dns.example.com:<span class="number">53</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里面可以去思考的一个问题是:   </p>
 
       
     </div>
     
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
     
   </div>
   
@@ -282,7 +543,7 @@
 
 
     
-      <article id="post-hotcode_analysis" class="article article-type-post" itemscope itemprop="blogPost">
+      <article id="post-nginx_1_9_10" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -290,158 +551,47 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/10/hotcode_analysis/">nginx扩展/lua的性能剖析支持</a>
+      <a class="article-title" href="/2016/01/30/nginx_1_9_10/">nginx 1.9.10 特性说明</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2015/05/10/hotcode_analysis/" class="article-date">
-  <time datetime="2015-05-09T18:27:32.000Z" itemprop="datePublished">2015-05-10</time>
+      <a href="/2016/01/30/nginx_1_9_10/" class="article-date">
+  <time datetime="2016-01-30T06:17:29.000Z" itemprop="datePublished">2016-01-30</time>
 </a>
       
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>by <a href="mailto:chenjiansen@baidu.com" target="_blank" rel="external">chenjiansen@baidu.com</a></p>
-</blockquote>
-<h2 id="0x00-背景"><a href="#0x00-背景" class="headerlink" title="0x00 背景"></a>0x00 背景</h2><p>nginx的扩展和nginx lua在贴吧有了越来越多的应用，但是对于整个nginx相关组件的性能测试一直没有完善的支持。除了常规的流量压测，cpu利用率的分析等。我们还需要对nginx的具体性能瓶颈进一步分析，<code>发现具体的代码热点</code>，以便进一步的性能优化。</p>
-<p>简而言之，我们需要达到如下目标:</p>
+        <h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">*) Security: invalid pointer dereference might occur during DNS server</div><div class="line">       response processing if the &quot;resolver&quot; directive was used, allowing an</div><div class="line">       attacker who is able to forge UDP packets from the DNS server to</div><div class="line">       cause segmentation fault in a worker process (CVE-2016-0742).</div><div class="line"></div><div class="line">*) Security: use-after-free condition might occur during CNAME response</div><div class="line">       processing if the &quot;resolver&quot; directive was used, allowing an attacker</div><div class="line">       who is able to trigger name resolution to cause segmentation fault in</div><div class="line">       a worker process, or might have potential other impact</div><div class="line">       (CVE-2016-0746).</div><div class="line"></div><div class="line">*) Security: CNAME resolution was insufficiently limited if the</div><div class="line">       &quot;resolver&quot; directive was used, allowing an attacker who is able to</div><div class="line">       trigger arbitrary name resolution to cause excessive resource</div><div class="line">       consumption in worker processes (CVE-2016-0747).</div><div class="line"></div><div class="line">*) Feature: the &quot;auto&quot; parameter of the &quot;worker_cpu_affinity&quot; directive.</div><div class="line"></div><div class="line">*) Bugfix : ...</div></pre></td></tr></table></figure>
+<p>可以看到主要是几个安全问题的修复，以及一个新的feature的支持; 下面简单说明这个两个点</p>
+<h2 id="安全问题"><a href="#安全问题" class="headerlink" title="安全问题"></a>安全问题</h2><p>几个安全问题都是关于<code>resolver</code>指令，主要问题在于在解析DNS时需要对异常有更强的容错能力，风险点包括如下:</p>
 <ul>
-<li>对于C扩展，我们能够明确其代码热点</li>
-<li>对于nginx lua代码，我们同样也能明确其lua代码热点</li>
+<li>DNS的服务伪造一个UDP包体可以导致nginx crash</li>
+<li>其他的异常情况导致的nginx crash</li>
 </ul>
-<p>这里主要介绍nginx扩展/lua的性能剖析的现状支持，以及贴吧短期内的落地实践规划</p>
-<h2 id="0x01-性能剖析工具"><a href="#0x01-性能剖析工具" class="headerlink" title="0x01 性能剖析工具"></a>0x01 性能剖析工具</h2><h3 id="C-C-程序的热点分析"><a href="#C-C-程序的热点分析" class="headerlink" title="C/C++ 程序的热点分析"></a>C/C++ 程序的热点分析</h3><p>首先简单看下现在linux工具链对代码热点发现的支持</p>
-<p><a href="http://zh.wikipedia.org/wiki/%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90" target="_blank" rel="external">维基百科</a>上面对性能剖析工具有个简单的介绍, 由于是需要做热代码的发现，因此很少有静态代码分析的办法，一般都是运行时的剖析，具体可以分为:</p>
-<ul>
-<li>逻辑注入的性能分析：一把是指在编译链接的时候，链上相关的lib(其实也有运行时的代码注入，暂不考虑)，这些lib会在函数执行的时候自动做一些统计和分析，比较典型的是<a href="https://sourceware.org/binutils/docs/gprof/" target="_blank" rel="external">gprof</a></li>
-<li>非逻辑注入的性能分析：此类分析一般没有对具体的应用程序进行修改，更多是一种旁路异步的观察方式，而根据数据获取方式的不同一般区分为:<ul>
-<li>基于事件的性能分析: 是指为特定事件增加回调,记录事件发生次数</li>
-<li>基于采样的性能分析: 构造以一定周期重复的触发器用来采样<br>现在的一般性能剖析工具都是这两则的结合，比如说perf, perf的sampling的机制是基于对事件的统计（比如1000个cpu周期(事件)采样一次)，故其实没太大的区分，最为常见的工具包括<a href="">perf</a>, <a href="https://sourceware.org/systemtap/wiki" target="_blank" rel="external">systemtap</a>,<br>其中perf和systemtap下面会进一步介绍</li>
-</ul>
-</li>
-</ul>
-<h3 id="解释型语言的热点分析"><a href="#解释型语言的热点分析" class="headerlink" title="解释型语言的热点分析"></a>解释型语言的热点分析</h3><p>上面剖析出来的更多是C/C++代码层面的函数热点，但如果是一个解释型的脚本语言，要找出脚本的代码热点，上面的方法并不靠谱，还需要进一步的支持。其主要原因是一般解释型语言的实现大概如下:</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">vm_execute</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="comment">//fetch code</span></div><div class="line">        <span class="keyword">switch</span>(op) &#123;</div><div class="line">            <span class="keyword">case</span> BYTECODE_A: <span class="comment">//do somthing a</span></div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> BTYECODE_B: <span class="comment">//do something b</span></div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这样在执行的时候会发现大部分热点是在<code>vm_execute</code>里面，我们看不到代码级别的热点，故没有太多参考意义。</p>
-<p>java，php, nodejs, lua等都面临此类问题，那他们是如何解决的，大致如下:</p>
-<ul>
-<li><p>语言/扩展层面提供具体的解决方案 : 比如php的xprofile，其<a href="http://blog.csdn.net/yzongyu/article/details/8457209" target="_blank" rel="external">机制</a>大体类似</p>
-</li>
-<li><p>语言层面提供部分支持，再通过外部工具进行剖析 : 也是语言层面的支持，但和上述不同的是，并不是提供具体是profile的支持，而是一些机制的支持,再和一些外部工具结合(比如perf record)，产生性能剖析的结果，比较常见的包括:</p>
-<ul>
-<li>JVM的JVMTI机制，提供提供给性能分析器的hook，可以抓到像函数调用、类加载、卸载、线程的进入及离开等事件, 具体可以见<a href="http://www.ibm.com/developerworks/cn/java/j-lo-jpda2/" target="_blank" rel="external">深入 Java 调试体系，第 2 部分: JVMTI 和 Agent 实现</a></li>
-<li>luajit的<code>LUAJIT_USE_PERFTOOLS</code> option，具体可以看下文 </li>
-</ul>
-</li>
-<li><p>语言层面不提供任何支持 : 比如lua，此时只能依赖外部工具了，现在比较常见的是systemtap，下面会详细介绍systemtap如何进行lua源码级别的性能剖析</p>
-</li>
-</ul>
-<h2 id="0x02-lua源码的性能剖析"><a href="#0x02-lua源码的性能剖析" class="headerlink" title="0x02 lua源码的性能剖析"></a>0x02 lua源码的性能剖析</h2><p>联系到我们的具体需求，我们主要是考虑现有的工具如果快速支持nginx/lua的性能剖析，从两个最为常见的工具入手: systemtap和perf tools，看下他们对这个的支持情况</p>
-<h3 id="基于systemtap的性能分析"><a href="#基于systemtap的性能分析" class="headerlink" title="基于systemtap的性能分析"></a>基于systemtap的性能分析</h3><p><a href="https://github.com/agentzh" target="_blank" rel="external">agentzh</a>在git的<a href="https://github.com/openresty/nginx-systemtap-toolkit" target="_blank" rel="external">openresty/nginx-systemtap-toolkit</a>就已经提供了对lua/luajit的源码级别的热点发现，那他是如何实现的呢？</p>
-<p>简单介绍下systemtap一些核心特性,包括:</p>
-<ul>
-<li>systemtap支持多样的probe, 包括kernel/user space function调用，离开等事件</li>
-<li>systemtap支持读取特定进程的内存信息，同时支持加载特定的符号信息</li>
-<li>systamtap支持类C语法的指针操作</li>
-</ul>
-<p>依照如上特性，systemtap对lua源码的栈帧的采集策略大概如下:</p>
+<p>今天问题自己总结如下:</p>
+<p>当我们使用<code>resolver</code>指令的时候，nginx需要和dns服务器进行交互，以便获取具体域名对应的IP; 整个这个交互的过程是nginx自己编码和dns服务交互,  这样存在的一个问题是一旦nginx的容错逻辑有问题，尤其是和外界的dns服务交互的时候，一旦这个DNS服务器可以恶意伪造请求的时候, 比如返回不正常的body的时候, nginx容错一旦处理有点偏颇，就会crash</p>
+<p>所以这种情况一般会出现在: <code>配置了resolver指令，且对于的dns服务器不可信</code></p>
 <blockquote>
-<p>perl脚本，来自ngx-sample-lua-bt : <a href="https://github.com/openresty/nginx-systemtap-toolkit/blob/master/ngx-sample-lua-bt" target="_blank" rel="external">https://github.com/openresty/nginx-systemtap-toolkit/blob/master/ngx-sample-lua-bt</a></p>
+<p>具体可以见 : <a href="http://mailman.nginx.org/pipermail/nginx/2016-January/049700.html" target="_blank" rel="external">http://mailman.nginx.org/pipermail/nginx/2016-January/049700.html</a></p>
 </blockquote>
-<ol>
-<li>通过probe, 获取VM的指针</li>
-</ol>
-<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// 监测lua_pcall函数，存储VM的指针</div><div class="line">probe process(<span class="string">"$lua_path"</span>).function(<span class="string">"lua_resume"</span>),</div><div class="line">      process(<span class="string">"$lua_path"</span>).function(<span class="string">"lua_pcall"</span>)</div><div class="line">&#123;</div><div class="line">    my_pid = pid()</div><div class="line">    <span class="keyword">if</span> ($condition) &#123;</div><div class="line">        lua_states[my_pid] = \$L</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ol>
-<li>通过VM的指针，依照语言特性，获取栈帧</li>
-</ol>
-<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// 依照语言特性, 获取栈帧 --&gt; 强语言依赖</div><div class="line">function lua_getstack(L, level) &#123;</div><div class="line">    <span class="regexp">/* code from function lj_debug_frame in LuaJIT 2.0 */</span></div><div class="line">    /* TValue *frame, *nextframe, *bot; *<span class="regexp">/</span></div><div class="line">    bot = tvref(\&amp;$L-&gt;stack)  /<span class="regexp">/ TValue *</span></div><div class="line">    found_frame = 0</div><div class="line">    for (nextframe = frame = $L-&gt;base - $sizeof_TValue; frame &gt; bot; ) &#123;</div><div class="line">        /* Traverse frames backwards *<span class="regexp">/</span></div><div class="line">        if (frame_gc(frame) == L) &#123;</div><div class="line">            /<span class="regexp">/dd("Skip dummy frames. See lj_meta_call")</span></div><div class="line">            level++</div><div class="line">        &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
-<ol>
-<li>通过<code>timer probe</code>进行频繁的采样和存储</li>
-</ol>
-<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">probe timer.profile &#123;</div><div class="line">    my_pid = pid()</div><div class="line">    <span class="keyword">if</span> ($condition) &#123;</div><div class="line">        L = lua_states[my_pid]</div><div class="line">        // 采样 &amp;&amp; 存储</div></pre></td></tr></table></figure>
-<p>大概的原理就是通过systemtap定时器和进程侵入的特性，直接读取nginx进程的地址空间内容，又依照对nginx lua/luajit的内存布局理解(通过review lua/luajit的源码)，直接打印出栈布局。 这要求systemtap脚本对lua/luajit的代码非常熟悉，而且一旦程序有相关升级之类的，可能就有兼容性问题 </p>
-<p>总结下来，如下:</p>
-<ul>
-<li>优点: 功能强大，同时支持lua/luajit</li>
-<li>缺点: systemtap在线上安装成本颇高，后续维护也是问题</li>
-</ul>
-<h3 id="基于perf-record的性能分析"><a href="#基于perf-record的性能分析" class="headerlink" title="基于perf record的性能分析"></a>基于perf record的性能分析</h3><p>考虑到systemtap落地和维护的成本，我们在考虑能不能用<code>perf record</code>做一个简单的支持。答案是肯定的!</p>
-<p>在2009年，perf events增加了对<a href="https://lkml.org/lkml/2009/6/8/499" target="_blank" rel="external">jit symbol的支持</a>, 总的来说一个JIT的VM只要做如下的支持就可以了:</p>
-<ul>
-<li>应用程序需要导出<code>/tmp/perf-PID.map</code>的文件, 文件以文本格式存储内存地址，大小以及符号名称 </li>
-</ul>
-<p>其中<a href="http://www.brendangregg.com/blog/2014-06-12/java-flame-graphs.html" target="_blank" rel="external">jave</a>和<a href="http://www.brendangregg.com/blog/2014-09-17/node-flame-graphs-on-linux.html" target="_blank" rel="external">nodejs</a>先后依据此特性增加了对perf tool的支持</p>
-<p>那luajit呢？是否有这个方面的支持？查阅了luajit的官网上面的文档，并没有涉及此方面的讨论，连Makefile里面的feature也没有提及到这一点。不过直接grep源码，还是有惊喜的，如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[chenjiansen@cq01-rdqa-dev028.cq01.baidu.com LuaJIT-2.0.3]$ grep <span class="string">"perftool"</span> * -r -i -n</div><div class="line">src/lj_trace.c:85:<span class="comment">#ifdef LUAJIT_USE_PERFTOOLS</span></div><div class="line">src/lj_trace.c:96:static void perftools_addtrace(GCtrace *T)<span class="string">""</span></div></pre></td></tr></table></figure>
-<p>简单的说，主要开启<code>LUAJIT_USE_PERFTOOLS</code>宏，应该就能自动导出<code>/tmp/perf-{PDI}</code>文件</p>
-<p>重新编译luajit，执行nginx/lua，可以看到的确有相关文件导出，如下:</p>
-<blockquote>
-<p>luajit在每次jit的时候，会导出此符号文件，但这些不一定的应用程序的热点, 只是lua vm的热点</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[forum@db-forum-phpfr01.db01.baidu.com ~]$ cat /tmp/perf-23998.map </div><div class="line">bffff55 a4 TRACE_1::/home/work/nginx_inner/lua/tieba/lua_script/service_status/setServiceStatus.lua:89</div><div class="line">bffff2a 24 TRACE_2::/home/work/nginx_inner/lua/tieba/lua_script/service_status/setServiceStatus.lua:90</div><div class="line">bfffe96 8d TRACE_3::/home/work/nginx_inner/lua/tieba/lua_script/util/http_instruct_util.lua:47</div><div class="line">bfffd40 14f TRACE_4::/home/work/nginx_inner/lua/tieba/lua_script/rewrite/ngx_rewrite_server_degradation.lua:1</div></pre></td></tr></table></figure>
-<p>用<code>perf report</code>就可以看到如下的结果:</p>
-<p><img src="perf_report_sample.png" alt="perf_report_demo"></p>
-<p>总结下来，如下:</p>
-<ul>
-<li>优点: 使用起来简单方便，无需太多的额外操作</li>
-<li>缺点: 灵活性有限，仅支持luajit</li>
-</ul>
-<h3 id="火焰图"><a href="#火焰图" class="headerlink" title="火焰图"></a>火焰图</h3><p>如上采样统计分析的结果，一般就是各种栈帧的采集，需要一些工具做进一步的分析总结，比如说用<code>perf report</code>进行分析</p>
-<p>而<a href="http://www.brendangregg.com/blog/index.html" target="_blank" rel="external">Brendan Gregg</a>的<a href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html" target="_blank" rel="external">火焰图</a> 则给这些数据做一个可视化的展现，通过简单的<a href="https://github.com/brendangregg/FlameGraph" target="_blank" rel="external">脚本</a>能快速生成相应的<code>.svg</code> 文件，通过浏览器可以清晰的看到具体的热点</p>
-<p>如下是一个火焰图的<a href="http://db-forum-phpfr01.db01.baidu.com:8200/svg//nginx_runtime_jit.svg" target="_blank" rel="external">demo</a>:</p>
-<p><img src="http://db-forum-phpfr01.db01.baidu.com:8200/svg//nginx_runtime_jit.svg" alt="flame_demo"></p>
-<p>可以清楚的看到热点在<code>test.lua:7</code>这个地方</p>
-<h2 id="0x03-后续计划"><a href="#0x03-后续计划" class="headerlink" title="0x03 后续计划"></a>0x03 后续计划</h2><blockquote>
-<p>短期内的贴吧落地实践</p>
-</blockquote>
-<p>主要采用<code>perf record + luajit</code>的机制, 为了满足此需求，现实的nginx会调整如下:</p>
-<ul>
-<li>nginx lua全部迁移nginx luajit : 之前有些case问题，这方面会重新review，争取全部迁移过去</li>
-<li>所有线下的luajit编译时候开启<code>LUAJIT_USE_PERFTOOLS</code>选项(由于不会自动删除过期文件，且reload的时候会重新生成/temp/perf-*文件，线上暂不开启)</li>
-<li>在上线流程的时候，性能测试报告，必须附上火焰图的链接</li>
-</ul>
-<p>如下两个图的router和inrouter的性能分析图(可以看到inrouter的的DNA扩展占用了3%的无效cpu)</p>
-<blockquote>
-<p>使用http_load 压测（可以沟通不同的URL), runtime nginx用nginx lua简单mock了</p>
-</blockquote>
-<ul>
-<li>router的火焰图(<a href="http://db-forum-phpfr01.db01.baidu.com:8200/svg//router_jit.svg" target="_blank" rel="external">点此</a>新窗口打开)</li>
-</ul>
-<p><img src="http://db-forum-phpfr01.db01.baidu.com:8200/svg//router_jit.svg" alt="router_flame"></p>
-<ul>
-<li>inrouter的火焰图(<a href="http://db-forum-phpfr01.db01.baidu.com:8200/svg//inner_jit.svg" target="_blank" rel="external">点此</a>新窗口打开)<br><img src="http://db-forum-phpfr01.db01.baidu.com:8200/svg//inner_jit.svg" alt="inrouter_flame"></li>
-</ul>
-<h2 id="0x04-参考"><a href="#0x04-参考" class="headerlink" title="0x04 参考"></a>0x04 参考</h2><p>上面讨论略去一些无关的细节，比如说<code>perf</code>在后续的版本也支持了<a href="https://gnu.wildebeest.org/blog/mjw/2012/05/24/pull-user-space-probe-instrumentation/" target="_blank" rel="external">function probe</a>的功能, 一些结论也是猜测，可能有比较多的错误之处，欢迎指出</p>
-<p>最后附上一些参考资料: </p>
-<ul>
-<li>perf的一些资料<ul>
-<li><a href="http://www.brendangregg.com/perf.html#FlameGraphs" target="_blank" rel="external">perf Examples</a> : 具体介绍了perf record的优缺点以及具体的解决方案</li>
-<li><a href="https://perf.wiki.kernel.org/index.php/Tutorial" target="_blank" rel="external">Perf Tutorial</a> : perf的非常不错入门介绍，介绍简单的使用和内部机制</li>
-<li><a href="http://files.cnblogs.com/files/jiayy/Perf%E5%9C%A8Linux%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_v3.pdf" target="_blank" rel="external">Perf在Linux性能评估中的应用</a> : 淘宝承刚的perf PDF，入门也是不错的</li>
-</ul>
-</li>
-<li><p>systemtap的资料</p>
-<ul>
-<li><a href="https://sourceware.org/systemtap/wiki" target="_blank" rel="external">systemtap wiki主页</a></li>
-<li><a href="http://blog.yufeng.info/archives/tag/systemtap" target="_blank" rel="external">系统技术非业余研究: systemtap的专题</a></li>
-</ul>
-</li>
-<li><p><a href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html" target="_blank" rel="external">CPU Flame Graphs</a> : CPU火焰图说明</p>
-</li>
-<li><a href="http://www.brendangregg.com/blog/2014-09-17/node-flame-graphs-on-linux.html" target="_blank" rel="external">node.js Flame Graphs on Linux</a> : nodejs的火焰图</li>
-<li><a href="http://www.slideshare.net/chaoslawful/cc-14971110" target="_blank" rel="external">C/C++调试、跟踪及性能分析工具综述</a></li>
-<li><a href="http://www.slideshare.net/brendangregg/linux-performance-analysis-new-tools-and-old-secrets" target="_blank" rel="external">Linux Performance Analysis: New Tools and Old Secrets</a></li>
-</ul>
+<h2 id="worker-cpu-affinity指令优化"><a href="#worker-cpu-affinity指令优化" class="headerlink" title="worker_cpu_affinity指令优化"></a>worker_cpu_affinity指令优化</h2><p>这个指令的功能比较简单，就是可以自动设置cpu的亲和性, demo如下:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="attribute">worker_cpu_affinity</span> auto;</div></pre></td></tr></table></figure>
+<p>具体代码的实现还是比较简单的，不再赘述</p>
 
       
     </div>
     
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
     
   </div>
   
@@ -455,7 +605,7 @@
 
 
     
-      <article id="post-anti_censorship" class="article article-type-post" itemscope itemprop="blogPost">
+      <article id="post-tcp_keepalive_proxy" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -463,567 +613,52 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/05/anti_censorship/">翻墙杂谈</a>
+      <a class="article-title" href="/2016/01/19/tcp_keepalive_proxy/">让nginx支持TCP长连接代理</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2015/04/05/anti_censorship/" class="article-date">
-  <time datetime="2015-04-05T11:01:40.000Z" itemprop="datePublished">2015-04-05</time>
+      <a href="/2016/01/19/tcp_keepalive_proxy/" class="article-date">
+  <time datetime="2016-01-19T06:17:30.000Z" itemprop="datePublished">2016-01-19</time>
 </a>
       
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-缘由"><a href="#1-缘由" class="headerlink" title="1. 缘由"></a>1. 缘由</h2><p>HC上面的一篇文件<a href="http://sites.inka.de/~W1011/devel/tcp-tcp.html" target="_blank" rel="external">Why TCP Over TCP Is A Bad Idea</a>，顺便梳理下之前零碎的几个知识点, 主要是一些代理，穿透的网络协议的乱七八糟的东西，这里主要说翻墙的一些手段和办法, 以此来说明网路穿透的一些相关机制。</p>
-<h2 id="2-一些基础"><a href="#2-一些基础" class="headerlink" title="2. 一些基础"></a>2. 一些基础</h2><p>要翻墙前提是得有个VPS，可以自己去购买或者之类的，据同事反馈<a href="http://www.linode.name/" target="_blank" rel="external">linode</a>是不错的选择。有了VPS的话，现在问题就是如何利用VPS进行翻墙?</p>
-<p>如下是简单的网络架构:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client ----(GFW) ---&gt; VPS -----&gt; foreign website</div></pre></td></tr></table></figure>
-<p>因此我们需要达到的功能其实可以简化成如下两个步骤:</p>
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">              -----&gt; LCS </div><div class="line">            /</div><div class="line">Client(PHP) -------&gt; LCS</div><div class="line">            \</div><div class="line">             ------&gt; LCS</div></pre></td></tr></table></figure>
+<p>如上，我们客户端需要和LCS交互，正常情况下，由于PHP比较难做长链接(当然RAL后续可以做长连接的支持)，所以现在每次和LCS交互，都需要建立一次TCP连接，然后做数据传输；现在问题是，如果LCS在其他的IDC，这样client和LCS每次都得做一次跨机房的三次握手, 这样对服务稳定性等都有一定的影响</p>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">                        -----&gt; LCS </div><div class="line">                      /</div><div class="line">Client(PHP)---&gt; Proxy -------&gt; LCS</div><div class="line">                      \</div><div class="line">                        ------&gt; LCS</div></pre></td></tr></table></figure>
+<p>一个方案是如上，加上一个proxy，这个Proxy的作用是和LCS维护一个长连接，和client保持短连接，同时让Client和Proxy部署在一个IDC, Proxy和LCS可以跨IDC；此时Proxy和LCS的由于是长连接交互，不必要每次都有个跨IDC的三次握手, 但也有如下的问题:</p>
 <ul>
-<li>找个一个协议能够连上VPS</li>
-<li>让VPS上面的具体软件转发请求并且透传回来</li>
+<li>增加了一层，意味着多一层网络交互，</li>
+<li>长连接的跨IDC交互有可能也避免不了跨IDC的网络异常问题</li>
 </ul>
-<h3 id="2-1-连接VPS的方法"><a href="#2-1-连接VPS的方法" class="headerlink" title="2.1 连接VPS的方法"></a>2.1 连接VPS的方法</h3><blockquote>
-<p>PS本部分都是自己理解，全凭自己猜测</p>
-</blockquote>
-<p>连接vps不仅仅是能ping到这个机器，一般是指能够安全加密的和改VPS交互，总结起来大概可以统称为<a href="http://zh.wikipedia.org/wiki/%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE" target="_blank" rel="external">隧道协议</a>, 而隧道协议可以根据协议所工作的ISO层，有如下几类:</p>
-<h5 id="2-1-1-VPN协议"><a href="#2-1-1-VPN协议" class="headerlink" title="2.1.1 VPN协议"></a>2.1.1 VPN协议</h5><p>用于传统支持VPN的相关协议，一般是工作在网络层以下（含），具体包括:</p>
-<ul>
-<li>PPTP/L2TP : 都是基于PPP协议的二层隧道协议, 工作在数据链路层</li>
-<li>IPsec/AppleTalk : 三层隧道协议,工作在网络层</li>
-</ul>
-<h5 id="2-1-2-会话层协议"><a href="#2-1-2-会话层协议" class="headerlink" title="2.1.2 会话层协议"></a>2.1.2 会话层协议</h5><p>这方面的代表主要是<a href="http://zh.wikipedia.org/wiki/SOCKS" target="_blank" rel="external">SOCKS协议</a>, 也是我们常见的SOCKS代理实现的协议</p>
-<h5 id="2-1-3-应用层协议"><a href="#2-1-3-应用层协议" class="headerlink" title="2.1.3 应用层协议"></a>2.1.3 应用层协议</h5><p>具体的包括SSH隧道，一个通过SSH协议建立起来的连接隧道</p>
-<h3 id="2-2-请求转发"><a href="#2-2-请求转发" class="headerlink" title="2.2 请求转发"></a>2.2 请求转发</h3><p>一旦你连接上了一个具体的服务器，要做请求转发相对来说就比较容易了，而且此事一般是代理软件帮你完成的，同样跟进理解到服务器的协议的不同，代理软件也做着不同层次的支持，以我了解到的, 包括:</p>
-<ul>
-<li>ip层的请求转发，此策略常见于配置VPN服务器的需求，比如如果搭建一个PPTP的服务器，一般需要通过如下方法进行转发:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">sudo sed -i <span class="string">'s/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g'</span> /etc/sysctl.conf</div><div class="line">sudo sysctl -p</div><div class="line"></div><div class="line"><span class="comment">#注意这里eth0代表你的外网网卡，请用ifconfig查看或者咨询网络管理员</span></div><div class="line">sudo iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
-<ul>
-<li><p>数据层的转发，主要是SOCKS代理服务器，Socks代理只是简单地传递数据包，而不必关心是何种应用协议（比如FTP、HTTP和NNTP请求）</p>
-</li>
-<li><p>应用层的转发，举个例子通过nginx配置正向代理之类的, 用处感觉比较少</p>
-</li>
-</ul>
-<h2 id="3-具体应用"><a href="#3-具体应用" class="headerlink" title="3. 具体应用"></a>3. 具体应用</h2><p>有了上面的基础，我们就可以根据自己的需求创建具体的翻墙策略，这里主要介绍两个，其一是PPTP代理，其二是SSH隧道</p>
-<h3 id="3-1-PPTP代理"><a href="#3-1-PPTP代理" class="headerlink" title="3.1 PPTP代理"></a>3.1 PPTP代理</h3><p>PPTP代理的一个优点是快，缺点个人感觉有两个:</p>
-<ul>
-<li>通用性不强：其对网关有一定的要求，一些路由器之类的不一定支持(比如我们家的TPLINK的某一型号路由器)</li>
-<li>可控性或者自由度不够: 由于PPTP工作较为底层，这也就意味着，如果你一旦启用他，整个PC某人情况下都会走代理，但是大多是时候，我们可能指希望某类应用或者协议（比如HTTP)走代理。如果要达到此目标，还需要额外的控制</li>
-</ul>
-<p>具体如何配置，这里也不赘述，具体可以参看链接: <a href="http://blog.fens.me/ubuntu-vpn-pptp/" target="_blank" rel="external">在Ubuntu上安装PPTP VPN服务</a></p>
-<h3 id="3-2-ssh隧道"><a href="#3-2-ssh隧道" class="headerlink" title="3.2 ssh隧道"></a>3.2 ssh隧道</h3><p>如上，SSH隧道是通过ssh协议构建的一个应用层隧道，因此其可以灵活控制。而大多是SSH客户端支持SOCKS代理，也就是通过建立一个动态的SSH转发，其自动启动一个SOCKS代理，这样浏览器等就可以很方便的使用类似SOCKS代理的方式通信了</p>
-<p>ssh命令启动一个动态SSH隧道的命令如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh -NTf -D 9000 &lt;ssh server&gt;</div></pre></td></tr></table></figure>
-<p>具体可以参考<a href="http://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/" target="_blank" rel="external">实战 SSH 端口转发</a></p>
-<h2 id="4-其他"><a href="#4-其他" class="headerlink" title="4. 其他"></a>4. 其他</h2><p>上面主要介绍了我们如何控制我们机器的网络交互通道来达到翻墙的目标。而对于最常见的HTTP代理，浏览器那边其实也做了一些支持，主要是<a href="http://zh.wikipedia.org/wiki/%E4%BB%A3%E7%90%86%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE" target="_blank" rel="external">代理自动配置</a>，改方案核心思路和上述一样（都是要找代理服务器的啊），但是具体实现层面的话，可以理解是浏览器主动托管了网络交互那层，因此对用户而言，只要配置合理的PAC就可以了, 还是相关不错的</p>
-<p>其他的还有很多方案，具体可以参看wiki百科的<a href="http://zh.wikipedia.org/wiki/%E7%AA%81%E7%A0%B4%E7%BD%91%E7%BB%9C%E5%AE%A1%E6%9F%A5" target="_blank" rel="external">突破网络审查</a></p>
-<h2 id="5-参考链接"><a href="#5-参考链接" class="headerlink" title="5. 参考链接"></a>5. 参考链接</h2><p>首先，建议对几个协议，大家可以具体<a href="http://zh.wikipedia.org/wiki/Wikipedia:%E9%A6%96%E9%A1%B5" target="_blank" rel="external">维基百科</a>之</p>
-<ul>
-<li><a href="http://www.vpninstructions.com/whats-the-difference-between-pptp-l2tp-openvpn-and-socks-when-talking-about-vpns/" target="_blank" rel="external">What’s the difference between PPTP, L2TP, OpenVPN, and SOCKS when talking about VPNs?</a> : 介绍了PPTP,SOCKS等几个协议的异同点</li>
-</ul>
-<p>ssh相关的:</p>
-<ul>
-<li><a href="http://www.ruanyifeng.com/blog/2011/12/ssh_port_forwarding.html" target="_blank" rel="external">SSH原理与运用（二）：远程操作与端口转发</a></li>
-<li><a href="http://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/" target="_blank" rel="external">实战SSH端口转发</a></li>
-<li><a href="http://www.iokay.net/it-technology/ssh-proxy" target="_blank" rel="external">利用SSH代理爬墙</a></li>
-</ul>
-
-      
-    </div>
-    
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-io_in_linux_and_nginx" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/30/io_in_linux_and_nginx/">linux和nginx下的异步文件IO管理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/03/30/io_in_linux_and_nginx/" class="article-date">
-  <time datetime="2015-03-30T06:03:11.000Z" itemprop="datePublished">2015-03-30</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>by <a href="mailto:chenjiansen@baidu.com" target="_blank" rel="external">chenjiansen@baidu.com</a></p>
-</blockquote>
-<p>nginx在其最近发布的<a href="http://nginx.org/en/CHANGES" target="_blank" rel="external">1.7.11版本增加了thread pool</a>的feature, 其引入的<a href="http://nginx.org/en/docs/ngx_core_module.html#thread_pool" target="_blank" rel="external">thread_pool</a>主要是能真正意义的保证读写文件的非阻塞以及异步。为什么需要主动添加<code>thread pool</code>这个机制来支持异步非阻塞的文件读写呢？这里简单说下linux的文件IO管理和以及nginx的thread poo机制的必要性，最后说下nginx thread pool的大致实现机制。</p>
-<p>其实关于linux和nginx的IO管理，已经有非常详细的说明文档，具体包括如下:</p>
-<ul>
-<li><a href="http://www.lenky.info/archives/2013/01/2165" target="_blank" rel="external">异步I/O之glibc AIO篇</a></li>
-<li><a href="http://www.lenky.info/archives/2013/01/2182" target="_blank" rel="external">异步I/O之native AIO篇</a></li>
-</ul>
-<p>这里只是针对上面介绍内容的一个简单总结和概述</p>
-<h3 id="linux下的异步IO支持"><a href="#linux下的异步IO支持" class="headerlink" title="linux下的异步IO支持"></a>linux下的异步IO支持</h3><p>linux下主要有如下两个方式的异步IO支持，分别如下:</p>
-<h4 id="glibc-异步IO支持"><a href="#glibc-异步IO支持" class="headerlink" title="glibc 异步IO支持"></a>glibc 异步IO支持</h4><p>这个是glibc提供的一系列函数，包括<code>aio_read</code>, <code>aio_suspend</code>等(‘man aio_read’查看具体用法), 其核心特点是使用较为方便，但是在实现层面的话，其实是在用户层通过多线程实现的，并非真正意义上面的异步IO，因此其性能相对于真正意义上面的异步IO要慢一些。</p>
-<h4 id="native-AIO支持"><a href="#native-AIO支持" class="headerlink" title="native AIO支持"></a>native AIO支持</h4><p>其实linux本身已经提供了对异步io的支持[2.5版本开始]，也就是<code>io_submit</code>, <code>io_setup</code>之类的函数，但是glibc并没有对这类函数进行封装，因此如果要使用的话，可以通过:<br>1) syscall直接调用操作系统API<br>2) <a href="http://lse.sourceforge.net/io/aio.html" target="_blank" rel="external">libaio</a> : 一个轻量级的封装库</p>
-<p>来使用。</p>
-<p>由于直接是操作系统的支持，因此此类函数的性能相对比与glibc的aio性能上面有较大的提升，但同时也面临着如下两个比较大的问题，导致其应用范围大大受限:</p>
-<ul>
-<li>使用AIO必须打开<code>IO_DIRECT</code> flag，同时要求读写的的大小和偏移要以区块的方式对齐</li>
-<li>启用AIO同时会关闭<code>sendfile</code>，也就意味着此时会丧失了零拷贝的特征；如果继续使用sendfile, 意味着读可能会阻塞</li>
-</ul>
-<p>总之，在现有的linux体系下，对文件的异步读写，没有完美的简单的解决方案。</p>
-<h3 id="nginx对异步IO的支持"><a href="#nginx对异步IO的支持" class="headerlink" title="nginx对异步IO的支持"></a>nginx对异步IO的支持</h3><p>nginx和异步IO相关的主要指令有:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">syntax : aio on | off | thread ;</div><div class="line"></div><div class="line">是否启动aio，如果是指定其关联的thread pool name </div><div class="line"></div><div class="line">syntax : directio size | off ;</div><div class="line"></div><div class="line">是否启用directio; 或者在大于size之后才启用directio</div><div class="line"></div><div class="line">syntax : sendfile on | off  ;</div><div class="line"></div><div class="line">是否启用sendfile </div><div class="line"></div><div class="line">## 加上最新的thread pool</div><div class="line"></div><div class="line">syntax : thread_pool name threads=number [max_queue=number];</div><div class="line"></div><div class="line">创建一个thread pool</div></pre></td></tr></table></figure>
-<p>具体可以参看<a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#aio" target="_blank" rel="external">nginx官方说明文档</a></p>
-<p>基于如上的总结，当<code>aio</code>, <code>directio</code>, <code>sendfile</code>都开启的时候(如果有off的情况，判断较为简单，不在赘述)，整个nginx对文件的读取策略如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">                     _  use aio   _</div><div class="line">                   /                \</div><div class="line">                 yes            has thread pool</div><div class="line">                /                      \</div><div class="line">directio &gt; size                        support asyn &amp; noblock IO</div><div class="line">                \                      /</div><div class="line">                 no             has thread pool</div><div class="line">                   \                 /</div><div class="line">                    \_ use sendfile /</div></pre></td></tr></table></figure>
-<h3 id="nginx的thread-pool机制"><a href="#nginx的thread-pool机制" class="headerlink" title="nginx的thread pool机制"></a>nginx的thread pool机制</h3><p>本来想详细介绍nginx thread pool的实现机制，但是发现可以展开讨论的内容不多。这里就做个系统性的总结。</p>
-<p>由于linux系统对异步IO的支持有着或多或少的局限性，如果nginx要保证其整个worker进程异步非阻塞的模型有一定的难度，因为在读取文件的时候可以存在着阻塞的情况。</p>
-<p>为此nginx的解决方案是引入thread pool, 用户可以创建特定个数的thread pool，每个thread pool可以指定其具体的OS线程数。现在thread pool的核心作用就是托管一些可能存在阻塞的IO操作（包括普通的read, sendfile）, 当有此类操作的时候，nginx会根据用户的配置把任务递送给线程池，尽量不阻塞worker进程。</p>
-<p>具体到thread pool的实现，没有特别的地方(不过我也没看的特别细)，通过<code>pthread lib</code>维护一堆线程, 用户可以提交具体的task给线程池，让其消费。</p>
-<p>其主要作用可能是会提高那些存在高IO读取的webserver的并发支持数。</p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
-<li><a href="https://cnodejs.org/topic/4f16442ccae1f4aa270010a7" target="_blank" rel="external">linux AIO(异步IO)那点事儿</a></li>
-<li><a href="http://www.ibm.com/developerworks/cn/linux/l-async/" target="_blank" rel="external">使用异步 I/O 大大提高应用程序的性能</a></li>
-<li><a href="http://stackoverflow.com/questions/8768083/difference-between-posix-aio-and-libaio-on-linux" target="_blank" rel="external">Difference between POSIX AIO and libaio on Linux?</a></li>
-</ul>
-<p>lenky关于AIO的系列文章:</p>
-<ul>
-<li><a href="http://www.lenky.info/archives/2013/01/2165" target="_blank" rel="external">异步I/O之glibc AIO篇</a></li>
-<li><a href="http://www.lenky.info/archives/2013/01/2182" target="_blank" rel="external">异步I/O之native AIO篇</a></li>
-<li><a href="http://www.lenky.info/archives/2013/01/2184" target="_blank" rel="external">nginx对Linux native AIO机制的应用(配置篇)</a></li>
-<li><a href="http://www.lenky.info/archives/2013/01/2186" target="_blank" rel="external">nginx对Linux native AIO机制的应用（实现篇）</a></li>
-</ul>
-
-      
-    </div>
-    
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-mixed_content_control" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/06/mixed_content_control/">关于https嵌套http iframe的问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/03/06/mixed_content_control/" class="article-date">
-  <time datetime="2015-03-06T03:13:44.000Z" itemprop="datePublished">2015-03-06</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>主要是https 和 http页面嵌套，引用的一些具体规则？哪些是允许的，哪些是不允许的？</p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>一般地，我们主要规范https页面上面对http请求的场景。http页面可以嵌入https一般浏览器不会太care</p>
-<p>浏览器把https嵌入的外部资源分成两大类，如下:</p>
-<ul>
-<li>Mixed Passive Content (a.k.a. Mixed Display Content) : 被动页面嵌入内容，此类的资源不会对已有的https主页面产生修改，更新之类的操作，具体包括:  images, audio, and video loads. </li>
-<li>Mixed Active Content (a.k.a. Mixed Script Content) : 主动页面嵌入内容，此类的资源可能会影响原来的页面的展现和内容，具体包括: JavaScript, CSS, objects, xhr requests, iframes, and fonts</li>
-</ul>
-<blockquote>
-<p>PS: 不同浏览器对MPC和MAC的分类不一定一致，比如说iframe在chrome下面属于MPC,而在ie/firefox属于MAC</p>
-</blockquote>
-<p>一般的浏览器如果发现一个资源属于MAC，就会blocking此类请求</p>
-<p>故，综上，在IE浏览器下面一个https页面嵌入http请求会直接被block</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://blog.mozilla.org/tanvi/2013/04/10/mixed-content-blocking-enabled-in-firefox-23/" target="_blank" rel="external">Mixed Content Blocking Enabled in Firefox 23!</a></li>
-<li><a href="http://www.tinywebgallery.com/blog/iframe-do-not-mix-http-and-https" target="_blank" rel="external">Why you should not mix http and https when using iframes</a></li>
-<li><a href="http://lison.sinaapp.com/?p=317" target="_blank" rel="external">HTTPS和HTTP相互间IFRAME的浏览器限制及安全提示</a></li>
-</ul>
-
-      
-    </div>
-    
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-about_https" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/06/about_https/">https 概述</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/03/06/about_https/" class="article-date">
-  <time datetime="2015-03-06T03:13:34.000Z" itemprop="datePublished">2015-03-06</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>个人学习目标:</p>
-<ol>
-<li>了解https的核心以及几个常见的概念</li>
-<li>了解https的大致交流流程</li>
-<li>明确https的性能关键点&amp;优化点</li>
-<li>了解https在具体实践过程的常见问题以及解决方案</li>
-</ol>
-<p>几点总结 :</p>
-<ul>
-<li>关于加密解密都是非常细致的一个处理过程，有非常多的细节需要关注，但尽量会把协议本身</li>
-<li>多用一些图示和衍生的demo展示来加深对https的理解</li>
-</ul>
-<h2 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h2><h2 id="交互过程"><a href="#交互过程" class="headerlink" title="交互过程"></a>交互过程</h2><p>整个交换过程可以大致分为两个阶段:</p>
-<ol>
-<li><p>TLS握手: 协商此次交互的用于加密的对称密钥，这个过程颇为复杂，等下会详解，核心思想是通过非对称密钥和双方的随机数生成一个密钥</p>
-</li>
-<li><p>具体内容交互: 此时双方都用上一步生成的对称密钥，加密要交互的内容，进行通信</p>
-</li>
-</ol>
-<h2 id="TLS握手流程"><a href="#TLS握手流程" class="headerlink" title="TLS握手流程"></a>TLS握手流程</h2><p>如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client                                  server</div><div class="line"></div><div class="line">ClientHello             --------&gt;</div><div class="line">        </div><div class="line">                                        ServerHello </div><div class="line">                                        ServerCertificate</div><div class="line">                        &lt;--------       ServerKeyExchange</div><div class="line">                                        CertificateRequest</div><div class="line">                                        ServerHelloDone</div><div class="line"></div><div class="line">ClientCertificate</div><div class="line">ClientKeyExchange</div><div class="line">Certificate Verify      --------&gt;</div><div class="line">Change the Cipher Spce</div><div class="line">Client Finish Message</div><div class="line"></div><div class="line">                                        Change Cipher Spec</div><div class="line">                        &lt;--------       Server Finish Message</div><div class="line"></div><div class="line">&lt;--------------    Application Data  ----------------------&gt;</div></pre></td></tr></table></figure>
-<p>总结:</p>
-<ul>
-<li>client&amp;server加起来一共两个RTT的过程</li>
-<li>协商出来的密钥大致是: 2 * client ranodw + server random </li>
-<li>整个交互过程还是明文的，不过生成的密钥是使用非对称加密算法加密的</li>
-</ul>
-<h2 id="性能影响"><a href="#性能影响" class="headerlink" title="性能影响"></a>性能影响</h2><p>几个关键的性能点</p>
-<h3 id="会话恢复"><a href="#会话恢复" class="headerlink" title="会话恢复"></a>会话恢复</h3><p>如上，如果每次交互都需要重新进行TLS握手，需要浪费两个RTT，这个是不大希望的，我们可以引入如下两个机制，使得在进行TLS握手的时候，就需要一个RTT，包括:</p>
-<ul>
-<li>会话标识符(Session Identifier) :</li>
-<li>会话记录单(Session Ticket) :</li>
-</ul>
-<h3 id="证书验证"><a href="#证书验证" class="headerlink" title="证书验证"></a>证书验证</h3><p>在进行TLS握手的时候，一般地，我们要求client端去严重证书的合法性，一个重要的判断是证书的有效时间的问题，主要有如下两个方法:</p>
-<ul>
-<li>证书撤销名单(CRL, Certificate Revocation List)</li>
-<li>在线证书状态协议(OCSP, Online Certificate Status Protocol)</li>
-</ul>
-<p>如上是具体的协议，而浏览器在具体工作的时候，不同的浏览器行为也不一致，比如:</p>
-<ul>
-<li>某些浏览器会使用自己的更新机制推送更新CRL名单</li>
-<li>某些浏览器只会针对扩展证书(EV证书)进行实时的OCSP和CRL检查</li>
-</ul>
-<p>这些情况很复杂。对整个系统设计来说，可以引人一个叫做<code>OCSP封套</code>的优化措施: 服务器可以在证书链里面包含证书颁发机构的OCSP响应，让浏览器跳过在线查询。把查询OCSP操作转移到服务器可以让服务器缓存签名的OCSP响应。当然OCSP响应也包含一系列问题，包括:</p>
-<ul>
-<li>OCSP的包体大小(400 ~ 4000)可能会导致TCP窗口拥塞</li>
-<li>只能包括一个OCSP响应，导致浏览器对其他的证书仍然需要发送OCSP响应</li>
-</ul>
-<h2 id="应用及问题"><a href="#应用及问题" class="headerlink" title="应用及问题"></a>应用及问题</h2><h3 id="第三方cdn服务商的https支持"><a href="#第三方cdn服务商的https支持" class="headerlink" title="第三方cdn服务商的https支持"></a>第三方cdn服务商的https支持</h3><p>对于CloudFlare这样的云服务提供商，要给第三方做cdn的加速支持，如果此时主站点的域名是通过https提供服务，这就要求cdn缓存的静态文件也是需要走https，由于cdn是第三方的(CloudFlare)，主站显然不大可能把https的私钥放在服务商那边，对于此类场景要怎么办?</p>
-<p>CloundFlare在<a href="https://blog.cloudflare.com/keyless-ssl-the-nitty-gritty-technical-details/" target="_blank" rel="external">Keyless SSL: The Nitty Gritty Technical Details</a> 介绍了一个所谓的<code>Keyless SSL</code>机制，核心的思路就是： 正常情况下, 整个对话过程中（握手阶段和其后的对话），服务器的公钥和私钥只需要用到一次。某些客户（比如银行）想要使用外部CDN，加快自家网站的访问速度，但是出于安全考虑，不能把私钥交给CDN服务商。这时，完全可以把私钥留在自家服务器，只用来解密对话密钥，其他步骤都让CDN服务商去完成。</p>
-<h3 id="nginx对SSL的支持"><a href="#nginx对SSL的支持" class="headerlink" title="nginx对SSL的支持"></a>nginx对SSL的支持</h3><p>如上ssl/tls相对于普通的http1.0/1.1协议复杂很多，因此整个nginx的SSL的指令和变量也是非常负责的，详情可以参看</p>
-<ul>
-<li><a href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html#example" target="_blank" rel="external">Module ngx_http_ssl_module</a></li>
-<li><a href="http://nginx.org/cn/docs/http/configuring_https_servers.html#optimization`" target="_blank" rel="external">Nginx: 配置HTTPS服务器</a></li>
-</ul>
-<h2 id="推荐了解的名词"><a href="#推荐了解的名词" class="headerlink" title="推荐了解的名词"></a>推荐了解的名词</h2><ul>
-<li>数字签名&amp;数字证书 : <a href="http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html</a></li>
-</ul>
-<h2 id="参考-amp-推荐文章"><a href="#参考-amp-推荐文章" class="headerlink" title="参考&amp;推荐文章"></a>参考&amp;推荐文章</h2><ul>
-<li><a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="external">图解SSL/TLS协议</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="external">SSL/TLS协议运行机制的概述</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2011/02/seven_myths_about_https.html" target="_blank" rel="external">HTTPS的七个误解（译文）</a></li>
-</ul>
-<h2 id="todo-for-me"><a href="#todo-for-me" class="headerlink" title="todo for me"></a>todo for me</h2><ol>
-<li>nginx搭建一个完整的https服务</li>
-<li>对tls恢复方式的进一步了解(session identifier &amp; session ticket)</li>
-<li>用http watch观看https的交互</li>
-</ol>
-
-      
-    </div>
-    
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-web_browser_and_protocol" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/06/web_browser_and_protocol/">从浏览器角度看web交互</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/03/06/web_browser_and_protocol/" class="article-date">
-  <time datetime="2015-03-06T03:13:24.000Z" itemprop="datePublished">2015-03-06</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>web浏览器已经成为我们获取信息最重要的工具之一，我们也不仅仅把web浏览器当成简单的http内容获取+页面渲染的功能，而是希望在web上面构建越来越多的应用，比如实时会议之类的，这里简单说明下从web浏览器角度，分析他应该和现在支持的web交互功能</p>
-<h2 id="浏览器要干嘛"><a href="#浏览器要干嘛" class="headerlink" title="浏览器要干嘛"></a>浏览器要干嘛</h2><p>浏览器终归到底是一个client，负责和server交互，如果不考虑本地渲染的复杂功能，我们对浏览器的考差点就是他如何支持一个交互的</p>
-<p>一个交互可以划分如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client api ---&gt; protocol support ---&gt; server</div></pre></td></tr></table></figure>
-<p>可见，浏览器主要关心两个大点：</p>
-<ul>
-<li>client api : 浏览器需要提供标准的api，有个规范的标准便于在不同平台上面的迁移</li>
-<li>protocol : 其实就是对具体api的实现，比如用http交互等</li>
-</ul>
-<p>上面就是一个宏观上面的分析，下面说明具体的实现和现状</p>
-<h2 id="Client-API-html5-以及js"><a href="#Client-API-html5-以及js" class="headerlink" title="Client API : html5 以及js"></a>Client API : html5 以及js</h2><p>HTML语言充当了client api一个最重要的角色，用于描述浏览器的行为，当然还包括javascript, css等</p>
-<p>新的HTML5规范还增加了新的API规范，其实就是对之前html的补充，包括:</p>
-<h2 id="Protocols-http-websocket"><a href="#Protocols-http-websocket" class="headerlink" title="Protocols : http, websocket"></a>Protocols : http, websocket</h2><p>protocol就是浏览器要实现的协议，当然http协议是最核心的，也是必须要实现的；但是，随着client api的增加，对于新的api可能就需要实现特定的协议(比如websocket)，因此，现如今，浏览器支持的协议是越来越多，下面是一个简单分类:</p>
-<table>
-<thead>
-<tr>
-<th>功能</th>
-<th>(现在)依赖协议</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ajax(XmlHttpRequest)</td>
-<td>http</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Server-Sent Event</td>
-<td>http</td>
-<td>服务器以text/event-stream内容响应</td>
-</tr>
-<tr>
-<td>websocket</td>
-<td>http + websocket</td>
-<td>http发起连接,ws具体交互</td>
-</tr>
-<tr>
-<td>webrtc</td>
-<td>udp+ice+srtp等</td>
-<td>基于udp构建</td>
-</tr>
-</tbody>
-</table>
-<p>因此浏览器的协议支持图大致如下:</p>
-<p><img src="./browser_protocol_support.png" alt="Alt text"></p>
-<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>其一:</p>
-<p>api可以理解为是对具体功能的描述，而协议是对具体实现的描述，两者并不是强耦合的，比如说websocket的api，其描述的就是对一个双向的，自由格式的内容交互的支持。其现在的底层实现是基于websocket 协议的，但是http 2协议显然也能满足这个功能，也是可以用了实现这个协议的。</p>
-<p>其二:</p>
-<p>下图描绘几个api和server交互的场景</p>
-<p><img src="./ajax_vs_websocket.png" alt="Alt text"></p>
-<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ul>
-<li>web性能权威指南</li>
-<li>web之困:现代web应用安全指南 </li>
-</ul>
-
-      
-    </div>
-    
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-0225_bitch_about" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/02/25/0225_bitch_about/">生活与生存</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/02/25/0225_bitch_about/" class="article-date">
-  <time datetime="2015-02-24T16:25:11.000Z" itemprop="datePublished">2015-02-25</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>现在是大年初七凌晨，如之前所料，基本上所有的人都各奔东西，一年一次的聚散又是要匆匆而过</p>
-<p>这次春节和之前差不多，基本上一半的时间都是和那些同学聚在一起，一起踢过球，喝过酒，打过牌，打过麻将，当然包括各种玩笑，谈话，还是很开心的</p>
-<p>有时候会想自己为什么会更享受在家的生活，想的的一些原因包括:</p>
-<ul>
-<li>不需要工作了</li>
-<li>因为有一群同学在，什么东西都可以吐槽</li>
-<li>住在家里</li>
-</ul>
-<p>其实认真想想上面几个点都有一点，但其实自己有一个简单的总结，就是在这边的话，感觉自己更像在<code>生活</code>,其实之前自己对生活和生存，虽然有非常明确的语义以及其具体含义的理解，但是自己慢慢感触这个却是随着自己岁数的不断增大，现在自己的情况，更多的精力应该是让自己生存下去，让自己一直努力，让自己坚持不懈…</p>
-<p>我自己希望能够在工作和<code>生活</code>中找到更好的平衡点，让自己的活的更自在一些，嗯，的确一直在调整…</p>
-<p>今天看到一篇文章，大道理讲的很多，但里面有一个简单的观点，大致是说，不要太过分的欣赏和佩服自己某一刻的努力，大致的意思是世界上比你多努力的人多了去了。。。嗯，有时候后自己就会陷入这个状态，然后盲目的迷失了…</p>
-<p>不再细说，今年自己要好好努力，也希望一切静好:)</p>
-
-      
-    </div>
-    
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-linux_kernel_lock" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/02/06/linux_kernel_lock/">由linux锁机制想起来的</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/02/06/linux_kernel_lock/" class="article-date">
-  <time datetime="2015-02-06T08:26:33.000Z" itemprop="datePublished">2015-02-06</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="由linux锁机制想起来的"><a href="#由linux锁机制想起来的" class="headerlink" title="由linux锁机制想起来的"></a>由linux锁机制想起来的</h1><h2 id="为什么需要锁"><a href="#为什么需要锁" class="headerlink" title="为什么需要锁"></a>为什么需要锁</h2><p>根本的目标是要实现同步机制，数据不会被打乱。</p>
-<p>而在哪些情况需要同步机制呢？</p>
-<ul>
-<li>多处理器的情况：</li>
-<li>抢占式系统 :</li>
-<li>其他：</li>
-</ul>
-<h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><p>一般是指令自己触发的，处理也是比较简单的，主要有两种：</p>
-<ul>
-<li>页错误： 应该是唯一会出现的内核异常，此时会进行一些换页操作</li>
-<li>其他（比如除以0，int 3）等：一般的流程是，cpu触发异常—&gt; 内核异常流程处理 —&gt; 发送信号给用户进程 –&gt; 如果用户进程不处理，就kill进程 </li>
-</ul>
-<h2 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h2><p>先简单分类:</p>
-<ul>
-<li>I/O 中断:</li>
-<li>时钟中断:</li>
-<li>多处理器中断:</li>
-</ul>
-<p>按照处理的策略一般分为：硬中断和软中断（或者是所谓的下半部)</p>
-<p>硬中断：一般是非常简单的处理逻辑<br>软中断：会拆分很多，包括softirq, tasklist, work queue, kernel thread, 具体见：<a href="https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;uact=8&amp;ved=0CDQQFjAE&amp;url=http%3A%2F%2Fwww.cs.columbia.edu%2F~nahum%2Fw6998%2Flectures%2Finterrupts.ppt&amp;ei=XeyCVOLRJYbbmAXk4oLQBw&amp;usg=AFQjCNFzeobtg_hltZtuHHKYJqQgl_eZ7w&amp;sig2=C2Lz_RP3Fyp48kXC4hygSA&amp;bvm=bv.80642063,d.dGY" target="_blank" rel="external">https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;uact=8&amp;ved=0CDQQFjAE&amp;url=http%3A%2F%2Fwww.cs.columbia.edu%2F~nahum%2Fw6998%2Flectures%2Finterrupts.ppt&amp;ei=XeyCVOLRJYbbmAXk4oLQBw&amp;usg=AFQjCNFzeobtg_hltZtuHHKYJqQgl_eZ7w&amp;sig2=C2Lz_RP3Fyp48kXC4hygSA&amp;bvm=bv.80642063,d.dGY</a></p>
-<h2 id="关于抢占式内核"><a href="#关于抢占式内核" class="headerlink" title="关于抢占式内核"></a>关于抢占式内核</h2><ul>
-<li><p>中断和抢占的区别</p>
-<ul>
-<li>中断总是存在的，响应硬件的事件</li>
-<li>抢占主要是指是否执行的代码是否能被其他进程抢占</li>
-</ul>
-</li>
-<li><p>用户态抢占和内核抢占</p>
-<ul>
-<li>根据被抢占的时机区分用户台态和内核态抢占</li>
-<li>用户态抢占: 用户台的抢占一般比较容易，在系统调用或者中断处理完成之后返回用户态的时候判断就可以了，另外由于此时用户态的上下文保存的较为完成，直接切换到其他的进程，至少感觉实现成本不是很高</li>
-<li>内核态抢占: 简单的说，如果一段代码执行在内核态，能否也被抢占，个人感觉如果支持的话，其主要成本对整个内核的一些同步机制和代码等造成的影响，下面是copy的说明</li>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>如上，上面的proxy，其实就是我们说的nginx proxy, 现在的问题是nginx虽然支持简单的tcp proxy，但是并不支持downstream是短链接，然后upstream是长连接(upstream和downstream的长短链接必须一致), 但是我们知道nginx http模块里面是有一个keepalive模块的，所以技术上面应该问题不大的，我们要做的就是把那个东西迁移过来, 具体如下:</p>
+<h3 id="关于nginx-HTTP-长连接"><a href="#关于nginx-HTTP-长连接" class="headerlink" title="关于nginx HTTP  长连接"></a>关于nginx HTTP  长连接</h3><ul>
+<li>内部实现 : <a href="http://blog.csdn.net/gzh0222/article/details/8523635" target="_blank" rel="external">http://blog.csdn.net/gzh0222/article/details/8523635</a></li>
+<li>大概思路 :<ul>
+<li>对于一个具体的upstream，可以设置其connection pool的size</li>
+<li>每次需要访问upstream的时候，先去connection pool里面查找, 如果存在，就用改连接；否则新建一个连接</li>
+<li>当访问结束的时候, 不主动断开连接，而且放回到连接池; 如果连接池是满的，需要释放最老的无用的连接(LRU)</li>
 </ul>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">如果内核是不可抢占的（比如说2.4的内核），一旦切进内核态，只要代码不是主动释放CPU它就可以一直占着CPU。例外，虽不可抢占，但若此时发生中断，代码还是要交出CPU，但是中断返回之后，代码又能霸占CPU了，此为可中断但不可抢占。</div><div class="line"></div><div class="line">如果内核是可抢占的（比如2.6或之后的内核），上述情况就不会发生了。内核抢占发生在以下3种情况：</div><div class="line"></div><div class="line">1. 从中断返回内核态时，若此时可抢占，则会强制调用schedule（），尝试抢占，被中断的内核代码不一定能继续霸着CPU。</div><div class="line"></div><div class="line">2.内核变成可抢占状态，此时也会尝试抢占。</div><div class="line"></div><div class="line">3.内核代码主动调用schedule（）。</div><div class="line"></div><div class="line">虽然2.6的内核提供内核抢占，但是也提供关闭的手段。是否可抢占是由preemt_count变量控制（per-cpu），有锁这个计数就+1，释放锁就-1.为0才是可抢占。每当释放锁的时候都会检查是否为0，为0则尝试抢占。</div></pre></td></tr></table></figure>
-<h2 id="关于进程上下文和中断上下文"><a href="#关于进程上下文和中断上下文" class="headerlink" title="关于进程上下文和中断上下文"></a>关于进程上下文和中断上下文</h2><p>个人感觉进程，两个上下文主要有两个含义，一个代表具体上下文关联的环境，比如寄存器之类的；另一个是一段内核代码运行的环境。而后者是更为常见和需要关注的。</p>
-<p>断上下文是引申出来的概念，其主要的目标是明确一个内核代码是否能执行某些操作。比如一个内核代码能否睡眠？ 因为在中断上下文的情况下，是不允许睡眠的。。。</p>
-<p>而更具体实际的差别在于，进程上下文是指一段代码代表一个进程在执行，主要有两种情况:</p>
-<ul>
-<li>一个系统调用导致陷入内核后的代码执行；</li>
-<li>异常出发导致的异常执行</li>
-</ul>
-<p>而中断上下文是但一个中断发生时，其内核代码管理的环境；</p>
-<p>中断上下文的要求是比较多的，包括:</p>
-<ul>
-<li>睡觉或者放弃cpu</li>
-<li>尝试获取信号量</li>
-<li>执行耗时任务</li>
-<li>访问用户空间的虚拟地址 : </li>
-</ul>
-<p>中断处理流程中不能睡眠，具体可以见: <a href="http://www.oschina.net/question/565065_57618" target="_blank" rel="external">http://www.oschina.net/question/565065_57618</a><br>这个上面的讨论</p>
-<p>具体可以见: <a href="http://www.embedu.org/Column/Column240.htm" target="_blank" rel="external">http://www.embedu.org/Column/Column240.htm</a></p>
-<h2 id="各种链接哈"><a href="#各种链接哈" class="headerlink" title="各种链接哈"></a>各种链接哈</h2><ul>
-<li><a href="http://hacklu.com/blog/%E5%86%85%E6%A0%B8%E6%8A%A2%E5%8D%A0%E5%92%8C%E4%B8%AD%E6%96%AD-75/" target="_blank" rel="external">内核抢占和中断</a></li>
-<li><a href="http://wenx05124561.blog.163.com/blog/static/1240008052011717113840215/" target="_blank" rel="external">http://wenx05124561.blog.163.com/blog/static/1240008052011717113840215/</a></li>
-<li><a href="http://guojing.me" target="_blank" rel="external">http://guojing.me</a></li>
-<li><a href="http://blog.sina.com.cn/s/blog_502c8cc401012pxj.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_502c8cc401012pxj.html</a></li>
+<h3 id="配置demo"><a href="#配置demo" class="headerlink" title="配置demo"></a>配置demo</h3><p>依照http upstream keepalive module的工作原理，我们编写了一个tcp upstream keepalie模块，具体代码请见<a href="http://gitlab.baidu.com/nginx/ngx_stream_keepalive_module/tree/master" target="_blank" rel="external">ngx_stream_keepalive_module</a></p>
+<p>如下是简单的配置demo</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="section">stream</span> &#123;</div><div class="line">    <span class="attribute">upstream</span> stream_test &#123;</div><div class="line">        <span class="comment"># 设置连接池的大小, 用法同http upstream keepalive module</span></div><div class="line">        <span class="attribute">keepalive</span> <span class="number">10</span>;</div><div class="line">        <span class="attribute">server</span> yf-forum-rdcjs1.yf01.baidu.com:<span class="number">12388</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="section">server</span> &#123;</div><div class="line">        <span class="attribute">listen</span> <span class="number">12345</span>;</div><div class="line">        <span class="attribute">proxy_pass</span> stream_test;</div><div class="line">        <span class="attribute">proxy_protocol</span> <span class="literal">on</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="问题-amp-思路"><a href="#问题-amp-思路" class="headerlink" title="问题&amp;思路"></a>问题&amp;思路</h3><p>一旦加入一个proxy，我们其实又面临一个问题，以上图为例，就是LCS如何获取真正的client ip? </p>
+<p>像http协议的代理，一般会在应用层做这个事情，比如说通过<a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html" target="_blank" rel="external">ngx_http_realip_module</a> 把相关的信息放到header里面，这样是能满足业务需求的; 那tcp proxy怎么办?</p>
+<p>像TCP层一下的代理，比如说<a href="https://en.wikipedia.org/wiki/Linux_Virtual_Server" target="_blank" rel="external">LVS</a>一般会需要<a href="http://www.just4coding.com/blog/2015/11/16/toa/" target="_blank" rel="external">内核的支持</a>，以便我们正确的获取客户端的IP，感觉解决方案都是挺重的</p>
+<p>一个简单的方案是<a href="http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt" target="_blank" rel="external">The PROXY protocol</a>, 这个协议原理&amp;思路非常简单，就是在协议代理，新建连接的时候，会传输具体的代理信息。比如按照上图，当<code>Proxy</code>和<code>LCS</code>建立连接的时候，他做的第一个事情是发送一个文本信息，告诉<code>LCS</code>相关的client信息，大概如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">PROXY TCP4 192.168.0.1 192.168.0.11 56324 443</div></pre></td></tr></table></figure>
+<p>所以此时客户端需要修改其读取逻辑，在首次连接之后，需要尝试去读取proxy的信息，如果存在，就可以做一些具体的解析</p>
+<p>同时，也要求proxy做一些修改，在发送请求给后端的时候，需要额外带上这些信息，具体可以通过<a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_protocol" target="_blank" rel="external">proxy_protocol</a>这个指令控制;</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html" target="_blank" rel="external">nginx stream module官方链接</a></li>
+<li><a href="http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt" target="_blank" rel="external">proxy protocol具体说明文档</a> </li>
 </ul>
 
       
@@ -1032,7 +667,130 @@
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-tcp_proxy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/10/tcp_proxy/">关于nginx的tcp代理支持</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/01/10/tcp_proxy/" class="article-date">
+  <time datetime="2016-01-10T06:17:31.000Z" itemprop="datePublished">2016-01-10</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="TCP代理简述"><a href="#TCP代理简述" class="headerlink" title="TCP代理简述"></a>TCP代理简述</h2><p>所谓的TCP proxy是一个用于代理tcp协议的中间代理；比如类似我们的http代理, 我们的mysqlproxy等; tcp代理相比于其他的proxy，具有如下特征:</p>
+<ul>
+<li>由于TCP代理是传输层的代理，所以能支持更多的业务，无论是http, mysql, redis, websocket等应用层协议他都能代理</li>
+<li>由于TCP代理是底层的协议，所以虽然能代理，但是对业务的控制能力也变弱(只能拿到传输层的信息): 比如我们不能像http代理那样，通过cookie，refer做请求的转发和控制</li>
+</ul>
+<p>其实，我们也可以把他理解为一个LVS, 或者公司内的BGW(他们是IP层的负载均衡代理); 但是又比他们稍微高一点</p>
+<p>如下是简单的一个不同网络层的软件的示范:</p>
+<table>
+<thead>
+<tr>
+<th>网络层</th>
+<th>具体软件/技术</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IP</td>
+<td>LVS, BGW</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td>haproxy, nginx</td>
+</tr>
+<tr>
+<td>HTTP</td>
+<td>nginx, haproxy</td>
+</tr>
+</tbody>
+</table>
+<h2 id="nginx的TCP代理功能简述"><a href="#nginx的TCP代理功能简述" class="headerlink" title="nginx的TCP代理功能简述"></a>nginx的TCP代理功能简述</h2><p>nginx是从1.9.0版本开始支持tcp代理, 称之为<a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html" target="_blank" rel="external">stream</a>模块, 发展到现在的1.9.9版本, 已经初步具备了tcp proxy的功能了, 如下是一个简单的nginx stream配置; 可以注意到:</p>
+<ul>
+<li>tcp代理是一个stream模块, 要放在stream段</li>
+<li>http里面的很多功能，比如access_log, realip 等都不能使用(可以思考为什么)</li>
+</ul>
+<p>通过下面的配置，我们就可以实现一个mysql的proxy，自动做几个db的负载均衡；图来自于<a href="https://www.nginx.com/blog/mysql-high-availability-with-nginx-plus-and-galera-cluster/" target="_blank" rel="external">nginx官方文档</a></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="section">stream</span> &#123;</div><div class="line">    <span class="attribute">upstream</span> db &#123;</div><div class="line">        <span class="attribute">server</span> db1:<span class="number">3306</span>;</div><div class="line">        <span class="attribute">server</span> db2:<span class="number">3306</span>;</div><div class="line">        <span class="attribute">server</span> db3:<span class="number">3306</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="section">server</span> &#123;</div><div class="line">        <span class="attribute">listen</span> <span class="number">3306</span>;</div><div class="line">        <span class="attribute">proxy_pass</span> db;</div><div class="line">        <span class="attribute">proxy_connect_timeout</span> <span class="number">1s</span>; <span class="comment"># detect failure quickly</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>架构示意图:</p>
+<p><img src="./nginx-plus-load-balancing.png" alt="nginx tcp proxy demo"></p>
+<h2 id="关于nginx-tcp代理注意点"><a href="#关于nginx-tcp代理注意点" class="headerlink" title="关于nginx tcp代理注意点"></a>关于nginx tcp代理注意点</h2><p>如果你准备要写一个nginx stream模块的扩展，你会发现和之前的http差异会比较大，下面简单说几点现在写stream proxy总结的一些问题</p>
+<h3 id="文档未稳定"><a href="#文档未稳定" class="headerlink" title="文档未稳定"></a>文档未稳定</h3><p>现在nginx还没文档化nginx stream扩展的具体开发模式，从源码上面查看，nginx也是一直在调整，比如1.9.0和1.9.9的module定义就有所不同，如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// 1.9.0 源码</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">ngx_stream_module_t</span>  ngx_stream_upstream_hash_module_ctx = &#123;</div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* create main configuration */</span></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* init main configuration */</span></div><div class="line"></div><div class="line">    ngx_stream_upstream_hash_create_conf,  <span class="comment">/* create server configuration */</span></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* merge server configuration */</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 1.9.9 源码, 多了 postconfiguration 定义</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">ngx_stream_module_t</span>  ngx_stream_upstream_hash_module_ctx = &#123;</div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* postconfiguration */</span> </div><div class="line"></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* create main configuration */</span></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* init main configuration */</span></div><div class="line"></div><div class="line">    ngx_stream_upstream_hash_create_conf,  <span class="comment">/* create server configuration */</span></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* merge server configuration */</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>可以看到, 连核心的module定义都有所调整, 所以这个方面估计还需要进一步观察</p>
+<h3 id="调试有一定的成本"><a href="#调试有一定的成本" class="headerlink" title="调试有一定的成本"></a>调试有一定的成本</h3><p>要注意到我们现在是在写tcp proxy，所以之前用于调试的curl, access_log都不能直接使用了; 依照我现在的个人经验，推荐大家熟悉如下两个工具:</p>
+<ul>
+<li>nc : arbitrary TCP and UDP connections and listens<ul>
+<li>作为server端，可以尝试 : nc -lk </li>
+<li>作为client端，可以尝试 : echo “xxx” | nc {host} {port} 或者 nc {host} {post} (后者会保持长连接)</li>
+</ul>
+</li>
+</ul>
+<p>nc 可以让我们非常简单的去发送tcp的包体，用于作为我们测试的原始流量, 也可以非常简单的搭建一个tcp server</p>
+<ul>
+<li>tcpdump :<ul>
+<li>命令大概如下(最基本的) : tcpdump -vvv -nn -X -i any (host 10.46.178.51 and port 12388)(condition)</li>
+<li>要求对tcp的协议交互有较深的理解, 各种flag</li>
+</ul>
+</li>
+</ul>
+<p>关于nc和tcpdump, 文章的末尾给了几个链接，是非常适合系统性学习的</p>
+<h3 id="关于日志"><a href="#关于日志" class="headerlink" title="关于日志"></a>关于日志</h3><p>由于tcp proxy的特殊性，导致其现在还不大方便有类似http模块access_log的日志(http有请求的概念，但是tcp没有); 所以tcp proxy的日志基本上都是通过error log体现的<br>贴吧线上的常规日志级别是notice, 如果我们要观察比如一个client连接，发送多少数据之类的，建议把日志级别调成<code>info</code>级别; 如下是大概的info级别的日志信息:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">2016/01/10 00:32:17 [info] 9530#0: *13 client 127.0.0.1:45607 connected to 0.0.0.0:12345</div><div class="line">2016/01/10 00:32:17 [info] 9530#0: *13 proxy 10.46.178.51:60713 connected to 10.36.89.18:12388</div><div class="line">2016/01/10 00:32:49 [info] 9530#0: *13 client disconnected, bytes from/to client:16/0, bytes from/to upstream:0/16</div></pre></td></tr></table></figure>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>关于tcpdump的:</p>
+<ul>
+<li><a href="https://danielmiessler.com/study/tcpdump/" target="_blank" rel="external">A tcpdump Primer with Examples</a> :  tcpdump工具非常不错的说明，便于理解</li>
+<li><p><a href="https://sokratisg.net/2012/04/01/udp-tcp-checksum-errors-from-tcpdump-nic-hardware-offloading/" target="_blank" rel="external">UDP/TCP Checksum errors from tcpdump &amp; NIC Hardware Offloading</a> : 关于tcpdump的<code>incorret chksum</code>问题说明</p>
+</li>
+<li><p><a href="http://www.thegeekstuff.com/2012/04/nc-command-examples/" target="_blank" rel="external">8 Practical Linux Netcat NC Command Examples</a></p>
+</li>
+</ul>
+<p>关于tcpproxy的文章:</p>
+<ul>
+<li><p><a href="https://www.nginx.com/resources/admin-guide/tcp-load-balancing/" target="_blank" rel="external">TCP LOAD BALANCING</a> : nginx官方blog，介绍如何具体配置nginx</p>
+</li>
+<li><p><a href="https://www.nginx.com/blog/mysql-high-availability-with-nginx-plus-and-galera-cluster/" target="_blank" rel="external">MySQL High Availability with NGINX Plus and Galera Cluster</a> : 一个tcp proxy的具体demo，用于做mysql的复杂均衡</p>
+</li>
+</ul>
+<p>下一篇文章会介绍<a href="http://gitlab.baidu.com/nginx/ngx_stream_keepalive_module/tree/master" target="_blank" rel="external">tcp proxy长连接</a>的实现；已经<a href="http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt" target="_blank" rel="external">proxy protocol</a>的情况以及使用</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
 
       </footer>
     
@@ -1049,7 +807,7 @@
 
     
       <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/6/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">下一页 &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/6/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/8/">下一页 &raquo;</a>
       </nav>
     </section>
     <footer id="footer">

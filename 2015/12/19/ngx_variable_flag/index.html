@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>nginx variable flag说明 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="背景&amp;amp;问题我们在自己编写nginx扩展的时候，一般要求设置flag，在src/http/ngx_http_variables.h，对nginx flag有如下定义: 1234#define NGX_HTTP_VAR_CHANGEABLE   1#define NGX_HTTP_VAR_NOCACHEABLE  2#define NGX_HTTP_VAR_INDEXED      4#def">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx variable flag说明">
+<meta property="og:url" content="http://yoursite.com/2015/12/19/ngx_variable_flag/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="背景&amp;amp;问题我们在自己编写nginx扩展的时候，一般要求设置flag，在src/http/ngx_http_variables.h，对nginx flag有如下定义: 1234#define NGX_HTTP_VAR_CHANGEABLE   1#define NGX_HTTP_VAR_NOCACHEABLE  2#define NGX_HTTP_VAR_INDEXED      4#def">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-07-21T06:46:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx variable flag说明">
+<meta name="twitter:description" content="背景&amp;amp;问题我们在自己编写nginx扩展的时候，一般要求设置flag，在src/http/ngx_http_variables.h，对nginx flag有如下定义: 1234#define NGX_HTTP_VAR_CHANGEABLE   1#define NGX_HTTP_VAR_NOCACHEABLE  2#define NGX_HTTP_VAR_INDEXED      4#def">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-ngx_variable_flag" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      nginx variable flag说明
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/12/19/ngx_variable_flag/" class="article-date">
+  <time datetime="2015-12-19T06:17:30.000Z" itemprop="datePublished">2015-12-19</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="背景-amp-问题"><a href="#背景-amp-问题" class="headerlink" title="背景&amp;问题"></a>背景&amp;问题</h2><p>我们在自己编写nginx扩展的时候，一般要求设置flag，在<code>src/http/ngx_http_variables.h</code>，对nginx flag有如下定义:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NGX_HTTP_VAR_CHANGEABLE   1</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NGX_HTTP_VAR_NOCACHEABLE  2</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NGX_HTTP_VAR_INDEXED      4</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NGX_HTTP_VAR_NOHASH       8</span></div></pre></td></tr></table></figure>
+<p>现在问题来了，这些flag的标记所为何用，什么时候我们应该用什么flag呢？了解这些flag需要对nginx的变量管理机制有个简单的了解，因为这里简单说明nginx变量的管理机制以及相关flag的含义</p>
+<blockquote>
+<p>其实更深的背景是一个历史问题，就是nginx lua获取不到baidu problem trace的product variable, 进一步追查得知</p>
+</blockquote>
+<h2 id="拆解"><a href="#拆解" class="headerlink" title="拆解"></a>拆解</h2><blockquote>
+<p>希望以简单的推导的方式说明nginx的变量管理</p>
+</blockquote>
+<ol>
+<li>第一步，我们需要维护一个nginx支持的variable列表，为了快速查找最好是用hash存储, 所以<code>ngx_http_core_main_conf</code>的配置大概如下:</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ngx_http_variable_s</span> &#123;</span></div><div class="line">    <span class="keyword">ngx_str_t</span>                     name;     <span class="comment">// 变量的名称</span></div><div class="line">    ngx_http_set_variable_pt      set_handler;  <span class="comment">// 变量的设置函数</span></div><div class="line">    ngx_http_get_variable_pt      get_handler;  <span class="comment">// 变量的get函数</span></div><div class="line">    <span class="keyword">uintptr_t</span>                     data;     <span class="comment">// 传给get与set_handler的值</span></div><div class="line">    <span class="keyword">ngx_uint_t</span>                    flags;    <span class="comment">// 变量的标志</span></div><div class="line">    <span class="keyword">ngx_uint_t</span>                    index;    <span class="comment">// 如果有索引，则是变量的索引号</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></div><div class="line">    <span class="keyword">ngx_hash_keys_arrays_t</span>    *variables_keys;       <span class="comment">// 变量的hash数组</span></div><div class="line">&#125; <span class="keyword">ngx_http_core_main_conf_t</span>;</div></pre></td></tr></table></figure>
+<p>这样通过<code>ngx_http_add_variable</code>往相关的hash table里面添加variable就可以了</p>
+<ol>
+<li>问题稍微延伸一点，我们知道variable是和请求相关的，不同请求的variable可以是不一样的；所以对于每个request都应该要自己的variable list，而且requset 一般就关系变量的具体值，定义variable value如下:</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></div><div class="line">    <span class="keyword">unsigned</span>    len:<span class="number">28</span>;     </div><div class="line"></div><div class="line">    <span class="keyword">unsigned</span>    valid:<span class="number">1</span>;    <span class="comment">// 当前变量是否合法</span></div><div class="line">    <span class="keyword">unsigned</span>    no_cacheable:<span class="number">1</span>; <span class="comment">// 当前变量是否可以缓存，缓存过的变量将只会调用一次get_handler函数</span></div><div class="line">    <span class="keyword">unsigned</span>    not_found:<span class="number">1</span>;<span class="comment">// 变量是否找到</span></div><div class="line">    <span class="keyword">unsigned</span>    escape:<span class="number">1</span>;</div><div class="line"></div><div class="line">    u_char     *data;       <span class="comment">// 变量的数据</span></div><div class="line">&#125; <span class="keyword">ngx_variable_value_t</span>;</div></pre></td></tr></table></figure>
+<p>这样一个最简单的variable 管理方案就OK了，大概如下:</p>
+<ul>
+<li>在main conf记录所有的variable, 维护一个hash table，拥有快速检索</li>
+<li>对于每个request , 维护一个hash table 到value的映射，这样能查询variable的值，</li>
+</ul>
+<p>上面方案的问题:(<code>个人理解</code>)</p>
+<ul>
+<li>资源消耗大 : 如果每个request 都维护一个hash table，显然内存之类的</li>
+<li>查询速度慢 : 虽然hash已经足够快了，但是依旧还是有优化的空间</li>
+</ul>
+<ol>
+<li>那如何优化呢？ 一个简单的思路就是：对于一些变量，可以不用hash，直接用索引(index)，去查询，所以在变量添加的时候，我们可以支持用户给变量添加一个索引，这样用户查询变量的时候，可以直接用索引去查；所以可以调整为:</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></div><div class="line">    <span class="keyword">ngx_array_t</span>                variables;         <span class="comment">// 索引变量的数组</span></div><div class="line">    <span class="keyword">ngx_hash_keys_arrays_t</span>    *variables_keys;       <span class="comment">// 变量的hash数组</span></div><div class="line">&#125; <span class="keyword">ngx_http_core_main_conf_t</span>;</div></pre></td></tr></table></figure>
+<p>有了索引我们添加一个变量的方式，可以调整如下:</p>
+<p>a) ngx_http_add_variable 添加一个变量，往variables_keys里面添加东西<br>b) ngx_http_get_variable_index 对一个变量添加索引(index), 程序存储这个index(variables里面，索引就是数组位置)<br>c) 查询的时候，可以直接index去找；不行的话就在通过hash value</p>
+<p>这样request里面存储的东西也可以调整了，也不需要维护hash，只要维护索引数组就可以了，索引数组没有，直接对conf的hash table去看variable的get/set handle，直接调用就可以, 如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ngx_http_request_s</span> &#123;</span></div><div class="line">    <span class="keyword">ngx_http_variable_value_t</span>        *variables; <span class="comment">//数组大小和conf的variables一样大</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>如上优化，感觉挺不错的；但是nginx的开发者可能不这么认为，因为现在归纳下来，我们获取变量可以通过索引或者hash；其中hash可以理解是全部的；但可能有些场景可能索引就够了，根本不需要通过hash去查找；所以如果能够通过索引去查找的variable，而且有明确不需要通过hash去弄，那就不需要导到hash table；所以main conf调整如下:</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></div><div class="line">    <span class="keyword">ngx_hash_t</span>                 variables_hash;     <span class="comment">// 变量的hash表</span></div><div class="line">    <span class="keyword">ngx_array_t</span>                variables;         <span class="comment">// 索引变量的数组</span></div><div class="line">    <span class="keyword">ngx_hash_keys_arrays_t</span>    *variables_keys;       <span class="comment">// 变量的hash数组</span></div><div class="line">&#125; <span class="keyword">ngx_http_core_main_conf_t</span>;</div></pre></td></tr></table></figure>
+<p>在<code>ngx_http_variables_init_vars</code>里面，我们会将variable_keys 导到 variable_hash, 对于不需要hash的variable，就不用导了；这样一个问题是通过hash就找不到这个变量了</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>依照上面，我们在梳理几个flag的含义已经作用:</p>
+<ul>
+<li><p>NGX_HTTP_VAR_INDEXED : 这个变量是被索引的；这个flag一般不需要手动标记，通过调用ngx_get_variable_index会自动给对应变量，添加此flag</p>
+</li>
+<li><p>NGX_HTTP_VAR_NOHASH : 这个类型的变量，只能通过索引获得，也就是上面第4步说的</p>
+</li>
+</ul>
+<p>简单说明ngx_http_get_variable的代码，其大概逻辑就是尝试用索引，不行就走hash:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">ngx_http_get_variable(ngx_http_request_t *r, ngx_str_t *name, ngx_uint_t key)</div><div class="line">&#123;</div><div class="line">    ngx_http_variable_t        *v;</div><div class="line">    ngx_http_variable_value_t  *vv;</div><div class="line">    ngx_http_core_main_conf_t  *cmcf;</div><div class="line"></div><div class="line">    cmcf = ngx_http_get_module_main_conf(r, ngx_http_core_module);</div><div class="line"></div><div class="line">    // 通过hash获取变量信息</div><div class="line">    // 如果知道有索引，其实可以指通过 ngx_http_get_indexed_variable</div><div class="line">    // 这个函数通用一些，会处理所有情况，</div><div class="line">    v = ngx_hash_find(&amp;cmcf-&gt;variables_hash, key, name-&gt;data, name-&gt;len);</div><div class="line"></div><div class="line">    // 查到hash了 </div><div class="line">    if (v) &#123;</div><div class="line">        // 如果是索引，走索引的流程</div><div class="line">        if (v-&gt;flags &amp; NGX_HTTP_VAR_INDEXED) &#123;</div><div class="line">            return ngx_http_get_flushed_variable(r, v-&gt;index);</div><div class="line"></div><div class="line">        &#125; else &#123;</div><div class="line"></div><div class="line">            // 非索引，通过get/set handle获取信息</div><div class="line">            vv = ngx_palloc(r-&gt;pool, sizeof(ngx_http_variable_value_t));</div><div class="line"></div><div class="line">            if (vv &amp;&amp; v-&gt;get_handler(r, vv, v-&gt;data) == NGX_OK) &#123;</div><div class="line">                return vv;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            return NULL;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 获取类似http_xx, arg_xx 之类的规则变量, 忽略</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><blockquote>
+<p>大部分文档链接都说的很好，很清晰；如有兴趣，可以深看</p>
+</blockquote>
+<ul>
+<li><a href="http://pureage.info/2014/01/20/lua-nginx-variable.html" target="_blank" rel="external">lua-nginx使用自定义变量中需要说明的一点</a></li>
+<li><a href="http://osdir.com/ml/nginx-development/2010-04/msg00019.html" target="_blank" rel="external">questions about http variables: flags and no_cacheable</a></li>
+<li><a href="http://tengine.taobao.org/book/chapter_07.html" target="_blank" rel="external">Tengine: 模块开发高级篇: 变量</a></li>
+<li><a href="http://m.blog.csdn.net/blog/dingyujie/7106524" target="_blank" rel="external">[原]nginx脚本引擎与设计设计(三)</a></li>
+<li><a href="http://blog.lifeibo.com/blog/2011/12/17/nginx-varibles.html" target="_blank" rel="external">Nginx源码分析之变量</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/01/10/tcp_proxy/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          关于nginx的tcp代理支持
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/12/19/nginx_1_9_9/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">nginx 1.9.9 特性说明&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<div class="share_addthis">
+  <div class="sharing addthis_toolbox share">
+    <a class="addthis_button_facebook_like"></a>
+    <a class="addthis_button_tweet"></a>
+    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
+</div>
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

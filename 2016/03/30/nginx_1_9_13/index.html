@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>nginx 1.9.13 特性说明 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="综述1234567891011121314151617181920212223242526272829303132333435363738394041424344*) Change: non-idempotent requests (POST, LOCK, PATCH) are no longerpassed to the next server by default if a request h">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx 1.9.13 特性说明">
+<meta property="og:url" content="http://yoursite.com/2016/03/30/nginx_1_9_13/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="综述1234567891011121314151617181920212223242526272829303132333435363738394041424344*) Change: non-idempotent requests (POST, LOCK, PATCH) are no longerpassed to the next server by default if a request h">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-07-21T06:46:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx 1.9.13 特性说明">
+<meta name="twitter:description" content="综述1234567891011121314151617181920212223242526272829303132333435363738394041424344*) Change: non-idempotent requests (POST, LOCK, PATCH) are no longerpassed to the next server by default if a request h">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-nginx_1_9_13" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      nginx 1.9.13 特性说明
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/03/30/nginx_1_9_13/" class="article-date">
+  <time datetime="2016-03-30T06:17:29.000Z" itemprop="datePublished">2016-03-30</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">*) Change: non-idempotent requests (POST, LOCK, PATCH) are no longer</div><div class="line">passed to the next server by default if a request has been sent to a</div><div class="line">backend; the &quot;non_idempotent&quot; parameter of the &quot;proxy_next_upstream&quot;</div><div class="line">directive explicitly allows retrying such requests.</div><div class="line"></div><div class="line">*) Feature: the ngx_http_perl_module can be built dynamically.</div><div class="line"></div><div class="line">*) Feature: UDP support in the stream module.</div><div class="line"></div><div class="line">*) Feature: the &quot;aio_write&quot; directive.</div><div class="line"></div><div class="line">*) Feature: now cache manager monitors number of elements in caches and</div><div class="line">tries to avoid cache keys zone overflows.</div><div class="line"></div><div class="line">*) Bugfix: &quot;task already active&quot; and &quot;second aio post&quot; alerts might</div><div class="line">appear in logs when using the &quot;sendfile&quot; and &quot;aio&quot; directives with</div><div class="line">subrequests.</div><div class="line"></div><div class="line">*) Bugfix: &quot;zero size buf in output&quot; alerts might appear in logs if</div><div class="line">caching was used and a client closed a connection prematurely.</div><div class="line"></div><div class="line">*) Bugfix: connections with clients might be closed needlessly if</div><div class="line">caching was used.</div><div class="line">Thanks to Justin Li.</div><div class="line"></div><div class="line">*) Bugfix: nginx might hog CPU if the &quot;sendfile&quot; directive was used on</div><div class="line">Linux or Solaris and a file being sent was changed during sending.</div><div class="line"></div><div class="line">*) Bugfix: connections might hang when using the &quot;sendfile&quot; and &quot;aio</div><div class="line">threads&quot; directives.</div><div class="line"></div><div class="line">*) Bugfix: in the &quot;proxy_pass&quot;, &quot;fastcgi_pass&quot;, &quot;scgi_pass&quot;, and</div><div class="line">&quot;uwsgi_pass&quot; directives when using variables.</div><div class="line">Thanks to Piotr Sikora.</div><div class="line"></div><div class="line">*) Bugfix: in the ngx_http_sub_filter_module.</div><div class="line"></div><div class="line">*) Bugfix: if an error occurred in a cached backend connection, the</div><div class="line">request was passed to the next server regardless of the</div><div class="line">proxy_next_upstream directive.</div><div class="line"></div><div class="line">*) Bugfix: &quot;CreateFile() failed&quot; errors when creating temporary files on</div><div class="line">Windows.</div></pre></td></tr></table></figure>
+<p>这一期的feature和功能还是很多的，下面重点说明几个: </p>
+<h2 id="upstream-重试策略"><a href="#upstream-重试策略" class="headerlink" title="upstream 重试策略"></a>upstream 重试策略</h2><p>这个问题的背景初现于<a href="https://trac.nginx.org/nginx/ticket/488#comment:4" target="_blank" rel="external">proxy_next_upstream_action to distinguish different network actions</a>, 整体意思是: 默认情况下，nginx对于upstream的重试，是不加以区别的，尤其对于一些非幂等操作的请求(PUT, LOCK, PATCH)也是如此，这样的策略对业务可能存在一定的风险, 所以需要加以控制，如下是新的<code>proxy_next_upstream</code>的说明 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">* non_idempotent</div><div class="line">normally, requests with a non-idempotent method (POST, LOCK, PATCH) are not passed to the next server if a request has been sent to an upstream server (1.9.13); enabling this option explicitly allows retrying such requests</div></pre></td></tr></table></figure>
+<p>也就是从<code>1.9.13</code> 版本开始，nginx默认不会重试一个已经发出去的POST请求, 需要通过<code>non_idempotent</code> 进行控制</p>
+<blockquote>
+<p>!!! : 这个和贴吧现有的策略不一致，迁移的时候需要注意</p>
+</blockquote>
+<h2 id="aio-write"><a href="#aio-write" class="headerlink" title="aio_write"></a>aio_write</h2><p>这个指令允许，我们在写文件的时候，也是一个异步的过程，之前的<code>aio</code>主要是允许读操作进行异步，具体<a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#aio_write" target="_blank" rel="external">官方解释</a>如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">If aio is enabled, specifies whether it is used for writing files. Currently, this only works when using aio threads and is limited to writing temporary files with data received from proxied servers</div></pre></td></tr></table></figure>
+<p>注意 : 现在异步写只是在接收proxy的返回包体使用的，其他地方并未开启</p>
+<p>关于nginx的异步文件IO机制，具体可以见之前的一篇文章 : <a href="http://nginx.baidu.com/book/nginx_dev_manual/internal/io_in_linux_and_nginx.html" target="_blank" rel="external">linux和nginx下的异步文件IO管理</a></p>
+<h2 id="UDP-Proxy支持"><a href="#UDP-Proxy支持" class="headerlink" title="UDP Proxy支持"></a>UDP Proxy支持</h2><p>这个版本开始，同样开始支持UDP代理了, 整个UDP代理其实和做一个TCP代理，至少理解上面不会查很多，如下是一个具体UDP代理的配置</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="section">server</span> &#123;</div><div class="line">    <span class="attribute">listen</span> <span class="number">53</span> udp;</div><div class="line">    <span class="attribute">proxy_responses</span> <span class="number">1</span>;</div><div class="line">    <span class="attribute">proxy_timeout</span> <span class="number">20s</span>;</div><div class="line">    <span class="attribute">proxy_pass</span> dns.example.com:<span class="number">53</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里面可以去思考的一个问题是:   </p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/05/19/weekly-of-20160522/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          weekly of 20160522
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/01/30/nginx_1_9_10/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">nginx 1.9.10 特性说明&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<div class="share_addthis">
+  <div class="sharing addthis_toolbox share">
+    <a class="addthis_button_facebook_like"></a>
+    <a class="addthis_button_tweet"></a>
+    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
+</div>
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

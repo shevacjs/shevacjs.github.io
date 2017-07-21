@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>nginx 1.9.10 特性说明 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="综述12345678910111213141516171819*) Security: invalid pointer dereference might occur during DNS server       response processing if the &amp;quot;resolver&amp;quot; directive was used, allowing an       attack">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx 1.9.10 特性说明">
+<meta property="og:url" content="http://yoursite.com/2016/01/30/nginx_1_9_10/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="综述12345678910111213141516171819*) Security: invalid pointer dereference might occur during DNS server       response processing if the &amp;quot;resolver&amp;quot; directive was used, allowing an       attack">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-07-21T06:46:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx 1.9.10 特性说明">
+<meta name="twitter:description" content="综述12345678910111213141516171819*) Security: invalid pointer dereference might occur during DNS server       response processing if the &amp;quot;resolver&amp;quot; directive was used, allowing an       attack">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-nginx_1_9_10" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      nginx 1.9.10 特性说明
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/01/30/nginx_1_9_10/" class="article-date">
+  <time datetime="2016-01-30T06:17:29.000Z" itemprop="datePublished">2016-01-30</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">*) Security: invalid pointer dereference might occur during DNS server</div><div class="line">       response processing if the &quot;resolver&quot; directive was used, allowing an</div><div class="line">       attacker who is able to forge UDP packets from the DNS server to</div><div class="line">       cause segmentation fault in a worker process (CVE-2016-0742).</div><div class="line"></div><div class="line">*) Security: use-after-free condition might occur during CNAME response</div><div class="line">       processing if the &quot;resolver&quot; directive was used, allowing an attacker</div><div class="line">       who is able to trigger name resolution to cause segmentation fault in</div><div class="line">       a worker process, or might have potential other impact</div><div class="line">       (CVE-2016-0746).</div><div class="line"></div><div class="line">*) Security: CNAME resolution was insufficiently limited if the</div><div class="line">       &quot;resolver&quot; directive was used, allowing an attacker who is able to</div><div class="line">       trigger arbitrary name resolution to cause excessive resource</div><div class="line">       consumption in worker processes (CVE-2016-0747).</div><div class="line"></div><div class="line">*) Feature: the &quot;auto&quot; parameter of the &quot;worker_cpu_affinity&quot; directive.</div><div class="line"></div><div class="line">*) Bugfix : ...</div></pre></td></tr></table></figure>
+<p>可以看到主要是几个安全问题的修复，以及一个新的feature的支持; 下面简单说明这个两个点</p>
+<h2 id="安全问题"><a href="#安全问题" class="headerlink" title="安全问题"></a>安全问题</h2><p>几个安全问题都是关于<code>resolver</code>指令，主要问题在于在解析DNS时需要对异常有更强的容错能力，风险点包括如下:</p>
+<ul>
+<li>DNS的服务伪造一个UDP包体可以导致nginx crash</li>
+<li>其他的异常情况导致的nginx crash</li>
+</ul>
+<p>今天问题自己总结如下:</p>
+<p>当我们使用<code>resolver</code>指令的时候，nginx需要和dns服务器进行交互，以便获取具体域名对应的IP; 整个这个交互的过程是nginx自己编码和dns服务交互,  这样存在的一个问题是一旦nginx的容错逻辑有问题，尤其是和外界的dns服务交互的时候，一旦这个DNS服务器可以恶意伪造请求的时候, 比如返回不正常的body的时候, nginx容错一旦处理有点偏颇，就会crash</p>
+<p>所以这种情况一般会出现在: <code>配置了resolver指令，且对于的dns服务器不可信</code></p>
+<blockquote>
+<p>具体可以见 : <a href="http://mailman.nginx.org/pipermail/nginx/2016-January/049700.html" target="_blank" rel="external">http://mailman.nginx.org/pipermail/nginx/2016-January/049700.html</a></p>
+</blockquote>
+<h2 id="worker-cpu-affinity指令优化"><a href="#worker-cpu-affinity指令优化" class="headerlink" title="worker_cpu_affinity指令优化"></a>worker_cpu_affinity指令优化</h2><p>这个指令的功能比较简单，就是可以自动设置cpu的亲和性, demo如下:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="attribute">worker_cpu_affinity</span> auto;</div></pre></td></tr></table></figure>
+<p>具体代码的实现还是比较简单的，不再赘述</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/03/30/nginx_1_9_13/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          nginx 1.9.13 特性说明
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/01/19/tcp_keepalive_proxy/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">让nginx支持TCP长连接代理&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<div class="share_addthis">
+  <div class="sharing addthis_toolbox share">
+    <a class="addthis_button_facebook_like"></a>
+    <a class="addthis_button_tweet"></a>
+    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
+</div>
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

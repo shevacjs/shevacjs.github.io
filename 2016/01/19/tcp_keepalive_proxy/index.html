@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>让nginx支持TCP长连接代理 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="问题12345              -----&amp;gt; LCS             /Client(PHP) -------&amp;gt; LCS            \             ------&amp;gt; LCS 如上，我们客户端需要和LCS交互，正常情况下，由于PHP比较难做长链接(当然RAL后续可以做长连接的支持)，所以现在每次和LCS交互，都需要建立一次TCP连接，然后做数">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="让nginx支持TCP长连接代理">
+<meta property="og:url" content="http://yoursite.com/2016/01/19/tcp_keepalive_proxy/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="问题12345              -----&amp;gt; LCS             /Client(PHP) -------&amp;gt; LCS            \             ------&amp;gt; LCS 如上，我们客户端需要和LCS交互，正常情况下，由于PHP比较难做长链接(当然RAL后续可以做长连接的支持)，所以现在每次和LCS交互，都需要建立一次TCP连接，然后做数">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-07-21T06:46:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="让nginx支持TCP长连接代理">
+<meta name="twitter:description" content="问题12345              -----&amp;gt; LCS             /Client(PHP) -------&amp;gt; LCS            \             ------&amp;gt; LCS 如上，我们客户端需要和LCS交互，正常情况下，由于PHP比较难做长链接(当然RAL后续可以做长连接的支持)，所以现在每次和LCS交互，都需要建立一次TCP连接，然后做数">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-tcp_keepalive_proxy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      让nginx支持TCP长连接代理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/01/19/tcp_keepalive_proxy/" class="article-date">
+  <time datetime="2016-01-19T06:17:30.000Z" itemprop="datePublished">2016-01-19</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">              -----&gt; LCS </div><div class="line">            /</div><div class="line">Client(PHP) -------&gt; LCS</div><div class="line">            \</div><div class="line">             ------&gt; LCS</div></pre></td></tr></table></figure>
+<p>如上，我们客户端需要和LCS交互，正常情况下，由于PHP比较难做长链接(当然RAL后续可以做长连接的支持)，所以现在每次和LCS交互，都需要建立一次TCP连接，然后做数据传输；现在问题是，如果LCS在其他的IDC，这样client和LCS每次都得做一次跨机房的三次握手, 这样对服务稳定性等都有一定的影响</p>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">                        -----&gt; LCS </div><div class="line">                      /</div><div class="line">Client(PHP)---&gt; Proxy -------&gt; LCS</div><div class="line">                      \</div><div class="line">                        ------&gt; LCS</div></pre></td></tr></table></figure>
+<p>一个方案是如上，加上一个proxy，这个Proxy的作用是和LCS维护一个长连接，和client保持短连接，同时让Client和Proxy部署在一个IDC, Proxy和LCS可以跨IDC；此时Proxy和LCS的由于是长连接交互，不必要每次都有个跨IDC的三次握手, 但也有如下的问题:</p>
+<ul>
+<li>增加了一层，意味着多一层网络交互，</li>
+<li>长连接的跨IDC交互有可能也避免不了跨IDC的网络异常问题</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>如上，上面的proxy，其实就是我们说的nginx proxy, 现在的问题是nginx虽然支持简单的tcp proxy，但是并不支持downstream是短链接，然后upstream是长连接(upstream和downstream的长短链接必须一致), 但是我们知道nginx http模块里面是有一个keepalive模块的，所以技术上面应该问题不大的，我们要做的就是把那个东西迁移过来, 具体如下:</p>
+<h3 id="关于nginx-HTTP-长连接"><a href="#关于nginx-HTTP-长连接" class="headerlink" title="关于nginx HTTP  长连接"></a>关于nginx HTTP  长连接</h3><ul>
+<li>内部实现 : <a href="http://blog.csdn.net/gzh0222/article/details/8523635" target="_blank" rel="external">http://blog.csdn.net/gzh0222/article/details/8523635</a></li>
+<li>大概思路 :<ul>
+<li>对于一个具体的upstream，可以设置其connection pool的size</li>
+<li>每次需要访问upstream的时候，先去connection pool里面查找, 如果存在，就用改连接；否则新建一个连接</li>
+<li>当访问结束的时候, 不主动断开连接，而且放回到连接池; 如果连接池是满的，需要释放最老的无用的连接(LRU)</li>
+</ul>
+</li>
+</ul>
+<h3 id="配置demo"><a href="#配置demo" class="headerlink" title="配置demo"></a>配置demo</h3><p>依照http upstream keepalive module的工作原理，我们编写了一个tcp upstream keepalie模块，具体代码请见<a href="http://gitlab.baidu.com/nginx/ngx_stream_keepalive_module/tree/master" target="_blank" rel="external">ngx_stream_keepalive_module</a></p>
+<p>如下是简单的配置demo</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="section">stream</span> &#123;</div><div class="line">    <span class="attribute">upstream</span> stream_test &#123;</div><div class="line">        <span class="comment"># 设置连接池的大小, 用法同http upstream keepalive module</span></div><div class="line">        <span class="attribute">keepalive</span> <span class="number">10</span>;</div><div class="line">        <span class="attribute">server</span> yf-forum-rdcjs1.yf01.baidu.com:<span class="number">12388</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="section">server</span> &#123;</div><div class="line">        <span class="attribute">listen</span> <span class="number">12345</span>;</div><div class="line">        <span class="attribute">proxy_pass</span> stream_test;</div><div class="line">        <span class="attribute">proxy_protocol</span> <span class="literal">on</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="问题-amp-思路"><a href="#问题-amp-思路" class="headerlink" title="问题&amp;思路"></a>问题&amp;思路</h3><p>一旦加入一个proxy，我们其实又面临一个问题，以上图为例，就是LCS如何获取真正的client ip? </p>
+<p>像http协议的代理，一般会在应用层做这个事情，比如说通过<a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html" target="_blank" rel="external">ngx_http_realip_module</a> 把相关的信息放到header里面，这样是能满足业务需求的; 那tcp proxy怎么办?</p>
+<p>像TCP层一下的代理，比如说<a href="https://en.wikipedia.org/wiki/Linux_Virtual_Server" target="_blank" rel="external">LVS</a>一般会需要<a href="http://www.just4coding.com/blog/2015/11/16/toa/" target="_blank" rel="external">内核的支持</a>，以便我们正确的获取客户端的IP，感觉解决方案都是挺重的</p>
+<p>一个简单的方案是<a href="http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt" target="_blank" rel="external">The PROXY protocol</a>, 这个协议原理&amp;思路非常简单，就是在协议代理，新建连接的时候，会传输具体的代理信息。比如按照上图，当<code>Proxy</code>和<code>LCS</code>建立连接的时候，他做的第一个事情是发送一个文本信息，告诉<code>LCS</code>相关的client信息，大概如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">PROXY TCP4 192.168.0.1 192.168.0.11 56324 443</div></pre></td></tr></table></figure>
+<p>所以此时客户端需要修改其读取逻辑，在首次连接之后，需要尝试去读取proxy的信息，如果存在，就可以做一些具体的解析</p>
+<p>同时，也要求proxy做一些修改，在发送请求给后端的时候，需要额外带上这些信息，具体可以通过<a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_protocol" target="_blank" rel="external">proxy_protocol</a>这个指令控制;</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html" target="_blank" rel="external">nginx stream module官方链接</a></li>
+<li><a href="http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt" target="_blank" rel="external">proxy protocol具体说明文档</a> </li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/01/30/nginx_1_9_10/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          nginx 1.9.10 特性说明
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/01/10/tcp_proxy/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">关于nginx的tcp代理支持&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<div class="share_addthis">
+  <div class="sharing addthis_toolbox share">
+    <a class="addthis_button_facebook_like"></a>
+    <a class="addthis_button_tweet"></a>
+    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
+</div>
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>
