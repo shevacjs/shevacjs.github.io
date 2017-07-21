@@ -80,7 +80,7 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="IMG_1918.JPG" alt="head photo"></p>
+        <p><img src="IMG_1918.JPG" alt=""></p>
 <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
 <li><a href="http://jm.taobao.org/2017/06/01/20170601/" target="_blank" rel="external">就是要你懂 TCP | 最经典的TCP性能问题</a> : 阿里中间件的blog，关于TCP的几个问题说明的还是很清楚的</li>
 </ul>
@@ -611,6 +611,92 @@
 
 
     
+      <article id="post-classification_and_logistic_regression" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/06/classification_and_logistic_regression/">Classification and logistic regression</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/05/06/classification_and_logistic_regression/" class="article-date">
+  <time datetime="2017-05-05T16:25:11.000Z" itemprop="datePublished">2017-05-06</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="分类问题"><a href="#分类问题" class="headerlink" title="分类问题"></a>分类问题</h3><p>线性回归用来具体预测一个连续的value，对于离散值的预测是怎么样的呢？是否可以用同样的办法？这个是本节需要讨论的内容， 简单起见，我们先考虑一个二元的分类问题，多元的分类可以基于这个模型进行扩展 </p>
+<p>通常情况下，在二元分类问题上，我们会约定，结果集: </p>
+<p>$$ y \in { 0, 1 }$$</p>
+<p>其中1一般成为正例，0成为反例</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><blockquote>
+<p> <code>WARN</code>: 个人理解</p>
+</blockquote>
+<p>回到线性回归模型，我们是定义如下函数用于预测: </p>
+<p>$$ y = h_\theta(\overrightarrow{x})$$</p>
+<p>y是连续值；一个问题是，是否有办法用类似的办法解决我们的二元分类问题？</p>
+<p>一个自然的想法是，如果我们能把$h_\theta(x)$的结果控制在$[0, 1]$之间的话，可以把其定义为为正例(或者负例)的概率，也就是: </p>
+<p>$$ P(y=1|x : \theta) = h_\theta(x)$$</p>
+<p>这样的定义，我们可以理解为，给定一个输入$x$, 我们要做的是预测其为正例的概率；所以还是类似于一个线性回归的问题； 下面具体看，如何对这个问题进一步建模；</p>
+<p>首先，我们会用如下函数约束我们的输出 : </p>
+<p>$$ g(z) = \frac{1}{1+ e^{-z}}$$</p>
+<p>$$h_\theta(x) = g(\theta^Tx) = \frac{1}{1 + e^{-\theta^Tx}}$$</p>
+<p>这个函数具有良好的特性，比如说：返回结果总是属于(0, 1) ，还有他的导数性质(暂且不说)；</p>
+<p>其次，如上基于概率的思想，我们可以有如下定义:</p>
+<p>$$ P(y=1|x : \theta) = h_\theta(x)$$</p>
+<p>$$ P(y=0|x : \theta) = 1- h_\theta(x)$$</p>
+<p>就是可以写成，对于任意一个输入$x$, 给定$\theta$, 其概率函数为: </p>
+<p>$$ p(y|x;\theta) = (h<em>\theta(x))^y(1-h</em>\theta(x))^{1-y}$$</p>
+<p>所以，在已知数据集合${X, Y }$的情况下,  我们要做的就是求$\theta$的最优解</p>
+<p>我们定义的最大似然函数 : </p>
+<p>$$ L(\theta) = p(\overrightarrow{y}| X ; \theta)$$<br>$$ = \prod_i^m p(y^{(i)}|x^{(i)};\theta)$$</p>
+<p>令 ： </p>
+<p>$$l(\theta) = log L(\theta) = \sum_{i=1}^m p(y^{(i)} | x^{(i)}; \theta)$$</p>
+<p>其实要求的就是$l(\theta)$的最大值， 这里我们假定我们可以用梯度下降的办法求解，也就是求解$\theta$可以使用如下方程推导:</p>
+<p>$$ \theta_j : = \theta_j + \alpha \frac{\partial}{\partial\theta} J(\theta)$$</p>
+<p>通过对上面函数的求导，我们可以得到类似线性回归的模式:</p>
+<p>$$ \theta_j =  \theta<em>j + \alpha \ast ( y^{(i)}- h</em>{\theta}(x^{(i)}) ) \ast  x_j$$</p>
+<h3 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h3><p>依照上面的策略，我们可以知道对于一个输入$x$, 我们的$h_\theta(x)$是一个概率值，这样怎么定义结果的正例和负例呢？一般情况下，我们可以约定 :</p>
+<p>$$ y = 1,  if \ \  h_\theta(x)&gt; 0.5; else\ \ y = 0 $$</p>
+<h3 id="多元分类问题"><a href="#多元分类问题" class="headerlink" title="多元分类问题"></a>多元分类问题</h3><p>上面讨论的是二元分类的问题，如何应用于n $(n &gt; 2)$元分类呢？一个简单的办法是： <code>one-vs-all</code> : 也就是每次就区分一个分类和剩余分类；如此重复n次，大概如下: </p>
+<ul>
+<li><p>对于每个分类$i$, 训练他的逻辑回归函数$h_\theta^{(i)}(x)$；按照上面的定义，可以理解为，其对应着 $ y = i $的概率</p>
+</li>
+<li><p>对于一个新的输入 x, 我们计算 $\max \limits<em>i h</em>\theta^{(i)}(x)$, 对应着$i$分类</p>
+</li>
+</ul>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3>
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-svd" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -691,92 +777,6 @@
 <li>[3] <a href="https://ccjou.wordpress.com/2009/05/27/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8%E5%9F%BA%E6%9C%AC%E5%AE%9A%E7%90%86-%E5%9B%9B/" target="_blank" rel="external">線性代數基本定理 (四)</a></li>
 </ul>
 
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-classification_and_logistic_regression" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/06/classification_and_logistic_regression/">Classification and logistic regression</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/05/06/classification_and_logistic_regression/" class="article-date">
-  <time datetime="2017-05-05T16:25:11.000Z" itemprop="datePublished">2017-05-06</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="分类问题"><a href="#分类问题" class="headerlink" title="分类问题"></a>分类问题</h3><p>线性回归用来具体预测一个连续的value，对于离散值的预测是怎么样的呢？是否可以用同样的办法？这个是本节需要讨论的内容， 简单起见，我们先考虑一个二元的分类问题，多元的分类可以基于这个模型进行扩展 </p>
-<p>通常情况下，在二元分类问题上，我们会约定，结果集: </p>
-<p>$$ y \in { 0, 1 }$$</p>
-<p>其中1一般成为正例，0成为反例</p>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><blockquote>
-<p> <code>WARN</code>: 个人理解</p>
-</blockquote>
-<p>回到线性回归模型，我们是定义如下函数用于预测: </p>
-<p>$$ y = h_\theta(\overrightarrow{x})$$</p>
-<p>y是连续值；一个问题是，是否有办法用类似的办法解决我们的二元分类问题？</p>
-<p>一个自然的想法是，如果我们能把$h_\theta(x)$的结果控制在$[0, 1]$之间的话，可以把其定义为为正例(或者负例)的概率，也就是: </p>
-<p>$$ P(y=1|x : \theta) = h_\theta(x)$$</p>
-<p>这样的定义，我们可以理解为，给定一个输入$x$, 我们要做的是预测其为正例的概率；所以还是类似于一个线性回归的问题； 下面具体看，如何对这个问题进一步建模；</p>
-<p>首先，我们会用如下函数约束我们的输出 : </p>
-<p>$$ g(z) = \frac{1}{1+ e^{-z}}$$</p>
-<p>$$h_\theta(x) = g(\theta^Tx) = \frac{1}{1 + e^{-\theta^Tx}}$$</p>
-<p>这个函数具有良好的特性，比如说：返回结果总是属于(0, 1) ，还有他的导数性质(暂且不说)；</p>
-<p>其次，如上基于概率的思想，我们可以有如下定义:</p>
-<p>$$ P(y=1|x : \theta) = h_\theta(x)$$</p>
-<p>$$ P(y=0|x : \theta) = 1- h_\theta(x)$$</p>
-<p>就是可以写成，对于任意一个输入$x$, 给定$\theta$, 其概率函数为: </p>
-<p>$$ p(y|x;\theta) = (h<em>\theta(x))^y(1-h</em>\theta(x))^{1-y}$$</p>
-<p>所以，在已知数据集合${X, Y }$的情况下,  我们要做的就是求$\theta$的最优解</p>
-<p>我们定义的最大似然函数 : </p>
-<p>$$ L(\theta) = p(\overrightarrow{y}| X ; \theta)$$<br>$$ = \prod_i^m p(y^{(i)}|x^{(i)};\theta)$$</p>
-<p>令 ： </p>
-<p>$$l(\theta) = log L(\theta) = \sum_{i=1}^m p(y^{(i)} | x^{(i)}; \theta)$$</p>
-<p>其实要求的就是$l(\theta)$的最大值， 这里我们假定我们可以用梯度下降的办法求解，也就是求解$\theta$可以使用如下方程推导:</p>
-<p>$$ \theta_j : = \theta_j + \alpha \frac{\partial}{\partial\theta} J(\theta)$$</p>
-<p>通过对上面函数的求导，我们可以得到类似线性回归的模式:</p>
-<p>$$ \theta_j =  \theta<em>j + \alpha \ast ( y^{(i)}- h</em>{\theta}(x^{(i)}) ) \ast  x_j$$</p>
-<h3 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h3><p>依照上面的策略，我们可以知道对于一个输入$x$, 我们的$h_\theta(x)$是一个概率值，这样怎么定义结果的正例和负例呢？一般情况下，我们可以约定 :</p>
-<p>$$ y = 1,  if \ \  h_\theta(x)&gt; 0.5; else\ \ y = 0 $$</p>
-<h3 id="多元分类问题"><a href="#多元分类问题" class="headerlink" title="多元分类问题"></a>多元分类问题</h3><p>上面讨论的是二元分类的问题，如何应用于n $(n &gt; 2)$元分类呢？一个简单的办法是： <code>one-vs-all</code> : 也就是每次就区分一个分类和剩余分类；如此重复n次，大概如下: </p>
-<ul>
-<li><p>对于每个分类$i$, 训练他的逻辑回归函数$h_\theta^{(i)}(x)$；按照上面的定义，可以理解为，其对应着 $ y = i $的概率</p>
-</li>
-<li><p>对于一个新的输入 x, 我们计算 $\max \limits<em>i h</em>\theta^{(i)}(x)$, 对应着$i$分类</p>
-</li>
-</ul>
-<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3>
       
     </div>
     
