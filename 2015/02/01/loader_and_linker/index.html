@@ -105,7 +105,7 @@
 <p>其他一些可以关注的点包括: LD_PRELOAD, LD_DEBUG, -rpath</p>
 <h3 id="找哪个"><a href="#找哪个" class="headerlink" title="找哪个"></a>找哪个</h3><p>由于动态库可能会一直升级，基本我们找到了那个so，我们能否使用之，会不会版本太老或者太新等。为止，我们需要有相关的规范约定动态库能够被使用，具体来说，由如下三个部分沟通:</p>
 <h4 id="so版本库概念"><a href="#so版本库概念" class="headerlink" title="so版本库概念"></a>so版本库概念</h4><p>具体约定每个so按照如下命名规则:</p>
-<p>lib<em>name</em>.so.<em>x</em>.<em>y</em>.<em>z</em></p>
+<p>lib_name_.so._x_._y_._z_</p>
 <ul>
 <li>x : 主版本号,表示重大升级，不同主版本号可以不兼容</li>
 <li>y : 次版本号，表示增量升级，新建一些接口，且会兼容老的版本</li>

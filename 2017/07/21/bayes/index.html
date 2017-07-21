@@ -93,7 +93,7 @@
 <ul>
 <li>$x$ 为输入向量；其中$x_i^{(j)}$ 表示第$i$个样本的第$j$维的特征值,  任何一个邮件可以用如下的形式表示 : </li>
 </ul>
-<p>$$x=\left[ \begin{array}{cc} 0 &amp; a_0\ 1 &amp; a_1 \ 1 &amp; a_2\ 0  &amp; a_3 \ 1 &amp; a_4 \ .. &amp; .. \end{array} \right]$$</p>
+<p>$$x=\left[ \begin{array}{cc} 0 &amp; a_0\\ 1 &amp; a_1 \\ 1 &amp; a_2\\ 0  &amp; a_3 \\ 1 &amp; a_4 \\ .. &amp; .. \end{array} \right]$$</p>
 <p>其中第$i$行代表着单词$a_i$是否出现在这个邮件里面；$|A|$ 表示着词汇量的个数，也是也是输入特征$x$的维度</p>
 <ul>
 <li>$y$为输入结果,  这里面设定 $y=1$为垃圾邮件，否则$y=0$</li>
@@ -101,14 +101,14 @@
 <p>这里，我们准备使用<code>朴素贝叶斯</code>的方法解决分类问题，如上面生成模型的说明, 我们的求解问题转化为:</p>
 <p>$ p(y|x) = p(x|y) p(y) / p(x) $</p>
 <p>我们约定如下: </p>
-<p>$$\phi_{i|y=1} = p(x<em>i = 1 | y = 1)$$<br>$$\phi</em>{i|y=0} = p(x_i = 1 | y = 0)$$<br>$$\phi_y = p(y = 1) $$</p>
+<p>$$\phi_{i|y=1} = p(x_i = 1 | y = 1)$$<br>$$\phi_{i|y=0} = p(x_i = 1 | y = 0)$$<br>$$\phi_y = p(y = 1) $$</p>
 <p>则有 : </p>
-<p>$$ \phi<em>{i|y=1} = \frac{\sum</em>{i=0}^{m} 1 {x<em>j^{(i)} = 1 \ and \  y^{(i)} = 1}}{\sum</em>{i=0}^{m} 1 { y^{(i)} = 1}}$$</p>
+<p>$$ \phi_{i|y=1} = \frac{\sum_{i=0}^{m} 1 {x_j^{(i)} = 1 \ and \  y^{(i)} = 1}}{\sum_{i=0}^{m} 1 { y^{(i)} = 1}}$$</p>
 <p>其他的$\phi_{i|y=0} , \phi_y$ 同理易得</p>
 <p>则在样本输入${x^{(i)}, y^{(i)}}, i = 0, 1, 2 …$ 的情况下；对于上面的分类问题，我们可以先求解:</p>
-<p>$$ P(y=1\ |x) = P(x|y=1) P(y=1) / P(x) \ = \frac{ (\prod_{i=0}^{m}P(x<em>i\ |y = 1)) P(y=1)}{ (\prod</em>{i=0}^{m}P(x<em>i\ |y = 1)) + (\prod</em>{i=0}^{m}P(x_i\ |y = 0))}$$</p>
+<p>$$ P(y=1\ |x) = P(x|y=1) P(y=1) / P(x) \\ = \frac{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) P(y=1)}{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) + (\prod_{i=0}^{m}P(x_i\ |y = 0))}$$</p>
 <p>上面的$\prod$ 展开是依赖于所谓的<code>贝叶斯假设</code>， 也就是对于给定的结果$y$, 事件$x_i$相对于$y$是独立分布的, 也就是有: </p>
-<p>$$P(x_1,x_2,…,x_n\ |\ y) = p(x_1|y)p(x_2|y,x_1)….p(x_n|y,x_1,x_2, …) \ = p(x_1|y)p(x_2|y) … p(x<em>n|y) \ = \prod</em>{i=1}^{n} p(x_i|y)$$</p>
+<p>$$P(x_1,x_2,…,x_n\ |\ y) = p(x_1|y)p(x_2|y,x_1)….p(x_n|y,x_1,x_2, …) \\ = p(x_1|y)p(x_2|y) … p(x_n|y) \\ = \prod_{i=1}^{n} p(x_i|y)$$</p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
 <li><a href="https://guangchun.wordpress.com/2011/10/13/ml-bayes-map/" target="_blank" rel="external">参数估计：最大似然、贝叶斯与最大后验</a> </li>
 </ul>
@@ -128,10 +128,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/07/23/20170723/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/07/21/svm/" id="article-nav-newer" class="article-nav-link-wrap">
       <div class="article-nav-title"><span>&lt;</span>&nbsp;
         
-          weekly of 20170723
+          About SVM
         
       </div>
     </a>

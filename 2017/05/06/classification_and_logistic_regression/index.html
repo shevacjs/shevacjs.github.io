@@ -102,7 +102,7 @@
 <p>$$ P(y=1|x : \theta) = h_\theta(x)$$</p>
 <p>$$ P(y=0|x : \theta) = 1- h_\theta(x)$$</p>
 <p>就是可以写成，对于任意一个输入$x$, 给定$\theta$, 其概率函数为: </p>
-<p>$$ p(y|x;\theta) = (h<em>\theta(x))^y(1-h</em>\theta(x))^{1-y}$$</p>
+<p>$$ p(y|x;\theta) = (h_\theta(x))^y(1-h_\theta(x))^{1-y}$$</p>
 <p>所以，在已知数据集合${X, Y }$的情况下,  我们要做的就是求$\theta$的最优解</p>
 <p>我们定义的最大似然函数 : </p>
 <p>$$ L(\theta) = p(\overrightarrow{y}| X ; \theta)$$<br>$$ = \prod_i^m p(y^{(i)}|x^{(i)};\theta)$$</p>
@@ -111,14 +111,14 @@
 <p>其实要求的就是$l(\theta)$的最大值， 这里我们假定我们可以用梯度下降的办法求解，也就是求解$\theta$可以使用如下方程推导:</p>
 <p>$$ \theta_j : = \theta_j + \alpha \frac{\partial}{\partial\theta} J(\theta)$$</p>
 <p>通过对上面函数的求导，我们可以得到类似线性回归的模式:</p>
-<p>$$ \theta_j =  \theta<em>j + \alpha \ast ( y^{(i)}- h</em>{\theta}(x^{(i)}) ) \ast  x_j$$</p>
+<p>$$ \theta_j =  \theta_j + \alpha \ast ( y^{(i)}- h_{\theta}(x^{(i)}) ) \ast  x_j$$</p>
 <h3 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h3><p>依照上面的策略，我们可以知道对于一个输入$x$, 我们的$h_\theta(x)$是一个概率值，这样怎么定义结果的正例和负例呢？一般情况下，我们可以约定 :</p>
 <p>$$ y = 1,  if \ \  h_\theta(x)&gt; 0.5; else\ \ y = 0 $$</p>
 <h3 id="多元分类问题"><a href="#多元分类问题" class="headerlink" title="多元分类问题"></a>多元分类问题</h3><p>上面讨论的是二元分类的问题，如何应用于n $(n &gt; 2)$元分类呢？一个简单的办法是： <code>one-vs-all</code> : 也就是每次就区分一个分类和剩余分类；如此重复n次，大概如下: </p>
 <ul>
 <li><p>对于每个分类$i$, 训练他的逻辑回归函数$h_\theta^{(i)}(x)$；按照上面的定义，可以理解为，其对应着 $ y = i $的概率</p>
 </li>
-<li><p>对于一个新的输入 x, 我们计算 $\max \limits<em>i h</em>\theta^{(i)}(x)$, 对应着$i$分类</p>
+<li><p>对于一个新的输入 x, 我们计算 $\max \limits_i h_\theta^{(i)}(x)$, 对应着$i$分类</p>
 </li>
 </ul>
 <h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3>
@@ -137,17 +137,17 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/05/07/20170507/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/05/06/svd/" id="article-nav-newer" class="article-nav-link-wrap">
       <div class="article-nav-title"><span>&lt;</span>&nbsp;
         
-          weekly of 20170507
+          About SVD
         
       </div>
     </a>
   
   
-    <a href="/2017/05/06/svd/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">About SVD&nbsp;<span>&gt;</span></div>
+    <a href="/2017/04/30/20170430/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20170430&nbsp;<span>&gt;</span></div>
     </a>
   
 </nav>

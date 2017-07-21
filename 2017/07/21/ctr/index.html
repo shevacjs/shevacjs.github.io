@@ -95,25 +95,25 @@
 <li>特征之间存在一些关联性</li>
 </ul>
 <p>传统的LR算法的$h_\theta(x) = \theta^Tx$，显然可能不适合此类数据，一个简单是思路是引入二次项，包含关联关系的预估, 如下 : </p>
-<p>$$y(x) = w<em>0 + \sum</em>{i=1}^nw_ix<em>i  + \sum</em>{i=1}^n \sum<em>{j=i+1}^n w</em>{ij}x_ix_j$$</p>
+<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n w_{ij}x_ix_j$$</p>
 <p>这个表达共有$\frac{n(n-1)}{2}$个模型参数,  我们需要训练这么多参数，但是该表达式存在如下问题: </p>
 <ul>
 <li>由于每个$w_{ij}$ 都需要大量$x_i$和$x_j$非零的情况下进行预估，但是样本数据本来就比较稀疏，这将导致整个样本训练的难度非常大</li>
 </ul>
-<p>一个思路是: “所有二次项参数$w<em>{ij}$可以组成一个对称阵 $W$，那么这个矩阵就可以分解为 $W=V^TV=VV^T$，$V$ 的第 $j$ 列便是第 $j$维特征的隐向量。换句话说，每个参数 $w</em>{ij}=<v_i,v_j>$” ，所以上面可以转化为 : </v_i,v_j></p>
-<p>$$y(x) = w<em>0 + \sum</em>{i=1}^nw_ix<em>i  + \sum</em>{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j$$</v_i,></p>
+<p>一个思路是: “所有二次项参数$w_{ij}$可以组成一个对称阵 $W$，那么这个矩阵就可以分解为 $W=V^TV=VV^T$，$V$ 的第 $j$ 列便是第 $j$维特征的隐向量。换句话说，每个参数 $w_{ij}=<v_i,v_j>$” ，所以上面可以转化为 : </v_i,v_j></p>
+<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j$$</v_i,></p>
 <p>其中: </p>
 <ul>
 <li>$v_i$ : 是一个k阶的隐向量$(k &lt;&lt; n)$</li>
 <li>$&lt; , &gt; $代表点积</li>
 </ul>
 <p>为了求上面式子的优化解，我们继续拆分有: </p>
-<p>$$\sum<em>{i=1}^n \sum</em>{j=i+1}^n <v_i, v_j="">x_ix<em>j = \frac{1}{2} \sum</em>{f=1}^k( (\sum<em>{i=1}^n v</em>{i,f} x<em>i)^2 - \sum</em>{i=1}^nv_{i,f}^2x_i^2)$$</v_i,></p>
+<p>$$\sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j = \frac{1}{2} \sum_{f=1}^k( (\sum_{i=1}^n v_{i,f} x_i)^2 - \sum_{i=1}^nv_{i,f}^2x_i^2)$$</v_i,></p>
 <p>可以证明FM参数的训练模型是$0(kn)$</p>
 <h3 id="FFM"><a href="#FFM" class="headerlink" title="FFM"></a>FFM</h3><p>基于FM，我们再分析他模型可能存在的问题:  </p>
 <p>在FM模型里面，我们为每个特征定义一个隐向量$\overrightarrow{v_i}$ , $\overrightarrow{v_i}$ 的估计是基于和其他参数的$\overrightarrow{v_j}$的相关性计算而成；这里面就有一个假设，就是任何其他特征对改特征的影响是一致的；但有时候，这个假设不一定合适；所以，我们引入所谓的<code>Field-aware Factorization Machine</code></p>
 <p>在FFM模型里面，每个特征都属于某个field; 所以隐向量不仅和特征有关，也和field有关; 假设样本的 n 个特征属于 f个field，那么FFM的二次项有 nf 个隐向量。而在FM模型中，每一维特征的隐向量只有一个。FM可以看作FFM的特例，是把所有特征都归属到一个field时的FFM模型。其方程可以表达为: </p>
-<p>$$y(x) = w<em>0 + \sum</em>{i=1}^nw_ix<em>i  + \sum</em>{i=1}^n \sum<em>{j=i+1}^n &lt;v</em>{i,f<em>j}, v</em>{j,f_i}&gt;x_ix_j$$</p>
+<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_{i,f_j}, v_{j,f_i}="">x_ix_j$$</v_{i,f_j},></p>
 <p>其中: </p>
 <ul>
 <li>$f_j$是第$j$个特征所属的<code>field</code></li>
@@ -147,17 +147,17 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/07/21/svm/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/07/23/20170723/" id="article-nav-newer" class="article-nav-link-wrap">
       <div class="article-nav-title"><span>&lt;</span>&nbsp;
         
-          About SVM
+          weekly of 20170723
         
       </div>
     </a>
   
   
-    <a href="/2017/07/16/20170716/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">weekly of 20170716&nbsp;<span>&gt;</span></div>
+    <a href="/2017/07/21/svm/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">About SVM&nbsp;<span>&gt;</span></div>
     </a>
   
 </nav>

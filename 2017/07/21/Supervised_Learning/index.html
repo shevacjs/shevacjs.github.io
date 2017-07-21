@@ -89,24 +89,24 @@
 <p>$$X = { x^{(1)},  x^{(2)}, … , x^{(m)} }$$<br>$$Y = { y^{(1)},   y^{(2)}, … , y^{(m)} }$$</p>
 <p>X表示输入集合，Y则代表对应的输出，则对于任意$x^{(i)}$, 有$x^{(i)} = {x_1, x_2,x_3, … x_n }$, 也就是我们假设这个数据集有<code>m</code>个元素，每个元素是<code>n</code>个维度的</p>
 <p>同时，目标预测函数满足线性回归，则我们的假设函数可以写成: </p>
-<p>$$h_\theta(x) = \theta_0 + \theta_1x_1 + \theta_2x_2 + … + \theta_nx<em>n = \sum</em>{i=0}^{n}\theta_ix_i = \theta^TX$$</p>
+<p>$$h_\theta(x) = \theta_0 + \theta_1x_1 + \theta_2x_2 + … + \theta_nx_n = \sum_{i=0}^{n}\theta_ix_i = \theta^TX$$</p>
 <p>同时定义我们的<code>cost function</code> ，我们可以把他定义为<code>差的平方和</code>(具体后面会解释为什么可以这样定义) : </p>
-<p>$$ J(\theta) = \frac{1}{2} \sum<em>{i=0}^m(h</em>{(\theta)}(x^{(i)}) - y^{(i)})^2$$</p>
+<p>$$ J(\theta) = \frac{1}{2} \sum_{i=0}^m(h_{(\theta)}(x^{(i)}) - y^{(i)})^2$$</p>
 <p>则我们的问题可以简化为, 给定数据集合$X, Y$,  求让$J(\theta)$ 最小的$\theta$</p>
 <h3 id="优化算法"><a href="#优化算法" class="headerlink" title="优化算法"></a>优化算法</h3><p>最优化算法有非常多，这里面主要介绍两种最优化算法，包括<code>梯度下降法</code>和<code>最小二乘法</code>，下面分别说明 : </p>
 <h4 id="梯度下降法"><a href="#梯度下降法" class="headerlink" title="梯度下降法"></a>梯度下降法</h4><p>考虑到上面定义的cost function，梯度下降法在这边的应用可以直接的表示为 : </p>
 <p>$$ \theta_j : \theta_j - \alpha \frac{\partial}{\partial\theta} J(\theta)$$</p>
 <p>其中$\alpha$表示下降的速度，$ j = { 0, 1, 2, … , n}$</p>
 <p>下面我们来求解上面那个方程，简单起见，我们考虑只有一个样本的情况，如下: </p>
-<p>$$ \frac{\partial}{\partial \theta} J(\theta) = \frac{1}{2} \ast 2 (h<em>{(\theta)}(x^{(i)}) - y^{(i)})  \ast \frac{\partial}{\partial\theta}{(h</em>{(\theta)}(x^{(i)} -y^{(i)})}$$</p>
+<p>$$ \frac{\partial}{\partial \theta} J(\theta) = \frac{1}{2} \ast 2 (h_{(\theta)}(x^{(i)}) - y^{(i)})  \ast \frac{\partial}{\partial\theta}{(h_{(\theta)}(x^{(i)} -y^{(i)})}$$</p>
 <p>$$ = (h_{(\theta)}(x^{(i)}) - y^{(i)}) \ast \frac{\partial}{\partial\theta}{(\theta^TX -y^{(i)})} $$</p>
 <p>$$ = (h_{(\theta)}(x^{(i)}) - y^{(i)}) \ast  x_j$$</p>
-<p>也就是可以表示为:<br>$$ \theta_j =  \theta<em>j + \alpha \ast (h</em>{\theta}(x^{(i)}) - y^{(i)}) \ast  x_j $$</p>
+<p>也就是可以表示为:<br>$$ \theta_j =  \theta_j + \alpha \ast (h_{\theta}(x^{(i)}) - y^{(i)}) \ast  x_j $$</p>
 <p>则一般在实际应用的时候，可以有两个办法：</p>
 <p>第一个办法称为<code>batch gradient descent</code>,  大概算法如下 : </p>
-<p>Repeat until convergence {<br>$$\theta_j = \theta<em>j + \alpha \sum</em>{i=0}^{m}( y^{(i)} - h_{\theta}(x^{(i)}) $$<br>[ for every j ]<br>}</p>
+<p>Repeat until convergence {<br>$$\theta_j = \theta_j + \alpha \sum_{i=0}^{m}( y^{(i)} - h_{\theta}(x^{(i)}) $$<br>[ for every j ]<br>}</p>
 <p>第二个办法成为<code>incremental gradient descent</code> , 大概形式如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Loop &#123;</div><div class="line">	for i = 1 to m &#123;</div></pre></td></tr></table></figure></p>
-<p>$        \theta_j = \theta<em>j + \alpha \ast ( y^{(i)} - h</em>{\theta}(x^{(i)})  $ ( for every j)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>$        \theta_j = \theta_j + \alpha \ast ( y^{(i)} - h_{\theta}(x^{(i)})  $ ( for every j)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>可以看到: </p>
 <ul>
 <li><p>批量梯度下降: 最小化所有训练样本的损失函数，使得最终求解的是全局的最优解，即求解的参数是使得风险函数最小，但是对于大规模样本问题效率低下；每迭代一次需要的计算量约为<code>m*n^2</code>，如果m很大的话，性能上面会有比较大的压力</p>
@@ -170,8 +170,8 @@
     </a>
   
   
-    <a href="/2017/07/21/svm/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">About SVM&nbsp;<span>&gt;</span></div>
+    <a href="/2017/07/16/20170716/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20170716&nbsp;<span>&gt;</span></div>
     </a>
   
 </nav>
