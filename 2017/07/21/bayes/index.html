@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>关于贝叶斯分类 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="by chenjiansen  判定模型与生成模型判定模型的理论基础 : $$ y = p(y | x : \theta) $$ 生成模型 $$ y = p( y | x) = p(x,y) / p(x) = p(x|y) p(y) / p(x) $$ 此时我们会考虑使用$p(x|y)p(y)$ 来评估$p(y|x)$ ，是一个联合概率的考虑 Native Bayes考虑判断一个邮件是否是垃圾邮">
+<meta name="keywords" content="ml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于贝叶斯分类">
+<meta property="og:url" content="http://yoursite.com/2017/07/21/bayes/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="by chenjiansen  判定模型与生成模型判定模型的理论基础 : $$ y = p(y | x : \theta) $$ 生成模型 $$ y = p( y | x) = p(x,y) / p(x) = p(x|y) p(y) / p(x) $$ 此时我们会考虑使用$p(x|y)p(y)$ 来评估$p(y|x)$ ，是一个联合概率的考虑 Native Bayes考虑判断一个邮件是否是垃圾邮">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-07-21T11:17:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于贝叶斯分类">
+<meta name="twitter:description" content="by chenjiansen  判定模型与生成模型判定模型的理论基础 : $$ y = p(y | x : \theta) $$ 生成模型 $$ y = p( y | x) = p(x,y) / p(x) = p(x|y) p(y) / p(x) $$ 此时我们会考虑使用$p(x|y)p(y)$ 来评估$p(y|x)$ ，是一个联合概率的考虑 Native Bayes考虑判断一个邮件是否是垃圾邮">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-bayes" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      关于贝叶斯分类
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/07/21/bayes/" class="article-date">
+  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>by chenjiansen</p>
+</blockquote>
+<h3 id="判定模型与生成模型"><a href="#判定模型与生成模型" class="headerlink" title="判定模型与生成模型"></a>判定模型与生成模型</h3><p>判定模型的理论基础 :</p>
+<p>$$ y = p(y | x : \theta) $$</p>
+<p>生成模型</p>
+<p>$$ y = p( y | x) = p(x,y) / p(x) = p(x|y) p(y) / p(x) $$</p>
+<p>此时我们会考虑使用$p(x|y)p(y)$ 来评估$p(y|x)$ ，是一个联合概率的考虑</p>
+<h3 id="Native-Bayes"><a href="#Native-Bayes" class="headerlink" title="Native Bayes"></a>Native Bayes</h3><p>考虑判断一个邮件是否是垃圾邮件；我们设定如下的模型: </p>
+<ul>
+<li>$x$ 为输入向量；其中$x_i^{(j)}$ 表示第$i$个样本的第$j$维的特征值,  任何一个邮件可以用如下的形式表示 : </li>
+</ul>
+<p>$$x=\left[ \begin{array}{cc} 0 &amp; a_0\ 1 &amp; a_1 \ 1 &amp; a_2\ 0  &amp; a_3 \ 1 &amp; a_4 \ .. &amp; .. \end{array} \right]$$</p>
+<p>其中第$i$行代表着单词$a_i$是否出现在这个邮件里面；$|A|$ 表示着词汇量的个数，也是也是输入特征$x$的维度</p>
+<ul>
+<li>$y$为输入结果,  这里面设定 $y=1$为垃圾邮件，否则$y=0$</li>
+</ul>
+<p>这里，我们准备使用<code>朴素贝叶斯</code>的方法解决分类问题，如上面生成模型的说明, 我们的求解问题转化为:</p>
+<p>$ p(y|x) = p(x|y) p(y) / p(x) $</p>
+<p>我们约定如下: </p>
+<p>$$\phi_{i|y=1} = p(x<em>i = 1 | y = 1)$$<br>$$\phi</em>{i|y=0} = p(x_i = 1 | y = 0)$$<br>$$\phi_y = p(y = 1) $$</p>
+<p>则有 : </p>
+<p>$$ \phi<em>{i|y=1} = \frac{\sum</em>{i=0}^{m} 1 {x<em>j^{(i)} = 1 \ and \  y^{(i)} = 1}}{\sum</em>{i=0}^{m} 1 { y^{(i)} = 1}}$$</p>
+<p>其他的$\phi_{i|y=0} , \phi_y$ 同理易得</p>
+<p>则在样本输入${x^{(i)}, y^{(i)}}, i = 0, 1, 2 …$ 的情况下；对于上面的分类问题，我们可以先求解:</p>
+<p>$$ P(y=1\ |x) = P(x|y=1) P(y=1) / P(x) \ = \frac{ (\prod_{i=0}^{m}P(x<em>i\ |y = 1)) P(y=1)}{ (\prod</em>{i=0}^{m}P(x<em>i\ |y = 1)) + (\prod</em>{i=0}^{m}P(x_i\ |y = 0))}$$</p>
+<p>上面的$\prod$ 展开是依赖于所谓的<code>贝叶斯假设</code>， 也就是对于给定的结果$y$, 事件$x_i$相对于$y$是独立分布的, 也就是有: </p>
+<p>$$P(x_1,x_2,…,x_n\ |\ y) = p(x_1|y)p(x_2|y,x_1)….p(x_n|y,x_1,x_2, …) \ = p(x_1|y)p(x_2|y) … p(x<em>n|y) \ = \prod</em>{i=1}^{n} p(x_i|y)$$</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://guangchun.wordpress.com/2011/10/13/ml-bayes-map/" target="_blank" rel="external">参数估计：最大似然、贝叶斯与最大后验</a> </li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/07/23/20170723/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          weekly of 20170723
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/21/Supervised_Learning/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Supervised learning ： Linear Regression&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<div class="share_addthis">
+  <div class="sharing addthis_toolbox share">
+    <a class="addthis_button_facebook_like"></a>
+    <a class="addthis_button_tweet"></a>
+    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
+</div>
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

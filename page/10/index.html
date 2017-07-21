@@ -57,6 +57,222 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-linux_lock_impl" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/27/linux_lock_impl/">linux 常见锁说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/12/27/linux_lock_impl/" class="article-date">
+  <time datetime="2014-12-27T07:02:14.000Z" itemprop="datePublished">2014-12-27</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在前一次的文章<a href="http://shevacjs.com/lock/2014/12/13/lock/" target="_blank" rel="external">锁机制概述</a>，大致简单说明了MP系统下面锁的基本原理。这里，再简单说明下在2.6内核体系下面，linux支持的锁，包括内核态和用户态(pthread系列的)。</p>
+<h2 id="内核态"><a href="#内核态" class="headerlink" title="内核态"></a>内核态</h2><h3 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h3><p>自旋锁是最基本的锁支持，在linux内核下，自旋锁的API有如下形式：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock_irqsave</span><span class="params">(<span class="keyword">spinlock_t</span> *lock, <span class="keyword">unsigned</span> <span class="keyword">long</span> flags)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock_irq</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock_bh</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span></div></pre></td></tr></table></figure>
+<p>其中<code>irqsave</code>和<code>bh</code>都是处理和中断有关的，因为在中断等上下文一旦处理不好就可能导致死锁。</p>
+<h3 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h3><p>信号量可以任务是提供一个支持睡醒的锁支持，</p>
+<h3 id="基于性能优化的衍生锁"><a href="#基于性能优化的衍生锁" class="headerlink" title="基于性能优化的衍生锁"></a>基于性能优化的衍生锁</h3><p>这里主要介绍两种, 他们都是针对读写锁的优化，一般都是只试用在一般的场景，这简单说明他们的设计思路。</p>
+<ul>
+<li>Seq Lock :</li>
+</ul>
+<p>seq lock考虑的场景是读多写少。因此在正常读取的时候，如果加上spinlock的收益是非常低的，故其采取如下策略:</p>
+<ul>
+<li>允许多个读者同时访问数据，同时只允许一个写者在更新数据；</li>
+<li>核心指导思想是，通过一个flag来标记要保护的区段的数据是否被更新过，读者可以冲入的读，但需要通过flag来判别是否数据被更新过，如果是，读者需要重新读取新的数据，故读，写者分工如下:<ul>
+<li>读者：读取之后，判断flag，以决定是否需要重新读取</li>
+<li>写者：在修改数据的时候需要更新flag</li>
+</ul>
+</li>
+</ul>
+<p>如下是简单的示意图：其中读者需要判断<code>((count_pre != count_post) &amp;&amp; (count_pre % 2 == 0))</code>来决定数据是否被更新/正在被更新</p>
+<p><img src="seqlock_demo.png" alt="seqlock_demo"></p>
+<ul>
+<li>Rcu Lock</li>
+</ul>
+<p>RCU也是对读写锁的一个优化，适用的场景也是读多写少，但是有其独特的应用场景，先考虑seqlock存在的问题：</p>
+<ul>
+<li>seq-lock可以认为是写优先的，读需要重复频繁的读来确认数据没有被更新；</li>
+<li>seq-lock保护的数据一般是要求不能含有指针的，因为写者很容易直接更新指针的内容，demo如下:</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">data</span> &#123;</span></div><div class="line">    <span class="keyword">int</span> count;</div><div class="line">    <span class="keyword">char</span>* info;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"><span class="comment">// sql-lock reader</span></div><div class="line"></div><div class="line">&#123;</div><div class="line">    data copy_data = curr_data;</div><div class="line">&#125; <span class="keyword">while</span>(no change)</div><div class="line"></div><div class="line"><span class="comment">// do something with copy data</span></div><div class="line"></div><div class="line">f(copy_data)</div></pre></td></tr></table></figure>
+<p>这个里面的copy data其实是可能存在问题的,其对应的info等内容是会被修改的，而这个情况又是内核里面最最常见的场景，需要有更好的解决方案，RCU就是要提供这种支持的，RCU的特性包括：</p>
+<ul>
+<li>RCU是读者优先的，读者不需要任何互斥也不需要任何锁，直接读取就OK；</li>
+<li>写者的核心指导思想是(Read-Copy Update), 写者在访问它时首先拷贝一个副本，然后对副本进行修改，最后使用一个回调（callback）机制在适当的时机把指向原来数据的指针重新指向新的被修改的数据。这个时机就是所有引用该数据的CPU都退出对共享数据的操作。</li>
+</ul>
+<p>思路是比较简单的，但是实现上面还是比较复杂的，这里就不详述，具体可以参考推荐的RCU文章;</p>
+<h2 id="用户态"><a href="#用户态" class="headerlink" title="用户态"></a>用户态</h2><h2 id="锁的资源消耗"><a href="#锁的资源消耗" class="headerlink" title="锁的资源消耗"></a>锁的资源消耗</h2><h2 id="遗留问题-amp-思考"><a href="#遗留问题-amp-思考" class="headerlink" title="遗留问题&amp;思考"></a>遗留问题&amp;思考</h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h2 id="参考-amp-推荐阅读"><a href="#参考-amp-推荐阅读" class="headerlink" title="参考&amp;推荐阅读"></a>参考&amp;推荐阅读</h2><ul>
+<li>seqlock,rcu等的维基百科，都有非常系统的介绍</li>
+<li><a href="http://blog.sina.com.cn/s/blog_5210e67e0100935d.html" target="_blank" rel="external">Linux 内核的同步机制，第4部分顺序锁（seqlock</a></li>
+<li><a href="http://www.verydemo.com/cj.jsp?c=34&amp;u=linuxseqlockamprcu-qian-xi-duo-xian-cheng-zhi-shun-xu-suo" target="_blank" rel="external">linux seqlock &amp; rcu 浅析</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-rcu/" target="_blank" rel="external">Linux 2.6内核中新的锁机制–RCU</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-lockfree/" target="_blank" rel="external">透过 Linux 内核看无锁编程</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-1226_bitch_about" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/27/1226_bitch_about/">1227吐槽</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/12/27/1226_bitch_about/" class="article-date">
+  <time datetime="2014-12-26T17:01:06.000Z" itemprop="datePublished">2014-12-27</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>现在是2014-12-27凌晨1点左右，又是半夜，发现睡前吐槽是个好习惯。</p>
+<p>明天就是周六了，早上可以好好睡一觉的吧，这是我现在能想到最开心的事情了。</p>
+<p>这周忙的要死，基本上每天一到公司，就像陀螺一直在转一样，还有一些乱七八糟的事情，但很多事情走没有预想中的顺利，唉，都不知怎么办，只能自己一个一个搞，希望自己能坚持下去。</p>
+<ul>
+<li>周一周二忘了干嘛了。。。</li>
+<li>周三：上午CBG-BIT技术培训，交流ksarch规划，讨论静态集群事情，讨论运维的事情</li>
+<li>周四：上午server端RD例会，下午思考明年规划，然后3个小时讨论明年规划</li>
+<li>周五：上午例会，静态文件处理，下午静态集群交流，CDN沟通，运维跟进，报警跟进</li>
+</ul>
+<p>今天周五也不是那么太平，一直在跟一个客户端的问题，20：30左右的时候才搞完，然后跑去球场的时候都快20：50了，踢了差不多40分钟的球，意兴阑珊的回来，才发现肚子好饿。最讨厌的就是，小区门口基本上没有一个可以吃饭的地方，尤其是供一个人吃饭的地方，弄的我现在特讨厌周末吃饭，选择困难啊。</p>
+<p>这两天得花个时间写自己工作上面的年度总结，其实自己心里默想了，唉，失多得少，悲大于喜，也不知作何言。</p>
+<p>当然也有开心的事情，晚上六点多的时候，我妈电话我了，我妹生了个女儿，不过我还不知道如何称呼之:)</p>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-an_problem_about_so_copy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/23/an_problem_about_so_copy/">一个so不能copy引发的问题&amp;思考</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/12/23/an_problem_about_so_copy/" class="article-date">
+  <time datetime="2014-12-22T17:23:09.000Z" itemprop="datePublished">2014-12-23</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>问题的背景其实比较简单，也很常见，就是如果一个bin文件，通过<code>dlopen</code>的方式打开so，继续连接的时候；在程序进行升级的时候，如果bin文件还在执行，不能简单的copy，一般是需要用mv之类的方法，否则很容易出core。</p>
+<p>这是为什么呢？</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>首先比较cp命令和mv命令的区别，大致如下：</p>
+<ul>
+<li>cp –&gt; open(O_WRONLY | O_TRUNC) : 原来文件的inode不变，修改内容</li>
+<li>mv –&gt; unlink | create ：删除原来文件, inode 失效</li>
+</ul>
+<p>总而言之，<code>最大的区别是inode的节点的变化</code>。那这为什么会导致程序出core呢？</p>
+<p>这个推敲过程比较复杂，这里就简单说明概括性的结论,而且结论还不一定对。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>下面分析仅仅使用于linux</p>
+</blockquote>
+<ul>
+<li><p>为什么可以被copy？<br>  linux下面的文件被加载到内存执行，一般就两个情况，一个是exe/bin文件，一个是so文件。理论上，或者理想的话，一个文件如果被加载到内存，且程序在被执行过程，这个时候对他的原始文件的修改，是应该不被允许的。而事实上，是怎么样的呢？</p>
+<ul>
+<li>对bin文件：的确系统提供了保护机制，但是系统监控的最要是以inode节点为依据的。也就是说，如果你对同一个inode节点做变更的话，是不被允许的（也就是会发生TEXT BUSY)之类的错误；但是你如果先unlink，在copy一个同样名字的bin文件过来，就是可以的（这也就是linux可以热升级bin文件的缘故）。</li>
+<li>对动态加载的so文件，系统是通过mmap映射文件加载进来的，早期的linux支持DENYWRITE的选项，后来废弃了（man手册上面说明是因为会导致dos攻击，为什么？）。因此理论上我们是可以随便把一个内容cp到一个正在运行的so上面的。</li>
+</ul>
+</li>
+<li><p>copy发生了什么?<br>  明确了so可以被copy后，让我们看为什么copy之后会发生core呢？理论上你的东西都已经跑到内存里面了，我随便改改文件应该没什么影响啊？根据<code>深入理解LINUX内核</code>上面对mmap的说明，大概猜测如下：</p>
+<ul>
+<li>linux是有页高速缓存的，用于缓存文件的内容；</li>
+<li>mmap做内存文件映射的时候，其实并没有开辟什么新的内存空间，而是直接指向了页高速缓存的区域；</li>
+<li><p>当外部程序对文件进行修改的时候，页高速缓存就会失效；下一次主程序读取的时候，就会重新从磁盘文件里面加载最小的文件内容；(这个通过程序的验证，可以通过写个mmap的程序读取会动态发生内容改变的程序);</p>
+<p>总的来说，通过mmap获取的内存区域，在文件发生内容变化的时候，其内存地址对于的内容也会发生改变</p>
+</li>
+</ul>
+</li>
+<li><p>程序为什么会core呢？</p>
+<p>  有了上面的基础，整个原因就比较清晰了；因为一个so里面被加载之后，总是需要做地址重定向的；在copy发生后，我们只是简单的更改了内容，当没有重定向地址，这样就导致了此时在访问次共享内存的时候，很多地址都是无效的，那肯定容易出core啊</p>
+</li>
+</ul>
+<h2 id="跟进"><a href="#跟进" class="headerlink" title="跟进"></a>跟进</h2><ul>
+<li>页高速缓存的机制</li>
+<li>linux常见命令对应的操作系统调用情况</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="http://unix.stackexchange.com/questions/74142/why-does-a-software-package-run-just-fine-even-when-it-is-being-upgraded?lq=1" target="_blank" rel="external">Why does a software package run just fine even when it is being upgraded?</a></li>
+<li><a href="http://unix.stackexchange.com/questions/74165/how-to-upgrade-shared-library-without-crash" target="_blank" rel="external">How to upgrade shared library without crash?</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_622a99700100pjv3.html" target="_blank" rel="external">linux下So覆盖导致coredump问题的分析</a></li>
+<li><a href="http://www.piao2010.com/%E4%B8%BA%E4%BD%95cp%E8%A6%86%E7%9B%96%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%8A%A8%E6%80%81%E5%BA%93so%E4%BC%9A%E5%AF%BC%E8%87%B4coredump" target="_blank" rel="external">为何cp覆盖进程的动态库(so)会导致coredump</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-1220_bitch_about" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
