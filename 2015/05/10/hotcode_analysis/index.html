@@ -1,0 +1,414 @@
+<html>
+<!-- Head tag -->
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	
+	
+		<link href="/favicon.ico" rel="icon">
+	 
+      <title>nginx扩展/lua的性能剖析支持 | shevacjs home</title>
+	<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/highlight.css">
+	
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?542b4962c3c4035fce9071b7c665f0d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+	
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-97838175-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+	<div id="site" class="site">
+		<div id="sidebar" class="sidebar">
+			<header id="header" class="site-header">
+	<div class="site-branding">
+		<h1 class="site-title"><a href="/" rel="home">Shevacjs&#39;s Blog</a></h1>
+		<p class="site-description">Focus on Software Engineer &amp; Football</p>
+		<button class="secondary-toggle font-asesome-icon">Menu and widgets</button>
+	</div>
+</header>
+<div id="secondary" class="secondary">
+	<nav class="main-navigation">
+                         <ul id="menu-demo-menu" class="nav-menu">
+						 
+							<li class="menu-item"><a href="/">首页</a></li>
+						
+							<li class="menu-item"><a href="/archives">归档</a></li>
+						
+							<li class="menu-item"><a href="/about">关于</a></li>
+						
+                         </ul>
+    </nav>
+	
+		
+<aside class="widget">
+		<h3 class="widget-title">归档</h3>		
+		<ul>
+			<ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">6</span></li></ul>
+		</ul>
+	</aside>
+
+
+	
+		
+<aside class="widget">
+		<h3 class="widget-title">最新文章</h3>		
+		<ul>
+			
+          <li>
+            <a href="/2017/06/18/20170618/">weekly of 20170618</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/11/20170611/">weekly of 20170611</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/04/20170604/">weekly of 20170604</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/28/20170528/">weekly of 20170528</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/21/20170521/">weekly of 20170521</a>
+          </li>
+        
+		</ul>
+	</aside>
+
+
+	
+		
+  <aside class="widget">
+		<h3 class="widget-title">标签云</h3>
+        <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/ml/" style="font-size: 16.67px;">ml</a> <a href="/tags/weekly/" style="font-size: 20px;">weekly</a> <a href="/tags/wiki/" style="font-size: 10px;">wiki</a>
+    </aside>
+
+	
+</div>
+		</div>
+		<div id="content" class="site-content">
+			<main id="main" class="site-main" role="main">
+				
+<article class="hentry ">
+		
+		
+			<header class="entry-header">
+				<h2 class="entry-title"><a class="post-title-link" href="/2015/05/10/hotcode_analysis/" rel="bookmark">nginx扩展/lua的性能剖析支持</a></h2>	
+			</header>
+		
+		<!-- .entry-header -->
+		<div class="entry-content">
+			
+				<blockquote>
+<p>by <a href="mailto:chenjiansen@baidu.com" target="_blank" rel="external">chenjiansen@baidu.com</a></p>
+</blockquote>
+<h2 id="0x00-背景"><a href="#0x00-背景" class="headerlink" title="0x00 背景"></a>0x00 背景</h2><p>nginx的扩展和nginx lua在贴吧有了越来越多的应用，但是对于整个nginx相关组件的性能测试一直没有完善的支持。除了常规的流量压测，cpu利用率的分析等。我们还需要对nginx的具体性能瓶颈进一步分析，<code>发现具体的代码热点</code>，以便进一步的性能优化。</p>
+<p>简而言之，我们需要达到如下目标:</p>
+<ul>
+<li>对于C扩展，我们能够明确其代码热点</li>
+<li>对于nginx lua代码，我们同样也能明确其lua代码热点</li>
+</ul>
+<p>这里主要介绍nginx扩展/lua的性能剖析的现状支持，以及贴吧短期内的落地实践规划</p>
+<h2 id="0x01-性能剖析工具"><a href="#0x01-性能剖析工具" class="headerlink" title="0x01 性能剖析工具"></a>0x01 性能剖析工具</h2><h3 id="C-C-程序的热点分析"><a href="#C-C-程序的热点分析" class="headerlink" title="C/C++ 程序的热点分析"></a>C/C++ 程序的热点分析</h3><p>首先简单看下现在linux工具链对代码热点发现的支持</p>
+<p><a href="http://zh.wikipedia.org/wiki/%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90" target="_blank" rel="external">维基百科</a>上面对性能剖析工具有个简单的介绍, 由于是需要做热代码的发现，因此很少有静态代码分析的办法，一般都是运行时的剖析，具体可以分为:</p>
+<ul>
+<li>逻辑注入的性能分析：一把是指在编译链接的时候，链上相关的lib(其实也有运行时的代码注入，暂不考虑)，这些lib会在函数执行的时候自动做一些统计和分析，比较典型的是<a href="https://sourceware.org/binutils/docs/gprof/" target="_blank" rel="external">gprof</a></li>
+<li>非逻辑注入的性能分析：此类分析一般没有对具体的应用程序进行修改，更多是一种旁路异步的观察方式，而根据数据获取方式的不同一般区分为:<ul>
+<li>基于事件的性能分析: 是指为特定事件增加回调,记录事件发生次数</li>
+<li>基于采样的性能分析: 构造以一定周期重复的触发器用来采样<br>现在的一般性能剖析工具都是这两则的结合，比如说perf, perf的sampling的机制是基于对事件的统计（比如1000个cpu周期(事件)采样一次)，故其实没太大的区分，最为常见的工具包括<a href="">perf</a>, <a href="https://sourceware.org/systemtap/wiki" target="_blank" rel="external">systemtap</a>,<br>其中perf和systemtap下面会进一步介绍</li>
+</ul>
+</li>
+</ul>
+<h3 id="解释型语言的热点分析"><a href="#解释型语言的热点分析" class="headerlink" title="解释型语言的热点分析"></a>解释型语言的热点分析</h3><p>上面剖析出来的更多是C/C++代码层面的函数热点，但如果是一个解释型的脚本语言，要找出脚本的代码热点，上面的方法并不靠谱，还需要进一步的支持。其主要原因是一般解释型语言的实现大概如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">vm_execute</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="comment">//fetch code</span></div><div class="line">        <span class="keyword">switch</span>(op) &#123;</div><div class="line">            <span class="keyword">case</span> BYTECODE_A: <span class="comment">//do somthing a</span></div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> BTYECODE_B: <span class="comment">//do something b</span></div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样在执行的时候会发现大部分热点是在<code>vm_execute</code>里面，我们看不到代码级别的热点，故没有太多参考意义。</p>
+<p>java，php, nodejs, lua等都面临此类问题，那他们是如何解决的，大致如下:</p>
+<ul>
+<li><p>语言/扩展层面提供具体的解决方案 : 比如php的xprofile，其<a href="http://blog.csdn.net/yzongyu/article/details/8457209" target="_blank" rel="external">机制</a>大体类似</p>
+</li>
+<li><p>语言层面提供部分支持，再通过外部工具进行剖析 : 也是语言层面的支持，但和上述不同的是，并不是提供具体是profile的支持，而是一些机制的支持,再和一些外部工具结合(比如perf record)，产生性能剖析的结果，比较常见的包括:</p>
+<ul>
+<li>JVM的JVMTI机制，提供提供给性能分析器的hook，可以抓到像函数调用、类加载、卸载、线程的进入及离开等事件, 具体可以见<a href="http://www.ibm.com/developerworks/cn/java/j-lo-jpda2/" target="_blank" rel="external">深入 Java 调试体系，第 2 部分: JVMTI 和 Agent 实现</a></li>
+<li>luajit的<code>LUAJIT_USE_PERFTOOLS</code> option，具体可以看下文 </li>
+</ul>
+</li>
+<li><p>语言层面不提供任何支持 : 比如lua，此时只能依赖外部工具了，现在比较常见的是systemtap，下面会详细介绍systemtap如何进行lua源码级别的性能剖析</p>
+</li>
+</ul>
+<h2 id="0x02-lua源码的性能剖析"><a href="#0x02-lua源码的性能剖析" class="headerlink" title="0x02 lua源码的性能剖析"></a>0x02 lua源码的性能剖析</h2><p>联系到我们的具体需求，我们主要是考虑现有的工具如果快速支持nginx/lua的性能剖析，从两个最为常见的工具入手: systemtap和perf tools，看下他们对这个的支持情况</p>
+<h3 id="基于systemtap的性能分析"><a href="#基于systemtap的性能分析" class="headerlink" title="基于systemtap的性能分析"></a>基于systemtap的性能分析</h3><p><a href="https://github.com/agentzh" target="_blank" rel="external">agentzh</a>在git的<a href="https://github.com/openresty/nginx-systemtap-toolkit" target="_blank" rel="external">openresty/nginx-systemtap-toolkit</a>就已经提供了对lua/luajit的源码级别的热点发现，那他是如何实现的呢？</p>
+<p>简单介绍下systemtap一些核心特性,包括:</p>
+<ul>
+<li>systemtap支持多样的probe, 包括kernel/user space function调用，离开等事件</li>
+<li>systemtap支持读取特定进程的内存信息，同时支持加载特定的符号信息</li>
+<li>systamtap支持类C语法的指针操作</li>
+</ul>
+<p>依照如上特性，systemtap对lua源码的栈帧的采集策略大概如下:</p>
+<blockquote>
+<p>perl脚本，来自ngx-sample-lua-bt : <a href="https://github.com/openresty/nginx-systemtap-toolkit/blob/master/ngx-sample-lua-bt" target="_blank" rel="external">https://github.com/openresty/nginx-systemtap-toolkit/blob/master/ngx-sample-lua-bt</a></p>
+</blockquote>
+<ol>
+<li>通过probe, 获取VM的指针</li>
+</ol>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// 监测lua_pcall函数，存储VM的指针</div><div class="line">probe process(<span class="string">"$lua_path"</span>).function(<span class="string">"lua_resume"</span>),</div><div class="line">      process(<span class="string">"$lua_path"</span>).function(<span class="string">"lua_pcall"</span>)</div><div class="line">&#123;</div><div class="line">    my_pid = pid()</div><div class="line">    <span class="keyword">if</span> ($condition) &#123;</div><div class="line">        lua_states[my_pid] = \$L</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>通过VM的指针，依照语言特性，获取栈帧</li>
+</ol>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// 依照语言特性, 获取栈帧 --&gt; 强语言依赖</div><div class="line">function lua_getstack(L, level) &#123;</div><div class="line">    <span class="regexp">/* code from function lj_debug_frame in LuaJIT 2.0 */</span></div><div class="line">    /* TValue *frame, *nextframe, *bot; *<span class="regexp">/</span></div><div class="line">    bot = tvref(\&amp;$L-&gt;stack)  /<span class="regexp">/ TValue *</span></div><div class="line">    found_frame = 0</div><div class="line">    for (nextframe = frame = $L-&gt;base - $sizeof_TValue; frame &gt; bot; ) &#123;</div><div class="line">        /* Traverse frames backwards *<span class="regexp">/</span></div><div class="line">        if (frame_gc(frame) == L) &#123;</div><div class="line">            /<span class="regexp">/dd("Skip dummy frames. See lj_meta_call")</span></div><div class="line">            level++</div><div class="line">        &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+<ol>
+<li>通过<code>timer probe</code>进行频繁的采样和存储</li>
+</ol>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">probe timer.profile &#123;</div><div class="line">    my_pid = pid()</div><div class="line">    <span class="keyword">if</span> ($condition) &#123;</div><div class="line">        L = lua_states[my_pid]</div><div class="line">        // 采样 &amp;&amp; 存储</div></pre></td></tr></table></figure>
+<p>大概的原理就是通过systemtap定时器和进程侵入的特性，直接读取nginx进程的地址空间内容，又依照对nginx lua/luajit的内存布局理解(通过review lua/luajit的源码)，直接打印出栈布局。 这要求systemtap脚本对lua/luajit的代码非常熟悉，而且一旦程序有相关升级之类的，可能就有兼容性问题 </p>
+<p>总结下来，如下:</p>
+<ul>
+<li>优点: 功能强大，同时支持lua/luajit</li>
+<li>缺点: systemtap在线上安装成本颇高，后续维护也是问题</li>
+</ul>
+<h3 id="基于perf-record的性能分析"><a href="#基于perf-record的性能分析" class="headerlink" title="基于perf record的性能分析"></a>基于perf record的性能分析</h3><p>考虑到systemtap落地和维护的成本，我们在考虑能不能用<code>perf record</code>做一个简单的支持。答案是肯定的!</p>
+<p>在2009年，perf events增加了对<a href="https://lkml.org/lkml/2009/6/8/499" target="_blank" rel="external">jit symbol的支持</a>, 总的来说一个JIT的VM只要做如下的支持就可以了:</p>
+<ul>
+<li>应用程序需要导出<code>/tmp/perf-PID.map</code>的文件, 文件以文本格式存储内存地址，大小以及符号名称 </li>
+</ul>
+<p>其中<a href="http://www.brendangregg.com/blog/2014-06-12/java-flame-graphs.html" target="_blank" rel="external">jave</a>和<a href="http://www.brendangregg.com/blog/2014-09-17/node-flame-graphs-on-linux.html" target="_blank" rel="external">nodejs</a>先后依据此特性增加了对perf tool的支持</p>
+<p>那luajit呢？是否有这个方面的支持？查阅了luajit的官网上面的文档，并没有涉及此方面的讨论，连Makefile里面的feature也没有提及到这一点。不过直接grep源码，还是有惊喜的，如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[chenjiansen@cq01-rdqa-dev028.cq01.baidu.com LuaJIT-2.0.3]$ grep <span class="string">"perftool"</span> * -r -i -n</div><div class="line">src/lj_trace.c:85:<span class="comment">#ifdef LUAJIT_USE_PERFTOOLS</span></div><div class="line">src/lj_trace.c:96:static void perftools_addtrace(GCtrace *T)<span class="string">""</span></div></pre></td></tr></table></figure>
+<p>简单的说，主要开启<code>LUAJIT_USE_PERFTOOLS</code>宏，应该就能自动导出<code>/tmp/perf-{PDI}</code>文件</p>
+<p>重新编译luajit，执行nginx/lua，可以看到的确有相关文件导出，如下:</p>
+<blockquote>
+<p>luajit在每次jit的时候，会导出此符号文件，但这些不一定的应用程序的热点, 只是lua vm的热点</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[forum@db-forum-phpfr01.db01.baidu.com ~]$ cat /tmp/perf-23998.map </div><div class="line">bffff55 a4 TRACE_1::/home/work/nginx_inner/lua/tieba/lua_script/service_status/setServiceStatus.lua:89</div><div class="line">bffff2a 24 TRACE_2::/home/work/nginx_inner/lua/tieba/lua_script/service_status/setServiceStatus.lua:90</div><div class="line">bfffe96 8d TRACE_3::/home/work/nginx_inner/lua/tieba/lua_script/util/http_instruct_util.lua:47</div><div class="line">bfffd40 14f TRACE_4::/home/work/nginx_inner/lua/tieba/lua_script/rewrite/ngx_rewrite_server_degradation.lua:1</div></pre></td></tr></table></figure>
+<p>用<code>perf report</code>就可以看到如下的结果:</p>
+<p><img src="perf_report_sample.png" alt="perf_report_demo"></p>
+<p>总结下来，如下:</p>
+<ul>
+<li>优点: 使用起来简单方便，无需太多的额外操作</li>
+<li>缺点: 灵活性有限，仅支持luajit</li>
+</ul>
+<h3 id="火焰图"><a href="#火焰图" class="headerlink" title="火焰图"></a>火焰图</h3><p>如上采样统计分析的结果，一般就是各种栈帧的采集，需要一些工具做进一步的分析总结，比如说用<code>perf report</code>进行分析</p>
+<p>而<a href="http://www.brendangregg.com/blog/index.html" target="_blank" rel="external">Brendan Gregg</a>的<a href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html" target="_blank" rel="external">火焰图</a> 则给这些数据做一个可视化的展现，通过简单的<a href="https://github.com/brendangregg/FlameGraph" target="_blank" rel="external">脚本</a>能快速生成相应的<code>.svg</code> 文件，通过浏览器可以清晰的看到具体的热点</p>
+<p>如下是一个火焰图的<a href="http://db-forum-phpfr01.db01.baidu.com:8200/svg//nginx_runtime_jit.svg" target="_blank" rel="external">demo</a>:</p>
+<p><img src="http://db-forum-phpfr01.db01.baidu.com:8200/svg//nginx_runtime_jit.svg" alt="flame_demo"></p>
+<p>可以清楚的看到热点在<code>test.lua:7</code>这个地方</p>
+<h2 id="0x03-后续计划"><a href="#0x03-后续计划" class="headerlink" title="0x03 后续计划"></a>0x03 后续计划</h2><blockquote>
+<p>短期内的贴吧落地实践</p>
+</blockquote>
+<p>主要采用<code>perf record + luajit</code>的机制, 为了满足此需求，现实的nginx会调整如下:</p>
+<ul>
+<li>nginx lua全部迁移nginx luajit : 之前有些case问题，这方面会重新review，争取全部迁移过去</li>
+<li>所有线下的luajit编译时候开启<code>LUAJIT_USE_PERFTOOLS</code>选项(由于不会自动删除过期文件，且reload的时候会重新生成/temp/perf-*文件，线上暂不开启)</li>
+<li>在上线流程的时候，性能测试报告，必须附上火焰图的链接</li>
+</ul>
+<p>如下两个图的router和inrouter的性能分析图(可以看到inrouter的的DNA扩展占用了3%的无效cpu)</p>
+<blockquote>
+<p>使用http_load 压测（可以沟通不同的URL), runtime nginx用nginx lua简单mock了</p>
+</blockquote>
+<ul>
+<li>router的火焰图(<a href="http://db-forum-phpfr01.db01.baidu.com:8200/svg//router_jit.svg" target="_blank" rel="external">点此</a>新窗口打开)</li>
+</ul>
+<p><img src="http://db-forum-phpfr01.db01.baidu.com:8200/svg//router_jit.svg" alt="router_flame"></p>
+<ul>
+<li>inrouter的火焰图(<a href="http://db-forum-phpfr01.db01.baidu.com:8200/svg//inner_jit.svg" target="_blank" rel="external">点此</a>新窗口打开)<br><img src="http://db-forum-phpfr01.db01.baidu.com:8200/svg//inner_jit.svg" alt="inrouter_flame"></li>
+</ul>
+<h2 id="0x04-参考"><a href="#0x04-参考" class="headerlink" title="0x04 参考"></a>0x04 参考</h2><p>上面讨论略去一些无关的细节，比如说<code>perf</code>在后续的版本也支持了<a href="https://gnu.wildebeest.org/blog/mjw/2012/05/24/pull-user-space-probe-instrumentation/" target="_blank" rel="external">function probe</a>的功能, 一些结论也是猜测，可能有比较多的错误之处，欢迎指出</p>
+<p>最后附上一些参考资料: </p>
+<ul>
+<li>perf的一些资料<ul>
+<li><a href="http://www.brendangregg.com/perf.html#FlameGraphs" target="_blank" rel="external">perf Examples</a> : 具体介绍了perf record的优缺点以及具体的解决方案</li>
+<li><a href="https://perf.wiki.kernel.org/index.php/Tutorial" target="_blank" rel="external">Perf Tutorial</a> : perf的非常不错入门介绍，介绍简单的使用和内部机制</li>
+<li><a href="http://files.cnblogs.com/files/jiayy/Perf%E5%9C%A8Linux%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_v3.pdf" target="_blank" rel="external">Perf在Linux性能评估中的应用</a> : 淘宝承刚的perf PDF，入门也是不错的</li>
+</ul>
+</li>
+<li><p>systemtap的资料</p>
+<ul>
+<li><a href="https://sourceware.org/systemtap/wiki" target="_blank" rel="external">systemtap wiki主页</a></li>
+<li><a href="http://blog.yufeng.info/archives/tag/systemtap" target="_blank" rel="external">系统技术非业余研究: systemtap的专题</a></li>
+</ul>
+</li>
+<li><p><a href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html" target="_blank" rel="external">CPU Flame Graphs</a> : CPU火焰图说明</p>
+</li>
+<li><a href="http://www.brendangregg.com/blog/2014-09-17/node-flame-graphs-on-linux.html" target="_blank" rel="external">node.js Flame Graphs on Linux</a> : nodejs的火焰图</li>
+<li><a href="http://www.slideshare.net/chaoslawful/cc-14971110" target="_blank" rel="external">C/C++调试、跟踪及性能分析工具综述</a></li>
+<li><a href="http://www.slideshare.net/brendangregg/linux-performance-analysis-new-tools-and-old-secrets" target="_blank" rel="external">Linux Performance Analysis: New Tools and Old Secrets</a></li>
+</ul>
+
+			
+		</div><!-- .entry-content -->
+		
+			<div class="entry-comments">
+				 
+      <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'shevacjs'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  
+  
+   
+			</div>
+		
+		<footer class="entry-footer">
+			<span class="posted-on font-asesome-icon">
+	<a href="" rel="bookmark">
+	<time class="updated" datetime="2015-05-09T18:27:32.000Z">2015-05-10</time>
+	</a>
+</span>
+
+		
+
+    <span class="eye font-asesome-icon" >
+         <span id="/2015/05/10/hotcode_analysis/" class="leancloud_visitors" data-flag-title="nginx扩展/lua的性能剖析支持">
+        
+        </span>
+    </span>
+
+		</footer><!-- .entry-footer -->
+</article>
+<div class="misc">
+    <a href="#main"><span class="top font-asesome-icon">Top</span></a>
+</div>
+			</main>
+		</div>
+		<footer id="colophon" class="site-footer">
+			<div class="site-info">
+				<span>powered by <a href="https://hexo.io/">Hexo</a>&nbsp;&nbsp; theme by <a href="https://github.com/Troy-Yang/hexo-theme-twentyfifteen-wordpress">Troy</a> &nbsp; inspired by <a href="https://wordpress.org/themes/">wordpress</a></span>
+			</div><!-- .site-info -->
+		</footer>
+	</div>
+	<div id="infinite-footer">
+            <div class="container">
+                <div class="blog-info">
+                    <a id="infinity-blog-title" href="#" rel="home" title="Scroll back to top">
+                         Happy Coding, Happy Life!
+                    </a>
+                </div>
+                <div class="blog-credits">
+					<span>蜀ICP备15004900号-1</span>
+                </div>
+            </div>
+        </div><!-- #infinite-footer -->
+    <!-- After footer scripts -->
+    <script src="/js/jquery-3.1.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <!--referring from https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html -->
+    <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+    <script>
+        AV.initialize("wzqncxgqp9MCPiPERe3gnX2Q-gzGzoHsz", "CCtBiqyPtJWupuozt1393AXm");
+    </script>
+    <script>
+        function showTime(Counter) {
+            var query = new AV.Query(Counter);
+            $(".leancloud_visitors").each(function () {
+                var url = $(this).attr("id").trim();
+                query.equalTo("url", url);
+                query.find({
+                    success: function (results) {
+                        if (results.length == 0) {
+                            var content = $(document.getElementById(url)).text() + ': 0';
+                            $(document.getElementById(url)).text(content);
+                            return;
+                        }
+                        for (var i = 0; i < results.length; i++) {
+                            var object = results[i];
+                            //var content = $(document.getElementById(url)).text() + ': ' + object.get('time');
+                            $(document.getElementById(url)).text(object.get('time'));
+                        }
+                    },
+                    error: function (object, error) {
+                        console.log("Error: " + error.code + " " + error.message);
+                    }
+                });
+            });
+        }
+        function addCount(Counter) {
+            var Counter = AV.Object.extend("Counter");
+            url = $(".leancloud_visitors").attr('id').trim();
+            title = $(".leancloud_visitors").attr('data-flag-title').trim();
+            var query = new AV.Query(Counter);
+            query.equalTo("url", url);
+            query.find({
+                success: function (results) {
+                    if (results.length > 0) {
+                        var counter = results[0];
+                        counter.fetchWhenSave(true);
+                        counter.increment("time");
+                        counter.save(null, {
+                            success: function (counter) {
+                                //var content = $(document.getElementById(url)).text() + ': ' + counter.get('time');
+                                // remove ': '
+                                $(document.getElementById(url)).text(counter.get('time'));
+                            },
+                            error: function (counter, error) {
+                                console.log('Failed to save Visitor num, with error message: ' + error.message);
+                            }
+                        });
+                    } else {
+                        var newcounter = new Counter();
+                        newcounter.set("title", title);
+                        newcounter.set("url", url);
+                        newcounter.set("time", 1);
+                        newcounter.save(null, {
+                            success: function (newcounter) {
+                                console.log("newcounter.get('time')=" + newcounter.get('time'));
+                                var content = $(document.getElementById(url)).text() + ': ' + newcounter.get('time');
+                                // remove ': '
+                                $(document.getElementById(url)).text(newcounter.get('time'));
+                            },
+                            error: function (newcounter, error) {
+                                console.log('Failed to create');
+                            }
+                        });
+                    }
+                },
+                error: function (error) {
+                    console.log('Error:' + error.code + " " + error.message);
+                }
+            });
+        }
+        $(function () {
+            var Counter = AV.Object.extend("Counter");
+            if ($('.leancloud_visitors').length == 1) {
+                addCount(Counter);
+            } else if ($('.post-title-link').length > 1) {
+                showTime(Counter);
+            }
+        });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,346 @@
+<html>
+<!-- Head tag -->
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	
+	
+		<link href="/favicon.ico" rel="icon">
+	 
+      <title>由linux锁机制想起来的 | shevacjs home</title>
+	<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/highlight.css">
+	
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?542b4962c3c4035fce9071b7c665f0d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+	
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-97838175-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+	<div id="site" class="site">
+		<div id="sidebar" class="sidebar">
+			<header id="header" class="site-header">
+	<div class="site-branding">
+		<h1 class="site-title"><a href="/" rel="home">Shevacjs&#39;s Blog</a></h1>
+		<p class="site-description">Focus on Software Engineer &amp; Football</p>
+		<button class="secondary-toggle font-asesome-icon">Menu and widgets</button>
+	</div>
+</header>
+<div id="secondary" class="secondary">
+	<nav class="main-navigation">
+                         <ul id="menu-demo-menu" class="nav-menu">
+						 
+							<li class="menu-item"><a href="/">首页</a></li>
+						
+							<li class="menu-item"><a href="/archives">归档</a></li>
+						
+							<li class="menu-item"><a href="/about">关于</a></li>
+						
+                         </ul>
+    </nav>
+	
+		
+<aside class="widget">
+		<h3 class="widget-title">归档</h3>		
+		<ul>
+			<ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">6</span></li></ul>
+		</ul>
+	</aside>
+
+
+	
+		
+<aside class="widget">
+		<h3 class="widget-title">最新文章</h3>		
+		<ul>
+			
+          <li>
+            <a href="/2017/06/18/20170618/">weekly of 20170618</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/11/20170611/">weekly of 20170611</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/04/20170604/">weekly of 20170604</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/28/20170528/">weekly of 20170528</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/21/20170521/">weekly of 20170521</a>
+          </li>
+        
+		</ul>
+	</aside>
+
+
+	
+		
+  <aside class="widget">
+		<h3 class="widget-title">标签云</h3>
+        <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/ml/" style="font-size: 16.67px;">ml</a> <a href="/tags/weekly/" style="font-size: 20px;">weekly</a> <a href="/tags/wiki/" style="font-size: 10px;">wiki</a>
+    </aside>
+
+	
+</div>
+		</div>
+		<div id="content" class="site-content">
+			<main id="main" class="site-main" role="main">
+				
+<article class="hentry ">
+		
+		
+			<header class="entry-header">
+				<h2 class="entry-title"><a class="post-title-link" href="/2015/02/06/linux_kernel_lock/" rel="bookmark">由linux锁机制想起来的</a></h2>	
+			</header>
+		
+		<!-- .entry-header -->
+		<div class="entry-content">
+			
+				<h1 id="由linux锁机制想起来的"><a href="#由linux锁机制想起来的" class="headerlink" title="由linux锁机制想起来的"></a>由linux锁机制想起来的</h1><h2 id="为什么需要锁"><a href="#为什么需要锁" class="headerlink" title="为什么需要锁"></a>为什么需要锁</h2><p>根本的目标是要实现同步机制，数据不会被打乱。</p>
+<p>而在哪些情况需要同步机制呢？</p>
+<ul>
+<li>多处理器的情况：</li>
+<li>抢占式系统 :</li>
+<li>其他：</li>
+</ul>
+<h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><p>一般是指令自己触发的，处理也是比较简单的，主要有两种：</p>
+<ul>
+<li>页错误： 应该是唯一会出现的内核异常，此时会进行一些换页操作</li>
+<li>其他（比如除以0，int 3）等：一般的流程是，cpu触发异常—&gt; 内核异常流程处理 —&gt; 发送信号给用户进程 –&gt; 如果用户进程不处理，就kill进程 </li>
+</ul>
+<h2 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h2><p>先简单分类:</p>
+<ul>
+<li>I/O 中断:</li>
+<li>时钟中断:</li>
+<li>多处理器中断:</li>
+</ul>
+<p>按照处理的策略一般分为：硬中断和软中断（或者是所谓的下半部)</p>
+<p>硬中断：一般是非常简单的处理逻辑<br>软中断：会拆分很多，包括softirq, tasklist, work queue, kernel thread, 具体见：<a href="https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;uact=8&amp;ved=0CDQQFjAE&amp;url=http%3A%2F%2Fwww.cs.columbia.edu%2F~nahum%2Fw6998%2Flectures%2Finterrupts.ppt&amp;ei=XeyCVOLRJYbbmAXk4oLQBw&amp;usg=AFQjCNFzeobtg_hltZtuHHKYJqQgl_eZ7w&amp;sig2=C2Lz_RP3Fyp48kXC4hygSA&amp;bvm=bv.80642063,d.dGY" target="_blank" rel="external">https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;uact=8&amp;ved=0CDQQFjAE&amp;url=http%3A%2F%2Fwww.cs.columbia.edu%2F~nahum%2Fw6998%2Flectures%2Finterrupts.ppt&amp;ei=XeyCVOLRJYbbmAXk4oLQBw&amp;usg=AFQjCNFzeobtg_hltZtuHHKYJqQgl_eZ7w&amp;sig2=C2Lz_RP3Fyp48kXC4hygSA&amp;bvm=bv.80642063,d.dGY</a></p>
+<h2 id="关于抢占式内核"><a href="#关于抢占式内核" class="headerlink" title="关于抢占式内核"></a>关于抢占式内核</h2><ul>
+<li><p>中断和抢占的区别</p>
+<ul>
+<li>中断总是存在的，响应硬件的事件</li>
+<li>抢占主要是指是否执行的代码是否能被其他进程抢占</li>
+</ul>
+</li>
+<li><p>用户态抢占和内核抢占</p>
+<ul>
+<li>根据被抢占的时机区分用户台态和内核态抢占</li>
+<li>用户态抢占: 用户台的抢占一般比较容易，在系统调用或者中断处理完成之后返回用户态的时候判断就可以了，另外由于此时用户态的上下文保存的较为完成，直接切换到其他的进程，至少感觉实现成本不是很高</li>
+<li>内核态抢占: 简单的说，如果一段代码执行在内核态，能否也被抢占，个人感觉如果支持的话，其主要成本对整个内核的一些同步机制和代码等造成的影响，下面是copy的说明</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">如果内核是不可抢占的（比如说2.4的内核），一旦切进内核态，只要代码不是主动释放CPU它就可以一直占着CPU。例外，虽不可抢占，但若此时发生中断，代码还是要交出CPU，但是中断返回之后，代码又能霸占CPU了，此为可中断但不可抢占。</div><div class="line"></div><div class="line">如果内核是可抢占的（比如2.6或之后的内核），上述情况就不会发生了。内核抢占发生在以下3种情况：</div><div class="line"></div><div class="line">1. 从中断返回内核态时，若此时可抢占，则会强制调用schedule（），尝试抢占，被中断的内核代码不一定能继续霸着CPU。</div><div class="line"></div><div class="line">2.内核变成可抢占状态，此时也会尝试抢占。</div><div class="line"></div><div class="line">3.内核代码主动调用schedule（）。</div><div class="line"></div><div class="line">虽然2.6的内核提供内核抢占，但是也提供关闭的手段。是否可抢占是由preemt_count变量控制（per-cpu），有锁这个计数就+1，释放锁就-1.为0才是可抢占。每当释放锁的时候都会检查是否为0，为0则尝试抢占。</div></pre></td></tr></table></figure>
+<h2 id="关于进程上下文和中断上下文"><a href="#关于进程上下文和中断上下文" class="headerlink" title="关于进程上下文和中断上下文"></a>关于进程上下文和中断上下文</h2><p>个人感觉进程，两个上下文主要有两个含义，一个代表具体上下文关联的环境，比如寄存器之类的；另一个是一段内核代码运行的环境。而后者是更为常见和需要关注的。</p>
+<p>断上下文是引申出来的概念，其主要的目标是明确一个内核代码是否能执行某些操作。比如一个内核代码能否睡眠？ 因为在中断上下文的情况下，是不允许睡眠的。。。</p>
+<p>而更具体实际的差别在于，进程上下文是指一段代码代表一个进程在执行，主要有两种情况:</p>
+<ul>
+<li>一个系统调用导致陷入内核后的代码执行；</li>
+<li>异常出发导致的异常执行</li>
+</ul>
+<p>而中断上下文是但一个中断发生时，其内核代码管理的环境；</p>
+<p>中断上下文的要求是比较多的，包括:</p>
+<ul>
+<li>睡觉或者放弃cpu</li>
+<li>尝试获取信号量</li>
+<li>执行耗时任务</li>
+<li>访问用户空间的虚拟地址 : </li>
+</ul>
+<p>中断处理流程中不能睡眠，具体可以见: <a href="http://www.oschina.net/question/565065_57618" target="_blank" rel="external">http://www.oschina.net/question/565065_57618</a><br>这个上面的讨论</p>
+<p>具体可以见: <a href="http://www.embedu.org/Column/Column240.htm" target="_blank" rel="external">http://www.embedu.org/Column/Column240.htm</a></p>
+<h2 id="各种链接哈"><a href="#各种链接哈" class="headerlink" title="各种链接哈"></a>各种链接哈</h2><ul>
+<li><a href="http://hacklu.com/blog/%E5%86%85%E6%A0%B8%E6%8A%A2%E5%8D%A0%E5%92%8C%E4%B8%AD%E6%96%AD-75/" target="_blank" rel="external">内核抢占和中断</a></li>
+<li><a href="http://wenx05124561.blog.163.com/blog/static/1240008052011717113840215/" target="_blank" rel="external">http://wenx05124561.blog.163.com/blog/static/1240008052011717113840215/</a></li>
+<li><a href="http://guojing.me" target="_blank" rel="external">http://guojing.me</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_502c8cc401012pxj.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_502c8cc401012pxj.html</a></li>
+</ul>
+
+			
+		</div><!-- .entry-content -->
+		
+			<div class="entry-comments">
+				 
+      <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'shevacjs'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  
+  
+   
+			</div>
+		
+		<footer class="entry-footer">
+			<span class="posted-on font-asesome-icon">
+	<a href="" rel="bookmark">
+	<time class="updated" datetime="2015-02-06T08:26:33.000Z">2015-02-06</time>
+	</a>
+</span>
+
+
+	<span class="tags-links font-asesome-icon">
+	
+		<a href="/tags/linux/" rel="category tag">linux</a>
+    
+</span>
+		
+
+    <span class="eye font-asesome-icon" >
+         <span id="/2015/02/06/linux_kernel_lock/" class="leancloud_visitors" data-flag-title="由linux锁机制想起来的">
+        
+        </span>
+    </span>
+
+		</footer><!-- .entry-footer -->
+</article>
+<div class="misc">
+    <a href="#main"><span class="top font-asesome-icon">Top</span></a>
+</div>
+			</main>
+		</div>
+		<footer id="colophon" class="site-footer">
+			<div class="site-info">
+				<span>powered by <a href="https://hexo.io/">Hexo</a>&nbsp;&nbsp; theme by <a href="https://github.com/Troy-Yang/hexo-theme-twentyfifteen-wordpress">Troy</a> &nbsp; inspired by <a href="https://wordpress.org/themes/">wordpress</a></span>
+			</div><!-- .site-info -->
+		</footer>
+	</div>
+	<div id="infinite-footer">
+            <div class="container">
+                <div class="blog-info">
+                    <a id="infinity-blog-title" href="#" rel="home" title="Scroll back to top">
+                         Happy Coding, Happy Life!
+                    </a>
+                </div>
+                <div class="blog-credits">
+					<span>蜀ICP备15004900号-1</span>
+                </div>
+            </div>
+        </div><!-- #infinite-footer -->
+    <!-- After footer scripts -->
+    <script src="/js/jquery-3.1.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <!--referring from https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html -->
+    <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+    <script>
+        AV.initialize("wzqncxgqp9MCPiPERe3gnX2Q-gzGzoHsz", "CCtBiqyPtJWupuozt1393AXm");
+    </script>
+    <script>
+        function showTime(Counter) {
+            var query = new AV.Query(Counter);
+            $(".leancloud_visitors").each(function () {
+                var url = $(this).attr("id").trim();
+                query.equalTo("url", url);
+                query.find({
+                    success: function (results) {
+                        if (results.length == 0) {
+                            var content = $(document.getElementById(url)).text() + ': 0';
+                            $(document.getElementById(url)).text(content);
+                            return;
+                        }
+                        for (var i = 0; i < results.length; i++) {
+                            var object = results[i];
+                            //var content = $(document.getElementById(url)).text() + ': ' + object.get('time');
+                            $(document.getElementById(url)).text(object.get('time'));
+                        }
+                    },
+                    error: function (object, error) {
+                        console.log("Error: " + error.code + " " + error.message);
+                    }
+                });
+            });
+        }
+        function addCount(Counter) {
+            var Counter = AV.Object.extend("Counter");
+            url = $(".leancloud_visitors").attr('id').trim();
+            title = $(".leancloud_visitors").attr('data-flag-title').trim();
+            var query = new AV.Query(Counter);
+            query.equalTo("url", url);
+            query.find({
+                success: function (results) {
+                    if (results.length > 0) {
+                        var counter = results[0];
+                        counter.fetchWhenSave(true);
+                        counter.increment("time");
+                        counter.save(null, {
+                            success: function (counter) {
+                                //var content = $(document.getElementById(url)).text() + ': ' + counter.get('time');
+                                // remove ': '
+                                $(document.getElementById(url)).text(counter.get('time'));
+                            },
+                            error: function (counter, error) {
+                                console.log('Failed to save Visitor num, with error message: ' + error.message);
+                            }
+                        });
+                    } else {
+                        var newcounter = new Counter();
+                        newcounter.set("title", title);
+                        newcounter.set("url", url);
+                        newcounter.set("time", 1);
+                        newcounter.save(null, {
+                            success: function (newcounter) {
+                                console.log("newcounter.get('time')=" + newcounter.get('time'));
+                                var content = $(document.getElementById(url)).text() + ': ' + newcounter.get('time');
+                                // remove ': '
+                                $(document.getElementById(url)).text(newcounter.get('time'));
+                            },
+                            error: function (newcounter, error) {
+                                console.log('Failed to create');
+                            }
+                        });
+                    }
+                },
+                error: function (error) {
+                    console.log('Error:' + error.code + " " + error.message);
+                }
+            });
+        }
+        $(function () {
+            var Counter = AV.Object.extend("Counter");
+            if ($('.leancloud_visitors').length == 1) {
+                addCount(Counter);
+            } else if ($('.post-title-link').length > 1) {
+                showTime(Counter);
+            }
+        });
+    </script>
+    
+</body>
+</html>
