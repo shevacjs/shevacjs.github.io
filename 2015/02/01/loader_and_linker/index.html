@@ -8,7 +8,7 @@
   <meta name="description" content="静态库.a文件，一大堆.o文件的组合体，对于系统库而言，一般一个.o文件对于一个函数静态文件的链接世界上就是一大堆.o文件的代码的合并&amp;amp;段合并（比如把.text段合并起来），组成一个新的目标文件;其核心要解决的问题包括:  符号重定位 ： 不同obj文件里面的地址在调整之后，需要调整对应的一些地址（函数地址，变量地址等）；解决方案是每个obj都有一个重定位段，用于记录需要重定位的地址和符号">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux系统下的链接&amp;加载">
-<meta property="og:url" content="http://yoursite.com/2015/02/01/loader_and_linker/index.html">
+<meta property="og:url" content="http://shevacjs.com/2015/02/01/loader_and_linker/index.html">
 <meta property="og:site_name" content="shevacjs home">
 <meta property="og:description" content="静态库.a文件，一大堆.o文件的组合体，对于系统库而言，一般一个.o文件对于一个函数静态文件的链接世界上就是一大堆.o文件的代码的合并&amp;amp;段合并（比如把.text段合并起来），组成一个新的目标文件;其核心要解决的问题包括:  符号重定位 ： 不同obj文件里面的地址在调整之后，需要调整对应的一些地址（函数地址，变量地址等）；解决方案是每个obj都有一个重定位段，用于记录需要重定位的地址和符号">
 <meta property="og:locale" content="zh-CN">
@@ -51,7 +51,7 @@
       </nav>
       <nav id="sub-nav">
         <div id="search-form-wrap">
-          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
         </div>
       </nav>
     </div>
@@ -166,18 +166,13 @@
 
 
 
-<div class="share_addthis">
-  <div class="sharing addthis_toolbox share">
-    <a class="addthis_button_facebook_like"></a>
-    <a class="addthis_button_tweet"></a>
-    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    <a class="addthis_counter addthis_pill_style"></a>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
-</div>
-
-
-
+</section>
 
 
 </section>
@@ -191,6 +186,20 @@
   </div>
 </footer>
     
+<script>
+  var disqus_shortname = 'shevacjs';
+  
+  var disqus_url = 'http://shevacjs.com/2015/02/01/loader_and_linker/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="/js/jquery.min.js"></script>
 

@@ -9,7 +9,7 @@
 <meta name="keywords" content="linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="由linux锁机制想起来的">
-<meta property="og:url" content="http://yoursite.com/2015/02/06/linux_kernel_lock/index.html">
+<meta property="og:url" content="http://shevacjs.com/2015/02/06/linux_kernel_lock/index.html">
 <meta property="og:site_name" content="shevacjs home">
 <meta property="og:description" content="由linux锁机制想起来的为什么需要锁根本的目标是要实现同步机制，数据不会被打乱。 而在哪些情况需要同步机制呢？  多处理器的情况： 抢占式系统 : 其他：  异常一般是指令自己触发的，处理也是比较简单的，主要有两种：  页错误： 应该是唯一会出现的内核异常，此时会进行一些换页操作 其他（比如除以0，int 3）等：一般的流程是，cpu触发异常—&amp;gt; 内核异常流程处理 —&amp;gt; 发送信号给用">
 <meta property="og:locale" content="zh-CN">
@@ -52,7 +52,7 @@
       </nav>
       <nav id="sub-nav">
         <div id="search-form-wrap">
-          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
         </div>
       </nav>
     </div>
@@ -177,18 +177,13 @@
 
 
 
-<div class="share_addthis">
-  <div class="sharing addthis_toolbox share">
-    <a class="addthis_button_facebook_like"></a>
-    <a class="addthis_button_tweet"></a>
-    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    <a class="addthis_counter addthis_pill_style"></a>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
-</div>
-
-
-
+</section>
 
 
 </section>
@@ -202,6 +197,20 @@
   </div>
 </footer>
     
+<script>
+  var disqus_shortname = 'shevacjs';
+  
+  var disqus_url = 'http://shevacjs.com/2015/02/06/linux_kernel_lock/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="/js/jquery.min.js"></script>
 

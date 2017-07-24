@@ -8,17 +8,17 @@
   <meta name="description" content="web浏览器已经成为我们获取信息最重要的工具之一，我们也不仅仅把web浏览器当成简单的http内容获取+页面渲染的功能，而是希望在web上面构建越来越多的应用，比如实时会议之类的，这里简单说明下从web浏览器角度，分析他应该和现在支持的web交互功能 浏览器要干嘛浏览器终归到底是一个client，负责和server交互，如果不考虑本地渲染的复杂功能，我们对浏览器的考差点就是他如何支持一个交互的 一">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从浏览器角度看web交互">
-<meta property="og:url" content="http://yoursite.com/2015/03/06/web_browser_and_protocol/index.html">
+<meta property="og:url" content="http://shevacjs.com/2015/03/06/web_browser_and_protocol/index.html">
 <meta property="og:site_name" content="shevacjs home">
 <meta property="og:description" content="web浏览器已经成为我们获取信息最重要的工具之一，我们也不仅仅把web浏览器当成简单的http内容获取+页面渲染的功能，而是希望在web上面构建越来越多的应用，比如实时会议之类的，这里简单说明下从web浏览器角度，分析他应该和现在支持的web交互功能 浏览器要干嘛浏览器终归到底是一个client，负责和server交互，如果不考虑本地渲染的复杂功能，我们对浏览器的考差点就是他如何支持一个交互的 一">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2015/03/06/web_browser_and_protocol/browser_protocol_support.png">
-<meta property="og:image" content="http://yoursite.com/2015/03/06/web_browser_and_protocol/ajax_vs_websocket.png">
+<meta property="og:image" content="http://shevacjs.com/2015/03/06/web_browser_and_protocol/browser_protocol_support.png">
+<meta property="og:image" content="http://shevacjs.com/2015/03/06/web_browser_and_protocol/ajax_vs_websocket.png">
 <meta property="og:updated_time" content="2017-07-21T04:21:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从浏览器角度看web交互">
 <meta name="twitter:description" content="web浏览器已经成为我们获取信息最重要的工具之一，我们也不仅仅把web浏览器当成简单的http内容获取+页面渲染的功能，而是希望在web上面构建越来越多的应用，比如实时会议之类的，这里简单说明下从web浏览器角度，分析他应该和现在支持的web交互功能 浏览器要干嘛浏览器终归到底是一个client，负责和server交互，如果不考虑本地渲染的复杂功能，我们对浏览器的考差点就是他如何支持一个交互的 一">
-<meta name="twitter:image" content="http://yoursite.com/2015/03/06/web_browser_and_protocol/browser_protocol_support.png">
+<meta name="twitter:image" content="http://shevacjs.com/2015/03/06/web_browser_and_protocol/browser_protocol_support.png">
   
   
     <link rel="icon" href="/favicon.png">
@@ -54,7 +54,7 @@
       </nav>
       <nav id="sub-nav">
         <div id="search-form-wrap">
-          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
         </div>
       </nav>
     </div>
@@ -173,18 +173,13 @@
 
 
 
-<div class="share_addthis">
-  <div class="sharing addthis_toolbox share">
-    <a class="addthis_button_facebook_like"></a>
-    <a class="addthis_button_tweet"></a>
-    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    <a class="addthis_counter addthis_pill_style"></a>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
-</div>
-
-
-
+</section>
 
 
 </section>
@@ -198,6 +193,20 @@
   </div>
 </footer>
     
+<script>
+  var disqus_shortname = 'shevacjs';
+  
+  var disqus_url = 'http://shevacjs.com/2015/03/06/web_browser_and_protocol/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="/js/jquery.min.js"></script>
 

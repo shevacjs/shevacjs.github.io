@@ -9,7 +9,7 @@
 <meta name="keywords" content="nginx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nginx variable flag说明">
-<meta property="og:url" content="http://yoursite.com/2015/12/19/ngx_variable_flag/index.html">
+<meta property="og:url" content="http://shevacjs.com/2015/12/19/ngx_variable_flag/index.html">
 <meta property="og:site_name" content="shevacjs home">
 <meta property="og:description" content="背景&amp;amp;问题我们在自己编写nginx扩展的时候，一般要求设置flag，在src/http/ngx_http_variables.h，对nginx flag有如下定义: 1234#define NGX_HTTP_VAR_CHANGEABLE   1#define NGX_HTTP_VAR_NOCACHEABLE  2#define NGX_HTTP_VAR_INDEXED      4#def">
 <meta property="og:locale" content="zh-CN">
@@ -52,7 +52,7 @@
       </nav>
       <nav id="sub-nav">
         <div id="search-form-wrap">
-          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
         </div>
       </nav>
     </div>
@@ -157,17 +157,17 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/01/10/tcp_proxy/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/12/19/nginx_1_9_9/" id="article-nav-newer" class="article-nav-link-wrap">
       <div class="article-nav-title"><span>&lt;</span>&nbsp;
         
-          关于nginx的tcp代理支持
+          nginx 1.9.9 特性说明
         
       </div>
     </a>
   
   
-    <a href="/2015/12/19/nginx_1_9_9/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">nginx 1.9.9 特性说明&nbsp;<span>&gt;</span></div>
+    <a href="/2015/05/12/waf/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">业务防攻击与WAF调研&nbsp;<span>&gt;</span></div>
     </a>
   
 </nav>
@@ -178,18 +178,13 @@
 
 
 
-<div class="share_addthis">
-  <div class="sharing addthis_toolbox share">
-    <a class="addthis_button_facebook_like"></a>
-    <a class="addthis_button_tweet"></a>
-    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    <a class="addthis_counter addthis_pill_style"></a>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
-</div>
-
-
-
+</section>
 
 
 </section>
@@ -203,6 +198,20 @@
   </div>
 </footer>
     
+<script>
+  var disqus_shortname = 'shevacjs';
+  
+  var disqus_url = 'http://shevacjs.com/2015/12/19/ngx_variable_flag/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="/js/jquery.min.js"></script>
 

@@ -9,7 +9,7 @@
 <meta name="keywords" content="ml">
 <meta property="og:type" content="article">
 <meta property="og:title" content="About SVM">
-<meta property="og:url" content="http://yoursite.com/2017/07/21/svm/index.html">
+<meta property="og:url" content="http://shevacjs.com/2017/07/21/svm/index.html">
 <meta property="og:site_name" content="shevacjs home">
 <meta property="og:description" content="思路SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务; 一个直观的理解是: 我们构造的平面, 其距离样本的点距离越远越好; 而对于线性不可分的情况，我们则可以通过构造映射函数，将其映射到高维空间, 变成一个线性可分的模型 下面具体介绍这些思路的数学演绎过程 数学演绎设我们的输入样本为:  $$ { (x_1,y_1), … , (x_N, y_N)}$$">
 <meta property="og:locale" content="zh-CN">
@@ -52,7 +52,7 @@
       </nav>
       <nav id="sub-nav">
         <div id="search-form-wrap">
-          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
         </div>
       </nav>
     </div>
@@ -148,17 +148,17 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/07/23/20170723/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/07/21/bayes/" id="article-nav-newer" class="article-nav-link-wrap">
       <div class="article-nav-title"><span>&lt;</span>&nbsp;
         
-          weekly of 20170723
+          关于贝叶斯分类
         
       </div>
     </a>
   
   
-    <a href="/2017/07/21/bayes/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">关于贝叶斯分类&nbsp;<span>&gt;</span></div>
+    <a href="/2017/07/16/20170716/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20170716&nbsp;<span>&gt;</span></div>
     </a>
   
 </nav>
@@ -169,18 +169,13 @@
 
 
 
-<div class="share_addthis">
-  <div class="sharing addthis_toolbox share">
-    <a class="addthis_button_facebook_like"></a>
-    <a class="addthis_button_tweet"></a>
-    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    <a class="addthis_counter addthis_pill_style"></a>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
-</div>
-
-
-
+</section>
 
 
 </section>
@@ -194,6 +189,20 @@
   </div>
 </footer>
     
+<script>
+  var disqus_shortname = 'shevacjs';
+  
+  var disqus_url = 'http://shevacjs.com/2017/07/21/svm/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="/js/jquery.min.js"></script>
 
@@ -217,7 +226,7 @@
   });
 </script>
 
-<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->

@@ -9,16 +9,16 @@
 <meta name="keywords" content="nginx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nginx与https -- 正向代理支持">
-<meta property="og:url" content="http://yoursite.com/2015/04/25/nginx_https_proxy/index.html">
+<meta property="og:url" content="http://shevacjs.com/2015/04/25/nginx_https_proxy/index.html">
 <meta property="og:site_name" content="shevacjs home">
 <meta property="og:description" content="前言众所周知，nginx的对于http(s)反向代理的支持一直不错，但对正向代理(正向VS反向代理区别，见图解正向代理、反向代理、透明代理)的支持如何呢？ 对于http正向代理, nginx很早就支持了，具体如何配置nginx的正向代理可以见:Nginx配置正向http代理 而对于https的正向代理，nginx是从1.5.6版本，才开始逐渐支持, 现在看来其实是比较晚的版本，可以理解要支持htt">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/images/ssl-handshake.png">
+<meta property="og:image" content="http://shevacjs.com/images/ssl-handshake.png">
 <meta property="og:updated_time" content="2017-07-22T06:16:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx与https -- 正向代理支持">
 <meta name="twitter:description" content="前言众所周知，nginx的对于http(s)反向代理的支持一直不错，但对正向代理(正向VS反向代理区别，见图解正向代理、反向代理、透明代理)的支持如何呢？ 对于http正向代理, nginx很早就支持了，具体如何配置nginx的正向代理可以见:Nginx配置正向http代理 而对于https的正向代理，nginx是从1.5.6版本，才开始逐渐支持, 现在看来其实是比较晚的版本，可以理解要支持htt">
-<meta name="twitter:image" content="http://yoursite.com/images/ssl-handshake.png">
+<meta name="twitter:image" content="http://shevacjs.com/images/ssl-handshake.png">
   
   
     <link rel="icon" href="/favicon.png">
@@ -54,7 +54,7 @@
       </nav>
       <nav id="sub-nav">
         <div id="search-form-wrap">
-          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
         </div>
       </nav>
     </div>
@@ -168,18 +168,13 @@
 
 
 
-<div class="share_addthis">
-  <div class="sharing addthis_toolbox share">
-    <a class="addthis_button_facebook_like"></a>
-    <a class="addthis_button_tweet"></a>
-    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    <a class="addthis_counter addthis_pill_style"></a>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
-</div>
-
-
-
+</section>
 
 
 </section>
@@ -193,6 +188,20 @@
   </div>
 </footer>
     
+<script>
+  var disqus_shortname = 'shevacjs';
+  
+  var disqus_url = 'http://shevacjs.com/2015/04/25/nginx_https_proxy/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="/js/jquery.min.js"></script>
 
@@ -216,7 +225,7 @@
   });
 </script>
 
-<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->

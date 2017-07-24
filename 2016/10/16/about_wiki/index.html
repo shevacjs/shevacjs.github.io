@@ -9,7 +9,7 @@
 <meta name="keywords" content="wiki">
 <meta property="og:type" content="article">
 <meta property="og:title" content="about wiki">
-<meta property="og:url" content="http://yoursite.com/2016/10/16/about_wiki/index.html">
+<meta property="og:url" content="http://shevacjs.com/2016/10/16/about_wiki/index.html">
 <meta property="og:site_name" content="shevacjs home">
 <meta property="og:description" content="about wiki最近通过wiki的说明文档，直接做了两个关于中英文的wiki镜像网站，具体如下:  中文简版Wiki: wiki.shevacjs.com 英文简版wiki: ewiki.shevacjs.com   两个加起来的镜像差不多有10G，由于申请的VPS总共大小也就20G, 所以现在这两个版本是能承受的最基础版本 使用的技术主要是kiwix, 具体可以参考的文章有:  Kiwix-">
 <meta property="og:locale" content="zh-CN">
@@ -52,7 +52,7 @@
       </nav>
       <nav id="sub-nav">
         <div id="search-form-wrap">
-          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
         </div>
       </nav>
     </div>
@@ -131,18 +131,13 @@
 
 
 
-<div class="share_addthis">
-  <div class="sharing addthis_toolbox share">
-    <a class="addthis_button_facebook_like"></a>
-    <a class="addthis_button_tweet"></a>
-    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    <a class="addthis_counter addthis_pill_style"></a>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
-</div>
-
-
-
+</section>
 
 
 </section>
@@ -156,6 +151,20 @@
   </div>
 </footer>
     
+<script>
+  var disqus_shortname = 'shevacjs';
+  
+  var disqus_url = 'http://shevacjs.com/2016/10/16/about_wiki/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="/js/jquery.min.js"></script>
 

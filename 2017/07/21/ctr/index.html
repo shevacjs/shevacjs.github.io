@@ -9,7 +9,7 @@
 <meta name="keywords" content="ml">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于CTR预估的算法">
-<meta property="og:url" content="http://yoursite.com/2017/07/21/ctr/index.html">
+<meta property="og:url" content="http://shevacjs.com/2017/07/21/ctr/index.html">
 <meta property="og:site_name" content="shevacjs home">
 <meta property="og:description" content="偏实践应用, by chenjiansen WARN, 个人理解, 应该是多有谬误  关于CTR预估在很多推荐系统里面，rank是一个关键的环节；从不同召回源获取到的数据, 按照哪种排序方式推荐给用户是一个关键的问题; 所谓的CTR预估就是希望我们能对输出的list 做一个合适的点击预估; 抽象起来其实就是算一个item被点击的概率或者可能性； 这个问题映射为机器学习里面的算法，现在常见的，使用">
 <meta property="og:locale" content="zh-CN">
@@ -52,7 +52,7 @@
       </nav>
       <nav id="sub-nav">
         <div id="search-form-wrap">
-          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
         </div>
       </nav>
     </div>
@@ -147,10 +147,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/07/21/bayes/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/07/23/20170723/" id="article-nav-newer" class="article-nav-link-wrap">
       <div class="article-nav-title"><span>&lt;</span>&nbsp;
         
-          关于贝叶斯分类
+          weekly of 20170723
         
       </div>
     </a>
@@ -168,18 +168,13 @@
 
 
 
-<div class="share_addthis">
-  <div class="sharing addthis_toolbox share">
-    <a class="addthis_button_facebook_like"></a>
-    <a class="addthis_button_tweet"></a>
-    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    <a class="addthis_counter addthis_pill_style"></a>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
-</div>
-
-
-
+</section>
 
 
 </section>
@@ -193,6 +188,20 @@
   </div>
 </footer>
     
+<script>
+  var disqus_shortname = 'shevacjs';
+  
+  var disqus_url = 'http://shevacjs.com/2017/07/21/ctr/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="/js/jquery.min.js"></script>
 
@@ -216,7 +225,7 @@
   });
 </script>
 
-<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->

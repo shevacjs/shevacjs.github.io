@@ -8,7 +8,7 @@
   <meta name="description" content="by chenjiansen@baidu.com   0x00 现有防攻击支持对具体的流量进行分析的话，流量攻击主要包括如下两个点:  量 : 就是通过构造大量的请求，来影响服务器的服务质量 质 : 就是伪造特定的请求，这类请求量不需要很大，但可能对系统的安全和稳定性有较大影响  量上面的攻击其实一直是大多数接入系统会重点关注和防御的，以百度而言，大致的接入防攻击有如下:  BGW : 4层四层">
 <meta property="og:type" content="article">
 <meta property="og:title" content="业务防攻击与WAF调研">
-<meta property="og:url" content="http://yoursite.com/2015/05/12/waf/index.html">
+<meta property="og:url" content="http://shevacjs.com/2015/05/12/waf/index.html">
 <meta property="og:site_name" content="shevacjs home">
 <meta property="og:description" content="by chenjiansen@baidu.com   0x00 现有防攻击支持对具体的流量进行分析的话，流量攻击主要包括如下两个点:  量 : 就是通过构造大量的请求，来影响服务器的服务质量 质 : 就是伪造特定的请求，这类请求量不需要很大，但可能对系统的安全和稳定性有较大影响  量上面的攻击其实一直是大多数接入系统会重点关注和防御的，以百度而言，大致的接入防攻击有如下:  BGW : 4层四层">
 <meta property="og:locale" content="zh-CN">
@@ -51,7 +51,7 @@
       </nav>
       <nav id="sub-nav">
         <div id="search-form-wrap">
-          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
         </div>
       </nav>
     </div>
@@ -216,10 +216,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/12/19/nginx_1_9_9/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/12/19/ngx_variable_flag/" id="article-nav-newer" class="article-nav-link-wrap">
       <div class="article-nav-title"><span>&lt;</span>&nbsp;
         
-          nginx 1.9.9 特性说明
+          nginx variable flag说明
         
       </div>
     </a>
@@ -237,18 +237,13 @@
 
 
 
-<div class="share_addthis">
-  <div class="sharing addthis_toolbox share">
-    <a class="addthis_button_facebook_like"></a>
-    <a class="addthis_button_tweet"></a>
-    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    <a class="addthis_counter addthis_pill_style"></a>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
-</div>
-
-
-
+</section>
 
 
 </section>
@@ -262,6 +257,20 @@
   </div>
 </footer>
     
+<script>
+  var disqus_shortname = 'shevacjs';
+  
+  var disqus_url = 'http://shevacjs.com/2015/05/12/waf/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="/js/jquery.min.js"></script>
 

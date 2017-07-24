@@ -8,11 +8,11 @@
   <meta name="description" content="by chenjiansen@baidu.com  0x00 背景nginx的扩展和nginx lua在贴吧有了越来越多的应用，但是对于整个nginx相关组件的性能测试一直没有完善的支持。除了常规的流量压测，cpu利用率的分析等。我们还需要对nginx的具体性能瓶颈进一步分析，发现具体的代码热点，以便进一步的性能优化。 简而言之，我们需要达到如下目标:  对于C扩展，我们能够明确其代码热点 对于">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nginx扩展&#x2F;lua的性能剖析支持">
-<meta property="og:url" content="http://yoursite.com/2015/05/10/hotcode_analysis/index.html">
+<meta property="og:url" content="http://shevacjs.com/2015/05/10/hotcode_analysis/index.html">
 <meta property="og:site_name" content="shevacjs home">
 <meta property="og:description" content="by chenjiansen@baidu.com  0x00 背景nginx的扩展和nginx lua在贴吧有了越来越多的应用，但是对于整个nginx相关组件的性能测试一直没有完善的支持。除了常规的流量压测，cpu利用率的分析等。我们还需要对nginx的具体性能瓶颈进一步分析，发现具体的代码热点，以便进一步的性能优化。 简而言之，我们需要达到如下目标:  对于C扩展，我们能够明确其代码热点 对于">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2015/05/10/hotcode_analysis/perf_report_sample.png">
+<meta property="og:image" content="http://shevacjs.com/2015/05/10/hotcode_analysis/perf_report_sample.png">
 <meta property="og:image" content="http://db-forum-phpfr01.db01.baidu.com:8200/svg//nginx_runtime_jit.svg">
 <meta property="og:image" content="http://db-forum-phpfr01.db01.baidu.com:8200/svg//router_jit.svg">
 <meta property="og:image" content="http://db-forum-phpfr01.db01.baidu.com:8200/svg//inner_jit.svg">
@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx扩展&#x2F;lua的性能剖析支持">
 <meta name="twitter:description" content="by chenjiansen@baidu.com  0x00 背景nginx的扩展和nginx lua在贴吧有了越来越多的应用，但是对于整个nginx相关组件的性能测试一直没有完善的支持。除了常规的流量压测，cpu利用率的分析等。我们还需要对nginx的具体性能瓶颈进一步分析，发现具体的代码热点，以便进一步的性能优化。 简而言之，我们需要达到如下目标:  对于C扩展，我们能够明确其代码热点 对于">
-<meta name="twitter:image" content="http://yoursite.com/2015/05/10/hotcode_analysis/perf_report_sample.png">
+<meta name="twitter:image" content="http://shevacjs.com/2015/05/10/hotcode_analysis/perf_report_sample.png">
   
   
     <link rel="icon" href="/favicon.png">
@@ -56,7 +56,7 @@
       </nav>
       <nav id="sub-nav">
         <div id="search-form-wrap">
-          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
         </div>
       </nav>
     </div>
@@ -253,18 +253,13 @@
 
 
 
-<div class="share_addthis">
-  <div class="sharing addthis_toolbox share">
-    <a class="addthis_button_facebook_like"></a>
-    <a class="addthis_button_tweet"></a>
-    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    <a class="addthis_counter addthis_pill_style"></a>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
-</div>
-
-
-
+</section>
 
 
 </section>
@@ -278,6 +273,20 @@
   </div>
 </footer>
     
+<script>
+  var disqus_shortname = 'shevacjs';
+  
+  var disqus_url = 'http://shevacjs.com/2015/05/10/hotcode_analysis/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="/js/jquery.min.js"></script>
 
@@ -301,7 +310,7 @@
   });
 </script>
 
-<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->

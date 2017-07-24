@@ -8,16 +8,16 @@
   <meta name="description" content="在前一次的文章锁机制概述，大致简单说明了MP系统下面锁的基本原理。这里，再简单说明下在2.6内核体系下面，linux支持的锁，包括内核态和用户态(pthread系列的)。 内核态自旋锁自旋锁是最基本的锁支持，在linux内核下，自旋锁的API有如下形式： 1234void spin_lock(spinlock_t *lock);void spin_lock_irqsave(spinlock_t *">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux 常见锁说明">
-<meta property="og:url" content="http://yoursite.com/2014/12/27/linux_lock_impl/index.html">
+<meta property="og:url" content="http://shevacjs.com/2014/12/27/linux_lock_impl/index.html">
 <meta property="og:site_name" content="shevacjs home">
 <meta property="og:description" content="在前一次的文章锁机制概述，大致简单说明了MP系统下面锁的基本原理。这里，再简单说明下在2.6内核体系下面，linux支持的锁，包括内核态和用户态(pthread系列的)。 内核态自旋锁自旋锁是最基本的锁支持，在linux内核下，自旋锁的API有如下形式： 1234void spin_lock(spinlock_t *lock);void spin_lock_irqsave(spinlock_t *">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2014/12/27/linux_lock_impl/seqlock_demo.png">
+<meta property="og:image" content="http://shevacjs.com/2014/12/27/linux_lock_impl/seqlock_demo.png">
 <meta property="og:updated_time" content="2017-07-21T04:21:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux 常见锁说明">
 <meta name="twitter:description" content="在前一次的文章锁机制概述，大致简单说明了MP系统下面锁的基本原理。这里，再简单说明下在2.6内核体系下面，linux支持的锁，包括内核态和用户态(pthread系列的)。 内核态自旋锁自旋锁是最基本的锁支持，在linux内核下，自旋锁的API有如下形式： 1234void spin_lock(spinlock_t *lock);void spin_lock_irqsave(spinlock_t *">
-<meta name="twitter:image" content="http://yoursite.com/2014/12/27/linux_lock_impl/seqlock_demo.png">
+<meta name="twitter:image" content="http://shevacjs.com/2014/12/27/linux_lock_impl/seqlock_demo.png">
   
   
     <link rel="icon" href="/favicon.png">
@@ -53,7 +53,7 @@
       </nav>
       <nav id="sub-nav">
         <div id="search-form-wrap">
-          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
         </div>
       </nav>
     </div>
@@ -159,18 +159,13 @@
 
 
 
-<div class="share_addthis">
-  <div class="sharing addthis_toolbox share">
-    <a class="addthis_button_facebook_like"></a>
-    <a class="addthis_button_tweet"></a>
-    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    <a class="addthis_counter addthis_pill_style"></a>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560c64c35486b3d4" async="async"></script>
-</div>
-
-
-
+</section>
 
 
 </section>
@@ -184,6 +179,20 @@
   </div>
 </footer>
     
+<script>
+  var disqus_shortname = 'shevacjs';
+  
+  var disqus_url = 'http://shevacjs.com/2014/12/27/linux_lock_impl/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="/js/jquery.min.js"></script>
 
