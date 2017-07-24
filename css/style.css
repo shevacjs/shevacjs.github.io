@@ -512,8 +512,12 @@ a.article-title:hover,
 .article-entry blockquote {
   font-family: 'PT Serif', 'STZhongsong', '华文中宋', 'Microsoft Yahei', serif;
   font-size: 1em;
-  margin: 1.4em 20px;
+  margin: 1.5em 10px;
   text-align: left;
+  background: #f9f9f9;
+  padding: 0 0.3em;
+  text-indent: 1.5em;
+  border-left: 10px solid #ccc;
 }
 .article-entry blockquote footer {
   font-size: 16px;
