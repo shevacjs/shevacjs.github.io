@@ -480,6 +480,77 @@
 
 
     
+      <article id="post-pca" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/06/pca/">About PCA</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/05/06/pca/" class="article-date">
+  <time datetime="2017-05-05T16:25:11.000Z" itemprop="datePublished">2017-05-06</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>wiki概述:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在多元统计分析中，主成分分析（英语：Principal components analysis，PCA）是一种分析、简化数据集的技术。主成分分析经常用于减少数据集的维数，同时保持数据集中的对方差贡献最大的特征。这是通过保留低阶主成分，忽略高阶主成分做到的。这样低阶成分往往能够保留住数据的最重要方面。但是，这也不是一定的，要视具体应用而定。由于主成分分析依赖所给数据，所以数据的准确性对分析结果影响很大。</div></pre></td></tr></table></figure>
+<p>数学定义:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">PCA的数学定义是：一个正交化线性变换，把数据变换到一个新的坐标系统中，使得这一数据的任何投影的第一大方差在第一个坐标（称为第一主成分）上，第二大方差在第二个坐标（第二主成分）上，依次类推</div></pre></td></tr></table></figure>
+<h2 id="个人理解"><a href="#个人理解" class="headerlink" title="个人理解"></a>个人理解</h2><p>考虑到我们有一个矩阵m*n , 行代表特征，列代表数据(意味着我们有N个数据点，每个数据点有M个维度) </p>
+<p>我们基于的假设是: 我们可以约定一个办法, 可以让这堆数据从m维降到k维, 但是对这个数据包含的信息量影响很小;</p>
+<p>如果数据没有一定的分布，其实这个假设是不大可能成立的，从wiki上面可以看到描述: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">通过使用降维来保存大部分数据信息的主成分分析的观点是不正确的。确实如此，当没有任何假设信息的信号模型时，主成分分析在降维的同时并不能保证信息的不丢失，其中信息是由香农熵[8]来衡量的。 基于假设得 &#123;\displaystyle \mathbf &#123;x&#125; =\mathbf &#123;s&#125; +\mathbf &#123;n&#125; &#125;  \mathbf&#123;x&#125; = \mathbf&#123;s&#125; +  \mathbf&#123;n&#125;   也就是说，向量 x 是含有信息的目标信号 s 和噪声信号 n 之和，从信息论角度考虑主成分分析在降维上是最优的。</div><div class="line">特别地，Linsker证明了如果 s 是高斯分布，且 n 是 与密度矩阵相应的协方差矩阵的高斯噪声，</div></pre></td></tr></table></figure>
+<p>现在我们不考虑这个假设是否成立的前提下, 需要抽象一个数据方法来实践; 一个重点的衡量标准是:<code>数据包含的信息量影响很小</code> ; 基于信息论的假设：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在信号处理中认为信号具有较大的方差，噪声有较小的方差，信噪比就是信号与噪声的方差比，越大越好。</div></pre></td></tr></table></figure>
+<p>这也就抽象出上面具体的<code>数学定义</code></p>
+<p>所以整体依赖的核心思路和思想是对<code>信息论</code>的抽象和实践</p>
+<h2 id="简单推导"><a href="#简单推导" class="headerlink" title="简单推导"></a>简单推导</h2><p>假设有m个点，目标后的向量空间为 </p>
+<p>$$<br>U = {u_1, u_2, u_3, … u_n}<br>$$</p>
+<p>假设$u_1$是让其投影方差最大的直线的单位向量；则$u_1$满足如下要求: </p>
+<p>对于任意一个点 $x_i$ 其到目标向量$u_1$的投影的长度为 两个向量的点积，即: $x_i.u_i$，平方之后不影响结论，则我们考虑目标后的方差之和 (目标是求让$\lambda$最大的u):</p>
+<p>$$\lambda=\frac{1}{m}\sum_1^m(x_i.u_1)^2 = \frac{1}{m}\sum_1^m(x_i^Tu_1)(x_i^Tu_1) $$<br>$$=\frac{1}{m}\sum_1^m(x_i^Tu_1)^T(x_i^Tu_1)$$<br>$$=\frac{1}{m}\sum_1^mu_1^Tx_ix_i^Tu_1$$<br>$$=\frac{1}{m}u_1^T\sum_1^m(x_ix_i^T)u_1$$<br>$$=u_1^T\frac{1}{m}\sum_1^m(x_ix_i^T)u_1$$</p>
+<p>令 $A=\frac{1}{m}\sum_1^m(x_ix_i^T)$, $u_1$简写成u则有 :<br>$$\lambda=u^TAu$$</p>
+<p>由于 $u^Tu=1$, 同时乘以u, 则有:</p>
+<p>$$\lambda u=Au$$</p>
+<p>故而可以知道 u 是矩阵 A 的最大特征值对应的特征向量 , 第二大特征值等依次也可以推出</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020209.html" target="_blank" rel="external">主成分分析（Principal components analysis）-最大方差解释</a></li>
+<li><a href="http://blog.csdn.net/zhongkelee/article/details/44064401" target="_blank" rel="external">主成分分析（PCA）原理详解</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-svd" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -558,77 +629,6 @@
 </ul>
 <ul>
 <li>[3] <a href="https://ccjou.wordpress.com/2009/05/27/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8%E5%9F%BA%E6%9C%AC%E5%AE%9A%E7%90%86-%E5%9B%9B/" target="_blank" rel="external">線性代數基本定理 (四)</a></li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-pca" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/06/pca/">About PCA</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/05/06/pca/" class="article-date">
-  <time datetime="2017-05-05T16:25:11.000Z" itemprop="datePublished">2017-05-06</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>wiki概述:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在多元统计分析中，主成分分析（英语：Principal components analysis，PCA）是一种分析、简化数据集的技术。主成分分析经常用于减少数据集的维数，同时保持数据集中的对方差贡献最大的特征。这是通过保留低阶主成分，忽略高阶主成分做到的。这样低阶成分往往能够保留住数据的最重要方面。但是，这也不是一定的，要视具体应用而定。由于主成分分析依赖所给数据，所以数据的准确性对分析结果影响很大。</div></pre></td></tr></table></figure>
-<p>数学定义:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">PCA的数学定义是：一个正交化线性变换，把数据变换到一个新的坐标系统中，使得这一数据的任何投影的第一大方差在第一个坐标（称为第一主成分）上，第二大方差在第二个坐标（第二主成分）上，依次类推</div></pre></td></tr></table></figure>
-<h2 id="个人理解"><a href="#个人理解" class="headerlink" title="个人理解"></a>个人理解</h2><p>考虑到我们有一个矩阵m*n , 行代表特征，列代表数据(意味着我们有N个数据点，每个数据点有M个维度) </p>
-<p>我们基于的假设是: 我们可以约定一个办法, 可以让这堆数据从m维降到k维, 但是对这个数据包含的信息量影响很小;</p>
-<p>如果数据没有一定的分布，其实这个假设是不大可能成立的，从wiki上面可以看到描述: </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">通过使用降维来保存大部分数据信息的主成分分析的观点是不正确的。确实如此，当没有任何假设信息的信号模型时，主成分分析在降维的同时并不能保证信息的不丢失，其中信息是由香农熵[8]来衡量的。 基于假设得 &#123;\displaystyle \mathbf &#123;x&#125; =\mathbf &#123;s&#125; +\mathbf &#123;n&#125; &#125;  \mathbf&#123;x&#125; = \mathbf&#123;s&#125; +  \mathbf&#123;n&#125;   也就是说，向量 x 是含有信息的目标信号 s 和噪声信号 n 之和，从信息论角度考虑主成分分析在降维上是最优的。</div><div class="line">特别地，Linsker证明了如果 s 是高斯分布，且 n 是 与密度矩阵相应的协方差矩阵的高斯噪声，</div></pre></td></tr></table></figure>
-<p>现在我们不考虑这个假设是否成立的前提下, 需要抽象一个数据方法来实践; 一个重点的衡量标准是:<code>数据包含的信息量影响很小</code> ; 基于信息论的假设：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在信号处理中认为信号具有较大的方差，噪声有较小的方差，信噪比就是信号与噪声的方差比，越大越好。</div></pre></td></tr></table></figure>
-<p>这也就抽象出上面具体的<code>数学定义</code></p>
-<p>所以整体依赖的核心思路和思想是对<code>信息论</code>的抽象和实践</p>
-<h2 id="简单推导"><a href="#简单推导" class="headerlink" title="简单推导"></a>简单推导</h2><p>假设有m个点，目标后的向量空间为 </p>
-<p>$$<br>U = {u_1, u_2, u_3, … u_n}<br>$$</p>
-<p>假设$u_1$是让其投影方差最大的直线的单位向量；则$u_1$满足如下要求: </p>
-<p>对于任意一个点 $x_i$ 其到目标向量$u_1$的投影的长度为 两个向量的点积，即: $x_i.u_i$，平方之后不影响结论，则我们考虑目标后的方差之和 (目标是求让$\lambda$最大的u):</p>
-<p>$$\lambda=\frac{1}{m}\sum_1^m(x_i.u_1)^2 = \frac{1}{m}\sum_1^m(x_i^Tu_1)(x_i^Tu_1) $$<br>$$=\frac{1}{m}\sum_1^m(x_i^Tu_1)^T(x_i^Tu_1)$$<br>$$=\frac{1}{m}\sum_1^mu_1^Tx_ix_i^Tu_1$$<br>$$=\frac{1}{m}u_1^T\sum_1^m(x_ix_i^T)u_1$$<br>$$=u_1^T\frac{1}{m}\sum_1^m(x_ix_i^T)u_1$$</p>
-<p>令 $A=\frac{1}{m}\sum_1^m(x_ix_i^T)$, $u_1$简写成u则有 :<br>$$\lambda=u^TAu$$</p>
-<p>由于 $u^Tu=1$, 同时乘以u, 则有:</p>
-<p>$$\lambda u=Au$$</p>
-<p>故而可以知道 u 是矩阵 A 的最大特征值对应的特征向量 , 第二大特征值等依次也可以推出</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020209.html" target="_blank" rel="external">主成分分析（Principal components analysis）-最大方差解释</a></li>
-<li><a href="http://blog.csdn.net/zhongkelee/article/details/44064401" target="_blank" rel="external">主成分分析（PCA）原理详解</a></li>
 </ul>
 
       
