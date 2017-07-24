@@ -221,7 +221,7 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在前一次的文章<a href="http://shevacjs.com/lock/2014/12/13/lock/" target="_blank" rel="external">锁机制概述</a>，大致简单说明了MP系统下面锁的基本原理。这里，再简单说明下在2.6内核体系下面，linux支持的锁，包括内核态和用户态(pthread系列的)。</p>
+        <p>在前一次的文章<a href="http://shevacjs.com/lock/2014/12/13/lock/">锁机制概述</a>，大致简单说明了MP系统下面锁的基本原理。这里，再简单说明下在2.6内核体系下面，linux支持的锁，包括内核态和用户态(pthread系列的)。</p>
 <h2 id="内核态"><a href="#内核态" class="headerlink" title="内核态"></a>内核态</h2><h3 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h3><p>自旋锁是最基本的锁支持，在linux内核下，自旋锁的API有如下形式：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock_irqsave</span><span class="params">(<span class="keyword">spinlock_t</span> *lock, <span class="keyword">unsigned</span> <span class="keyword">long</span> flags)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock_irq</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock_bh</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span></div></pre></td></tr></table></figure>
 <p>其中<code>irqsave</code>和<code>bh</code>都是处理和中断有关的，因为在中断等上下文一旦处理不好就可能导致死锁。</p>
@@ -656,7 +656,7 @@
 </footer>
     
 <script>
-  var disqus_shortname = 'shevacjs';
+  var disqus_shortname = 'shevacjs-com';
   
   (function(){
     var dsq = document.createElement('script');
