@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>关于AdaBoost&amp;Boosting - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能; About AdaBoostAdaBoost的算法归纳如下:  假设输入样本如下:  $${ (x_1, y_1,), … (x_n, y_n) }$$ 且 $y \in  { -1, 1}$ 且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果 则在">
+<meta name="keywords" content="ml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于AdaBoost&amp;Boosting">
+<meta property="og:url" content="http://shevacjs.com/2017/07/21/boosting/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能; About AdaBoostAdaBoost的算法归纳如下:  假设输入样本如下:  $${ (x_1, y_1,), … (x_n, y_n) }$$ 且 $y \in  { -1, 1}$ 且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果 则在">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-07-27T17:29:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于AdaBoost&amp;Boosting">
+<meta name="twitter:description" content="核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能; About AdaBoostAdaBoost的算法归纳如下:  假设输入样本如下:  $${ (x_1, y_1,), … (x_n, y_n) }$$ 且 $y \in  { -1, 1}$ 且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果 则在">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-boosting" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      关于AdaBoost&amp;Boosting
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/07/21/boosting/" class="article-date">
+  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;</p>
+<h3 id="About-AdaBoost"><a href="#About-AdaBoost" class="headerlink" title="About AdaBoost"></a>About AdaBoost</h3><p>AdaBoost的算法归纳如下: </p>
+<p>假设输入样本如下: </p>
+<p>$${ (x_1, y_1,), … (x_n, y_n) }$$</p>
+<p>且 $y \in  { -1, 1}$</p>
+<p>且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果</p>
+<p>则在$m-1$次迭代之后，我们的boost分类器可以表达如下: </p>
+<p>$$C_{(m-1)}(x_i) = \alpha_1k_1(x_i) + … + \alpha_{m-1}k_{m-1}(x_i)$$</p>
+<p>对第m次迭代后，我们的目标分类器的表达式可以表述为: </p>
+<p>$$C_m(x_i) = C_{(m-1)}(xi) + \alpha_mk_m(x_i)$$</p>
+<p>则问题转化为: 我们需要明确$\alpha_m$ 和 $k_m$的值 ;</p>
+<p>设我们的损失函数定义如下: (<code>mark</code>)</p>
+<p>$$E = \sum_{i=1}^n e^{-y_iC_m(x_i)}$$</p>
+<p>令$w_i^{(1)} = 1, w_i^{(m)} = e^{-y_iC_{m-1}(x_i)}$, 则有: </p>
+<p>$$ E = \sum_{i=1}^n w_i^{(m)} e^{-y_i\alpha_mk_m(x_i)}$$</p>
+<p>由于$y_i*k_m(x_i) \in { -1, 1 }$,  则有:</p>
+<p>$$ E = \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m} $$<br>$$ = \sum_{i=1}^N w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)} (e^{\alpha_m}   - e^{-\alpha_m} )$$</p>
+<p>从而可以看到我们关注的$k_m$对E的影响，仅表现在等式右侧,  其需要最小化$\sum _{yi \neq k_m(x_i)} w_i^{(m)}$ </p>
+<p>在考虑$\alpha_m$的取值: </p>
+<p>$$\frac{d E}{d \alpha_m} = - \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m}  $$</p>
+<p>令其取值为0； 则有: </p>
+<p>$$ \alpha_m = \frac{1}{2} \ln( \frac{\sum _{yi=k_m(x_i)} w_i^{(m)} }{\sum _{yi \neq k_m(x_i)} w_i^{(m)}}$$</p>
+<p>令 $\epsilon_m =  {\sum _{yi \neq k_m(x_i)} w_i^{(m)}} / \sum_{i=1}^n w_i^{(m)}$, 则有 : </p>
+<p>$$ \alpha_m = \frac{1}{2} \ln(\frac{1-\epsilon_m}{\epsilon_m})$$</p>
+<p>上面就是我们最常见的算法；</p>
+<p>概述如下：</p>
+<p>At each iteration, choose the classifier $k_{m}$ which minimizes the total weighted error :</p>
+<p>$$\sum_{y_i \neq k_m(x_i)}w_i^m $$</p>
+<p>use this to calculate the error rate </p>
+<p>$$\epsilon_m=\sum_{y_{i}\neq k_{m}(x_{i})}w_{i}^m/\sum_{i=1}^{N}w_{i}^m$$</p>
+<p>use this to calculate the weight<br>$$\alpha_m = \frac{1}{2}\ln\left( \frac{1 - \epsilon_m}{\epsilon_m}\right)$$</p>
+<p>and finally use this to improve the boosted classifier $C_NaN$ to $C_=C_NaN+\alpha _{m}k_{m}$<br>上面所述全来自wiki:  <a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="external">https://en.wikipedia.org/wiki/AdaBoost</a></p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/07/21/Supervised_Learning/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          Supervised learning ： Linear Regression
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/16/20170716/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20170716&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  var disqus_url = 'http://shevacjs.com/2017/07/21/boosting/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
