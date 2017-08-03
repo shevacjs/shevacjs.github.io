@@ -57,6 +57,64 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-nginx_1_13_0" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/02/nginx_1_13_0/">nginx 1.13.0 版本说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/08/02/nginx_1_13_0/" class="article-date">
+  <time datetime="2017-08-02T06:17:29.000Z" itemprop="datePublished">2017-08-02</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="原始feature说明"><a href="#原始feature说明" class="headerlink" title="原始feature说明"></a>原始feature说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">*) Change: SSL renegotiation is now allowed on backend connections.</div><div class="line"></div><div class="line">*) Feature: the &quot;rcvbuf&quot; and &quot;sndbuf&quot; parameters of the &quot;listen&quot;</div><div class="line">   directives of the mail proxy and stream modules.</div><div class="line"></div><div class="line">*) Feature: the &quot;return&quot; and &quot;error_page&quot; directives can now be used to</div><div class="line">   return 308 redirections.</div><div class="line">   Thanks to Simon Leblanc.</div><div class="line"></div><div class="line">*) Feature: the &quot;TLSv1.3&quot; parameter of the &quot;ssl_protocols&quot; directive.</div><div class="line"></div><div class="line">*) Feature: when logging signals nginx now logs PID of the process which</div><div class="line">   sent the signal.</div><div class="line"></div><div class="line">*) Bugfix: in memory allocation error handling.</div><div class="line"></div><div class="line">*) Bugfix: if a server in the stream module listened on a wildcard</div><div class="line">   address, the source address of a response UDP datagram could differ</div><div class="line">   from the original datagram destination address.</div></pre></td></tr></table></figure>
+<p>我们主要关系其新增的feature, 包括:</p>
+<ul>
+<li>return/error_page支持308状态码</li>
+<li>nginx收到信号的时候，支持打印信号源的pid</li>
+<li><code>ssl_protocols</code> 支持 TLSv1.3 协议</li>
+</ul>
+<p><code>TLS 1.3</code>协议是一个比较先进的新协议, 这里先不展开，我们重点介绍前两个功能特性的作用和简单实现</p>
+        
+          <p class="article-more-link">
+            <a href="/2017/08/02/nginx_1_13_0/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20170730" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -764,90 +822,6 @@
 <li><p><a href="http://www.yinwang.org/blog-cn/2017/07/06/master-pl" target="_blank" rel="external">如何掌握所有的程序语言</a> : 王垠的新文章，关于如何学习所有语言的, 可以试试”自己实现所有的语言特性”, 相关推荐的文章包括<a href="https://www.zhihu.com/question/62097662" target="_blank" rel="external">知乎: 如何评价王垠新博文《如何掌握所有的程序语言》？</a> 以及 <a href="http://www.yinwang.org/blog-cn/2017/05/23/kotlin" target="_blank" rel="external">Kotlin 和 Checked Exception</a> 介绍checked exception</p>
 </li>
 <li><p><a href="https://medium.com/@matelabs_ai/public-data-sets-use-these-to-train-machine-learning-models-on-mateverse-4dda18a27851" target="_blank" rel="external">Public Data Sets: Use these to train Machine Learning models on Mateverse</a> : 推荐的一些公开的dataset, mark下</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20170702" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/02/20170702/">weekly of 20170702</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/07/02/20170702/" class="article-date">
-  <time datetime="2017-07-02T06:15:29.000Z" itemprop="datePublished">2017-07-02</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="https://news.ycombinator.com/item?id=14663790" target="_blank" rel="external">Analysis of the Alexa Top 1M sites (mozilla.org)</a> : 对前100W流量的网站的安全设施的分析(包括http头部, csp策略等), 总体的结论是，趋势来看，网站的安全保障性是越来越好的; 评论上面两个论点可以关注，其一是<a href="https://ejj.io/cost-of-security-headers/" target="_blank" rel="external">The Cost Of Security Headers</a> 注重说明 任何安全设施都不是免费午餐, 落地实践需要考虑相关的副作用，包括<code>HTTP Public Key Pinning (HPKP)</code> 或者 <code>HTTP Strict Transport Security</code>, 另外是一个paper, <a href="https://www.sba-research.org/wp-content/uploads/publications/usenixTLSpreprint.pdf" target="_blank" rel="external">On the Usability of Deploying HTTPS</a> 讨论https落地部署的可行性(包括简便，可持续等)</li>
-</ul>
-<ul>
-<li><a href="https://github.com/Microsoft/ELL" target="_blank" rel="external">Microsoft: Embedded Learning Library</a> : The Embedded Learning Library (ELL) allows you to build and deploy machine-learned pipelines onto embedded platforms, like Raspberry Pis, Arduinos, micro:bits, and other microcontrollers. </li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://engineering.talkdesk.com/stream-processing-metamorphosis-9b97f75097a" target="_blank" rel="external">Stream Processing Metamorphosis - A Kafka’s tale</a> : 可以理解是kafka的软文, 现在对kafaka印象也是不错的</p>
-</li>
-<li><p><a href="https://0x0d.im/archives/get-visitor-qq-number-through-dns-rebinding.html" target="_blank" rel="external">通过 DNS Rebinding 获取访客 QQ 号</a> : 对Mac QQ的漏洞的介绍, 好像此漏洞已经修复了, 不过里面的两个推荐文章可以关注，包括<a href="https://ricterz.me/posts/Use%20DNS%20Rebinding%20to%20Bypass%20IP%20Restriction" target="_blank" rel="external">Use DNS Rebinding to Bypass IP Restriction</a> 和 <a href="http://blog.knownsec.com/2015/03/jsonp_security_technic/" target="_blank" rel="external">JSONP 安全攻防技术</a></p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650996610&amp;idx=1&amp;sn=f5f59cfe8ab83613600b9efc0906d5c5" target="_blank" rel="external">微信后台基于时间序的海量数据冷热分级架构设计实践</a> : 感觉非常奇怪的设计，微信的几个系统设计感觉都非常奇怪；脱离社区，可用性扩展性感觉偏弱；不知道是不是真的是因为他们的流量太大导致还是其他方面的因素</p>
-</li>
-<li><p><a href="http://tech.meituan.com/thrifycopy_and_faultdrill_system.html" target="_blank" rel="external">美团点评酒店后台故障演练系统</a> : 在线压测的系统看过很多，总感觉没有特别满意和靠谱的，大多数系统的普适性都不是很强</p>
-</li>
-<li><p><a href="http://ticki.github.io/blog/how-lz4-works/" target="_blank" rel="external">How LZ4 works</a> : LZ4的工作机制和原理, mark，没完成看懂</p>
-</li>
-<li><p><a href="https://fly.io/articles/why-fast-pages-are-important/" target="_blank" rel="external">Why App Speed Matters: Revenue</a> : 关于速度和收入的关系, 有个不是那么完美的论述</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=14670602" target="_blank" rel="external">Apache RocketMQ</a> : 阿里开源解决方案RocketMQ的介绍</p>
-</li>
-<li><p><a href="https://blog.vivekpanyam.com/scaling-a-web-service-load-balancing/" target="_blank" rel="external">Scaling a Web Service: Load Balancing</a> : 对LB的介绍还是非常系统</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="http://www.freebuf.com/news/137844.html" target="_blank" rel="external">Google和必应都无法替代的10大深网搜索引擎</a> : 先mark，里面的东西可以试试</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=14642193" target="_blank" rel="external">How https works</a> : 关键看评论, 里面推荐了不少干货和问题</p>
-</li>
-<li><p><a href="http://xyz.insightdataengineering.com/blog/pipeline_map/" target="_blank" rel="external">Interactive map for architecting big data pipelines</a> : 交互式的大数据的技术栈的展示</p>
-</li>
-<li><p><a href="https://ying-zhang.github.io/cloud/2017/spanner-truetime-cap/" target="_blank" rel="external">Spanner, TrueTime 和CAP理论</a> : 英文的翻译版，可以加上对spanner设计的理解</p>
-</li>
-<li><p><a href="https://www.zhihu.com/question/20830906/answer/190831888" target="_blank" rel="external">deep learning 可以用来做推荐系统吗？</a> : 可以了解下</p>
 </li>
 </ul>
 

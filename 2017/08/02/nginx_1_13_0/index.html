@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>nginx 1.13.0 版本说明 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="原始feature说明12345678910111213141516171819*) Change: SSL renegotiation is now allowed on backend connections.*) Feature: the &amp;quot;rcvbuf&amp;quot; and &amp;quot;sndbuf&amp;quot; parameters of the &amp;quot;listen&amp;quot">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx 1.13.0 版本说明">
+<meta property="og:url" content="http://shevacjs.com/2017/08/02/nginx_1_13_0/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="原始feature说明12345678910111213141516171819*) Change: SSL renegotiation is now allowed on backend connections.*) Feature: the &amp;quot;rcvbuf&amp;quot; and &amp;quot;sndbuf&amp;quot; parameters of the &amp;quot;listen&amp;quot">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://shevacjs.com/images/http_status.png">
+<meta property="og:updated_time" content="2017-08-03T03:23:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx 1.13.0 版本说明">
+<meta name="twitter:description" content="原始feature说明12345678910111213141516171819*) Change: SSL renegotiation is now allowed on backend connections.*) Feature: the &amp;quot;rcvbuf&amp;quot; and &amp;quot;sndbuf&amp;quot; parameters of the &amp;quot;listen&amp;quot">
+<meta name="twitter:image" content="http://shevacjs.com/images/http_status.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-nginx_1_13_0" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      nginx 1.13.0 版本说明
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/08/02/nginx_1_13_0/" class="article-date">
+  <time datetime="2017-08-02T06:17:29.000Z" itemprop="datePublished">2017-08-02</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="原始feature说明"><a href="#原始feature说明" class="headerlink" title="原始feature说明"></a>原始feature说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">*) Change: SSL renegotiation is now allowed on backend connections.</div><div class="line"></div><div class="line">*) Feature: the &quot;rcvbuf&quot; and &quot;sndbuf&quot; parameters of the &quot;listen&quot;</div><div class="line">   directives of the mail proxy and stream modules.</div><div class="line"></div><div class="line">*) Feature: the &quot;return&quot; and &quot;error_page&quot; directives can now be used to</div><div class="line">   return 308 redirections.</div><div class="line">   Thanks to Simon Leblanc.</div><div class="line"></div><div class="line">*) Feature: the &quot;TLSv1.3&quot; parameter of the &quot;ssl_protocols&quot; directive.</div><div class="line"></div><div class="line">*) Feature: when logging signals nginx now logs PID of the process which</div><div class="line">   sent the signal.</div><div class="line"></div><div class="line">*) Bugfix: in memory allocation error handling.</div><div class="line"></div><div class="line">*) Bugfix: if a server in the stream module listened on a wildcard</div><div class="line">   address, the source address of a response UDP datagram could differ</div><div class="line">   from the original datagram destination address.</div></pre></td></tr></table></figure>
+<p>我们主要关系其新增的feature, 包括:</p>
+<ul>
+<li>return/error_page支持308状态码</li>
+<li>nginx收到信号的时候，支持打印信号源的pid</li>
+<li><code>ssl_protocols</code> 支持 TLSv1.3 协议</li>
+</ul>
+<p><code>TLS 1.3</code>协议是一个比较先进的新协议, 这里先不展开，我们重点介绍前两个功能特性的作用和简单实现</p>
+<a id="more"></a>
+<h3 id="308状态码的支持"><a href="#308状态码的支持" class="headerlink" title="308状态码的支持"></a>308状态码的支持</h3><p>首先，我们来看308状态码的含义以及作用，因为其和301/302/307有很多相似之处(参考<a href="https://stackoverflow.com/questions/42136829/whats-difference-between-http-301-and-308-status-codes" target="_blank" rel="external">此文章</a>)</p>
+<p>具体结果可以用表格说明如下: </p>
+<table>
+<thead>
+<tr>
+<th>功能作用</th>
+<th>Permanent</th>
+<th>Temporary </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Allows changing the request method from POST to GET</td>
+<td>301</td>
+<td>302  </td>
+</tr>
+<tr>
+<td>Doesn’t allow changing the request method from POST to GET</td>
+<td>308</td>
+<td>307  </td>
+</tr>
+</tbody>
+</table>
+<p>具体作用，参考了<a href="https://tools.ietf.org/html/rfc7238" target="_blank" rel="external">RFC7238</a>, 个人感觉好像只是能用于保证请求的方法不会被改变; 但其实不是特别理解这一类应用场景</p>
+<p>如下是个人感觉比较好的一个HTTP状态码说明图:</p>
+<p><img src="/images/http_status.png" alt="http status"></p>
+<p>其次简单看下代码实现, 其实不是很难，简单代码摘要如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// 主要代码在: ngx_http_special_response.c</span></div><div class="line"></div><div class="line"><span class="comment">// 1. 对于特殊的状态码，nginx会通过如下方式回调:ngx_http_special_response_handler </span></div><div class="line"><span class="comment">// ngx_http_request.c:2345:        ngx_http_finalize_request(r, ngx_http_special_response_handler(r, rc));</span></div><div class="line"></div><div class="line"><span class="comment">// 2. ngx_http_special_response_handler如果有error_page 会调用: ngx_http_send_error_page</span></div><div class="line"></div><div class="line"><span class="comment">// 3. ngx_http_send_error_page 对于特殊状态码处理如下:</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">char</span> ngx_http_error_308_page[] =</div><div class="line"><span class="string">"&lt;html&gt;"</span> CRLF</div><div class="line"><span class="string">"&lt;head&gt;&lt;title&gt;308 Permanent Redirect&lt;/title&gt;&lt;/head&gt;"</span> CRLF</div><div class="line"><span class="string">"&lt;body bgcolor=\"white\"&gt;"</span> CRLF</div><div class="line"><span class="string">"&lt;center&gt;&lt;h1&gt;308 Permanent Redirect&lt;/h1&gt;&lt;/center&gt;"</span> CRLF</div><div class="line">;</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">ngx_str_t</span> ngx_http_error_pages[] = &#123;</div><div class="line"></div><div class="line">    ngx_null_string,                     <span class="comment">/* 201, 204 */</span></div><div class="line"></div><div class="line">#define NGX_HTTP_LAST_2XX  <span class="number">202</span></div><div class="line">#define NGX_HTTP_OFF_3XX   (NGX_HTTP_LAST_2XX - <span class="number">201</span>)</div><div class="line"></div><div class="line">    <span class="comment">/* ngx_null_string, */</span>               <span class="comment">/* 300 */</span></div><div class="line">    ngx_string(ngx_http_error_301_page),</div><div class="line">    ngx_string(ngx_http_error_302_page),</div><div class="line">    ngx_string(ngx_http_error_303_page),</div><div class="line">    ngx_null_string,                     <span class="comment">/* 304 */</span></div><div class="line">    ngx_null_string,                     <span class="comment">/* 305 */</span></div><div class="line">    ngx_null_string,                     <span class="comment">/* 306 */</span></div><div class="line">    ngx_string(ngx_http_error_307_page),</div><div class="line">    ngx_string(ngx_http_error_308_page),</div><div class="line"></div><div class="line">#define NGX_HTTP_LAST_3XX  <span class="number">309</span></div><div class="line"></div><div class="line">...</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// nginx 会自动化判断数组里面的元素，如果有的话，就可以返回相关的状态码</span></div></pre></td></tr></table></figure>
+<p>可以看到实现起来其实还是方便和简单的</p>
+<h3 id="支持打印信号源进程信息"><a href="#支持打印信号源进程信息" class="headerlink" title="支持打印信号源进程信息"></a>支持打印信号源进程信息</h3><blockquote>
+<p>PS: 现在还不是很理解这个功能的作用，一般控制nginx都是一些脚本，生命周期很短，即便记录pid感觉对于生产应用作用也有限哈</p>
+</blockquote>
+<p>实现起来其实很简单, 因为<a href="http://man7.org/linux/man-pages/man2/sigaction.2.html" target="_blank" rel="external">sigaction</a> 本身是支持传递来源pid的，只不过老版本的nginx用来较弱的功能, diff如下:</p>
+<p>回调函数原型修改(sigaction本身对function的支持就是一个union)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">diff -r nginx<span class="number">-1.11</span><span class="number">.13</span>/src/os/unix/ngx_process.c nginx<span class="number">-1.13</span><span class="number">.0</span>/src/os/unix/ngx_process.c</div><div class="line"><span class="number">18</span>c18</div><div class="line">&lt;     <span class="keyword">void</span>  (*handler)(<span class="keyword">int</span> signo);</div><div class="line">---</div><div class="line">&gt;     <span class="keyword">void</span>  (*handler)(<span class="keyword">int</span> signo, <span class="keyword">siginfo_t</span> *siginfo, <span class="keyword">void</span> *ucontext);</div></pre></td></tr></table></figure>
+<p>打印日志的时候加上相关信息:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&gt; ngx_signal_handler(<span class="keyword">int</span> signo, <span class="keyword">siginfo_t</span> *siginfo, <span class="keyword">void</span> *ucontext)</div><div class="line"><span class="number">434</span>,<span class="number">435</span>c442,<span class="number">451</span></div><div class="line">&lt;     ngx_log_error(NGX_LOG_NOTICE, ngx_cycle-&gt;<span class="built_in">log</span>, <span class="number">0</span>,</div><div class="line">&lt;                   <span class="string">"signal %d (%s) received%s"</span>, signo, sig-&gt;signame, action);</div><div class="line">---</div><div class="line">&gt;     <span class="keyword">if</span> (siginfo &amp;&amp; siginfo-&gt;si_pid) &#123;</div><div class="line">&gt;         ngx_log_error(NGX_LOG_NOTICE, ngx_cycle-&gt;<span class="built_in">log</span>, <span class="number">0</span>,</div><div class="line">&gt;                       <span class="string">"signal %d (%s) received from %P%s"</span>,</div><div class="line">&gt;                       signo, sig-&gt;signame, siginfo-&gt;si_pid, action);</div><div class="line">&gt; </div><div class="line">&gt;     &#125; <span class="keyword">else</span> &#123;</div><div class="line">&gt;         ngx_log_error(NGX_LOG_NOTICE, ngx_cycle-&gt;<span class="built_in">log</span>, <span class="number">0</span>,</div><div class="line">&gt;                       <span class="string">"signal %d (%s) received%s"</span>,</div><div class="line">&gt;                       signo, sig-&gt;signame, action);</div><div class="line">&gt;     &#125;</div></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>没有感觉特别有用的业务场景支持；不过nginx对<code>TLSv1.3</code>的支持，下来会review下；其对后续的https交互优化有着重要促进作用</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/07/31/20170730/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20170730&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  var disqus_url = 'http://shevacjs.com/2017/08/02/nginx_1_13_0/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

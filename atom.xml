@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2017-07-31T12:43:18.000Z</updated>
+  <updated>2017-08-03T03:23:48.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,80 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>nginx 1.13.0 版本说明</title>
+    <link href="http://shevacjs.com/2017/08/02/nginx_1_13_0/"/>
+    <id>http://shevacjs.com/2017/08/02/nginx_1_13_0/</id>
+    <published>2017-08-02T06:17:29.000Z</published>
+    <updated>2017-08-03T03:23:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="原始feature说明"><a href="#原始feature说明" class="headerlink" title="原始feature说明"></a>原始feature说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">*) Change: SSL renegotiation is now allowed on backend connections.</div><div class="line"></div><div class="line">*) Feature: the &quot;rcvbuf&quot; and &quot;sndbuf&quot; parameters of the &quot;listen&quot;</div><div class="line">   directives of the mail proxy and stream modules.</div><div class="line"></div><div class="line">*) Feature: the &quot;return&quot; and &quot;error_page&quot; directives can now be used to</div><div class="line">   return 308 redirections.</div><div class="line">   Thanks to Simon Leblanc.</div><div class="line"></div><div class="line">*) Feature: the &quot;TLSv1.3&quot; parameter of the &quot;ssl_protocols&quot; directive.</div><div class="line"></div><div class="line">*) Feature: when logging signals nginx now logs PID of the process which</div><div class="line">   sent the signal.</div><div class="line"></div><div class="line">*) Bugfix: in memory allocation error handling.</div><div class="line"></div><div class="line">*) Bugfix: if a server in the stream module listened on a wildcard</div><div class="line">   address, the source address of a response UDP datagram could differ</div><div class="line">   from the original datagram destination address.</div></pre></td></tr></table></figure>
+<p>我们主要关系其新增的feature, 包括:</p>
+<ul>
+<li>return/error_page支持308状态码</li>
+<li>nginx收到信号的时候，支持打印信号源的pid</li>
+<li><code>ssl_protocols</code> 支持 TLSv1.3 协议</li>
+</ul>
+<p><code>TLS 1.3</code>协议是一个比较先进的新协议, 这里先不展开，我们重点介绍前两个功能特性的作用和简单实现</p>
+<a id="more"></a>
+<h3 id="308状态码的支持"><a href="#308状态码的支持" class="headerlink" title="308状态码的支持"></a>308状态码的支持</h3><p>首先，我们来看308状态码的含义以及作用，因为其和301/302/307有很多相似之处(参考<a href="https://stackoverflow.com/questions/42136829/whats-difference-between-http-301-and-308-status-codes" target="_blank" rel="external">此文章</a>)</p>
+<p>具体结果可以用表格说明如下: </p>
+<table>
+<thead>
+<tr>
+<th>功能作用</th>
+<th>Permanent</th>
+<th>Temporary </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Allows changing the request method from POST to GET</td>
+<td>301</td>
+<td>302  </td>
+</tr>
+<tr>
+<td>Doesn’t allow changing the request method from POST to GET</td>
+<td>308</td>
+<td>307  </td>
+</tr>
+</tbody>
+</table>
+<p>具体作用，参考了<a href="https://tools.ietf.org/html/rfc7238" target="_blank" rel="external">RFC7238</a>, 个人感觉好像只是能用于保证请求的方法不会被改变; 但其实不是特别理解这一类应用场景</p>
+<p>如下是个人感觉比较好的一个HTTP状态码说明图:</p>
+<p><img src="/images/http_status.png" alt="http status"></p>
+<p>其次简单看下代码实现, 其实不是很难，简单代码摘要如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// 主要代码在: ngx_http_special_response.c</span></div><div class="line"></div><div class="line"><span class="comment">// 1. 对于特殊的状态码，nginx会通过如下方式回调:ngx_http_special_response_handler </span></div><div class="line"><span class="comment">// ngx_http_request.c:2345:        ngx_http_finalize_request(r, ngx_http_special_response_handler(r, rc));</span></div><div class="line"></div><div class="line"><span class="comment">// 2. ngx_http_special_response_handler如果有error_page 会调用: ngx_http_send_error_page</span></div><div class="line"></div><div class="line"><span class="comment">// 3. ngx_http_send_error_page 对于特殊状态码处理如下:</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">char</span> ngx_http_error_308_page[] =</div><div class="line"><span class="string">"&lt;html&gt;"</span> CRLF</div><div class="line"><span class="string">"&lt;head&gt;&lt;title&gt;308 Permanent Redirect&lt;/title&gt;&lt;/head&gt;"</span> CRLF</div><div class="line"><span class="string">"&lt;body bgcolor=\"white\"&gt;"</span> CRLF</div><div class="line"><span class="string">"&lt;center&gt;&lt;h1&gt;308 Permanent Redirect&lt;/h1&gt;&lt;/center&gt;"</span> CRLF</div><div class="line">;</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">ngx_str_t</span> ngx_http_error_pages[] = &#123;</div><div class="line"></div><div class="line">    ngx_null_string,                     <span class="comment">/* 201, 204 */</span></div><div class="line"></div><div class="line">#define NGX_HTTP_LAST_2XX  <span class="number">202</span></div><div class="line">#define NGX_HTTP_OFF_3XX   (NGX_HTTP_LAST_2XX - <span class="number">201</span>)</div><div class="line"></div><div class="line">    <span class="comment">/* ngx_null_string, */</span>               <span class="comment">/* 300 */</span></div><div class="line">    ngx_string(ngx_http_error_301_page),</div><div class="line">    ngx_string(ngx_http_error_302_page),</div><div class="line">    ngx_string(ngx_http_error_303_page),</div><div class="line">    ngx_null_string,                     <span class="comment">/* 304 */</span></div><div class="line">    ngx_null_string,                     <span class="comment">/* 305 */</span></div><div class="line">    ngx_null_string,                     <span class="comment">/* 306 */</span></div><div class="line">    ngx_string(ngx_http_error_307_page),</div><div class="line">    ngx_string(ngx_http_error_308_page),</div><div class="line"></div><div class="line">#define NGX_HTTP_LAST_3XX  <span class="number">309</span></div><div class="line"></div><div class="line">...</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// nginx 会自动化判断数组里面的元素，如果有的话，就可以返回相关的状态码</span></div></pre></td></tr></table></figure>
+<p>可以看到实现起来其实还是方便和简单的</p>
+<h3 id="支持打印信号源进程信息"><a href="#支持打印信号源进程信息" class="headerlink" title="支持打印信号源进程信息"></a>支持打印信号源进程信息</h3><blockquote>
+<p>PS: 现在还不是很理解这个功能的作用，一般控制nginx都是一些脚本，生命周期很短，即便记录pid感觉对于生产应用作用也有限哈</p>
+</blockquote>
+<p>实现起来其实很简单, 因为<a href="http://man7.org/linux/man-pages/man2/sigaction.2.html" target="_blank" rel="external">sigaction</a> 本身是支持传递来源pid的，只不过老版本的nginx用来较弱的功能, diff如下:</p>
+<p>回调函数原型修改(sigaction本身对function的支持就是一个union)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">diff -r nginx<span class="number">-1.11</span><span class="number">.13</span>/src/os/unix/ngx_process.c nginx<span class="number">-1.13</span><span class="number">.0</span>/src/os/unix/ngx_process.c</div><div class="line"><span class="number">18</span>c18</div><div class="line">&lt;     <span class="keyword">void</span>  (*handler)(<span class="keyword">int</span> signo);</div><div class="line">---</div><div class="line">&gt;     <span class="keyword">void</span>  (*handler)(<span class="keyword">int</span> signo, <span class="keyword">siginfo_t</span> *siginfo, <span class="keyword">void</span> *ucontext);</div></pre></td></tr></table></figure>
+<p>打印日志的时候加上相关信息:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&gt; ngx_signal_handler(<span class="keyword">int</span> signo, <span class="keyword">siginfo_t</span> *siginfo, <span class="keyword">void</span> *ucontext)</div><div class="line"><span class="number">434</span>,<span class="number">435</span>c442,<span class="number">451</span></div><div class="line">&lt;     ngx_log_error(NGX_LOG_NOTICE, ngx_cycle-&gt;<span class="built_in">log</span>, <span class="number">0</span>,</div><div class="line">&lt;                   <span class="string">"signal %d (%s) received%s"</span>, signo, sig-&gt;signame, action);</div><div class="line">---</div><div class="line">&gt;     <span class="keyword">if</span> (siginfo &amp;&amp; siginfo-&gt;si_pid) &#123;</div><div class="line">&gt;         ngx_log_error(NGX_LOG_NOTICE, ngx_cycle-&gt;<span class="built_in">log</span>, <span class="number">0</span>,</div><div class="line">&gt;                       <span class="string">"signal %d (%s) received from %P%s"</span>,</div><div class="line">&gt;                       signo, sig-&gt;signame, siginfo-&gt;si_pid, action);</div><div class="line">&gt; </div><div class="line">&gt;     &#125; <span class="keyword">else</span> &#123;</div><div class="line">&gt;         ngx_log_error(NGX_LOG_NOTICE, ngx_cycle-&gt;<span class="built_in">log</span>, <span class="number">0</span>,</div><div class="line">&gt;                       <span class="string">"signal %d (%s) received%s"</span>,</div><div class="line">&gt;                       signo, sig-&gt;signame, action);</div><div class="line">&gt;     &#125;</div></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>没有感觉特别有用的业务场景支持；不过nginx对<code>TLSv1.3</code>的支持，下来会review下；其对后续的https交互优化有着重要促进作用</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;原始feature说明&quot;&gt;&lt;a href=&quot;#原始feature说明&quot; class=&quot;headerlink&quot; title=&quot;原始feature说明&quot;&gt;&lt;/a&gt;原始feature说明&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;14&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;15&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;16&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;17&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;18&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;19&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;*) Change: SSL renegotiation is now allowed on backend connections.&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;*) Feature: the &amp;quot;rcvbuf&amp;quot; and &amp;quot;sndbuf&amp;quot; parameters of the &amp;quot;listen&amp;quot;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;   directives of the mail proxy and stream modules.&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;*) Feature: the &amp;quot;return&amp;quot; and &amp;quot;error_page&amp;quot; directives can now be used to&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;   return 308 redirections.&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;   Thanks to Simon Leblanc.&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;*) Feature: the &amp;quot;TLSv1.3&amp;quot; parameter of the &amp;quot;ssl_protocols&amp;quot; directive.&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;*) Feature: when logging signals nginx now logs PID of the process which&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;   sent the signal.&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;*) Bugfix: in memory allocation error handling.&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;*) Bugfix: if a server in the stream module listened on a wildcard&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;   address, the source address of a response UDP datagram could differ&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;   from the original datagram destination address.&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;我们主要关系其新增的feature, 包括:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;return/error_page支持308状态码&lt;/li&gt;
+&lt;li&gt;nginx收到信号的时候，支持打印信号源的pid&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ssl_protocols&lt;/code&gt; 支持 TLSv1.3 协议&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;TLS 1.3&lt;/code&gt;协议是一个比较先进的新协议, 这里先不展开，我们重点介绍前两个功能特性的作用和简单实现&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="nginx" scheme="http://shevacjs.com/tags/nginx/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20170730</title>
@@ -949,136 +1023,43 @@
   </entry>
   
   <entry>
-    <title>Classification and logistic regression</title>
-    <link href="http://shevacjs.com/2017/05/06/classification_and_logistic_regression/"/>
-    <id>http://shevacjs.com/2017/05/06/classification_and_logistic_regression/</id>
+    <title>About PCA</title>
+    <link href="http://shevacjs.com/2017/05/06/pca/"/>
+    <id>http://shevacjs.com/2017/05/06/pca/</id>
     <published>2017-05-05T16:25:11.000Z</published>
     <updated>2017-07-21T04:21:08.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="分类问题"><a href="#分类问题" class="headerlink" title="分类问题"></a>分类问题</h3><p>线性回归用来具体预测一个连续的value，对于离散值的预测是怎么样的呢？是否可以用同样的办法？这个是本节需要讨论的内容， 简单起见，我们先考虑一个二元的分类问题，多元的分类可以基于这个模型进行扩展 </p>
-<p>通常情况下，在二元分类问题上，我们会约定，结果集: </p>
-<p>$$ y \in { 0, 1 }$$</p>
-<p>其中1一般成为正例，0成为反例</p>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><blockquote>
-<p> <code>WARN</code>: 个人理解</p>
-</blockquote>
-<p>回到线性回归模型，我们是定义如下函数用于预测: </p>
-<p>$$ y = h_\theta(\overrightarrow{x})$$</p>
-<p>y是连续值；一个问题是，是否有办法用类似的办法解决我们的二元分类问题？</p>
-<p>一个自然的想法是，如果我们能把$h_\theta(x)$的结果控制在$[0, 1]$之间的话，可以把其定义为为正例(或者负例)的概率，也就是: </p>
-<p>$$ P(y=1|x : \theta) = h_\theta(x)$$</p>
-<p>这样的定义，我们可以理解为，给定一个输入$x$, 我们要做的是预测其为正例的概率；所以还是类似于一个线性回归的问题； 下面具体看，如何对这个问题进一步建模；</p>
-<p>首先，我们会用如下函数约束我们的输出 : </p>
-<p>$$ g(z) = \frac{1}{1+ e^{-z}}$$</p>
-<p>$$h_\theta(x) = g(\theta^Tx) = \frac{1}{1 + e^{-\theta^Tx}}$$</p>
-<p>这个函数具有良好的特性，比如说：返回结果总是属于(0, 1) ，还有他的导数性质(暂且不说)；</p>
-<p>其次，如上基于概率的思想，我们可以有如下定义:</p>
-<p>$$ P(y=1|x : \theta) = h_\theta(x)$$</p>
-<p>$$ P(y=0|x : \theta) = 1- h_\theta(x)$$</p>
-<p>就是可以写成，对于任意一个输入$x$, 给定$\theta$, 其概率函数为: </p>
-<p>$$ p(y|x;\theta) = (h_\theta(x))^y(1-h_\theta(x))^{1-y}$$</p>
-<p>所以，在已知数据集合${X, Y }$的情况下,  我们要做的就是求$\theta$的最优解</p>
-<p>我们定义的最大似然函数 : </p>
-<p>$$ L(\theta) = p(\overrightarrow{y}| X ; \theta)$$<br>$$ = \prod_i^m p(y^{(i)}|x^{(i)};\theta)$$</p>
-<p>令 ： </p>
-<p>$$l(\theta) = log L(\theta) = \sum_{i=1}^m p(y^{(i)} | x^{(i)}; \theta)$$</p>
-<p>其实要求的就是$l(\theta)$的最大值， 这里我们假定我们可以用梯度下降的办法求解，也就是求解$\theta$可以使用如下方程推导:</p>
-<p>$$ \theta_j : = \theta_j + \alpha \frac{\partial}{\partial\theta} J(\theta)$$</p>
-<p>通过对上面函数的求导，我们可以得到类似线性回归的模式:</p>
-<p>$$ \theta_j =  \theta_j + \alpha \ast ( y^{(i)}- h_{\theta}(x^{(i)}) ) \ast  x_j$$</p>
-<h3 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h3><p>依照上面的策略，我们可以知道对于一个输入$x$, 我们的$h_\theta(x)$是一个概率值，这样怎么定义结果的正例和负例呢？一般情况下，我们可以约定 :</p>
-<p>$$ y = 1,  if \ \  h_\theta(x)&gt; 0.5; else\ \ y = 0 $$</p>
-<h3 id="多元分类问题"><a href="#多元分类问题" class="headerlink" title="多元分类问题"></a>多元分类问题</h3><p>上面讨论的是二元分类的问题，如何应用于n $(n &gt; 2)$元分类呢？一个简单的办法是： <code>one-vs-all</code> : 也就是每次就区分一个分类和剩余分类；如此重复n次，大概如下: </p>
-<ul>
-<li><p>对于每个分类$i$, 训练他的逻辑回归函数$h_\theta^{(i)}(x)$；按照上面的定义，可以理解为，其对应着 $ y = i $的概率</p>
-</li>
-<li><p>对于一个新的输入 x, 我们计算 $\max \limits_i h_\theta^{(i)}(x)$, 对应着$i$分类</p>
-</li>
-</ul>
-<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;分类问题&quot;&gt;&lt;a href=&quot;#分类问题&quot; class=&quot;headerlink&quot; title=&quot;分类问题&quot;&gt;&lt;/a&gt;分类问题&lt;/h3&gt;&lt;p&gt;线性回归用来具体预测一个连续的value，对于离散值的预测是怎么样的呢？是否可以用同样的办法？这个是本节需要讨论的内容， 简
-    
-    </summary>
-    
-    
-      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>About SVD</title>
-    <link href="http://shevacjs.com/2017/05/06/svd/"/>
-    <id>http://shevacjs.com/2017/05/06/svd/</id>
-    <published>2017-05-05T16:25:11.000Z</published>
-    <updated>2017-07-21T04:21:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>关于机器学习的任何文章仅限个人理解，会有颇多谬误之处</p>
-</blockquote>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>奇异值分解是一种非常重要的矩阵分解,  设A为m*n阶矩阵，r = rank A, 则具体形式如下:</p>
-<p>$$ A = U\sum V^T$$</p>
-<p>其中 :</p>
-<ul>
-<li>U : 是m*m阶单位正交矩阵，是有$AA^T$的特征向量构成的列向量组成的</li>
-<li>$\sum $ : 是m*n对角矩阵，这些是 $AA^T$及 $A^TA$的特征值的非零平方根，并与U和V的行向量相对应</li>
-<li>$V^T$ :  n*n阶单位正交矩阵，是由$A^TA$的特征向量构成的列向量组成的</li>
-</ul>
-<p>可以理解，我们对于任意一个矩阵，希望转换为一个我们更容易处理的方式，<code>SVD</code>有比较相对标准化的办法</p>
-<blockquote>
-<p>其他， 关于矩阵的相似和对角化</p>
-</blockquote>
-<p>对于任意一个方阵 M ，设 $M=PBP^{-1}$</p>
-<blockquote>
-<p>todo 关于矩阵相似的说明</p>
-</blockquote>
-<p>我们知道任意一个对称矩阵，即$A^T=A$，则A可以正交对角化，也就是: </p>
-<p>$$ A = P^{-1} D P$$</p>
-<p>其中 :</p>
-<ul>
-<li>D是对角矩阵，对应着A的特征值</li>
-<li>P的列向量对应这 A的特征向量</li>
-</ul>
-<p>证明 :</p>
-<h2 id="几何意义"><a href="#几何意义" class="headerlink" title="几何意义"></a>几何意义</h2><blockquote>
-<p>不同的说明</p>
-</blockquote>
-<p>从参考链接 $[1]$, 可以说明:  </p>
-<p>它的核心價值在於為矩陣 (線性變換) A 找出兩組理想的基底：在 A 的定義域的正交基底為 $\beta ={\mathbf{v}1,\ldots,\mathbf{v}_n}$，在 A 的到達域 (codomain) 的正交基底為 $\boldsymbol{\gamma}={\mathbf{u}_1,\ldots,\mathbf{u}_m}$，並滿足 $A\mathbf{v}_{i}=\sigma_{i}\mathbf{u}_{i}，1\le i\le r$。這個式子的重大意義是矩陣 A 將列空間基底 ${\mathbf{v}_1,\ldots,\mathbf{v}_r} $映至行空間基底 ${\mathbf{u}_1,\ldots,\mathbf{u}_r}$，同時指出向量長度的改變量，即非零奇異值 $\sigma_1,\ldots,\sigma_r (見上圖)。因此，若以 \boldsymbol{\beta}$ 和 $\boldsymbol{\gamma}$ 當作線性變換 A 的參考基底，便得出對角形式的矩陣表示，即奇異值矩陣 $\Sigma$</p>
-<p>```</p>
-<p>或者 :</p>
-<p>我們可以將 SVD 想成把變換矩陣 A 分解為旋轉 $V^T$，伸縮 $\Sigma$，再旋轉 U 三個步驟 </p>
-<p>或者 :</p>
-<p>SVD分解的几何意义就可以做如下的归纳：对于每一个线性映射 ${\displaystyle {\mathcal {T}}:K^{n}\rightarrow K^{m}} \mathcal T:K^n\rightarrow K^m， {\displaystyle {\mathcal {T}}} \mathcal T$的奇异值分解在原空间与像空间中分别找到一组标准正交基，使得 ${\displaystyle {\mathcal {T}}} \mathcal T把 {\displaystyle K^{n}} K^n$的第$ {\displaystyle i} i$个基向量映射为 ${\displaystyle K^{m}} K^m的第 {\displaystyle i} i$个基向量的非负倍数，并将 ${\displaystyle K^{n}} K^n$中余下的基向量映射为零向量。换句话说，线性变换 ${\displaystyle {\mathcal {T}}} \mathcal T$在这两组选定的基上的矩阵表示为所有对角元均为非负数的对角矩阵。</p>
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><blockquote>
-<p>most from wiki</p>
-</blockquote>
-<ul>
-<li>SVD 可以用于矩阵数量压缩 ： 用<code>r</code></li>
-<li>奇异值分解可以被用来计算矩阵的伪逆求; 伪逆通常可以用来求解最小二乘法问题</li>
-<li>奇异值分解在统计中的主要应用为主成分分析（PCA）。数据集的特征值（在SVD中用奇异值表征）按照重要性排列，降维的过程就是舍弃不重要的特征向量的过程，而剩下的特征向量张成空间为降维后的空间</li>
-</ul>
-<h2 id="与PCA关系"><a href="#与PCA关系" class="headerlink" title="与PCA关系"></a>与PCA关系</h2><p>对任意一个矩阵A(m*n)考虑到<code>pca</code>的目标为: </p>
-<p>设 B 为A的协方差矩阵，则</p>
+    <content type="html"><![CDATA[<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>wiki概述:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在多元统计分析中，主成分分析（英语：Principal components analysis，PCA）是一种分析、简化数据集的技术。主成分分析经常用于减少数据集的维数，同时保持数据集中的对方差贡献最大的特征。这是通过保留低阶主成分，忽略高阶主成分做到的。这样低阶成分往往能够保留住数据的最重要方面。但是，这也不是一定的，要视具体应用而定。由于主成分分析依赖所给数据，所以数据的准确性对分析结果影响很大。</div></pre></td></tr></table></figure>
+<p>数学定义:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">PCA的数学定义是：一个正交化线性变换，把数据变换到一个新的坐标系统中，使得这一数据的任何投影的第一大方差在第一个坐标（称为第一主成分）上，第二大方差在第二个坐标（第二主成分）上，依次类推</div></pre></td></tr></table></figure>
+<h2 id="个人理解"><a href="#个人理解" class="headerlink" title="个人理解"></a>个人理解</h2><p>考虑到我们有一个矩阵m*n , 行代表特征，列代表数据(意味着我们有N个数据点，每个数据点有M个维度) </p>
+<p>我们基于的假设是: 我们可以约定一个办法, 可以让这堆数据从m维降到k维, 但是对这个数据包含的信息量影响很小;</p>
+<p>如果数据没有一定的分布，其实这个假设是不大可能成立的，从wiki上面可以看到描述: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">通过使用降维来保存大部分数据信息的主成分分析的观点是不正确的。确实如此，当没有任何假设信息的信号模型时，主成分分析在降维的同时并不能保证信息的不丢失，其中信息是由香农熵[8]来衡量的。 基于假设得 &#123;\displaystyle \mathbf &#123;x&#125; =\mathbf &#123;s&#125; +\mathbf &#123;n&#125; &#125;  \mathbf&#123;x&#125; = \mathbf&#123;s&#125; +  \mathbf&#123;n&#125;   也就是说，向量 x 是含有信息的目标信号 s 和噪声信号 n 之和，从信息论角度考虑主成分分析在降维上是最优的。</div><div class="line">特别地，Linsker证明了如果 s 是高斯分布，且 n 是 与密度矩阵相应的协方差矩阵的高斯噪声，</div></pre></td></tr></table></figure>
+<p>现在我们不考虑这个假设是否成立的前提下, 需要抽象一个数据方法来实践; 一个重点的衡量标准是:<code>数据包含的信息量影响很小</code> ; 基于信息论的假设：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在信号处理中认为信号具有较大的方差，噪声有较小的方差，信噪比就是信号与噪声的方差比，越大越好。</div></pre></td></tr></table></figure>
+<p>这也就抽象出上面具体的<code>数学定义</code></p>
+<p>所以整体依赖的核心思路和思想是对<code>信息论</code>的抽象和实践</p>
+<h2 id="简单推导"><a href="#简单推导" class="headerlink" title="简单推导"></a>简单推导</h2><p>假设有m个点，目标后的向量空间为 </p>
+<p>$$<br>U = {u_1, u_2, u_3, … u_n}<br>$$</p>
+<p>假设$u_1$是让其投影方差最大的直线的单位向量；则$u_1$满足如下要求: </p>
+<p>对于任意一个点 $x_i$ 其到目标向量$u_1$的投影的长度为 两个向量的点积，即: $x_i.u_i$，平方之后不影响结论，则我们考虑目标后的方差之和 (目标是求让$\lambda$最大的u):</p>
+<p>$$\lambda=\frac{1}{m}\sum_1^m(x_i.u_1)^2 = \frac{1}{m}\sum_1^m(x_i^Tu_1)(x_i^Tu_1) $$<br>$$=\frac{1}{m}\sum_1^m(x_i^Tu_1)^T(x_i^Tu_1)$$<br>$$=\frac{1}{m}\sum_1^mu_1^Tx_ix_i^Tu_1$$<br>$$=\frac{1}{m}u_1^T\sum_1^m(x_ix_i^T)u_1$$<br>$$=u_1^T\frac{1}{m}\sum_1^m(x_ix_i^T)u_1$$</p>
+<p>令 $A=\frac{1}{m}\sum_1^m(x_ix_i^T)$, $u_1$简写成u则有 :<br>$$\lambda=u^TAu$$</p>
+<p>由于 $u^Tu=1$, 同时乘以u, 则有:</p>
+<p>$$\lambda u=Au$$</p>
+<p>故而可以知道 u 是矩阵 A 的最大特征值对应的特征向量 , 第二大特征值等依次也可以推出</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li>[1] <a href="https://ccjou.wordpress.com/2009/09/01/%E5%A5%87%E7%95%B0%E5%80%BC%E5%88%86%E8%A7%A3-svd/" target="_blank" rel="external">奇異值分解 (SVD)</a></li>
-</ul>
-<ul>
-<li>[2] <a href="https://zh.wikipedia.org/wiki/%E5%A5%87%E5%BC%82%E5%80%BC%E5%88%86%E8%A7%A3" target="_blank" rel="external">奇异值分解</a></li>
-</ul>
-<ul>
-<li>[3] <a href="https://ccjou.wordpress.com/2009/05/27/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8%E5%9F%BA%E6%9C%AC%E5%AE%9A%E7%90%86-%E5%9B%9B/" target="_blank" rel="external">線性代數基本定理 (四)</a></li>
+<li><a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020209.html" target="_blank" rel="external">主成分分析（Principal components analysis）-最大方差解释</a></li>
+<li><a href="http://blog.csdn.net/zhongkelee/article/details/44064401" target="_blank" rel="external">主成分分析（PCA）原理详解</a></li>
 </ul>
 ]]></content>
     
     <summary type="html">
     
-      &lt;blockquote&gt;
-&lt;p&gt;关于机器学习的任何文章仅限个人理解，会有颇多谬误之处&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h2&gt;&lt;p&gt;奇异值分解是一种非
+      &lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h2&gt;&lt;p&gt;wiki概述:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutt
     
     </summary>
     
