@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2017-08-03T03:23:48.000Z</updated>
+  <updated>2017-08-05T08:01:11.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,75 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>nginx 1.13.1/2 版本说明</title>
+    <link href="http://shevacjs.com/2017/08/03/nginx_1_13_1_and_2/"/>
+    <id>http://shevacjs.com/2017/08/03/nginx_1_13_1_and_2/</id>
+    <published>2017-08-03T06:17:29.000Z</published>
+    <updated>2017-08-05T08:01:11.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="原始feature说明"><a href="#原始feature说明" class="headerlink" title="原始feature说明"></a>原始feature说明</h3><blockquote>
+<p>主要摘录1.13.1/1.13.2新feature</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">*) Feature: now a hostname can be used as the &quot;set_real_ip_from&quot;</div><div class="line">       directive parameter.</div><div class="line"></div><div class="line">*) Feature: the &quot;add_trailer&quot; directive.</div><div class="line"></div><div class="line">*) Change: nginx now returns 200 instead of 416 when a range starting</div><div class="line">       with 0 is requested from an empty file.</div></pre></td></tr></table></figure>
+<p>具体而言包括:</p>
+<ul>
+<li><code>set_real_ip_from</code> 指令支持指定hostname定义可信的来源</li>
+<li>新增<code>add_trailer</code> 指令, 其具体功能后面详述</li>
+<li>对于一个empty的文件，现在是返回200而不是<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/416" target="_blank" rel="external">416</a></li>
+</ul>
+<p>同样，这类详细说明前两者的实现，功能以及作用</p>
+<a id="more"></a>
+<h3 id="set-real-ip-from"><a href="#set-real-ip-from" class="headerlink" title="set_real_ip_from"></a>set_real_ip_from</h3><p><code>set_real_ip_from</code> 是属于模块<a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html" target="_blank" rel="external">ngx_http_realip_module</a>的一个指令，用于设置信任的源IP地址，以便做类似于<code>X-Forwarded-For</code>的替换; 之前主要是用IP地址(包括address/CIDR/unix), 现在支持<code>域名</code>控制，具体实现如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//code path: http/modules/ngx_http_realip_module.c</span></div><div class="line"></div><div class="line"><span class="comment">//如上, 尝试解析ip/unix地址, 现在对hostname做判断</span></div><div class="line"></div><div class="line">u.host = value[<span class="number">1</span>];</div><div class="line"></div><div class="line"><span class="comment">// 域名解析</span></div><div class="line"><span class="keyword">if</span> (ngx_inet_resolve_host(cf-&gt;pool, &amp;u) != NGX_OK) &#123;</div><div class="line">    <span class="keyword">if</span> (u.err) &#123;</div><div class="line">        ngx_conf_log_error(NGX_LOG_EMERG, cf, <span class="number">0</span>,</div><div class="line">                           <span class="string">"%s in set_real_ip_from \"%V\""</span>,</div><div class="line">                           u.err, &amp;u.host);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> NGX_CONF_ERROR;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 预留空间</span></div><div class="line">cidr = ngx_array_push_n(rlcf-&gt;from, u.naddrs);</div><div class="line"><span class="keyword">if</span> (cidr == <span class="literal">NULL</span>) &#123;</div><div class="line">    <span class="keyword">return</span> NGX_CONF_ERROR;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 填充IP地址</span></div><div class="line">ngx_memzero(cidr, u.naddrs * <span class="keyword">sizeof</span>(<span class="keyword">ngx_cidr_t</span>));</div><div class="line"></div><div class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; u.naddrs; i++) &#123;</div><div class="line">    cidr[i].family = u.addrs[i].sockaddr-&gt;sa_family;</div><div class="line"></div><div class="line">    <span class="keyword">switch</span> (cidr[i].family) &#123;</div><div class="line">    <span class="keyword">default</span>: <span class="comment">/* AF_INET */</span></div><div class="line">        <span class="built_in">sin</span> = (struct sockaddr_in *) u.addrs[i].sockaddr;</div><div class="line">        cidr[i].u.in.addr = <span class="built_in">sin</span>-&gt;sin_addr.s_addr;</div><div class="line">        cidr[i].u.in.mask = <span class="number">0xffffffff</span>;</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从代码实现来看，其策略是nginx启动的时候，通过对hostname的反解获取对应的IP，然后存储起来；<br>在处理请求的时候，和存储的ip list进行比对；可以看到存在的一个风险是: 如果在运行过程中hostname ip发生变化了，可能会存在误判的情况</p>
+<h3 id="add-trailer-指令"><a href="#add-trailer-指令" class="headerlink" title="add_trailer 指令"></a>add_trailer 指令</h3><p><a href="http://nginx.org/en/docs/http/ngx_http_headers_module.html#add_trailer" target="_blank" rel="external">add_trailer</a> 指令是在<code>1.13.2</code>版本支持的; 在看其具体实现之前，先分析其具体作用, 如下是<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Trailer" target="_blank" rel="external">MDN web docs</a>的说明: </p>
+<blockquote>
+<p>Trailer 是一个响应首部，允许发送方在分块发送的消息后面添加额外的元信息，这些元信息是随着消息主体的发送动态生成的，比如消息完整性校验，数字签名，或者后处理状态等。</p>
+</blockquote>
+<p>再看看demo，应该会容易理解一些: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">## 头部内容, `Trailer: Expires` 指定在body里面会有这段信息</div><div class="line">HTTP/1.1 200 OK </div><div class="line">Content-Type: text/plain </div><div class="line">Transfer-Encoding: chunked</div><div class="line">Trailer: Expires</div><div class="line"></div><div class="line">7\r\n </div><div class="line">Mozilla\r\n </div><div class="line">9\r\n </div><div class="line">Developer\r\n </div><div class="line">7\r\n </div><div class="line">Network\r\n </div><div class="line">0\r\n </div><div class="line">Expires: Wed, 21 Oct 2015 07:28:00 GMT\r\n  --&gt; 这里注意`Trailer`信息是放在终止块之后 </div><div class="line">\r\n</div></pre></td></tr></table></figure>
+<p>具体作用，在nginx forum上面有较多的讨论，具体可以参看<a href="https://forum.nginx.org/read.php?29,267882,269331" target="_blank" rel="external">add support for trailers in HTTP responses</a> 以及相关的文档<a href="http://engineering.pivotal.io/post/http-trailers/" target="_blank" rel="external">HTTP Trailers</a>, 由于<code>trailer</code>相比于之前的header方式，主要在于其可以在body返回之后返回一些信息，可以预期到的应用空间有:</p>
+<blockquote>
+<p>让nginx支持trailer，作者和committer还有还不少争论，具体可以参看<a href="https://forum.nginx.org/read.php?29,267882,268680#msg-268680" target="_blank" rel="external">add support for trailers in HTTP</a>, 可以加深对改feature的理解</p>
+</blockquote>
+<ul>
+<li>对于返回的body做一些checksum，包括算hash值等, trailer机制可以支持一次流式计算</li>
+<li>标记返回body的状态: 我们可以在返回的body里面标记相关的状态</li>
+</ul>
+<p>实现方面, 简单说明如下: </p>
+<blockquote>
+<p>主要是<a href="http://nginx.org/en/docs/http/ngx_http_headers_module.html#add_trailer" target="_blank" rel="external">ngx_http_headers_module</a> 模块实现</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">// code path: src/http/modules/ngx_http_headers_filter_module.c</div><div class="line"></div><div class="line">//引入trailer关联变量, 关联指令:</div><div class="line"></div><div class="line">typedef struct &#123;</div><div class="line">    ngx_http_expires_t         expires;</div><div class="line">    time_t                     expires_time;</div><div class="line">    ngx_http_complex_value_t  *expires_value;</div><div class="line">    ngx_array_t               *headers;</div><div class="line">    ngx_array_t               *trailers;</div><div class="line">&#125; ngx_http_headers_conf_t;</div><div class="line"></div><div class="line">static ngx_command_t  ngx_http_headers_filter_commands[] = &#123;</div><div class="line">    ...</div><div class="line">    &#123; ngx_string(&quot;add_trailer&quot;),</div><div class="line">      NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_HTTP_LIF_CONF</div><div class="line">                        |NGX_CONF_TAKE23,</div><div class="line">      ngx_http_headers_add,</div><div class="line">      NGX_HTTP_LOC_CONF_OFFSET,</div><div class="line">      offsetof(ngx_http_headers_conf_t, trailers), //存储结果在如上trailers变量里面</div><div class="line">      NULL &#125;,</div><div class="line">      ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>发送头部的时候，加上如下逻辑，插入: </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// code path: ngx_http_headers_filter_module.c</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> ngx_int_t</span></div><div class="line"><span class="title">ngx_http_trailers_filter</span><span class="params">(<span class="keyword">ngx_http_request_t</span> *r, <span class="keyword">ngx_chain_t</span> *in)</span></div><div class="line">&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">    <span class="keyword">switch</span> (r-&gt;headers_out.status) &#123;</div><div class="line"></div><div class="line">    <span class="comment">// 对于满足状态的才输出</span></div><div class="line">    h = conf-&gt;trailers-&gt;elts;</div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; conf-&gt;trailers-&gt;nelts; i++) &#123;</div><div class="line">        <span class="comment">//解析变量</span></div><div class="line">        <span class="keyword">if</span> (ngx_http_complex_value(r, &amp;h[i].value, &amp;value) != NGX_OK) &#123;</div><div class="line">            <span class="keyword">return</span> NGX_ERROR;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 结果存储在 headers_out.trailers</span></div><div class="line">        <span class="keyword">if</span> (value.len) &#123;</div><div class="line">            t = ngx_list_push(&amp;r-&gt;headers_out.trailers);</div><div class="line">            <span class="keyword">if</span> (t == <span class="literal">NULL</span>) &#123;</div><div class="line">                <span class="keyword">return</span> NGX_ERROR;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            t-&gt;key = h[i].key;</div><div class="line">            t-&gt;value = value;</div><div class="line">            t-&gt;hash = <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> ngx_http_next_body_filter(r, in);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在发送包体的时候，把trailer的信息插入到尾部(这里面有一点现在还没有理解，<code>就是这个扩展不主动添加trailer头部, 需要进一步明确</code>), 具体如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// code path : ngx_http_chunked_filter_module.c</span></div><div class="line"><span class="function"><span class="keyword">static</span> ngx_chain_t *</span></div><div class="line"><span class="title">ngx_http_chunked_create_trailers</span><span class="params">(<span class="keyword">ngx_http_request_t</span> *r,</span></div><div class="line">    <span class="keyword">ngx_http_chunked_filter_ctx_t</span> *ctx)</div><div class="line">&#123;</div><div class="line"></div><div class="line">    len = <span class="number">0</span>;</div><div class="line"></div><div class="line">    part = &amp;r-&gt;headers_out.trailers.part;</div><div class="line"></div><div class="line">    <span class="comment">// ... 省略，先计算buffer长度 len</span></div><div class="line"></div><div class="line">    b-&gt;pos = ngx_palloc(r-&gt;pool, len);</div><div class="line">    <span class="keyword">if</span> (b-&gt;pos == <span class="literal">NULL</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    b-&gt;last = b-&gt;pos;</div><div class="line"></div><div class="line">    <span class="comment">// 下面代码是填充最后一个chunked </span></div><div class="line">    *b-&gt;last++ = CR; *b-&gt;last++ = LF;</div><div class="line">    *b-&gt;last++ = <span class="string">'0'</span>;</div><div class="line">    *b-&gt;last++ = CR; *b-&gt;last++ = LF;</div><div class="line"></div><div class="line">    <span class="comment">// 真正填充信息</span></div><div class="line">    part = &amp;r-&gt;headers_out.trailers.part;</div><div class="line">    header = part-&gt;elts;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; <span class="comment">/* void */</span>; i++) &#123;</div><div class="line">        <span class="comment">// ... 具体填充</span></div><div class="line">        b-&gt;last = ngx_copy(b-&gt;last, header[i].key.data, header[i].key.len);</div><div class="line">        *b-&gt;last++ = <span class="string">':'</span>; *b-&gt;last++ = <span class="string">' '</span>;</div><div class="line"></div><div class="line">        b-&gt;last = ngx_copy(b-&gt;last, header[i].value.data, header[i].value.len);</div><div class="line">        *b-&gt;last++ = CR; *b-&gt;last++ = LF;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    *b-&gt;last++ = CR; *b-&gt;last++ = LF;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> cl;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>还有一个todo的是，需要明确下一步的具体应用场景, 上面资料提到的一个是<a href="https://www.w3.org/TR/server-timing/" target="_blank" rel="external">Server Timing</a>，的确不错，但如需要进一步探究</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;原始feature说明&quot;&gt;&lt;a href=&quot;#原始feature说明&quot; class=&quot;headerlink&quot; title=&quot;原始feature说明&quot;&gt;&lt;/a&gt;原始feature说明&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;主要摘录1.13.1/1.13.2新feature&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;*) Feature: now a hostname can be used as the &amp;quot;set_real_ip_from&amp;quot;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;       directive parameter.&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;*) Feature: the &amp;quot;add_trailer&amp;quot; directive.&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;*) Change: nginx now returns 200 instead of 416 when a range starting&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;       with 0 is requested from an empty file.&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;具体而言包括:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;set_real_ip_from&lt;/code&gt; 指令支持指定hostname定义可信的来源&lt;/li&gt;
+&lt;li&gt;新增&lt;code&gt;add_trailer&lt;/code&gt; 指令, 其具体功能后面详述&lt;/li&gt;
+&lt;li&gt;对于一个empty的文件，现在是返回200而不是&lt;a href=&quot;https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/416&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;416&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;同样，这类详细说明前两者的实现，功能以及作用&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="nginx" scheme="http://shevacjs.com/tags/nginx/"/>
+    
+  </entry>
   
   <entry>
     <title>nginx 1.13.0 版本说明</title>
@@ -181,197 +250,50 @@
   </entry>
   
   <entry>
-    <title>About SVM</title>
-    <link href="http://shevacjs.com/2017/07/21/svm/"/>
-    <id>http://shevacjs.com/2017/07/21/svm/</id>
+    <title>关于AdaBoost&amp;Boosting</title>
+    <link href="http://shevacjs.com/2017/07/21/boosting/"/>
+    <id>http://shevacjs.com/2017/07/21/boosting/</id>
     <published>2017-07-20T16:25:11.000Z</published>
-    <updated>2017-07-21T09:50:12.000Z</updated>
+    <updated>2017-07-27T17:29:56.000Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务;</p>
-<p>一个直观的理解是: 我们构造的平面, 其距离样本的点距离越远越好;</p>
-<p>而对于线性不可分的情况，我们则可以通过构造映射函数，将其映射到高维空间, 变成一个线性可分的模型</p>
-<p>下面具体介绍这些思路的数学演绎过程</p>
-<h2 id="数学演绎"><a href="#数学演绎" class="headerlink" title="数学演绎"></a>数学演绎</h2><p>设我们的<code>输入样本</code>为: </p>
-<p>$$ { (x_1,y_1), … , (x_N, y_N)}$$</p>
-<p>其中: </p>
-<ul>
-<li>$x_i \in R^n $</li>
-<li>$y_i \in { -1, 1 }$</li>
-</ul>
-<p>首先考虑<code>线性可分</code>的情况;  此时设我们要求解的超平面为: </p>
-<p>$$\textbf{w}^T\textbf{x} + b = 0 $$</p>
-<p>则有: </p>
-<h3 id="间隔定义"><a href="#间隔定义" class="headerlink" title="间隔定义"></a>间隔定义</h3><p>我们定义函数间隔如下: </p>
-<p>$$\widehat{\gamma}_i = y_i (w \centerdot x + b )$$</p>
-<p>定义几何间隔如下 :<br>$$\gamma_i = y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|})$$</p>
-<p>可以看到几何间隔就是在$|w| = 1$ 时候的函数间隔，也是代表这个点到平面的实际几何距离；也有如下关系: </p>
-<p>$$ \gamma = \frac{\widehat {\gamma}}{| w |}$$</p>
-<h3 id="最优值定义"><a href="#最优值定义" class="headerlink" title="最优值定义"></a>最优值定义</h3><p>我们可以理解需要获取一个最大几何间隔的分离超平面(<code>为什么</code> ? ), 表针为: </p>
-<p>$$ \max \limits_{w,b} \gamma  \\ s.t. \ \ \  y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|}) \geqslant  \gamma $$</p>
-<p>用函数间隔替换如下: </p>
-<p>$$ \max \limits_{w,b} \frac{\widehat {\gamma}}{| w |}   \\ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  \widehat{\gamma} $$</p>
-<p>可以令 $\widehat{\gamma} = 1$,  则有: </p>
-<p>$$ \max \limits_{w,b} \frac{1}{| w |}   \\ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  1 $$</p>
-<p>也就是: </p>
-<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2   \\ s.t. \ \ \quad  y_i (w \centerdot x + b ) \geqslant  1 \quad i \in { 1, 2, … , N }$$</p>
-<p><code>也就是可以理解为</code> :  我们需要寻找合适的$w, b$，对应着一个超平面，使得所有的样本点到其的函数间隔都大于1；同时使得$|w|$最小</p>
-<p>上述方程的一个优化方法是:  通过对偶方法构造原来不等式的等价最优解（也就是拉格朗日对偶函数，具体太复杂了，就(也不懂)不展开了) ，总之如上的约束条件的等价对偶问题为:</p>
-<p>$$ \min \limits_{\alpha} \frac{1}{2} \sum_{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy_j - \sum_{i=1}^N\alpha_i \\ s.t. \quad \sum_{i=1}^{N} \alpha_iy_i = 0 \\ a_i (y_i(w*x_i + b) - 1) =0 \\ \\ w = \sum_{i=1}^{N} \alpha_i x_i y_i \\ a_i \geqslant 0 \quad i \in { 1, 2, … , N } $$<br>(可以忽略$\alpha_i$ 为什么会出现)</p>
-<p>这里我们称令$a_i &gt; 0$ 成立的样本点为<code>支持向量</code>, 依照上面的定义，当$a_i &gt; 0 $时，则有: </p>
-<p>$$ y_i(w*x_i + b) - 1 =0$$</p>
-<p>也就是$x_i$ 一定是在间隔的边界</p>
-<h3 id="线性不可分情况"><a href="#线性不可分情况" class="headerlink" title="线性不可分情况"></a>线性不可分情况</h3><p>考虑到现实生活中，存在一些异常或者脏数据，此时我们可以每个样本点引入一个松弛变量$\xi_i$,  则约束条件可以变为 : </p>
-<p>$$ y_i (w \centerdot x_i + b ) \geqslant  1-\xi_i \quad i \in { 1, 2, … , N } $$</p>
-<p>同时目标函数可以变成: </p>
-<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2 + C \sum_{i=1}^{N} \xi_i$$</p>
-<p>其中 : C代表着惩罚系数，需要视具体的业务场景而定 ；C值越大，表明对误差的惩罚增大，反之则减小；</p>
-<p>忽略一些很复杂的计算，可以得到对偶问题如下: </p>
-<p>$$ \min \limits_{\alpha} \frac{1}{2} \sum_{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy_j - \sum_{i=1}^N\alpha_i \\ s.t. \quad \sum_{i=1}^{N} \alpha_iy_i = 0 \\  0 \leqslant a_i \leqslant C \quad i \in { 1, 2, … , N } $$</p>
-<p>从上面可以分析出: </p>
-<ul>
-<li>$w$是确定且唯一的</li>
-<li>$b$的解并不唯一</li>
-</ul>
-<h3 id="核函数及其应用"><a href="#核函数及其应用" class="headerlink" title="核函数及其应用"></a>核函数及其应用</h3><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><p><a href="https://zh.wikipedia.org/wiki/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA" target="_blank" rel="external">支持向量机</a></p>
-</li>
-<li><p><a href="https://en.wikipedia.org/wiki/Support_vector_machine" target="_blank" rel="external">Support vector machine</a> </p>
-</li>
-</ul>
+    <content type="html"><![CDATA[<p>核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;</p>
+<h3 id="About-AdaBoost"><a href="#About-AdaBoost" class="headerlink" title="About AdaBoost"></a>About AdaBoost</h3><p>AdaBoost的算法归纳如下: </p>
+<p>假设输入样本如下: </p>
+<p>$${ (x_1, y_1,), … (x_n, y_n) }$$</p>
+<p>且 $y \in  { -1, 1}$</p>
+<p>且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果</p>
+<p>则在$m-1$次迭代之后，我们的boost分类器可以表达如下: </p>
+<p>$$C_{(m-1)}(x_i) = \alpha_1k_1(x_i) + … + \alpha_{m-1}k_{m-1}(x_i)$$</p>
+<p>对第m次迭代后，我们的目标分类器的表达式可以表述为: </p>
+<p>$$C_m(x_i) = C_{(m-1)}(xi) + \alpha_mk_m(x_i)$$</p>
+<p>则问题转化为: 我们需要明确$\alpha_m$ 和 $k_m$的值 ;</p>
+<p>设我们的损失函数定义如下: (<code>mark</code>)</p>
+<p>$$E = \sum_{i=1}^n e^{-y_iC_m(x_i)}$$</p>
+<p>令$w_i^{(1)} = 1, w_i^{(m)} = e^{-y_iC_{m-1}(x_i)}$, 则有: </p>
+<p>$$ E = \sum_{i=1}^n w_i^{(m)} e^{-y_i\alpha_mk_m(x_i)}$$</p>
+<p>由于$y_i*k_m(x_i) \in { -1, 1 }$,  则有:</p>
+<p>$$ E = \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m} $$<br>$$ = \sum_{i=1}^N w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)} (e^{\alpha_m}   - e^{-\alpha_m} )$$</p>
+<p>从而可以看到我们关注的$k_m$对E的影响，仅表现在等式右侧,  其需要最小化$\sum _{yi \neq k_m(x_i)} w_i^{(m)}$ </p>
+<p>在考虑$\alpha_m$的取值: </p>
+<p>$$\frac{d E}{d \alpha_m} = - \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m}  $$</p>
+<p>令其取值为0； 则有: </p>
+<p>$$ \alpha_m = \frac{1}{2} \ln( \frac{\sum _{yi=k_m(x_i)} w_i^{(m)} }{\sum _{yi \neq k_m(x_i)} w_i^{(m)}}$$</p>
+<p>令 $\epsilon_m =  {\sum _{yi \neq k_m(x_i)} w_i^{(m)}} / \sum_{i=1}^n w_i^{(m)}$, 则有 : </p>
+<p>$$ \alpha_m = \frac{1}{2} \ln(\frac{1-\epsilon_m}{\epsilon_m})$$</p>
+<p>上面就是我们最常见的算法；</p>
+<p>概述如下：</p>
+<p>At each iteration, choose the classifier $k_{m}$ which minimizes the total weighted error :</p>
+<p>$$\sum_{y_i \neq k_m(x_i)}w_i^m $$</p>
+<p>use this to calculate the error rate </p>
+<p>$$\epsilon_m=\sum_{y_{i}\neq k_{m}(x_{i})}w_{i}^m/\sum_{i=1}^{N}w_{i}^m$$</p>
+<p>use this to calculate the weight<br>$$\alpha_m = \frac{1}{2}\ln\left( \frac{1 - \epsilon_m}{\epsilon_m}\right)$$</p>
+<p>and finally use this to improve the boosted classifier $C_NaN$ to $C_=C_NaN+\alpha _{m}k_{m}$<br>上面所述全来自wiki:  <a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="external">https://en.wikipedia.org/wiki/AdaBoost</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;思路&quot;&gt;&lt;a href=&quot;#思路&quot; class=&quot;headerlink&quot; title=&quot;思路&quot;&gt;&lt;/a&gt;思路&lt;/h2&gt;&lt;p&gt;SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务;&lt;/p&gt;
-&lt;p&gt;一个直观的理解是: 我们构造的
-    
-    </summary>
-    
-    
-      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关于CTR预估的算法</title>
-    <link href="http://shevacjs.com/2017/07/21/ctr/"/>
-    <id>http://shevacjs.com/2017/07/21/ctr/</id>
-    <published>2017-07-20T16:25:11.000Z</published>
-    <updated>2017-07-21T11:17:05.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>偏实践应用, by chenjiansen</p>
-<p><code>WARN</code>, 个人理解, 应该是多有谬误</p>
-</blockquote>
-<h3 id="关于CTR预估"><a href="#关于CTR预估" class="headerlink" title="关于CTR预估"></a>关于CTR预估</h3><p>在很多推荐系统里面，rank是一个关键的环节；从不同召回源获取到的数据, 按照哪种排序方式推荐给用户是一个关键的问题; 所谓的<code>CTR预估</code>就是希望我们能对输出的list 做一个合适的点击预估; 抽象起来其实就是算一个item被点击的概率或者可能性；</p>
-<p>这个问题映射为机器学习里面的算法，现在常见的，使用广泛的主要有如下几个算法: </p>
-<h3 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h3><p>映射为LR算法，可以理解为，就是要预测一个算法被判为正例(‘click’)的概率；由于LR算法的输出是一个概率值, 所以可以直接用来sort;</p>
-<p>同时LR由于具有比较好的实现和调试；是早期大家使用较为广泛的Rank算法;</p>
-<h2 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h2><h2 id="FM"><a href="#FM" class="headerlink" title="FM"></a>FM</h2><p>考虑到我们这特征输入的时候，可能有如下几个问题: </p>
-<ul>
-<li>数据稀疏</li>
-<li>特征之间存在一些关联性</li>
-</ul>
-<p>传统的LR算法的$h_\theta(x) = \theta^Tx$，显然可能不适合此类数据，一个简单是思路是引入二次项，包含关联关系的预估, 如下 : </p>
-<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n w_{ij}x_ix_j$$</p>
-<p>这个表达共有$\frac{n(n-1)}{2}$个模型参数,  我们需要训练这么多参数，但是该表达式存在如下问题: </p>
-<ul>
-<li>由于每个$w_{ij}$ 都需要大量$x_i$和$x_j$非零的情况下进行预估，但是样本数据本来就比较稀疏，这将导致整个样本训练的难度非常大</li>
-</ul>
-<p>一个思路是: “所有二次项参数$w_{ij}$可以组成一个对称阵 $W$，那么这个矩阵就可以分解为 $W=V^TV=VV^T$，$V$ 的第 $j$ 列便是第 $j$维特征的隐向量。换句话说，每个参数 $w_{ij}=<v_i,v_j>$” ，所以上面可以转化为 : </v_i,v_j></p>
-<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j$$</v_i,></p>
-<p>其中: </p>
-<ul>
-<li>$v_i$ : 是一个k阶的隐向量$(k &lt;&lt; n)$</li>
-<li>$&lt; , &gt; $代表点积</li>
-</ul>
-<p>为了求上面式子的优化解，我们继续拆分有: </p>
-<p>$$\sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j = \frac{1}{2} \sum_{f=1}^k( (\sum_{i=1}^n v_{i,f} x_i)^2 - \sum_{i=1}^nv_{i,f}^2x_i^2)$$</v_i,></p>
-<p>可以证明FM参数的训练模型是$0(kn)$</p>
-<h3 id="FFM"><a href="#FFM" class="headerlink" title="FFM"></a>FFM</h3><p>基于FM，我们再分析他模型可能存在的问题:  </p>
-<p>在FM模型里面，我们为每个特征定义一个隐向量$\overrightarrow{v_i}$ , $\overrightarrow{v_i}$ 的估计是基于和其他参数的$\overrightarrow{v_j}$的相关性计算而成；这里面就有一个假设，就是任何其他特征对改特征的影响是一致的；但有时候，这个假设不一定合适；所以，我们引入所谓的<code>Field-aware Factorization Machine</code></p>
-<p>在FFM模型里面，每个特征都属于某个field; 所以隐向量不仅和特征有关，也和field有关; 假设样本的 n 个特征属于 f个field，那么FFM的二次项有 nf 个隐向量。而在FM模型中，每一维特征的隐向量只有一个。FM可以看作FFM的特例，是把所有特征都归属到一个field时的FFM模型。其方程可以表达为: </p>
-<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_{i,f_j}, v_{j,f_i}="">x_ix_j$$</v_{i,f_j},></p>
-<p>其中: </p>
-<ul>
-<li>$f_j$是第$j$个特征所属的<code>field</code></li>
-<li>$v_{i,j}$ 表明特征$i$,和 $j$ ，对应的隐向量，其中 $ j \in {  1, 2, 3, … , f }$</li>
-</ul>
-<p>可以看到FFM模型，共有<code>nfk</code>个待学习参数, 其预测复杂度是 $O(kn^2)$</p>
-<p>关于FM和FFM，本质上，都是希望寻找一个模型，能够表征不同特征直接的关联关系；<code>FFM</code>可以理解是在具体应用上面的一个折衷；具有较好的可适应性</p>
-<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><h4 id="FFM-如何落地应用"><a href="#FFM-如何落地应用" class="headerlink" title="FFM 如何落地应用"></a>FFM 如何落地应用</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><p><a href="https://www.zhihu.com/question/26154847" target="_blank" rel="external">广告ctr预估有什么值得推荐的论文？</a> : 好多资料</p>
-</li>
-<li><p><a href="http://tech.meituan.com/deep-understanding-of-ffm-principles-and-practices.html" target="_blank" rel="external">深入FFM原理与实践</a> : 关于<code>FM</code>和<code>FFM</code>的介绍，说的挺清楚的，主要是参考他理解的</p>
-</li>
-<li><p><a href="http://www.jianshu.com/p/005a4e6ac775" target="_blank" rel="external">GBDT：梯度提升决策树</a> : </p>
-</li>
-<li><p><a href="https://www.csie.ntu.edu.tw/~cjlin/libffm/" target="_blank" rel="external">LIBFFM: A Library for Field-aware Factorization Machines</a> : 关于FFM</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;偏实践应用, by chenjiansen&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;WARN&lt;/code&gt;, 个人理解, 应该是多有谬误&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;关于CTR预估&quot;&gt;&lt;a href=&quot;#关于CTR预估&quot; class=&quot;h
-    
-    </summary>
-    
-    
-      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关于贝叶斯分类</title>
-    <link href="http://shevacjs.com/2017/07/21/bayes/"/>
-    <id>http://shevacjs.com/2017/07/21/bayes/</id>
-    <published>2017-07-20T16:25:11.000Z</published>
-    <updated>2017-07-21T11:17:33.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>by chenjiansen</p>
-</blockquote>
-<h3 id="判定模型与生成模型"><a href="#判定模型与生成模型" class="headerlink" title="判定模型与生成模型"></a>判定模型与生成模型</h3><p>判定模型的理论基础 :</p>
-<p>$$ y = p(y | x : \theta) $$</p>
-<p>生成模型</p>
-<p>$$ y = p( y | x) = p(x,y) / p(x) = p(x|y) p(y) / p(x) $$</p>
-<p>此时我们会考虑使用$p(x|y)p(y)$ 来评估$p(y|x)$ ，是一个联合概率的考虑</p>
-<h3 id="Native-Bayes"><a href="#Native-Bayes" class="headerlink" title="Native Bayes"></a>Native Bayes</h3><p>考虑判断一个邮件是否是垃圾邮件；我们设定如下的模型: </p>
-<ul>
-<li>$x$ 为输入向量；其中$x_i^{(j)}$ 表示第$i$个样本的第$j$维的特征值,  任何一个邮件可以用如下的形式表示 : </li>
-</ul>
-<p>$$x=\left[ \begin{array}{cc} 0 &amp; a_0\\ 1 &amp; a_1 \\ 1 &amp; a_2\\ 0  &amp; a_3 \\ 1 &amp; a_4 \\ .. &amp; .. \end{array} \right]$$</p>
-<p>其中第$i$行代表着单词$a_i$是否出现在这个邮件里面；$|A|$ 表示着词汇量的个数，也是也是输入特征$x$的维度</p>
-<ul>
-<li>$y$为输入结果,  这里面设定 $y=1$为垃圾邮件，否则$y=0$</li>
-</ul>
-<p>这里，我们准备使用<code>朴素贝叶斯</code>的方法解决分类问题，如上面生成模型的说明, 我们的求解问题转化为:</p>
-<p>$ p(y|x) = p(x|y) p(y) / p(x) $</p>
-<p>我们约定如下: </p>
-<p>$$\phi_{i|y=1} = p(x_i = 1 | y = 1)$$<br>$$\phi_{i|y=0} = p(x_i = 1 | y = 0)$$<br>$$\phi_y = p(y = 1) $$</p>
-<p>则有 : </p>
-<p>$$ \phi_{i|y=1} = \frac{\sum_{i=0}^{m} 1 {x_j^{(i)} = 1 \ and \  y^{(i)} = 1}}{\sum_{i=0}^{m} 1 { y^{(i)} = 1}}$$</p>
-<p>其他的$\phi_{i|y=0} , \phi_y$ 同理易得</p>
-<p>则在样本输入${x^{(i)}, y^{(i)}}, i = 0, 1, 2 …$ 的情况下；对于上面的分类问题，我们可以先求解:</p>
-<p>$$ P(y=1\ |x) = P(x|y=1) P(y=1) / P(x) \\ = \frac{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) P(y=1)}{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) + (\prod_{i=0}^{m}P(x_i\ |y = 0))}$$</p>
-<p>上面的$\prod$ 展开是依赖于所谓的<code>贝叶斯假设</code>， 也就是对于给定的结果$y$, 事件$x_i$相对于$y$是独立分布的, 也就是有: </p>
-<p>$$P(x_1,x_2,…,x_n\ |\ y) = p(x_1|y)p(x_2|y,x_1)….p(x_n|y,x_1,x_2, …) \\ = p(x_1|y)p(x_2|y) … p(x_n|y) \\ = \prod_{i=1}^{n} p(x_i|y)$$</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://guangchun.wordpress.com/2011/10/13/ml-bayes-map/" target="_blank" rel="external">参数估计：最大似然、贝叶斯与最大后验</a> </li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;by chenjiansen&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;判定模型与生成模型&quot;&gt;&lt;a href=&quot;#判定模型与生成模型&quot; class=&quot;headerlink&quot; title=&quot;判定模型与生成模型&quot;&gt;&lt;/a&gt;判定模型与生成模型&lt;
+      &lt;p&gt;核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;&lt;/p&gt;
+&lt;h3 id=&quot;About-AdaBoost&quot;&gt;&lt;a href=&quot;#About-AdaBoost&quot; class=&quot;headerlink&quot; title=&quot;About AdaBoost&quot;&gt;&lt;/a&gt;About
     
     </summary>
     
@@ -469,50 +391,197 @@
   </entry>
   
   <entry>
-    <title>关于AdaBoost&amp;Boosting</title>
-    <link href="http://shevacjs.com/2017/07/21/boosting/"/>
-    <id>http://shevacjs.com/2017/07/21/boosting/</id>
+    <title>关于贝叶斯分类</title>
+    <link href="http://shevacjs.com/2017/07/21/bayes/"/>
+    <id>http://shevacjs.com/2017/07/21/bayes/</id>
     <published>2017-07-20T16:25:11.000Z</published>
-    <updated>2017-07-27T17:29:56.000Z</updated>
+    <updated>2017-07-21T11:17:33.000Z</updated>
     
-    <content type="html"><![CDATA[<p>核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;</p>
-<h3 id="About-AdaBoost"><a href="#About-AdaBoost" class="headerlink" title="About AdaBoost"></a>About AdaBoost</h3><p>AdaBoost的算法归纳如下: </p>
-<p>假设输入样本如下: </p>
-<p>$${ (x_1, y_1,), … (x_n, y_n) }$$</p>
-<p>且 $y \in  { -1, 1}$</p>
-<p>且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果</p>
-<p>则在$m-1$次迭代之后，我们的boost分类器可以表达如下: </p>
-<p>$$C_{(m-1)}(x_i) = \alpha_1k_1(x_i) + … + \alpha_{m-1}k_{m-1}(x_i)$$</p>
-<p>对第m次迭代后，我们的目标分类器的表达式可以表述为: </p>
-<p>$$C_m(x_i) = C_{(m-1)}(xi) + \alpha_mk_m(x_i)$$</p>
-<p>则问题转化为: 我们需要明确$\alpha_m$ 和 $k_m$的值 ;</p>
-<p>设我们的损失函数定义如下: (<code>mark</code>)</p>
-<p>$$E = \sum_{i=1}^n e^{-y_iC_m(x_i)}$$</p>
-<p>令$w_i^{(1)} = 1, w_i^{(m)} = e^{-y_iC_{m-1}(x_i)}$, 则有: </p>
-<p>$$ E = \sum_{i=1}^n w_i^{(m)} e^{-y_i\alpha_mk_m(x_i)}$$</p>
-<p>由于$y_i*k_m(x_i) \in { -1, 1 }$,  则有:</p>
-<p>$$ E = \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m} $$<br>$$ = \sum_{i=1}^N w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)} (e^{\alpha_m}   - e^{-\alpha_m} )$$</p>
-<p>从而可以看到我们关注的$k_m$对E的影响，仅表现在等式右侧,  其需要最小化$\sum _{yi \neq k_m(x_i)} w_i^{(m)}$ </p>
-<p>在考虑$\alpha_m$的取值: </p>
-<p>$$\frac{d E}{d \alpha_m} = - \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m}  $$</p>
-<p>令其取值为0； 则有: </p>
-<p>$$ \alpha_m = \frac{1}{2} \ln( \frac{\sum _{yi=k_m(x_i)} w_i^{(m)} }{\sum _{yi \neq k_m(x_i)} w_i^{(m)}}$$</p>
-<p>令 $\epsilon_m =  {\sum _{yi \neq k_m(x_i)} w_i^{(m)}} / \sum_{i=1}^n w_i^{(m)}$, 则有 : </p>
-<p>$$ \alpha_m = \frac{1}{2} \ln(\frac{1-\epsilon_m}{\epsilon_m})$$</p>
-<p>上面就是我们最常见的算法；</p>
-<p>概述如下：</p>
-<p>At each iteration, choose the classifier $k_{m}$ which minimizes the total weighted error :</p>
-<p>$$\sum_{y_i \neq k_m(x_i)}w_i^m $$</p>
-<p>use this to calculate the error rate </p>
-<p>$$\epsilon_m=\sum_{y_{i}\neq k_{m}(x_{i})}w_{i}^m/\sum_{i=1}^{N}w_{i}^m$$</p>
-<p>use this to calculate the weight<br>$$\alpha_m = \frac{1}{2}\ln\left( \frac{1 - \epsilon_m}{\epsilon_m}\right)$$</p>
-<p>and finally use this to improve the boosted classifier $C_NaN$ to $C_=C_NaN+\alpha _{m}k_{m}$<br>上面所述全来自wiki:  <a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="external">https://en.wikipedia.org/wiki/AdaBoost</a></p>
+    <content type="html"><![CDATA[<blockquote>
+<p>by chenjiansen</p>
+</blockquote>
+<h3 id="判定模型与生成模型"><a href="#判定模型与生成模型" class="headerlink" title="判定模型与生成模型"></a>判定模型与生成模型</h3><p>判定模型的理论基础 :</p>
+<p>$$ y = p(y | x : \theta) $$</p>
+<p>生成模型</p>
+<p>$$ y = p( y | x) = p(x,y) / p(x) = p(x|y) p(y) / p(x) $$</p>
+<p>此时我们会考虑使用$p(x|y)p(y)$ 来评估$p(y|x)$ ，是一个联合概率的考虑</p>
+<h3 id="Native-Bayes"><a href="#Native-Bayes" class="headerlink" title="Native Bayes"></a>Native Bayes</h3><p>考虑判断一个邮件是否是垃圾邮件；我们设定如下的模型: </p>
+<ul>
+<li>$x$ 为输入向量；其中$x_i^{(j)}$ 表示第$i$个样本的第$j$维的特征值,  任何一个邮件可以用如下的形式表示 : </li>
+</ul>
+<p>$$x=\left[ \begin{array}{cc} 0 &amp; a_0\\ 1 &amp; a_1 \\ 1 &amp; a_2\\ 0  &amp; a_3 \\ 1 &amp; a_4 \\ .. &amp; .. \end{array} \right]$$</p>
+<p>其中第$i$行代表着单词$a_i$是否出现在这个邮件里面；$|A|$ 表示着词汇量的个数，也是也是输入特征$x$的维度</p>
+<ul>
+<li>$y$为输入结果,  这里面设定 $y=1$为垃圾邮件，否则$y=0$</li>
+</ul>
+<p>这里，我们准备使用<code>朴素贝叶斯</code>的方法解决分类问题，如上面生成模型的说明, 我们的求解问题转化为:</p>
+<p>$ p(y|x) = p(x|y) p(y) / p(x) $</p>
+<p>我们约定如下: </p>
+<p>$$\phi_{i|y=1} = p(x_i = 1 | y = 1)$$<br>$$\phi_{i|y=0} = p(x_i = 1 | y = 0)$$<br>$$\phi_y = p(y = 1) $$</p>
+<p>则有 : </p>
+<p>$$ \phi_{i|y=1} = \frac{\sum_{i=0}^{m} 1 {x_j^{(i)} = 1 \ and \  y^{(i)} = 1}}{\sum_{i=0}^{m} 1 { y^{(i)} = 1}}$$</p>
+<p>其他的$\phi_{i|y=0} , \phi_y$ 同理易得</p>
+<p>则在样本输入${x^{(i)}, y^{(i)}}, i = 0, 1, 2 …$ 的情况下；对于上面的分类问题，我们可以先求解:</p>
+<p>$$ P(y=1\ |x) = P(x|y=1) P(y=1) / P(x) \\ = \frac{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) P(y=1)}{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) + (\prod_{i=0}^{m}P(x_i\ |y = 0))}$$</p>
+<p>上面的$\prod$ 展开是依赖于所谓的<code>贝叶斯假设</code>， 也就是对于给定的结果$y$, 事件$x_i$相对于$y$是独立分布的, 也就是有: </p>
+<p>$$P(x_1,x_2,…,x_n\ |\ y) = p(x_1|y)p(x_2|y,x_1)….p(x_n|y,x_1,x_2, …) \\ = p(x_1|y)p(x_2|y) … p(x_n|y) \\ = \prod_{i=1}^{n} p(x_i|y)$$</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://guangchun.wordpress.com/2011/10/13/ml-bayes-map/" target="_blank" rel="external">参数估计：最大似然、贝叶斯与最大后验</a> </li>
+</ul>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;&lt;/p&gt;
-&lt;h3 id=&quot;About-AdaBoost&quot;&gt;&lt;a href=&quot;#About-AdaBoost&quot; class=&quot;headerlink&quot; title=&quot;About AdaBoost&quot;&gt;&lt;/a&gt;About
+      &lt;blockquote&gt;
+&lt;p&gt;by chenjiansen&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;判定模型与生成模型&quot;&gt;&lt;a href=&quot;#判定模型与生成模型&quot; class=&quot;headerlink&quot; title=&quot;判定模型与生成模型&quot;&gt;&lt;/a&gt;判定模型与生成模型&lt;
+    
+    </summary>
+    
+    
+      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于CTR预估的算法</title>
+    <link href="http://shevacjs.com/2017/07/21/ctr/"/>
+    <id>http://shevacjs.com/2017/07/21/ctr/</id>
+    <published>2017-07-20T16:25:11.000Z</published>
+    <updated>2017-07-21T11:17:05.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>偏实践应用, by chenjiansen</p>
+<p><code>WARN</code>, 个人理解, 应该是多有谬误</p>
+</blockquote>
+<h3 id="关于CTR预估"><a href="#关于CTR预估" class="headerlink" title="关于CTR预估"></a>关于CTR预估</h3><p>在很多推荐系统里面，rank是一个关键的环节；从不同召回源获取到的数据, 按照哪种排序方式推荐给用户是一个关键的问题; 所谓的<code>CTR预估</code>就是希望我们能对输出的list 做一个合适的点击预估; 抽象起来其实就是算一个item被点击的概率或者可能性；</p>
+<p>这个问题映射为机器学习里面的算法，现在常见的，使用广泛的主要有如下几个算法: </p>
+<h3 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h3><p>映射为LR算法，可以理解为，就是要预测一个算法被判为正例(‘click’)的概率；由于LR算法的输出是一个概率值, 所以可以直接用来sort;</p>
+<p>同时LR由于具有比较好的实现和调试；是早期大家使用较为广泛的Rank算法;</p>
+<h2 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h2><h2 id="FM"><a href="#FM" class="headerlink" title="FM"></a>FM</h2><p>考虑到我们这特征输入的时候，可能有如下几个问题: </p>
+<ul>
+<li>数据稀疏</li>
+<li>特征之间存在一些关联性</li>
+</ul>
+<p>传统的LR算法的$h_\theta(x) = \theta^Tx$，显然可能不适合此类数据，一个简单是思路是引入二次项，包含关联关系的预估, 如下 : </p>
+<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n w_{ij}x_ix_j$$</p>
+<p>这个表达共有$\frac{n(n-1)}{2}$个模型参数,  我们需要训练这么多参数，但是该表达式存在如下问题: </p>
+<ul>
+<li>由于每个$w_{ij}$ 都需要大量$x_i$和$x_j$非零的情况下进行预估，但是样本数据本来就比较稀疏，这将导致整个样本训练的难度非常大</li>
+</ul>
+<p>一个思路是: “所有二次项参数$w_{ij}$可以组成一个对称阵 $W$，那么这个矩阵就可以分解为 $W=V^TV=VV^T$，$V$ 的第 $j$ 列便是第 $j$维特征的隐向量。换句话说，每个参数 $w_{ij}=<v_i,v_j>$” ，所以上面可以转化为 : </v_i,v_j></p>
+<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j$$</v_i,></p>
+<p>其中: </p>
+<ul>
+<li>$v_i$ : 是一个k阶的隐向量$(k &lt;&lt; n)$</li>
+<li>$&lt; , &gt; $代表点积</li>
+</ul>
+<p>为了求上面式子的优化解，我们继续拆分有: </p>
+<p>$$\sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j = \frac{1}{2} \sum_{f=1}^k( (\sum_{i=1}^n v_{i,f} x_i)^2 - \sum_{i=1}^nv_{i,f}^2x_i^2)$$</v_i,></p>
+<p>可以证明FM参数的训练模型是$0(kn)$</p>
+<h3 id="FFM"><a href="#FFM" class="headerlink" title="FFM"></a>FFM</h3><p>基于FM，我们再分析他模型可能存在的问题:  </p>
+<p>在FM模型里面，我们为每个特征定义一个隐向量$\overrightarrow{v_i}$ , $\overrightarrow{v_i}$ 的估计是基于和其他参数的$\overrightarrow{v_j}$的相关性计算而成；这里面就有一个假设，就是任何其他特征对改特征的影响是一致的；但有时候，这个假设不一定合适；所以，我们引入所谓的<code>Field-aware Factorization Machine</code></p>
+<p>在FFM模型里面，每个特征都属于某个field; 所以隐向量不仅和特征有关，也和field有关; 假设样本的 n 个特征属于 f个field，那么FFM的二次项有 nf 个隐向量。而在FM模型中，每一维特征的隐向量只有一个。FM可以看作FFM的特例，是把所有特征都归属到一个field时的FFM模型。其方程可以表达为: </p>
+<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_{i,f_j}, v_{j,f_i}="">x_ix_j$$</v_{i,f_j},></p>
+<p>其中: </p>
+<ul>
+<li>$f_j$是第$j$个特征所属的<code>field</code></li>
+<li>$v_{i,j}$ 表明特征$i$,和 $j$ ，对应的隐向量，其中 $ j \in {  1, 2, 3, … , f }$</li>
+</ul>
+<p>可以看到FFM模型，共有<code>nfk</code>个待学习参数, 其预测复杂度是 $O(kn^2)$</p>
+<p>关于FM和FFM，本质上，都是希望寻找一个模型，能够表征不同特征直接的关联关系；<code>FFM</code>可以理解是在具体应用上面的一个折衷；具有较好的可适应性</p>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><h4 id="FFM-如何落地应用"><a href="#FFM-如何落地应用" class="headerlink" title="FFM 如何落地应用"></a>FFM 如何落地应用</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><p><a href="https://www.zhihu.com/question/26154847" target="_blank" rel="external">广告ctr预估有什么值得推荐的论文？</a> : 好多资料</p>
+</li>
+<li><p><a href="http://tech.meituan.com/deep-understanding-of-ffm-principles-and-practices.html" target="_blank" rel="external">深入FFM原理与实践</a> : 关于<code>FM</code>和<code>FFM</code>的介绍，说的挺清楚的，主要是参考他理解的</p>
+</li>
+<li><p><a href="http://www.jianshu.com/p/005a4e6ac775" target="_blank" rel="external">GBDT：梯度提升决策树</a> : </p>
+</li>
+<li><p><a href="https://www.csie.ntu.edu.tw/~cjlin/libffm/" target="_blank" rel="external">LIBFFM: A Library for Field-aware Factorization Machines</a> : 关于FFM</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;偏实践应用, by chenjiansen&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;WARN&lt;/code&gt;, 个人理解, 应该是多有谬误&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;关于CTR预估&quot;&gt;&lt;a href=&quot;#关于CTR预估&quot; class=&quot;h
+    
+    </summary>
+    
+    
+      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>About SVM</title>
+    <link href="http://shevacjs.com/2017/07/21/svm/"/>
+    <id>http://shevacjs.com/2017/07/21/svm/</id>
+    <published>2017-07-20T16:25:11.000Z</published>
+    <updated>2017-07-21T09:50:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务;</p>
+<p>一个直观的理解是: 我们构造的平面, 其距离样本的点距离越远越好;</p>
+<p>而对于线性不可分的情况，我们则可以通过构造映射函数，将其映射到高维空间, 变成一个线性可分的模型</p>
+<p>下面具体介绍这些思路的数学演绎过程</p>
+<h2 id="数学演绎"><a href="#数学演绎" class="headerlink" title="数学演绎"></a>数学演绎</h2><p>设我们的<code>输入样本</code>为: </p>
+<p>$$ { (x_1,y_1), … , (x_N, y_N)}$$</p>
+<p>其中: </p>
+<ul>
+<li>$x_i \in R^n $</li>
+<li>$y_i \in { -1, 1 }$</li>
+</ul>
+<p>首先考虑<code>线性可分</code>的情况;  此时设我们要求解的超平面为: </p>
+<p>$$\textbf{w}^T\textbf{x} + b = 0 $$</p>
+<p>则有: </p>
+<h3 id="间隔定义"><a href="#间隔定义" class="headerlink" title="间隔定义"></a>间隔定义</h3><p>我们定义函数间隔如下: </p>
+<p>$$\widehat{\gamma}_i = y_i (w \centerdot x + b )$$</p>
+<p>定义几何间隔如下 :<br>$$\gamma_i = y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|})$$</p>
+<p>可以看到几何间隔就是在$|w| = 1$ 时候的函数间隔，也是代表这个点到平面的实际几何距离；也有如下关系: </p>
+<p>$$ \gamma = \frac{\widehat {\gamma}}{| w |}$$</p>
+<h3 id="最优值定义"><a href="#最优值定义" class="headerlink" title="最优值定义"></a>最优值定义</h3><p>我们可以理解需要获取一个最大几何间隔的分离超平面(<code>为什么</code> ? ), 表针为: </p>
+<p>$$ \max \limits_{w,b} \gamma  \\ s.t. \ \ \  y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|}) \geqslant  \gamma $$</p>
+<p>用函数间隔替换如下: </p>
+<p>$$ \max \limits_{w,b} \frac{\widehat {\gamma}}{| w |}   \\ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  \widehat{\gamma} $$</p>
+<p>可以令 $\widehat{\gamma} = 1$,  则有: </p>
+<p>$$ \max \limits_{w,b} \frac{1}{| w |}   \\ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  1 $$</p>
+<p>也就是: </p>
+<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2   \\ s.t. \ \ \quad  y_i (w \centerdot x + b ) \geqslant  1 \quad i \in { 1, 2, … , N }$$</p>
+<p><code>也就是可以理解为</code> :  我们需要寻找合适的$w, b$，对应着一个超平面，使得所有的样本点到其的函数间隔都大于1；同时使得$|w|$最小</p>
+<p>上述方程的一个优化方法是:  通过对偶方法构造原来不等式的等价最优解（也就是拉格朗日对偶函数，具体太复杂了，就(也不懂)不展开了) ，总之如上的约束条件的等价对偶问题为:</p>
+<p>$$ \min \limits_{\alpha} \frac{1}{2} \sum_{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy_j - \sum_{i=1}^N\alpha_i \\ s.t. \quad \sum_{i=1}^{N} \alpha_iy_i = 0 \\ a_i (y_i(w*x_i + b) - 1) =0 \\ \\ w = \sum_{i=1}^{N} \alpha_i x_i y_i \\ a_i \geqslant 0 \quad i \in { 1, 2, … , N } $$<br>(可以忽略$\alpha_i$ 为什么会出现)</p>
+<p>这里我们称令$a_i &gt; 0$ 成立的样本点为<code>支持向量</code>, 依照上面的定义，当$a_i &gt; 0 $时，则有: </p>
+<p>$$ y_i(w*x_i + b) - 1 =0$$</p>
+<p>也就是$x_i$ 一定是在间隔的边界</p>
+<h3 id="线性不可分情况"><a href="#线性不可分情况" class="headerlink" title="线性不可分情况"></a>线性不可分情况</h3><p>考虑到现实生活中，存在一些异常或者脏数据，此时我们可以每个样本点引入一个松弛变量$\xi_i$,  则约束条件可以变为 : </p>
+<p>$$ y_i (w \centerdot x_i + b ) \geqslant  1-\xi_i \quad i \in { 1, 2, … , N } $$</p>
+<p>同时目标函数可以变成: </p>
+<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2 + C \sum_{i=1}^{N} \xi_i$$</p>
+<p>其中 : C代表着惩罚系数，需要视具体的业务场景而定 ；C值越大，表明对误差的惩罚增大，反之则减小；</p>
+<p>忽略一些很复杂的计算，可以得到对偶问题如下: </p>
+<p>$$ \min \limits_{\alpha} \frac{1}{2} \sum_{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy_j - \sum_{i=1}^N\alpha_i \\ s.t. \quad \sum_{i=1}^{N} \alpha_iy_i = 0 \\  0 \leqslant a_i \leqslant C \quad i \in { 1, 2, … , N } $$</p>
+<p>从上面可以分析出: </p>
+<ul>
+<li>$w$是确定且唯一的</li>
+<li>$b$的解并不唯一</li>
+</ul>
+<h3 id="核函数及其应用"><a href="#核函数及其应用" class="headerlink" title="核函数及其应用"></a>核函数及其应用</h3><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><p><a href="https://zh.wikipedia.org/wiki/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA" target="_blank" rel="external">支持向量机</a></p>
+</li>
+<li><p><a href="https://en.wikipedia.org/wiki/Support_vector_machine" target="_blank" rel="external">Support vector machine</a> </p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;思路&quot;&gt;&lt;a href=&quot;#思路&quot; class=&quot;headerlink&quot; title=&quot;思路&quot;&gt;&lt;/a&gt;思路&lt;/h2&gt;&lt;p&gt;SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务;&lt;/p&gt;
+&lt;p&gt;一个直观的理解是: 我们构造的
     
     </summary>
     
@@ -1019,52 +1088,6 @@
     
     
       <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>About PCA</title>
-    <link href="http://shevacjs.com/2017/05/06/pca/"/>
-    <id>http://shevacjs.com/2017/05/06/pca/</id>
-    <published>2017-05-05T16:25:11.000Z</published>
-    <updated>2017-07-21T04:21:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>wiki概述:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在多元统计分析中，主成分分析（英语：Principal components analysis，PCA）是一种分析、简化数据集的技术。主成分分析经常用于减少数据集的维数，同时保持数据集中的对方差贡献最大的特征。这是通过保留低阶主成分，忽略高阶主成分做到的。这样低阶成分往往能够保留住数据的最重要方面。但是，这也不是一定的，要视具体应用而定。由于主成分分析依赖所给数据，所以数据的准确性对分析结果影响很大。</div></pre></td></tr></table></figure>
-<p>数学定义:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">PCA的数学定义是：一个正交化线性变换，把数据变换到一个新的坐标系统中，使得这一数据的任何投影的第一大方差在第一个坐标（称为第一主成分）上，第二大方差在第二个坐标（第二主成分）上，依次类推</div></pre></td></tr></table></figure>
-<h2 id="个人理解"><a href="#个人理解" class="headerlink" title="个人理解"></a>个人理解</h2><p>考虑到我们有一个矩阵m*n , 行代表特征，列代表数据(意味着我们有N个数据点，每个数据点有M个维度) </p>
-<p>我们基于的假设是: 我们可以约定一个办法, 可以让这堆数据从m维降到k维, 但是对这个数据包含的信息量影响很小;</p>
-<p>如果数据没有一定的分布，其实这个假设是不大可能成立的，从wiki上面可以看到描述: </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">通过使用降维来保存大部分数据信息的主成分分析的观点是不正确的。确实如此，当没有任何假设信息的信号模型时，主成分分析在降维的同时并不能保证信息的不丢失，其中信息是由香农熵[8]来衡量的。 基于假设得 &#123;\displaystyle \mathbf &#123;x&#125; =\mathbf &#123;s&#125; +\mathbf &#123;n&#125; &#125;  \mathbf&#123;x&#125; = \mathbf&#123;s&#125; +  \mathbf&#123;n&#125;   也就是说，向量 x 是含有信息的目标信号 s 和噪声信号 n 之和，从信息论角度考虑主成分分析在降维上是最优的。</div><div class="line">特别地，Linsker证明了如果 s 是高斯分布，且 n 是 与密度矩阵相应的协方差矩阵的高斯噪声，</div></pre></td></tr></table></figure>
-<p>现在我们不考虑这个假设是否成立的前提下, 需要抽象一个数据方法来实践; 一个重点的衡量标准是:<code>数据包含的信息量影响很小</code> ; 基于信息论的假设：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在信号处理中认为信号具有较大的方差，噪声有较小的方差，信噪比就是信号与噪声的方差比，越大越好。</div></pre></td></tr></table></figure>
-<p>这也就抽象出上面具体的<code>数学定义</code></p>
-<p>所以整体依赖的核心思路和思想是对<code>信息论</code>的抽象和实践</p>
-<h2 id="简单推导"><a href="#简单推导" class="headerlink" title="简单推导"></a>简单推导</h2><p>假设有m个点，目标后的向量空间为 </p>
-<p>$$<br>U = {u_1, u_2, u_3, … u_n}<br>$$</p>
-<p>假设$u_1$是让其投影方差最大的直线的单位向量；则$u_1$满足如下要求: </p>
-<p>对于任意一个点 $x_i$ 其到目标向量$u_1$的投影的长度为 两个向量的点积，即: $x_i.u_i$，平方之后不影响结论，则我们考虑目标后的方差之和 (目标是求让$\lambda$最大的u):</p>
-<p>$$\lambda=\frac{1}{m}\sum_1^m(x_i.u_1)^2 = \frac{1}{m}\sum_1^m(x_i^Tu_1)(x_i^Tu_1) $$<br>$$=\frac{1}{m}\sum_1^m(x_i^Tu_1)^T(x_i^Tu_1)$$<br>$$=\frac{1}{m}\sum_1^mu_1^Tx_ix_i^Tu_1$$<br>$$=\frac{1}{m}u_1^T\sum_1^m(x_ix_i^T)u_1$$<br>$$=u_1^T\frac{1}{m}\sum_1^m(x_ix_i^T)u_1$$</p>
-<p>令 $A=\frac{1}{m}\sum_1^m(x_ix_i^T)$, $u_1$简写成u则有 :<br>$$\lambda=u^TAu$$</p>
-<p>由于 $u^Tu=1$, 同时乘以u, 则有:</p>
-<p>$$\lambda u=Au$$</p>
-<p>故而可以知道 u 是矩阵 A 的最大特征值对应的特征向量 , 第二大特征值等依次也可以推出</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020209.html" target="_blank" rel="external">主成分分析（Principal components analysis）-最大方差解释</a></li>
-<li><a href="http://blog.csdn.net/zhongkelee/article/details/44064401" target="_blank" rel="external">主成分分析（PCA）原理详解</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h2&gt;&lt;p&gt;wiki概述:&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutt
-    
-    </summary>
-    
-    
-      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
     
   </entry>
   
