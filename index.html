@@ -57,6 +57,66 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-20170806" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/08/20170806/">weekly of 20170806</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/08/08/20170806/" class="article-date">
+  <time datetime="2017-08-08T04:51:00.000Z" itemprop="datePublished">2017-08-08</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://stackoverflow.com/questions/1427032/fast-linux-file-count-for-a-large-number-of-files" target="_blank" rel="external">Fast Linux File Count for a large number of files</a> : 一个小技巧, <code>By default ls sorts the names, which can take a while if there are a lot of them. Also there will be no output until all of the names are read and sorted. Use the ls -f option to turn off sorting</code></p>
+</li>
+<li><p><a href="https://github.com/gwuhaolin/blog/issues/10" target="_blank" rel="external">流媒体加密</a> : 科普的小文章, 具体介绍了<code>HLS</code>格式的传输方式，以及其对视频的加密原理，此类的科普文章还是非常值得花点时间去读的</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/6f_w_Cpu8WFKE9lGPC84Ug" target="_blank" rel="external">数据处理中的准确性问题</a> : 不少干货, 非常中肯的技巧&amp;建议</p>
+</li>
+<li><p><a href="http://loup-vaillant.fr/articles/rolling-your-own-crypto" target="_blank" rel="external">Rolling Your Own Crypto</a> : 作者是加密库<a href="http://loup-vaillant.fr/projects/monocypher/" target="_blank" rel="external">Monocypher</a> 的作者, 本文作者分享了对于<code>Crypto</code>的理解，对于加密从应用到自己实现加密库到<code>inventing crypto</code> 的理解，个人对加密还是非常有兴趣的，也先mark</p>
+</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2017/08/08/20170806/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-nginx_1_13_1_and_2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -317,84 +377,6 @@
 
 
     
-      <article id="post-boosting" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/21/boosting/">关于AdaBoost&amp;Boosting</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/07/21/boosting/" class="article-date">
-  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;</p>
-<h3 id="About-AdaBoost"><a href="#About-AdaBoost" class="headerlink" title="About AdaBoost"></a>About AdaBoost</h3><p>AdaBoost的算法归纳如下: </p>
-<p>假设输入样本如下: </p>
-<p>$${ (x_1, y_1,), … (x_n, y_n) }$$</p>
-<p>且 $y \in  { -1, 1}$</p>
-<p>且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果</p>
-<p>则在$m-1$次迭代之后，我们的boost分类器可以表达如下: </p>
-<p>$$C_{(m-1)}(x_i) = \alpha_1k_1(x_i) + … + \alpha_{m-1}k_{m-1}(x_i)$$</p>
-<p>对第m次迭代后，我们的目标分类器的表达式可以表述为: </p>
-<p>$$C_m(x_i) = C_{(m-1)}(xi) + \alpha_mk_m(x_i)$$</p>
-<p>则问题转化为: 我们需要明确$\alpha_m$ 和 $k_m$的值 ;</p>
-<p>设我们的损失函数定义如下: (<code>mark</code>)</p>
-<p>$$E = \sum_{i=1}^n e^{-y_iC_m(x_i)}$$</p>
-<p>令$w_i^{(1)} = 1, w_i^{(m)} = e^{-y_iC_{m-1}(x_i)}$, 则有: </p>
-<p>$$ E = \sum_{i=1}^n w_i^{(m)} e^{-y_i\alpha_mk_m(x_i)}$$</p>
-<p>由于$y_i*k_m(x_i) \in { -1, 1 }$,  则有:</p>
-<p>$$ E = \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m} $$<br>$$ = \sum_{i=1}^N w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)} (e^{\alpha_m}   - e^{-\alpha_m} )$$</p>
-<p>从而可以看到我们关注的$k_m$对E的影响，仅表现在等式右侧,  其需要最小化$\sum _{yi \neq k_m(x_i)} w_i^{(m)}$ </p>
-<p>在考虑$\alpha_m$的取值: </p>
-<p>$$\frac{d E}{d \alpha_m} = - \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m}  $$</p>
-<p>令其取值为0； 则有: </p>
-<p>$$ \alpha_m = \frac{1}{2} \ln( \frac{\sum _{yi=k_m(x_i)} w_i^{(m)} }{\sum _{yi \neq k_m(x_i)} w_i^{(m)}}$$</p>
-<p>令 $\epsilon_m =  {\sum _{yi \neq k_m(x_i)} w_i^{(m)}} / \sum_{i=1}^n w_i^{(m)}$, 则有 : </p>
-<p>$$ \alpha_m = \frac{1}{2} \ln(\frac{1-\epsilon_m}{\epsilon_m})$$</p>
-<p>上面就是我们最常见的算法；</p>
-<p>概述如下：</p>
-<p>At each iteration, choose the classifier $k_{m}$ which minimizes the total weighted error :</p>
-<p>$$\sum_{y_i \neq k_m(x_i)}w_i^m $$</p>
-<p>use this to calculate the error rate </p>
-<p>$$\epsilon_m=\sum_{y_{i}\neq k_{m}(x_{i})}w_{i}^m/\sum_{i=1}^{N}w_{i}^m$$</p>
-<p>use this to calculate the weight<br>$$\alpha_m = \frac{1}{2}\ln\left( \frac{1 - \epsilon_m}{\epsilon_m}\right)$$</p>
-<p>and finally use this to improve the boosted classifier $C_NaN$ to $C_=C_NaN+\alpha _{m}k_{m}$<br>上面所述全来自wiki:  <a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="external">https://en.wikipedia.org/wiki/AdaBoost</a></p>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <article id="post-Supervised_Learning" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -559,6 +541,84 @@
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
 <li><a href="https://guangchun.wordpress.com/2011/10/13/ml-bayes-map/" target="_blank" rel="external">参数估计：最大似然、贝叶斯与最大后验</a> </li>
 </ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-boosting" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/21/boosting/">关于AdaBoost&amp;Boosting</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/07/21/boosting/" class="article-date">
+  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;</p>
+<h3 id="About-AdaBoost"><a href="#About-AdaBoost" class="headerlink" title="About AdaBoost"></a>About AdaBoost</h3><p>AdaBoost的算法归纳如下: </p>
+<p>假设输入样本如下: </p>
+<p>$${ (x_1, y_1,), … (x_n, y_n) }$$</p>
+<p>且 $y \in  { -1, 1}$</p>
+<p>且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果</p>
+<p>则在$m-1$次迭代之后，我们的boost分类器可以表达如下: </p>
+<p>$$C_{(m-1)}(x_i) = \alpha_1k_1(x_i) + … + \alpha_{m-1}k_{m-1}(x_i)$$</p>
+<p>对第m次迭代后，我们的目标分类器的表达式可以表述为: </p>
+<p>$$C_m(x_i) = C_{(m-1)}(xi) + \alpha_mk_m(x_i)$$</p>
+<p>则问题转化为: 我们需要明确$\alpha_m$ 和 $k_m$的值 ;</p>
+<p>设我们的损失函数定义如下: (<code>mark</code>)</p>
+<p>$$E = \sum_{i=1}^n e^{-y_iC_m(x_i)}$$</p>
+<p>令$w_i^{(1)} = 1, w_i^{(m)} = e^{-y_iC_{m-1}(x_i)}$, 则有: </p>
+<p>$$ E = \sum_{i=1}^n w_i^{(m)} e^{-y_i\alpha_mk_m(x_i)}$$</p>
+<p>由于$y_i*k_m(x_i) \in { -1, 1 }$,  则有:</p>
+<p>$$ E = \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m} $$<br>$$ = \sum_{i=1}^N w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)} (e^{\alpha_m}   - e^{-\alpha_m} )$$</p>
+<p>从而可以看到我们关注的$k_m$对E的影响，仅表现在等式右侧,  其需要最小化$\sum _{yi \neq k_m(x_i)} w_i^{(m)}$ </p>
+<p>在考虑$\alpha_m$的取值: </p>
+<p>$$\frac{d E}{d \alpha_m} = - \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m}  $$</p>
+<p>令其取值为0； 则有: </p>
+<p>$$ \alpha_m = \frac{1}{2} \ln( \frac{\sum _{yi=k_m(x_i)} w_i^{(m)} }{\sum _{yi \neq k_m(x_i)} w_i^{(m)}}$$</p>
+<p>令 $\epsilon_m =  {\sum _{yi \neq k_m(x_i)} w_i^{(m)}} / \sum_{i=1}^n w_i^{(m)}$, 则有 : </p>
+<p>$$ \alpha_m = \frac{1}{2} \ln(\frac{1-\epsilon_m}{\epsilon_m})$$</p>
+<p>上面就是我们最常见的算法；</p>
+<p>概述如下：</p>
+<p>At each iteration, choose the classifier $k_{m}$ which minimizes the total weighted error :</p>
+<p>$$\sum_{y_i \neq k_m(x_i)}w_i^m $$</p>
+<p>use this to calculate the error rate </p>
+<p>$$\epsilon_m=\sum_{y_{i}\neq k_{m}(x_{i})}w_{i}^m/\sum_{i=1}^{N}w_{i}^m$$</p>
+<p>use this to calculate the weight<br>$$\alpha_m = \frac{1}{2}\ln\left( \frac{1 - \epsilon_m}{\epsilon_m}\right)$$</p>
+<p>and finally use this to improve the boosted classifier $C_NaN$ to $C_=C_NaN+\alpha _{m}k_{m}$<br>上面所述全来自wiki:  <a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="external">https://en.wikipedia.org/wiki/AdaBoost</a></p>
 
       
     </div>
@@ -760,67 +820,6 @@
       <footer class="article-footer">
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20170716" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/16/20170716/">weekly of 20170716</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/07/16/20170716/" class="article-date">
-  <time datetime="2017-07-16T06:15:30.000Z" itemprop="datePublished">2017-07-16</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><a href="https://www.microsoft.com/en-us/seeing-ai/" target="_blank" rel="external">Seeing AI</a> : 微软新出来的app, “A free app that narrates the world around you. Designed for the low vision community, this research project harnesses the power of AI to describe people, text and objects”</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=14769762" target="_blank" rel="external">Redis 4.0 (groups.google.com)</a> : 感觉有不少特性值得关注，个人觉得有兴趣的包括:<code>PSYNC2</code>, <code>Redis modules</code>, <code>LFU eviction algorithm</code> , <code>MEMORY DOCTOR</code> 以及 <code>Active memory defragmentation</code></p>
-</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><a href="https://paragonie.com/book/pecl-libsodium" target="_blank" rel="external">Using Libsodium in PHP Projects</a> : LibSodium是一个php的安全基础库，会成为PHP 7.2的标准扩展，对于安全的php编程意义重大</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5Nzc4OTA1Mw==&amp;mid=2659599404&amp;idx=1&amp;sn=12c9a9da66286e398e5fd48fe338ad48" target="_blank" rel="external">携程的Web漏洞扫描系统实现细节</a> : 可以了解下, 总感觉很多关键点没说清楚，比如流量重放的脏数据问题,  数据镜像方案等(有点重)</p>
-</li>
-<li><p><a href="http://karpathy.github.io/neuralnets/" target="_blank" rel="external">Hacker’s guide to Neural Networks</a> : 关于深度学习的介绍，先mark</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2>
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
 
       </footer>
     

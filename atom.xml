@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2017-08-05T08:01:11.000Z</updated>
+  <updated>2017-08-08T04:52:17.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,62 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20170806</title>
+    <link href="http://shevacjs.com/2017/08/08/20170806/"/>
+    <id>http://shevacjs.com/2017/08/08/20170806/</id>
+    <published>2017-08-08T04:51:00.000Z</published>
+    <updated>2017-08-08T04:52:17.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://stackoverflow.com/questions/1427032/fast-linux-file-count-for-a-large-number-of-files" target="_blank" rel="external">Fast Linux File Count for a large number of files</a> : 一个小技巧, <code>By default ls sorts the names, which can take a while if there are a lot of them. Also there will be no output until all of the names are read and sorted. Use the ls -f option to turn off sorting</code></p>
+</li>
+<li><p><a href="https://github.com/gwuhaolin/blog/issues/10" target="_blank" rel="external">流媒体加密</a> : 科普的小文章, 具体介绍了<code>HLS</code>格式的传输方式，以及其对视频的加密原理，此类的科普文章还是非常值得花点时间去读的</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/6f_w_Cpu8WFKE9lGPC84Ug" target="_blank" rel="external">数据处理中的准确性问题</a> : 不少干货, 非常中肯的技巧&amp;建议</p>
+</li>
+<li><p><a href="http://loup-vaillant.fr/articles/rolling-your-own-crypto" target="_blank" rel="external">Rolling Your Own Crypto</a> : 作者是加密库<a href="http://loup-vaillant.fr/projects/monocypher/" target="_blank" rel="external">Monocypher</a> 的作者, 本文作者分享了对于<code>Crypto</code>的理解，对于加密从应用到自己实现加密库到<code>inventing crypto</code> 的理解，个人对加密还是非常有兴趣的，也先mark</p>
+</li>
+</ul>
+<a id="more"></a>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="http://muratbuffalo.blogspot.com/2017/07/a-comparison-of-distributed-machine.html" target="_blank" rel="external">A Comparison of Distributed Machine Learning Platforms</a> : 关于几个机器学习平台的对比，包括spark, <a href="https://blog.acolyer.org/2016/01/27/petuum/" target="_blank" rel="external">PMLS (Petuum)</a>, Tensorflow等, 结论有”It is safe to say the parameter-server approach won for training in distributed ML platforms.” , 不过<a href="https://news.ycombinator.com/item?id=14889630" target="_blank" rel="external">hacker news</a>上面对此颇有异议</p>
+</li>
+<li><p><a href="http://tech.lede.com/2017/07/21/rd/server/crossdomain/" target="_blank" rel="external">Nginx缓存引发的跨域惨案</a> : 一个Nginx的缓存的问题, 虽然很简单, 可以当做入门读物</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/-tc8MSpu6h5q3h8xuaRtcw" target="_blank" rel="external">PhxSQL设计与实现（详细版）</a> : 先mark</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://mp.weixin.qq.com/s/cQ6LnH1t7n3iy4K83qOoRQ" target="_blank" rel="external">科学式家｜戴文渊：机器学习教科书的7大经典问题</a> : 结论不一定对，但是对于这些问题的拆分，分析和理解，可以加深我们对机器学习的认识</p>
+</li>
+<li><p><a href="https://scram-pra.org/index.html" target="_blank" rel="external">SCRAM 0.14.0</a> : “SCRAM is a free and open source probabilistic risk analysis tool that supports the Open-PSA Model Exchange Format.”，感觉会是个有趣的东西, 先mark</p>
+</li>
+<li><p><a href="https://blog.sicara.com/07-2017-best-big-data-new-articles-this-month-acb58d4bb15d" target="_blank" rel="external">The Best of Big Data: New Articles Published This Month (July 2017)</a> : 一些Big Data / Machine Learning的材料, 先mark</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://stackoverflow.com/questions/1427032/fast-linux-file-count-for-a-large-number-of-files&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Fast Linux File Count for a large number of files&lt;/a&gt; : 一个小技巧, &lt;code&gt;By default ls sorts the names, which can take a while if there are a lot of them. Also there will be no output until all of the names are read and sorted. Use the ls -f option to turn off sorting&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/gwuhaolin/blog/issues/10&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;流媒体加密&lt;/a&gt; : 科普的小文章, 具体介绍了&lt;code&gt;HLS&lt;/code&gt;格式的传输方式，以及其对视频的加密原理，此类的科普文章还是非常值得花点时间去读的&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/6f_w_Cpu8WFKE9lGPC84Ug&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;数据处理中的准确性问题&lt;/a&gt; : 不少干货, 非常中肯的技巧&amp;amp;建议&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://loup-vaillant.fr/articles/rolling-your-own-crypto&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Rolling Your Own Crypto&lt;/a&gt; : 作者是加密库&lt;a href=&quot;http://loup-vaillant.fr/projects/monocypher/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Monocypher&lt;/a&gt; 的作者, 本文作者分享了对于&lt;code&gt;Crypto&lt;/code&gt;的理解，对于加密从应用到自己实现加密库到&lt;code&gt;inventing crypto&lt;/code&gt; 的理解，个人对加密还是非常有兴趣的，也先mark&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>nginx 1.13.1/2 版本说明</title>
@@ -250,59 +306,6 @@
   </entry>
   
   <entry>
-    <title>关于AdaBoost&amp;Boosting</title>
-    <link href="http://shevacjs.com/2017/07/21/boosting/"/>
-    <id>http://shevacjs.com/2017/07/21/boosting/</id>
-    <published>2017-07-20T16:25:11.000Z</published>
-    <updated>2017-07-27T17:29:56.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;</p>
-<h3 id="About-AdaBoost"><a href="#About-AdaBoost" class="headerlink" title="About AdaBoost"></a>About AdaBoost</h3><p>AdaBoost的算法归纳如下: </p>
-<p>假设输入样本如下: </p>
-<p>$${ (x_1, y_1,), … (x_n, y_n) }$$</p>
-<p>且 $y \in  { -1, 1}$</p>
-<p>且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果</p>
-<p>则在$m-1$次迭代之后，我们的boost分类器可以表达如下: </p>
-<p>$$C_{(m-1)}(x_i) = \alpha_1k_1(x_i) + … + \alpha_{m-1}k_{m-1}(x_i)$$</p>
-<p>对第m次迭代后，我们的目标分类器的表达式可以表述为: </p>
-<p>$$C_m(x_i) = C_{(m-1)}(xi) + \alpha_mk_m(x_i)$$</p>
-<p>则问题转化为: 我们需要明确$\alpha_m$ 和 $k_m$的值 ;</p>
-<p>设我们的损失函数定义如下: (<code>mark</code>)</p>
-<p>$$E = \sum_{i=1}^n e^{-y_iC_m(x_i)}$$</p>
-<p>令$w_i^{(1)} = 1, w_i^{(m)} = e^{-y_iC_{m-1}(x_i)}$, 则有: </p>
-<p>$$ E = \sum_{i=1}^n w_i^{(m)} e^{-y_i\alpha_mk_m(x_i)}$$</p>
-<p>由于$y_i*k_m(x_i) \in { -1, 1 }$,  则有:</p>
-<p>$$ E = \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m} $$<br>$$ = \sum_{i=1}^N w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)} (e^{\alpha_m}   - e^{-\alpha_m} )$$</p>
-<p>从而可以看到我们关注的$k_m$对E的影响，仅表现在等式右侧,  其需要最小化$\sum _{yi \neq k_m(x_i)} w_i^{(m)}$ </p>
-<p>在考虑$\alpha_m$的取值: </p>
-<p>$$\frac{d E}{d \alpha_m} = - \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m}  $$</p>
-<p>令其取值为0； 则有: </p>
-<p>$$ \alpha_m = \frac{1}{2} \ln( \frac{\sum _{yi=k_m(x_i)} w_i^{(m)} }{\sum _{yi \neq k_m(x_i)} w_i^{(m)}}$$</p>
-<p>令 $\epsilon_m =  {\sum _{yi \neq k_m(x_i)} w_i^{(m)}} / \sum_{i=1}^n w_i^{(m)}$, 则有 : </p>
-<p>$$ \alpha_m = \frac{1}{2} \ln(\frac{1-\epsilon_m}{\epsilon_m})$$</p>
-<p>上面就是我们最常见的算法；</p>
-<p>概述如下：</p>
-<p>At each iteration, choose the classifier $k_{m}$ which minimizes the total weighted error :</p>
-<p>$$\sum_{y_i \neq k_m(x_i)}w_i^m $$</p>
-<p>use this to calculate the error rate </p>
-<p>$$\epsilon_m=\sum_{y_{i}\neq k_{m}(x_{i})}w_{i}^m/\sum_{i=1}^{N}w_{i}^m$$</p>
-<p>use this to calculate the weight<br>$$\alpha_m = \frac{1}{2}\ln\left( \frac{1 - \epsilon_m}{\epsilon_m}\right)$$</p>
-<p>and finally use this to improve the boosted classifier $C_NaN$ to $C_=C_NaN+\alpha _{m}k_{m}$<br>上面所述全来自wiki:  <a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="external">https://en.wikipedia.org/wiki/AdaBoost</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;&lt;/p&gt;
-&lt;h3 id=&quot;About-AdaBoost&quot;&gt;&lt;a href=&quot;#About-AdaBoost&quot; class=&quot;headerlink&quot; title=&quot;About AdaBoost&quot;&gt;&lt;/a&gt;About
-    
-    </summary>
-    
-    
-      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Supervised learning ： Linear Regression</title>
     <link href="http://shevacjs.com/2017/07/21/Supervised_Learning/"/>
     <id>http://shevacjs.com/2017/07/21/Supervised_Learning/</id>
@@ -436,6 +439,59 @@
 &lt;p&gt;by chenjiansen&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h3 id=&quot;判定模型与生成模型&quot;&gt;&lt;a href=&quot;#判定模型与生成模型&quot; class=&quot;headerlink&quot; title=&quot;判定模型与生成模型&quot;&gt;&lt;/a&gt;判定模型与生成模型&lt;
+    
+    </summary>
+    
+    
+      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于AdaBoost&amp;Boosting</title>
+    <link href="http://shevacjs.com/2017/07/21/boosting/"/>
+    <id>http://shevacjs.com/2017/07/21/boosting/</id>
+    <published>2017-07-20T16:25:11.000Z</published>
+    <updated>2017-07-27T17:29:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;</p>
+<h3 id="About-AdaBoost"><a href="#About-AdaBoost" class="headerlink" title="About AdaBoost"></a>About AdaBoost</h3><p>AdaBoost的算法归纳如下: </p>
+<p>假设输入样本如下: </p>
+<p>$${ (x_1, y_1,), … (x_n, y_n) }$$</p>
+<p>且 $y \in  { -1, 1}$</p>
+<p>且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果</p>
+<p>则在$m-1$次迭代之后，我们的boost分类器可以表达如下: </p>
+<p>$$C_{(m-1)}(x_i) = \alpha_1k_1(x_i) + … + \alpha_{m-1}k_{m-1}(x_i)$$</p>
+<p>对第m次迭代后，我们的目标分类器的表达式可以表述为: </p>
+<p>$$C_m(x_i) = C_{(m-1)}(xi) + \alpha_mk_m(x_i)$$</p>
+<p>则问题转化为: 我们需要明确$\alpha_m$ 和 $k_m$的值 ;</p>
+<p>设我们的损失函数定义如下: (<code>mark</code>)</p>
+<p>$$E = \sum_{i=1}^n e^{-y_iC_m(x_i)}$$</p>
+<p>令$w_i^{(1)} = 1, w_i^{(m)} = e^{-y_iC_{m-1}(x_i)}$, 则有: </p>
+<p>$$ E = \sum_{i=1}^n w_i^{(m)} e^{-y_i\alpha_mk_m(x_i)}$$</p>
+<p>由于$y_i*k_m(x_i) \in { -1, 1 }$,  则有:</p>
+<p>$$ E = \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m} $$<br>$$ = \sum_{i=1}^N w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)} (e^{\alpha_m}   - e^{-\alpha_m} )$$</p>
+<p>从而可以看到我们关注的$k_m$对E的影响，仅表现在等式右侧,  其需要最小化$\sum _{yi \neq k_m(x_i)} w_i^{(m)}$ </p>
+<p>在考虑$\alpha_m$的取值: </p>
+<p>$$\frac{d E}{d \alpha_m} = - \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m}  $$</p>
+<p>令其取值为0； 则有: </p>
+<p>$$ \alpha_m = \frac{1}{2} \ln( \frac{\sum _{yi=k_m(x_i)} w_i^{(m)} }{\sum _{yi \neq k_m(x_i)} w_i^{(m)}}$$</p>
+<p>令 $\epsilon_m =  {\sum _{yi \neq k_m(x_i)} w_i^{(m)}} / \sum_{i=1}^n w_i^{(m)}$, 则有 : </p>
+<p>$$ \alpha_m = \frac{1}{2} \ln(\frac{1-\epsilon_m}{\epsilon_m})$$</p>
+<p>上面就是我们最常见的算法；</p>
+<p>概述如下：</p>
+<p>At each iteration, choose the classifier $k_{m}$ which minimizes the total weighted error :</p>
+<p>$$\sum_{y_i \neq k_m(x_i)}w_i^m $$</p>
+<p>use this to calculate the error rate </p>
+<p>$$\epsilon_m=\sum_{y_{i}\neq k_{m}(x_{i})}w_{i}^m/\sum_{i=1}^{N}w_{i}^m$$</p>
+<p>use this to calculate the weight<br>$$\alpha_m = \frac{1}{2}\ln\left( \frac{1 - \epsilon_m}{\epsilon_m}\right)$$</p>
+<p>and finally use this to improve the boosted classifier $C_NaN$ to $C_=C_NaN+\alpha _{m}k_{m}$<br>上面所述全来自wiki:  <a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="external">https://en.wikipedia.org/wiki/AdaBoost</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;&lt;/p&gt;
+&lt;h3 id=&quot;About-AdaBoost&quot;&gt;&lt;a href=&quot;#About-AdaBoost&quot; class=&quot;headerlink&quot; title=&quot;About AdaBoost&quot;&gt;&lt;/a&gt;About
     
     </summary>
     
@@ -1031,58 +1087,6 @@
     
       &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://weibo.com/ttarticle/p/show?id=23094041066
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170507</title>
-    <link href="http://shevacjs.com/2017/05/07/20170507/"/>
-    <id>http://shevacjs.com/2017/05/07/20170507/</id>
-    <published>2017-05-07T12:30:51.000Z</published>
-    <updated>2017-07-21T04:21:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="https://news.ycombinator.com/item?id=14241286" target="_blank" rel="external">LuaJIT 2.0.5 and 2.1.0-beta3 released</a> : 新版本的LuaJit, 不过看change好像都是实现细节上面的改动&amp;升级</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://developers.google.com/web/updates/2017/04/headless-chrome" target="_blank" rel="external">Getting Started with Headless Chrome</a> : 可以试试Chrome的<a href="https://en.wikipedia.org/wiki/Headless_software" target="_blank" rel="external">Headless</a>模式</p>
-</li>
-<li><p><a href="http://cenalulu.github.io/python/gil-in-python/" target="_blank" rel="external">Python的GIL是什么鬼，多线程性能究竟如何</a> : 对Python GIL可以有初步的认识和了解</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://blog.acolyer.org/2017/05/01/the-design-implementation-and-deployment-of-a-system-to-transparently-compress-hundreds-of-petabytes-of-image-files-for-a-file-storage-service/" target="_blank" rel="external">The design, implementation and deployment of a system to transparently compress hundreds of petabytes of image files for a file storage service</a> : Dropbox关于图片压缩的实践，在传统的JPEG算法上面，又引入了基于Hufferman的无损压缩算法，可以使文件的大小进一步减少(差不多23%)，整体思路是非常清晰，贴吧可以采纳下；具体还可以看<a href="https://www.usenix.org/sites/default/files/conference/protected-files/nsdi17_slides_horn.pdf" target="_blank" rel="external">slider</a>的介绍</p>
-</li>
-<li><p><a href="https://blog.acolyer.org/2017/04/26/improving-user-perceived-page-load-time-using-gaze/" target="_blank" rel="external">Improving user perceived page load time using gaze</a> : 传统的性能优化可能会侧重于<code>Onload</code> 或者 <code>SpeedIndex</code> 的响应时间，但是作者认为我们应该更关注所为的<code>perceives page load time</code>； 也就是一个页面的部分核心组件的展现时间（paper里面通过实际的实验来说明这个时间和常规的时间还是有不少差异的），提出了通过构建<code>自动发现页面核心组件</code> 以及相应的优化核心组件的加载时间来提升用户体验的办法; 感觉想法是非常新颖的 </p>
-</li>
-<li><p><a href="https://blog.acolyer.org/2016/11/02/memc3-compact-and-concurrent-memcache-with-dumber-caching-and-smarter-hashing/" target="_blank" rel="external">MemC3: Compact and concurrent Memcache with dumber caching and smarter hashing</a> : 一篇介绍memcached优化的文章，memcached虽然相对简单，但是深入研究，可以改进和优化的空间不少，本paper具体提了两个重大的方法，包括基于<a href="https://en.wikipedia.org/wiki/Cuckoo_hashing" target="_blank" rel="external">Cuckoo Hash</a>的hash改造，其可以提升内存存储效率&amp;支持并行访问，其次是基于<a href="https://en.wikipedia.org/wiki/Page_replacement_algorithm#Clock" target="_blank" rel="external">Clock LRU</a>的LRU改造方法；总体上面可以使得内存和运行速度分别有30%和3倍的提升</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://wit.ai/blog/2017/05/01/new-duckling" target="_blank" rel="external">Open Sourcing our new Duckling</a> : 挺有意思的一个项目, 先mark</p>
-</li>
-<li><p><a href="https://httpd.apache.org/docs/2.4/mod/mod_lua.html" target="_blank" rel="external">Apache Module mod_lua</a> : Apache的mod lua，看功能简介有点想nginx lua</p>
-</li>
-<li><p><a href="http://www.jianshu.com/p/90579ec3113f" target="_blank" rel="external">当CPU飙高时，它在做什么</a> : 看完的结论是自己赶紧写一个类似的脚本</p>
-</li>
-<li><p><a href="https://littlemaninmyhead.wordpress.com/2017/04/22/top-10-developer-crypto-mistakes/" target="_blank" rel="external">TOP 10 DEVELOPER CRYPTO MISTAKES</a> : 一些安全编码的方式&amp;技巧</p>
-</li>
-<li><p><a href="http://www.hackerfactor.com/blog/index.php?/archives/762-Attacked-Over-Tor.html" target="_blank" rel="external">Attacked Over Tor</a> : 里面讲到的<code>ZIP BOOM</code>的case可以关注下，是个不错的对待攻击者的方式</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=14280625" target="_blank" rel="external">Why does Google prepend while(1); to their JSON responses? </a> : 一个很巧妙的解决CSRF攻击的办法，可以了解下</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=14241286&quot; targ
     
     </summary>
     
