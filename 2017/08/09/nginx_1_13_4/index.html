@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>nginx 1.13.4 版本说明 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="原始feature说明 主要摘录1.13.1/1.13.2新feature  123456*) Feature: the ngx_http_mirror_module.*) Bugfix: client connections might be dropped during configuration   testing when using the &amp;quot;reuseport&amp;quot; p">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx 1.13.4 版本说明">
+<meta property="og:url" content="http://shevacjs.com/2017/08/09/nginx_1_13_4/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="原始feature说明 主要摘录1.13.1/1.13.2新feature  123456*) Feature: the ngx_http_mirror_module.*) Bugfix: client connections might be dropped during configuration   testing when using the &amp;quot;reuseport&amp;quot; p">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://shevacjs.com/images/without_port_reuse.png">
+<meta property="og:image" content="http://shevacjs.com/images/with_port_reuse.png">
+<meta property="og:updated_time" content="2017-08-10T06:46:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx 1.13.4 版本说明">
+<meta name="twitter:description" content="原始feature说明 主要摘录1.13.1/1.13.2新feature  123456*) Feature: the ngx_http_mirror_module.*) Bugfix: client connections might be dropped during configuration   testing when using the &amp;quot;reuseport&amp;quot; p">
+<meta name="twitter:image" content="http://shevacjs.com/images/without_port_reuse.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-nginx_1_13_4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      nginx 1.13.4 版本说明
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/08/09/nginx_1_13_4/" class="article-date">
+  <time datetime="2017-08-09T09:27:07.000Z" itemprop="datePublished">2017-08-09</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="原始feature说明"><a href="#原始feature说明" class="headerlink" title="原始feature说明"></a>原始feature说明</h3><blockquote>
+<p>主要摘录1.13.1/1.13.2新feature</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">*) Feature: the ngx_http_mirror_module.</div><div class="line"></div><div class="line">*) Bugfix: client connections might be dropped during configuration</div><div class="line">   testing when using the &quot;reuseport&quot; parameter of the &quot;listen&quot;</div><div class="line">   directive on Linux.</div></pre></td></tr></table></figure>
+<p>具体而言包括:</p>
+<ul>
+<li>新增<a href="http://nginx.org/en/docs/http/ngx_http_mirror_module.html" target="_blank" rel="external">mirror module</a>，个人感觉有不少用处，下面详解</li>
+<li>其次一个<code>reuseport</code>相关的bug的修复，之前没怎么介绍过<code>port reuser</code>, 这里也简单说明下</li>
+</ul>
+<a id="more"></a>
+<h3 id="ngx-http-mirror-module"><a href="#ngx-http-mirror-module" class="headerlink" title="ngx_http_mirror_module"></a>ngx_http_mirror_module</h3><p><a href="http://nginx.org/en/docs/http/ngx_http_mirror_module.html" target="_blank" rel="external">ngx_http_mirror_module</a> 是主要功能是支持请求镜像，对于一个请求r而言，nginx除了正常处理r1，还可以fork一个在后台处理的请求r2; 虽然功能听起来很简单，但是个人感觉他的业务应用场景是非常多的，比如:</p>
+<ul>
+<li>实现nginx pagecache, 请求进来，可以让r2请求按照一定的规则去读取/设置缓存</li>
+<li>实现消息分发/通知, r2可以直接通报给其他的系统，用于消息通知 </li>
+</ul>
+<p>如下是mirror module的配置demo: </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">location = /test_mirror &#123;</div><div class="line">    proxy_pass http://127.0.0.1:8083/b;</div><div class="line">    ## 支持多次请求镜像, 分别镜像到inner和inner1</div><div class="line">    mirror /inner_mirror;</div><div class="line">    mirror /inner_mirror1;</div><div class="line">&#125;</div><div class="line"></div><div class="line">## 镜像请求处理，分发到 http://127.0.0.1:8083/a</div><div class="line">location = /inner_mirror &#123;</div><div class="line">    internal;</div><div class="line">    proxy_pass http://127.0.0.1:8083/a;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">## 镜像请求处理，分发到 http://127.0.0.1:8083/b</div><div class="line">location = /inner_mirror1 &#123;</div><div class="line">    internal;</div><div class="line">    proxy_pass http://127.0.0.1:8083/c;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>再看下源码实现，整体逻辑是非常清晰&amp;简单，特别适合做新写module的demo(故这里面会说的详细一些些);</p>
+<blockquote>
+<p>所有代码路径都在: src/http/modules/ngx_http_mirror_module.c</p>
+</blockquote>
+<p>首先是注册钩子: </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> ngx_int_t</span></div><div class="line"><span class="title">ngx_http_mirror_init</span><span class="params">(<span class="keyword">ngx_conf_t</span> *cf)</span></div><div class="line">&#123;</div><div class="line">    ...</div><div class="line">    <span class="comment">//创建一个在NGX_HTTP_PRECONTENT_PHASE阶段的钩子</span></div><div class="line">    h = ngx_array_push(&amp;cmcf-&gt;phases[NGX_HTTP_PRECONTENT_PHASE].handlers);</div><div class="line">    <span class="keyword">if</span> (h == <span class="literal">NULL</span>) &#123;</div><div class="line">        <span class="keyword">return</span> NGX_ERROR;</div><div class="line">    &#125;</div><div class="line">    *h = ngx_http_mirror_handler;</div><div class="line"></div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面具体看下<code>ngx_http_mirror_handler</code>是如何处理:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> ngx_int_t</span></div><div class="line"><span class="title">ngx_http_mirror_handler</span><span class="params">(<span class="keyword">ngx_http_request_t</span> *r)</span></div><div class="line">&#123;</div><div class="line">    ...</div><div class="line">    <span class="comment">// 判读是否需要读取body, 是由指令mirror_request_body控制的</span></div><div class="line">    <span class="keyword">if</span> (mlcf-&gt;request_body) &#123;</div><div class="line">        </div><div class="line">        ...</div><div class="line">        <span class="comment">// 构建一个ctx管理读取body的异步请求</span></div><div class="line">        ngx_http_set_ctx(r, ctx, ngx_http_mirror_module);</div><div class="line"></div><div class="line">        <span class="comment">// 读取包体，回调设置为 ngx_http_mirror_body_handler, 其会调用</span></div><div class="line">        <span class="comment">// ngx_http_mirror_handler_internal</span></div><div class="line">        rc = ngx_http_read_client_request_body(r, ngx_http_mirror_body_handler);</div><div class="line">        <span class="keyword">if</span> (rc &gt;= NGX_HTTP_SPECIAL_RESPONSE) &#123;</div><div class="line">            <span class="keyword">return</span> rc;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        ngx_http_finalize_request(r, NGX_DONE);</div><div class="line">        <span class="keyword">return</span> NGX_DONE;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 不需要读取包体，直接调用: ngx_http_mirror_body_handler</span></div><div class="line">    <span class="keyword">return</span> ngx_http_mirror_handler_internal(r);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到具体处理请求的是<code>ngx_http_mirror_handler_internal</code>, 其代码如下: </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> ngx_int_t</span></div><div class="line"><span class="title">ngx_http_mirror_handler_internal</span><span class="params">(<span class="keyword">ngx_http_request_t</span> *r)</span></div><div class="line">&#123;</div><div class="line">    ...</div><div class="line">    <span class="comment">// 对于设置的内部url，遍历调用</span></div><div class="line">    name = mlcf-&gt;mirror-&gt;elts;</div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; mlcf-&gt;mirror-&gt;nelts; i++) &#123;</div><div class="line">        <span class="comment">// 构建sub-request, 注意类型是 NGX_HTTP_SUBREQUEST_BACKGROUND (好像是1.13.1引入的)</span></div><div class="line">        <span class="keyword">if</span> (ngx_http_subrequest(r, &amp;name[i], &amp;r-&gt;args, &amp;sr, <span class="literal">NULL</span>,</div><div class="line">                                NGX_HTTP_SUBREQUEST_BACKGROUND)</div><div class="line">            != NGX_OK)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">return</span> NGX_HTTP_INTERNAL_SERVER_ERROR;</div><div class="line">        &#125;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> NGX_DECLINED;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Port-Reuse"><a href="#Port-Reuse" class="headerlink" title="Port Reuse"></a>Port Reuse</h3><p><code>port reuse</code>功能是nginx在<code>1.9.1</code>版本引入的, 其还专门写了一篇文章介绍该特性<a href="https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/" target="_blank" rel="external">Socket Sharding in NGINX Release 1.9.1</a>。引入改特性整体而言，可以预见的优势包括:</p>
+<ul>
+<li>更方便的做程序的热升级: 由于port服用，可以方便的新起来一个进程，用同样的端口, 不过nginx有自己的<a href="http://nginx.org/en/docs/control.html?&amp;_ga=2.52130720.809544211.1502340590-1798186825.1502340590#upgrade" target="_blank" rel="external">解决方案</a></li>
+<li>可以缓解解决<code>惊群效应</code>,  nginx之前也有自己的解决方案，通过进程锁做一些控制, 但现在内核直接支持，理论上更优雅, 如下两个图可以说明使用port reuse，整个进程监听模型的变化:<br><img src="/images/without_port_reuse.png" alt="关闭SO_REUSEPORT监听模型"></li>
+</ul>
+<p>而开启<code>SO_REUSEPORT</code>，整个模型变为:<br><img src="/images/with_port_reuse.png" alt="开启SO_REUSEPORT监听模型"></p>
+<p>基于上面的介绍，就容易理解上面说的bugfix的内容: </p>
+<blockquote>
+<p>client connections might be dropped during configuration testing when using the “reuseport” parameter of the “listen” directive on Linux</p>
+</blockquote>
+<p>因为开启<code>port reuse</code>, 在test的时候，可能请求也会进来，这样处理请求就可能存在异常；fix的办法就是test的时候，关闭改flag，具体如下: </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// diff -r nginx-1.13.3/src/core/ngx_connection.c nginx-1.13.4/src/core/ngx_connection.c</span></div><div class="line"><span class="number">476</span>c476</div><div class="line">&lt;             <span class="keyword">if</span> (ls[i].reuseport) &#123;</div><div class="line">---</div><div class="line">&gt;             <span class="keyword">if</span> (ls[i].reuseport &amp;&amp; !ngx_test_config) &#123;</div><div class="line"><span class="number">486</span>c486</div><div class="line">&lt;                                   <span class="string">"setsockopt(SO_REUSEPORT) %V failed, ignored"</span>,</div><div class="line">---</div><div class="line">&gt;                                   <span class="string">"setsockopt(SO_REUSEPORT) %V failed"</span>,</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/08/08/20170806/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20170806&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  var disqus_url = 'http://shevacjs.com/2017/08/09/nginx_1_13_4/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

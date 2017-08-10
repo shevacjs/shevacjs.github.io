@@ -57,6 +57,98 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-20170108" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/08/20170108/">weekly of 20170108</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/01/08/20170108/" class="article-date">
+  <time datetime="2017-01-08T05:05:11.000Z" itemprop="datePublished">2017-01-08</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><p><a href="http://www.deeplearningweekly.com/blog/deep-learning-2016-the-year-in-review" target="_blank" rel="external">Deep Learning 2016: The Year in Review</a> : </p>
+</li>
+<li><p><a href="https://opensource.googleblog.com/2017/01/grumpy-go-running-python.html" target="_blank" rel="external">Grumpy: Go running Python!</a> : google提供的python优化方案, 用go来做中间语言转换, 可以关注</p>
+</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://www.aidanwoods.com/blog/secure-headers-for-php" target="_blank" rel="external">Secure Headers for PHP</a> : 作者提供了一个PHP的控制http header的class；方便我们控制CSP的返回内容，对于其他的安全头部也有相关的保护和控制，避免勿用, 关于http的安全头部可以看<a href="https://www.owasp.org/index.php/OWASP_Secure_Headers_Project#Content-Security-Policy" target="_blank" rel="external">OWASP Secure Headers Project</a>, 了解这些头部可以加深我们对安全头部的了解</p>
+</li>
+<li><p><a href="http://www.infoq.com/cn/articles/weinxin-open-source-paxos-phxpaxos" target="_blank" rel="external">微信开源：生产级paxos类库PhxPaxos实现原理介绍</a> : 今天细看了这篇文章，个人觉得是将paxos生产实践的最好的文章，对于要理解paxos如何应用到具体业务场景的同学来说，这个是不错的入门; 另外年末了感觉infoq上面有不少微信的文章，包括<a href="http://www.infoq.com/cn/articles/one-billion-paxos-minutes-of-challenge" target="_blank" rel="external">微信PaxosStore内存篇：十亿Paxos/分钟的挑战</a>, <a href="http://www.infoq.com/cn/articles/wechat-serial-number-generator-architecture" target="_blank" rel="external">微信序列号生成器架构设计及演变</a>，<a href="http://www.infoq.com/cn/articles/wechat-paxosstore-paxos-algorithm-protocol" target="_blank" rel="external">微信PaxosStore：深入浅出Paxos算法协议</a>, 感觉干活不少，大家可以好好了解下</p>
+</li>
+<li><p><a href="https://www.nginx.com/resources/admin-guide/Monitoring/" target="_blank" rel="external">LIVE ACTIVITY MONITORING</a> : 对nginx log配置的一个很简单的说明，说的很清楚，也可以参考文章 <a href="https://www.nginx.com/resources/admin-guide/logging-and-monitoring/" target="_blank" rel="external">CONFIGURING LOGGING</a> 和<a href="https://www.nginx.com/blog/using-nginx-logging-for-application-performance-monitoring/" target="_blank" rel="external">Using NGINX Logging for Application Performance Monitoring</a> nginx官方blog的文章质量都不错</p>
+</li>
+<li><p><a href="http://spacevim.org/" target="_blank" rel="external">SpaceVim</a> : 挺好的一个vim工具，本周有空试试</p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzIxMjAzMDA1MQ==&amp;mid=2648945745&amp;idx=1&amp;sn=422c7dd658ba83a42f5753669716378f&amp;chksm=8f5b535db82cda4b281dfab3858e4afa6e6b453d0b77f5dd5d3f8ca3e33184fa470803d4d21e#rd" target="_blank" rel="external">模拟百万级TCP并发</a> : 文章说的有点绕，大概的意思是，可以通过<code>libpcap</code>的库，通过伪造IP来模块对一个server的百万链接；感觉其实如果server起多个端口，是不是基本也能达到效果？</p>
+</li>
+<li><p><a href="http://media.weibo.cn/article?id=2309404060623678912231" target="_blank" rel="external">开源|LightGBM：三天内收获GitHub 1000+ 星</a> : 看介绍感觉是不错的一个lib；周末的时候试试</p>
+</li>
+<li><p><a href="https://lwn.net/SubscriberLink/710537/31440d3205ea5d83/" target="_blank" rel="external">Symbolic mathematics on Linux</a> : 软件<a href="">Maxima</a> 下来关注下</p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="http://www.infoq.com/cn/news/2016/12/Exploration-American-takeaway" target="_blank" rel="external">美团外卖系统架构演进与稳定性的探索</a> : 本文系统介绍了稳定性建设的整体思路和想法, 对我们也有不少参考意义；贴吧的稳定性建设随着时间的迁移和演进，有越来越多需要调整和review的地方，而包括流量仓库，在线压测等问题也一直没有彻底解决</p>
+</li>
+<li><p><a href="http://www.infoq.com/cn/articles/how-web-article-utomatically-determine-plagiarism" target="_blank" rel="external">网站文章如何能自动判定是抄袭？一种算法和实践架构剖析</a> : 关于文章相识度判断的一个比较入门的文章，可以让我们对内容相似判定做一个初步的了解，具体算法包括: k-shingle, Simhash 和 minihash; 搜了<a href="https://en.wikipedia.org/wiki/MinHash" target="_blank" rel="external">wiki</a>，上面的结论是: “A large scale evaluation has been conducted by Google in 2006 [10] to compare the performance of Minhash and Simhash[11] algorithms. In 2007 Google reported using Simhash for duplicate detection for web crawling[12] and using Minhash and LSH for Google News personalization.[13]”</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="http://www.geeksforgeeks.org/top-10-algorithms-in-interview-questions/#algo8" target="_blank" rel="external">Top 10 algorithms in Interview Questions</a> : </p>
+</li>
+<li><p><a href="http://www.infoq.com/cn/articles/depth-2016-overview-of-apm" target="_blank" rel="external">解读2016之APM篇：快速增长的国际市场和前沿技术</a> : 可以了解APM市场今年的发展方向和发展趋势; 由此可以看到贴吧的监控体系不足和可以改进之处</p>
+</li>
+<li><p><a href="http://www.freebuf.com/articles/web/124537.html" target="_blank" rel="external">基于约束的SQL攻击</a> : 挺有意思的一个SQL绕过方式；主要依赖的原理是: 如果输入一个超过特意varchar的字段；系统会自动过滤后面的多余空格；基于次，可以构造一个key是重复的记录</p>
+</li>
+</ul>
+<ul>
+<li><a href="http://wiki.c2.com/?TipsForReadingCode" target="_blank" rel="external">Tips For Reading Code</a> : 概述如下:<ul>
+<li>Build and Run the Program</li>
+<li>Find the High-Level Logic</li>
+<li>Draw Some Flowcharts</li>
+<li>Examine Library Calls</li>
+<li>Search for Key Words</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20170101" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -730,78 +822,6 @@
 <li><p><a href="http://www.jianshu.com/p/5ec431089126" target="_blank" rel="external">2016年末闲谈iOS开发的未来</a> : 作者说的两个重要的点，1) 50%的native需求将来会被web化的方案取代; 2) 作者更看好<code>weex</code>，相比于rn</p>
 </li>
 <li><p><a href="https://backchannel.com/how-google-is-remaking-itself-as-a-machine-learning-first-company-ada63defcb70#.al182lo77" target="_blank" rel="external">how-google-is-remaking-itself-as-a-machine-learning-first-company</a> : 文章很长，没有看完，先mark； google把机器学习当做他</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-1030" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/30/1030/">weekly of 20161030</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2016/10/30/1030/" class="article-date">
-  <time datetime="2016-10-29T16:25:11.000Z" itemprop="datePublished">2016-10-30</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="http://seriot.ch/parsing_json.html" target="_blank" rel="external">Parsing JSON is a Minefield</a> : <code>json</code>发展的历史不短, 本文具体说明了Json解析由于规范化等问题导致不同lib的差异性和容错性问题</p>
-</li>
-<li><p><a href="https://codewords.recurse.com/issues/two/git-from-the-inside-out" target="_blank" rel="external">Git from the inside out</a> : 对git internal很好的一个说明, 文章排版也很好</p>
-</li>
-<li><p><a href="http://www.brendangregg.com/blog/2016-10-27/dtrace-for-linux-2016.html" target="_blank" rel="external">DTrace for Linux 2016</a> : “With the final major capability for BPF tracing (timed sampling) merging in Linux 4.9-rc1, the Linux kernel now has raw capabilities similar to those provided by DTrace” ，不过对linux内核要求比较高</p>
-</li>
-<li><p><a href="https://www.linux.com/forums/new-linux/about-benefits-static-code-analyzer-programs" target="_blank" rel="external">About the benefits of a static code analyzer for programs</a> : 可以试试，更自动化，简单的提升服务质量</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="http://tboox.org/cn/2016/10/28/coroutine-context/" target="_blank" rel="external">协程分析之context上下文切换</a> : 很详细的介绍了几个通用的协程库的实现，和其性能对比</p>
-</li>
-<li><p><a href="http://www.infoq.com/cn/articles/spark-graphx-in-action-book-review" target="_blank" rel="external">《Spark GraphX in Action》书评及作者访谈</a> : 图运算是很多现实问题的很好抽象和建模，具体介绍了图运算如何解决显示问题和在spark 里面的实现和应用</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzA5NzkxMzg1Nw==&amp;mid=2653161052&amp;idx=1&amp;sn=db5fa49aeea4e1f6920fc72b12fe6ee9&amp;chksm=8b493b32bc3eb22461c47992e584d2bd6564c5ac798802fec922f3dea6655ec5eb9d9a94eb2c#rd" target="_blank" rel="external">Apache Kylin企业实践</a> : Kylin是一个开源的大数据OLAP框架，百度内部也有自己的OLAP的解决方案, 不过可以了解学习</p>
-</li>
-<li><p><a href="https://ripe73.ripe.net/presentations/35-2016-10-24-v6-performance.pdf" target="_blank" rel="external">Measuring IPv6 Performance</a> : 本文具体探讨了两个问题: 1) How    “reliable” are IPv6 connections 2)How “fast” are IPv6 connections ; 可以让我们对IPV6的现状有更深刻的理解</p>
-</li>
-<li><p><a href="https://kernel.org/doc/html/latest/index.html" target="_blank" rel="external">Welcome to The Linux Kernel’s documentation!</a> : 官方的内核文档，排版基于<code>Sphinx</code>, 样式和内容组织方式都非常漂亮; 上面也有不少干货</p>
-</li>
-<li><p><a href="http://www.infoq.com/cn/news/2016/10/learning-autonomy-time" target="_blank" rel="external">用10%的自主时间提升学习</a> : 共勉</p>
 </li>
 </ul>
 
