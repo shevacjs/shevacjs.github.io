@@ -57,80 +57,6 @@
   </div>
 </header>
     <section id="main" class="outer">
-      <article id="post-nginx_1_9_9" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/19/nginx_1_9_9/">nginx 1.9.9 特性说明</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/12/19/nginx_1_9_9/" class="article-date">
-  <time datetime="2015-12-19T06:17:30.000Z" itemprop="datePublished">2015-12-19</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="feature说明"><a href="#feature说明" class="headerlink" title="feature说明"></a>feature说明</h2><ul>
-<li>pwritev() support.</li>
-<li>the “include” directive inside the “upstream” block.</li>
-<li>the ngx_http_slice_module.</li>
-</ul>
-<h2 id="pwritev说明"><a href="#pwritev说明" class="headerlink" title="pwritev说明"></a>pwritev说明</h2><p><a href="http://linux.die.net/man/2/pwritev" target="_blank" rel="external">pwritev</a>的具体说明可以见链接；nginx在这个版本里面主要用<code>pwritev</code>替代<code>writev</code>的功能；简单的理解，可以认为是将老的:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">lseek(fd, offset);</div><div class="line">writev(fd, iov);</div></pre></td></tr></table></figure>
-<p>改成</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">pwritev()</div></pre></td></tr></table></figure>
-<p>总结的收益是:</p>
-<ul>
-<li>系统调用从2次改成1次，主要是性能方面的</li>
-<li>pwritev() was introduced in FreeBSD 6 and Linux 2.6.30, glibc 2.10</li>
-</ul>
-<p>具体可以参看文档: <a href="http://blog.libtorrent.org/2012/12/principles-of-high-performance-programs/" target="_blank" rel="external">principles of high performance programs</a></p>
-<h2 id="ngx-http-slice-module"><a href="#ngx-http-slice-module" class="headerlink" title="ngx_http_slice_module"></a>ngx_http_slice_module</h2><p><a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html" target="_blank" rel="external">ngx_http_slice_module</a>是新引入的一个功能模块；大概的作用是可以将一个upstream response body 切成那个小块，然后每个单独缓存; 官方原话:</p>
-<blockquote>
-<p>The module makes it<br>possible to split a big upstream response into smaller parts and cache them<br>independently.</p>
-<p>The module supports range requests.  When a part of a file is requested,<br>only the required slice upstream requests are made.  If caching is enabled,<br>future requests will only go to upstream for missing slices.</p>
-</blockquote>
-<p>可以理解的应用场景:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client ---&gt; proxy(nginx) ---&gt; upstream</div></pre></td></tr></table></figure>
-<ul>
-<li>proxy那边会将一个big file切成小块缓存</li>
-</ul>
-<blockquote>
-<p>todo待补充</p>
-</blockquote>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <article id="post-ngx_variable_flag" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -214,6 +140,80 @@
 <li><a href="http://m.blog.csdn.net/blog/dingyujie/7106524" target="_blank" rel="external">[原]nginx脚本引擎与设计设计(三)</a></li>
 <li><a href="http://blog.lifeibo.com/blog/2011/12/17/nginx-varibles.html" target="_blank" rel="external">Nginx源码分析之变量</a></li>
 </ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-nginx_1_9_9" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/19/nginx_1_9_9/">nginx 1.9.9 特性说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/12/19/nginx_1_9_9/" class="article-date">
+  <time datetime="2015-12-19T06:17:30.000Z" itemprop="datePublished">2015-12-19</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="feature说明"><a href="#feature说明" class="headerlink" title="feature说明"></a>feature说明</h2><ul>
+<li>pwritev() support.</li>
+<li>the “include” directive inside the “upstream” block.</li>
+<li>the ngx_http_slice_module.</li>
+</ul>
+<h2 id="pwritev说明"><a href="#pwritev说明" class="headerlink" title="pwritev说明"></a>pwritev说明</h2><p><a href="http://linux.die.net/man/2/pwritev" target="_blank" rel="external">pwritev</a>的具体说明可以见链接；nginx在这个版本里面主要用<code>pwritev</code>替代<code>writev</code>的功能；简单的理解，可以认为是将老的:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">lseek(fd, offset);</div><div class="line">writev(fd, iov);</div></pre></td></tr></table></figure>
+<p>改成</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">pwritev()</div></pre></td></tr></table></figure>
+<p>总结的收益是:</p>
+<ul>
+<li>系统调用从2次改成1次，主要是性能方面的</li>
+<li>pwritev() was introduced in FreeBSD 6 and Linux 2.6.30, glibc 2.10</li>
+</ul>
+<p>具体可以参看文档: <a href="http://blog.libtorrent.org/2012/12/principles-of-high-performance-programs/" target="_blank" rel="external">principles of high performance programs</a></p>
+<h2 id="ngx-http-slice-module"><a href="#ngx-http-slice-module" class="headerlink" title="ngx_http_slice_module"></a>ngx_http_slice_module</h2><p><a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html" target="_blank" rel="external">ngx_http_slice_module</a>是新引入的一个功能模块；大概的作用是可以将一个upstream response body 切成那个小块，然后每个单独缓存; 官方原话:</p>
+<blockquote>
+<p>The module makes it<br>possible to split a big upstream response into smaller parts and cache them<br>independently.</p>
+<p>The module supports range requests.  When a part of a file is requested,<br>only the required slice upstream requests are made.  If caching is enabled,<br>future requests will only go to upstream for missing slices.</p>
+</blockquote>
+<p>可以理解的应用场景:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client ---&gt; proxy(nginx) ---&gt; upstream</div></pre></td></tr></table></figure>
+<ul>
+<li>proxy那边会将一个big file切成小块缓存</li>
+</ul>
+<blockquote>
+<p>todo待补充</p>
+</blockquote>
 
       
     </div>

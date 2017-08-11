@@ -15,7 +15,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://shevacjs.com/images/without_port_reuse.png">
 <meta property="og:image" content="http://shevacjs.com/images/with_port_reuse.png">
-<meta property="og:updated_time" content="2017-08-10T06:46:18.000Z">
+<meta property="og:updated_time" content="2017-08-11T07:25:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx 1.13.4 版本说明">
 <meta name="twitter:description" content="原始feature说明 主要摘录1.13.1/1.13.2新feature  123456*) Feature: the ngx_http_mirror_module.*) Bugfix: client connections might be dropped during configuration   testing when using the &amp;quot;reuseport&amp;quot; p">
@@ -96,6 +96,7 @@
 <a id="more"></a>
 <h3 id="ngx-http-mirror-module"><a href="#ngx-http-mirror-module" class="headerlink" title="ngx_http_mirror_module"></a>ngx_http_mirror_module</h3><p><a href="http://nginx.org/en/docs/http/ngx_http_mirror_module.html" target="_blank" rel="external">ngx_http_mirror_module</a> 是主要功能是支持请求镜像，对于一个请求r而言，nginx除了正常处理r1，还可以fork一个在后台处理的请求r2; 虽然功能听起来很简单，但是个人感觉他的业务应用场景是非常多的，比如:</p>
 <ul>
+<li>实现流量复制/流量放大，可以用于一些压测/自动化测试等场景</li>
 <li>实现nginx pagecache, 请求进来，可以让r2请求按照一定的规则去读取/设置缓存</li>
 <li>实现消息分发/通知, r2可以直接通报给其他的系统，用于消息通知 </li>
 </ul>
