@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2017-08-14T11:51:38.000Z</updated>
+  <updated>2017-08-22T03:31:41.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,63 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20170820</title>
+    <link href="http://shevacjs.com/2017/08/22/20170820/"/>
+    <id>http://shevacjs.com/2017/08/22/20170820/</id>
+    <published>2017-08-22T03:28:45.000Z</published>
+    <updated>2017-08-22T03:31:41.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><p><a href="https://news.ycombinator.com/item?id=15012882" target="_blank" rel="external">64-bit Firefox is the new default on 64-bit Windows</a> : FireFox在windows系统的默认版本将会是64位的程序，Hacker News很有意义，主要讨论了两个点: 1) 迁移64位的困难之处: 主要是扩展(比如Flash)的兼容; 2)迁移64位对crash的影响，由于用于更多的虚拟内存，已经可以更好的分配连续比较大的地址空间, 对JIT之类更为友好</p>
+</li>
+<li><p><a href="https://github.com/GoogleChrome/puppeteer" target="_blank" rel="external">Puppeteer</a> : “Puppeteer is a Node library which provides a high-level API to control headless Chrome over the DevTools Protocol. It can also be configured to use full (non-headless) Chrome”, 个人觉得对一些浏览器上面的自动化工作(比如抓取, 性能分析)都是有非常大的裨益</p>
+</li>
+<li><p><a href="https://research.googleblog.com/2017/08/making-visible-watermarks-more-effective.html" target="_blank" rel="external">Making Visible Watermarks More Effective</a> : 还是Google的研究成果，通过对聚类水印图片的学习，可以更高效的去除图片里面的水印，具体如何实现可以进一步了解, 先mark</p>
+</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><a href="http://www.infoq.com/cn/news/2017/08/Memsniff-Memcached" target="_blank" rel="external">Memsniff：一个健壮的Memcached流量分析工具</a> : 思路是通过分析网络包(tcpdump产出等)，来对memcached进行相关的分析, 有时候应该有用</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li><p><a href="http://h14s.p5r.org/2012/09/0x5f3759df.html" target="_blank" rel="external">0x5f3759df</a> : “This post is about the magic constant 0x5f3759df and an extremely neat hack, fast inverse square root, which is where the constant comes from.”, mark</p>
+</li>
+<li><p><a href="http://io.upyun.com/2017/08/19/nginx-signals/" target="_blank" rel="external">谈谈 nginx 信号集</a> : 关于nginx信号的一些细节，梳理的很清楚，可以加深理解</p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><a href="http://www.infoq.com/cn/news/2017/08/Spark-on-Angel-swift" target="_blank" rel="external">Spark on Angel：Spark机器学习的核心加速器</a> : 本文具体介绍了腾讯<a href="https://github.com/Tencent/angel" target="_blank" rel="external">Angle</a> 参数服务器如何和spark有效结合的策略, 对于机器学习工程架构有兴趣的可以好好看下</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://medium.com/@ageitgey/machine-learning-is-fun-80ea3ec3c471" target="_blank" rel="external">Machine Learning is Fun!</a> : “The world’s easiest introduction to Machine Learning”，也有<a href="https://zhuanlan.zhihu.com/p/24339995" target="_blank" rel="external">中文版</a>, 先mark</p>
+</li>
+<li><p><a href="http://www.infoq.com/cn/minibooks/profile-in-practice?utm_campaign=rightbar_v2&amp;utm_source=infoq&amp;utm_medium=minibooks_link&amp;utm_content=link_text" target="_blank" rel="external">架构师特刊：用户画像实践</a> : Infoq<a href="http://www.infoq.com/cn/minibooks?utm_source=infoq&amp;utm_medium=breadcrumbs_feature&amp;utm_campaign=breadcrumbs" target="_blank" rel="external">架构师特刊</a>里面的系列专刊，专门介绍用户画像的实践，有不少干货</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=15012882&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;64-bit Firefox is the new default on 64-bit Windows&lt;/a&gt; : FireFox在windows系统的默认版本将会是64位的程序，Hacker News很有意义，主要讨论了两个点: 1) 迁移64位的困难之处: 主要是扩展(比如Flash)的兼容; 2)迁移64位对crash的影响，由于用于更多的虚拟内存，已经可以更好的分配连续比较大的地址空间, 对JIT之类更为友好&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/GoogleChrome/puppeteer&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Puppeteer&lt;/a&gt; : “Puppeteer is a Node library which provides a high-level API to control headless Chrome over the DevTools Protocol. It can also be configured to use full (non-headless) Chrome”, 个人觉得对一些浏览器上面的自动化工作(比如抓取, 性能分析)都是有非常大的裨益&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://research.googleblog.com/2017/08/making-visible-watermarks-more-effective.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Making Visible Watermarks More Effective&lt;/a&gt; : 还是Google的研究成果，通过对聚类水印图片的学习，可以更高效的去除图片里面的水印，具体如何实现可以进一步了解, 先mark&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.infoq.com/cn/news/2017/08/Memsniff-Memcached&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Memsniff：一个健壮的Memcached流量分析工具&lt;/a&gt; : 思路是通过分析网络包(tcpdump产出等)，来对memcached进行相关的分析, 有时候应该有用&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20170813</title>
@@ -425,6 +482,134 @@
   </entry>
   
   <entry>
+    <title>关于贝叶斯分类</title>
+    <link href="http://shevacjs.com/2017/07/21/bayes/"/>
+    <id>http://shevacjs.com/2017/07/21/bayes/</id>
+    <published>2017-07-20T16:25:11.000Z</published>
+    <updated>2017-07-21T11:17:33.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>by chenjiansen</p>
+</blockquote>
+<h3 id="判定模型与生成模型"><a href="#判定模型与生成模型" class="headerlink" title="判定模型与生成模型"></a>判定模型与生成模型</h3><p>判定模型的理论基础 :</p>
+<p>$$ y = p(y | x : \theta) $$</p>
+<p>生成模型</p>
+<p>$$ y = p( y | x) = p(x,y) / p(x) = p(x|y) p(y) / p(x) $$</p>
+<p>此时我们会考虑使用$p(x|y)p(y)$ 来评估$p(y|x)$ ，是一个联合概率的考虑</p>
+<h3 id="Native-Bayes"><a href="#Native-Bayes" class="headerlink" title="Native Bayes"></a>Native Bayes</h3><p>考虑判断一个邮件是否是垃圾邮件；我们设定如下的模型: </p>
+<ul>
+<li>$x$ 为输入向量；其中$x_i^{(j)}$ 表示第$i$个样本的第$j$维的特征值,  任何一个邮件可以用如下的形式表示 : </li>
+</ul>
+<p>$$x=\left[ \begin{array}{cc} 0 &amp; a_0\\ 1 &amp; a_1 \\ 1 &amp; a_2\\ 0  &amp; a_3 \\ 1 &amp; a_4 \\ .. &amp; .. \end{array} \right]$$</p>
+<p>其中第$i$行代表着单词$a_i$是否出现在这个邮件里面；$|A|$ 表示着词汇量的个数，也是也是输入特征$x$的维度</p>
+<ul>
+<li>$y$为输入结果,  这里面设定 $y=1$为垃圾邮件，否则$y=0$</li>
+</ul>
+<p>这里，我们准备使用<code>朴素贝叶斯</code>的方法解决分类问题，如上面生成模型的说明, 我们的求解问题转化为:</p>
+<p>$ p(y|x) = p(x|y) p(y) / p(x) $</p>
+<p>我们约定如下: </p>
+<p>$$\phi_{i|y=1} = p(x_i = 1 | y = 1)$$<br>$$\phi_{i|y=0} = p(x_i = 1 | y = 0)$$<br>$$\phi_y = p(y = 1) $$</p>
+<p>则有 : </p>
+<p>$$ \phi_{i|y=1} = \frac{\sum_{i=0}^{m} 1 {x_j^{(i)} = 1 \ and \  y^{(i)} = 1}}{\sum_{i=0}^{m} 1 { y^{(i)} = 1}}$$</p>
+<p>其他的$\phi_{i|y=0} , \phi_y$ 同理易得</p>
+<p>则在样本输入${x^{(i)}, y^{(i)}}, i = 0, 1, 2 …$ 的情况下；对于上面的分类问题，我们可以先求解:</p>
+<p>$$ P(y=1\ |x) = P(x|y=1) P(y=1) / P(x) \\ = \frac{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) P(y=1)}{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) + (\prod_{i=0}^{m}P(x_i\ |y = 0))}$$</p>
+<p>上面的$\prod$ 展开是依赖于所谓的<code>贝叶斯假设</code>， 也就是对于给定的结果$y$, 事件$x_i$相对于$y$是独立分布的, 也就是有: </p>
+<p>$$P(x_1,x_2,…,x_n\ |\ y) = p(x_1|y)p(x_2|y,x_1)….p(x_n|y,x_1,x_2, …) \\ = p(x_1|y)p(x_2|y) … p(x_n|y) \\ = \prod_{i=1}^{n} p(x_i|y)$$</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://guangchun.wordpress.com/2011/10/13/ml-bayes-map/" target="_blank" rel="external">参数估计：最大似然、贝叶斯与最大后验</a> </li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;by chenjiansen&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;判定模型与生成模型&quot;&gt;&lt;a href=&quot;#判定模型与生成模型&quot; class=&quot;headerlink&quot; title=&quot;判定模型与生成模型&quot;&gt;&lt;/a&gt;判定模型与生成模型&lt;
+    
+    </summary>
+    
+    
+      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于CTR预估的算法</title>
+    <link href="http://shevacjs.com/2017/07/21/ctr/"/>
+    <id>http://shevacjs.com/2017/07/21/ctr/</id>
+    <published>2017-07-20T16:25:11.000Z</published>
+    <updated>2017-07-21T11:17:05.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>偏实践应用, by chenjiansen</p>
+<p><code>WARN</code>, 个人理解, 应该是多有谬误</p>
+</blockquote>
+<h3 id="关于CTR预估"><a href="#关于CTR预估" class="headerlink" title="关于CTR预估"></a>关于CTR预估</h3><p>在很多推荐系统里面，rank是一个关键的环节；从不同召回源获取到的数据, 按照哪种排序方式推荐给用户是一个关键的问题; 所谓的<code>CTR预估</code>就是希望我们能对输出的list 做一个合适的点击预估; 抽象起来其实就是算一个item被点击的概率或者可能性；</p>
+<p>这个问题映射为机器学习里面的算法，现在常见的，使用广泛的主要有如下几个算法: </p>
+<h3 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h3><p>映射为LR算法，可以理解为，就是要预测一个算法被判为正例(‘click’)的概率；由于LR算法的输出是一个概率值, 所以可以直接用来sort;</p>
+<p>同时LR由于具有比较好的实现和调试；是早期大家使用较为广泛的Rank算法;</p>
+<h2 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h2><h2 id="FM"><a href="#FM" class="headerlink" title="FM"></a>FM</h2><p>考虑到我们这特征输入的时候，可能有如下几个问题: </p>
+<ul>
+<li>数据稀疏</li>
+<li>特征之间存在一些关联性</li>
+</ul>
+<p>传统的LR算法的$h_\theta(x) = \theta^Tx$，显然可能不适合此类数据，一个简单是思路是引入二次项，包含关联关系的预估, 如下 : </p>
+<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n w_{ij}x_ix_j$$</p>
+<p>这个表达共有$\frac{n(n-1)}{2}$个模型参数,  我们需要训练这么多参数，但是该表达式存在如下问题: </p>
+<ul>
+<li>由于每个$w_{ij}$ 都需要大量$x_i$和$x_j$非零的情况下进行预估，但是样本数据本来就比较稀疏，这将导致整个样本训练的难度非常大</li>
+</ul>
+<p>一个思路是: “所有二次项参数$w_{ij}$可以组成一个对称阵 $W$，那么这个矩阵就可以分解为 $W=V^TV=VV^T$，$V$ 的第 $j$ 列便是第 $j$维特征的隐向量。换句话说，每个参数 $w_{ij}=<v_i,v_j>$” ，所以上面可以转化为 : </v_i,v_j></p>
+<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j$$</v_i,></p>
+<p>其中: </p>
+<ul>
+<li>$v_i$ : 是一个k阶的隐向量$(k &lt;&lt; n)$</li>
+<li>$&lt; , &gt; $代表点积</li>
+</ul>
+<p>为了求上面式子的优化解，我们继续拆分有: </p>
+<p>$$\sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j = \frac{1}{2} \sum_{f=1}^k( (\sum_{i=1}^n v_{i,f} x_i)^2 - \sum_{i=1}^nv_{i,f}^2x_i^2)$$</v_i,></p>
+<p>可以证明FM参数的训练模型是$0(kn)$</p>
+<h3 id="FFM"><a href="#FFM" class="headerlink" title="FFM"></a>FFM</h3><p>基于FM，我们再分析他模型可能存在的问题:  </p>
+<p>在FM模型里面，我们为每个特征定义一个隐向量$\overrightarrow{v_i}$ , $\overrightarrow{v_i}$ 的估计是基于和其他参数的$\overrightarrow{v_j}$的相关性计算而成；这里面就有一个假设，就是任何其他特征对改特征的影响是一致的；但有时候，这个假设不一定合适；所以，我们引入所谓的<code>Field-aware Factorization Machine</code></p>
+<p>在FFM模型里面，每个特征都属于某个field; 所以隐向量不仅和特征有关，也和field有关; 假设样本的 n 个特征属于 f个field，那么FFM的二次项有 nf 个隐向量。而在FM模型中，每一维特征的隐向量只有一个。FM可以看作FFM的特例，是把所有特征都归属到一个field时的FFM模型。其方程可以表达为: </p>
+<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_{i,f_j}, v_{j,f_i}="">x_ix_j$$</v_{i,f_j},></p>
+<p>其中: </p>
+<ul>
+<li>$f_j$是第$j$个特征所属的<code>field</code></li>
+<li>$v_{i,j}$ 表明特征$i$,和 $j$ ，对应的隐向量，其中 $ j \in {  1, 2, 3, … , f }$</li>
+</ul>
+<p>可以看到FFM模型，共有<code>nfk</code>个待学习参数, 其预测复杂度是 $O(kn^2)$</p>
+<p>关于FM和FFM，本质上，都是希望寻找一个模型，能够表征不同特征直接的关联关系；<code>FFM</code>可以理解是在具体应用上面的一个折衷；具有较好的可适应性</p>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><h4 id="FFM-如何落地应用"><a href="#FFM-如何落地应用" class="headerlink" title="FFM 如何落地应用"></a>FFM 如何落地应用</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><p><a href="https://www.zhihu.com/question/26154847" target="_blank" rel="external">广告ctr预估有什么值得推荐的论文？</a> : 好多资料</p>
+</li>
+<li><p><a href="http://tech.meituan.com/deep-understanding-of-ffm-principles-and-practices.html" target="_blank" rel="external">深入FFM原理与实践</a> : 关于<code>FM</code>和<code>FFM</code>的介绍，说的挺清楚的，主要是参考他理解的</p>
+</li>
+<li><p><a href="http://www.jianshu.com/p/005a4e6ac775" target="_blank" rel="external">GBDT：梯度提升决策树</a> : </p>
+</li>
+<li><p><a href="https://www.csie.ntu.edu.tw/~cjlin/libffm/" target="_blank" rel="external">LIBFFM: A Library for Field-aware Factorization Machines</a> : 关于FFM</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;偏实践应用, by chenjiansen&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;WARN&lt;/code&gt;, 个人理解, 应该是多有谬误&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;关于CTR预估&quot;&gt;&lt;a href=&quot;#关于CTR预估&quot; class=&quot;h
+    
+    </summary>
+    
+    
+      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Supervised learning ： Linear Regression</title>
     <link href="http://shevacjs.com/2017/07/21/Supervised_Learning/"/>
     <id>http://shevacjs.com/2017/07/21/Supervised_Learning/</id>
@@ -513,71 +698,50 @@
   </entry>
   
   <entry>
-    <title>关于CTR预估的算法</title>
-    <link href="http://shevacjs.com/2017/07/21/ctr/"/>
-    <id>http://shevacjs.com/2017/07/21/ctr/</id>
+    <title>关于AdaBoost&amp;Boosting</title>
+    <link href="http://shevacjs.com/2017/07/21/boosting/"/>
+    <id>http://shevacjs.com/2017/07/21/boosting/</id>
     <published>2017-07-20T16:25:11.000Z</published>
-    <updated>2017-07-21T11:17:05.000Z</updated>
+    <updated>2017-07-27T17:29:56.000Z</updated>
     
-    <content type="html"><![CDATA[<blockquote>
-<p>偏实践应用, by chenjiansen</p>
-<p><code>WARN</code>, 个人理解, 应该是多有谬误</p>
-</blockquote>
-<h3 id="关于CTR预估"><a href="#关于CTR预估" class="headerlink" title="关于CTR预估"></a>关于CTR预估</h3><p>在很多推荐系统里面，rank是一个关键的环节；从不同召回源获取到的数据, 按照哪种排序方式推荐给用户是一个关键的问题; 所谓的<code>CTR预估</code>就是希望我们能对输出的list 做一个合适的点击预估; 抽象起来其实就是算一个item被点击的概率或者可能性；</p>
-<p>这个问题映射为机器学习里面的算法，现在常见的，使用广泛的主要有如下几个算法: </p>
-<h3 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h3><p>映射为LR算法，可以理解为，就是要预测一个算法被判为正例(‘click’)的概率；由于LR算法的输出是一个概率值, 所以可以直接用来sort;</p>
-<p>同时LR由于具有比较好的实现和调试；是早期大家使用较为广泛的Rank算法;</p>
-<h2 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h2><h2 id="FM"><a href="#FM" class="headerlink" title="FM"></a>FM</h2><p>考虑到我们这特征输入的时候，可能有如下几个问题: </p>
-<ul>
-<li>数据稀疏</li>
-<li>特征之间存在一些关联性</li>
-</ul>
-<p>传统的LR算法的$h_\theta(x) = \theta^Tx$，显然可能不适合此类数据，一个简单是思路是引入二次项，包含关联关系的预估, 如下 : </p>
-<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n w_{ij}x_ix_j$$</p>
-<p>这个表达共有$\frac{n(n-1)}{2}$个模型参数,  我们需要训练这么多参数，但是该表达式存在如下问题: </p>
-<ul>
-<li>由于每个$w_{ij}$ 都需要大量$x_i$和$x_j$非零的情况下进行预估，但是样本数据本来就比较稀疏，这将导致整个样本训练的难度非常大</li>
-</ul>
-<p>一个思路是: “所有二次项参数$w_{ij}$可以组成一个对称阵 $W$，那么这个矩阵就可以分解为 $W=V^TV=VV^T$，$V$ 的第 $j$ 列便是第 $j$维特征的隐向量。换句话说，每个参数 $w_{ij}=<v_i,v_j>$” ，所以上面可以转化为 : </v_i,v_j></p>
-<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j$$</v_i,></p>
-<p>其中: </p>
-<ul>
-<li>$v_i$ : 是一个k阶的隐向量$(k &lt;&lt; n)$</li>
-<li>$&lt; , &gt; $代表点积</li>
-</ul>
-<p>为了求上面式子的优化解，我们继续拆分有: </p>
-<p>$$\sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j = \frac{1}{2} \sum_{f=1}^k( (\sum_{i=1}^n v_{i,f} x_i)^2 - \sum_{i=1}^nv_{i,f}^2x_i^2)$$</v_i,></p>
-<p>可以证明FM参数的训练模型是$0(kn)$</p>
-<h3 id="FFM"><a href="#FFM" class="headerlink" title="FFM"></a>FFM</h3><p>基于FM，我们再分析他模型可能存在的问题:  </p>
-<p>在FM模型里面，我们为每个特征定义一个隐向量$\overrightarrow{v_i}$ , $\overrightarrow{v_i}$ 的估计是基于和其他参数的$\overrightarrow{v_j}$的相关性计算而成；这里面就有一个假设，就是任何其他特征对改特征的影响是一致的；但有时候，这个假设不一定合适；所以，我们引入所谓的<code>Field-aware Factorization Machine</code></p>
-<p>在FFM模型里面，每个特征都属于某个field; 所以隐向量不仅和特征有关，也和field有关; 假设样本的 n 个特征属于 f个field，那么FFM的二次项有 nf 个隐向量。而在FM模型中，每一维特征的隐向量只有一个。FM可以看作FFM的特例，是把所有特征都归属到一个field时的FFM模型。其方程可以表达为: </p>
-<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_{i,f_j}, v_{j,f_i}="">x_ix_j$$</v_{i,f_j},></p>
-<p>其中: </p>
-<ul>
-<li>$f_j$是第$j$个特征所属的<code>field</code></li>
-<li>$v_{i,j}$ 表明特征$i$,和 $j$ ，对应的隐向量，其中 $ j \in {  1, 2, 3, … , f }$</li>
-</ul>
-<p>可以看到FFM模型，共有<code>nfk</code>个待学习参数, 其预测复杂度是 $O(kn^2)$</p>
-<p>关于FM和FFM，本质上，都是希望寻找一个模型，能够表征不同特征直接的关联关系；<code>FFM</code>可以理解是在具体应用上面的一个折衷；具有较好的可适应性</p>
-<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><h4 id="FFM-如何落地应用"><a href="#FFM-如何落地应用" class="headerlink" title="FFM 如何落地应用"></a>FFM 如何落地应用</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><p><a href="https://www.zhihu.com/question/26154847" target="_blank" rel="external">广告ctr预估有什么值得推荐的论文？</a> : 好多资料</p>
-</li>
-<li><p><a href="http://tech.meituan.com/deep-understanding-of-ffm-principles-and-practices.html" target="_blank" rel="external">深入FFM原理与实践</a> : 关于<code>FM</code>和<code>FFM</code>的介绍，说的挺清楚的，主要是参考他理解的</p>
-</li>
-<li><p><a href="http://www.jianshu.com/p/005a4e6ac775" target="_blank" rel="external">GBDT：梯度提升决策树</a> : </p>
-</li>
-<li><p><a href="https://www.csie.ntu.edu.tw/~cjlin/libffm/" target="_blank" rel="external">LIBFFM: A Library for Field-aware Factorization Machines</a> : 关于FFM</p>
-</li>
-</ul>
+    <content type="html"><![CDATA[<p>核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;</p>
+<h3 id="About-AdaBoost"><a href="#About-AdaBoost" class="headerlink" title="About AdaBoost"></a>About AdaBoost</h3><p>AdaBoost的算法归纳如下: </p>
+<p>假设输入样本如下: </p>
+<p>$${ (x_1, y_1,), … (x_n, y_n) }$$</p>
+<p>且 $y \in  { -1, 1}$</p>
+<p>且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果</p>
+<p>则在$m-1$次迭代之后，我们的boost分类器可以表达如下: </p>
+<p>$$C_{(m-1)}(x_i) = \alpha_1k_1(x_i) + … + \alpha_{m-1}k_{m-1}(x_i)$$</p>
+<p>对第m次迭代后，我们的目标分类器的表达式可以表述为: </p>
+<p>$$C_m(x_i) = C_{(m-1)}(xi) + \alpha_mk_m(x_i)$$</p>
+<p>则问题转化为: 我们需要明确$\alpha_m$ 和 $k_m$的值 ;</p>
+<p>设我们的损失函数定义如下: (<code>mark</code>)</p>
+<p>$$E = \sum_{i=1}^n e^{-y_iC_m(x_i)}$$</p>
+<p>令$w_i^{(1)} = 1, w_i^{(m)} = e^{-y_iC_{m-1}(x_i)}$, 则有: </p>
+<p>$$ E = \sum_{i=1}^n w_i^{(m)} e^{-y_i\alpha_mk_m(x_i)}$$</p>
+<p>由于$y_i*k_m(x_i) \in { -1, 1 }$,  则有:</p>
+<p>$$ E = \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m} $$<br>$$ = \sum_{i=1}^N w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)} (e^{\alpha_m}   - e^{-\alpha_m} )$$</p>
+<p>从而可以看到我们关注的$k_m$对E的影响，仅表现在等式右侧,  其需要最小化$\sum _{yi \neq k_m(x_i)} w_i^{(m)}$ </p>
+<p>在考虑$\alpha_m$的取值: </p>
+<p>$$\frac{d E}{d \alpha_m} = - \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m}  $$</p>
+<p>令其取值为0； 则有: </p>
+<p>$$ \alpha_m = \frac{1}{2} \ln( \frac{\sum _{yi=k_m(x_i)} w_i^{(m)} }{\sum _{yi \neq k_m(x_i)} w_i^{(m)}}$$</p>
+<p>令 $\epsilon_m =  {\sum _{yi \neq k_m(x_i)} w_i^{(m)}} / \sum_{i=1}^n w_i^{(m)}$, 则有 : </p>
+<p>$$ \alpha_m = \frac{1}{2} \ln(\frac{1-\epsilon_m}{\epsilon_m})$$</p>
+<p>上面就是我们最常见的算法；</p>
+<p>概述如下：</p>
+<p>At each iteration, choose the classifier $k_{m}$ which minimizes the total weighted error :</p>
+<p>$$\sum_{y_i \neq k_m(x_i)}w_i^m $$</p>
+<p>use this to calculate the error rate </p>
+<p>$$\epsilon_m=\sum_{y_{i}\neq k_{m}(x_{i})}w_{i}^m/\sum_{i=1}^{N}w_{i}^m$$</p>
+<p>use this to calculate the weight<br>$$\alpha_m = \frac{1}{2}\ln\left( \frac{1 - \epsilon_m}{\epsilon_m}\right)$$</p>
+<p>and finally use this to improve the boosted classifier $C_NaN$ to $C_=C_NaN+\alpha _{m}k_{m}$<br>上面所述全来自wiki:  <a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="external">https://en.wikipedia.org/wiki/AdaBoost</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;blockquote&gt;
-&lt;p&gt;偏实践应用, by chenjiansen&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;WARN&lt;/code&gt;, 个人理解, 应该是多有谬误&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;关于CTR预估&quot;&gt;&lt;a href=&quot;#关于CTR预估&quot; class=&quot;h
+      &lt;p&gt;核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;&lt;/p&gt;
+&lt;h3 id=&quot;About-AdaBoost&quot;&gt;&lt;a href=&quot;#About-AdaBoost&quot; class=&quot;headerlink&quot; title=&quot;About AdaBoost&quot;&gt;&lt;/a&gt;About
     
     </summary>
     
@@ -650,113 +814,6 @@
     
       &lt;h2 id=&quot;思路&quot;&gt;&lt;a href=&quot;#思路&quot; class=&quot;headerlink&quot; title=&quot;思路&quot;&gt;&lt;/a&gt;思路&lt;/h2&gt;&lt;p&gt;SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务;&lt;/p&gt;
 &lt;p&gt;一个直观的理解是: 我们构造的
-    
-    </summary>
-    
-    
-      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关于AdaBoost&amp;Boosting</title>
-    <link href="http://shevacjs.com/2017/07/21/boosting/"/>
-    <id>http://shevacjs.com/2017/07/21/boosting/</id>
-    <published>2017-07-20T16:25:11.000Z</published>
-    <updated>2017-07-27T17:29:56.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;</p>
-<h3 id="About-AdaBoost"><a href="#About-AdaBoost" class="headerlink" title="About AdaBoost"></a>About AdaBoost</h3><p>AdaBoost的算法归纳如下: </p>
-<p>假设输入样本如下: </p>
-<p>$${ (x_1, y_1,), … (x_n, y_n) }$$</p>
-<p>且 $y \in  { -1, 1}$</p>
-<p>且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果</p>
-<p>则在$m-1$次迭代之后，我们的boost分类器可以表达如下: </p>
-<p>$$C_{(m-1)}(x_i) = \alpha_1k_1(x_i) + … + \alpha_{m-1}k_{m-1}(x_i)$$</p>
-<p>对第m次迭代后，我们的目标分类器的表达式可以表述为: </p>
-<p>$$C_m(x_i) = C_{(m-1)}(xi) + \alpha_mk_m(x_i)$$</p>
-<p>则问题转化为: 我们需要明确$\alpha_m$ 和 $k_m$的值 ;</p>
-<p>设我们的损失函数定义如下: (<code>mark</code>)</p>
-<p>$$E = \sum_{i=1}^n e^{-y_iC_m(x_i)}$$</p>
-<p>令$w_i^{(1)} = 1, w_i^{(m)} = e^{-y_iC_{m-1}(x_i)}$, 则有: </p>
-<p>$$ E = \sum_{i=1}^n w_i^{(m)} e^{-y_i\alpha_mk_m(x_i)}$$</p>
-<p>由于$y_i*k_m(x_i) \in { -1, 1 }$,  则有:</p>
-<p>$$ E = \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m} $$<br>$$ = \sum_{i=1}^N w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)} (e^{\alpha_m}   - e^{-\alpha_m} )$$</p>
-<p>从而可以看到我们关注的$k_m$对E的影响，仅表现在等式右侧,  其需要最小化$\sum _{yi \neq k_m(x_i)} w_i^{(m)}$ </p>
-<p>在考虑$\alpha_m$的取值: </p>
-<p>$$\frac{d E}{d \alpha_m} = - \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m}  $$</p>
-<p>令其取值为0； 则有: </p>
-<p>$$ \alpha_m = \frac{1}{2} \ln( \frac{\sum _{yi=k_m(x_i)} w_i^{(m)} }{\sum _{yi \neq k_m(x_i)} w_i^{(m)}}$$</p>
-<p>令 $\epsilon_m =  {\sum _{yi \neq k_m(x_i)} w_i^{(m)}} / \sum_{i=1}^n w_i^{(m)}$, 则有 : </p>
-<p>$$ \alpha_m = \frac{1}{2} \ln(\frac{1-\epsilon_m}{\epsilon_m})$$</p>
-<p>上面就是我们最常见的算法；</p>
-<p>概述如下：</p>
-<p>At each iteration, choose the classifier $k_{m}$ which minimizes the total weighted error :</p>
-<p>$$\sum_{y_i \neq k_m(x_i)}w_i^m $$</p>
-<p>use this to calculate the error rate </p>
-<p>$$\epsilon_m=\sum_{y_{i}\neq k_{m}(x_{i})}w_{i}^m/\sum_{i=1}^{N}w_{i}^m$$</p>
-<p>use this to calculate the weight<br>$$\alpha_m = \frac{1}{2}\ln\left( \frac{1 - \epsilon_m}{\epsilon_m}\right)$$</p>
-<p>and finally use this to improve the boosted classifier $C_NaN$ to $C_=C_NaN+\alpha _{m}k_{m}$<br>上面所述全来自wiki:  <a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="external">https://en.wikipedia.org/wiki/AdaBoost</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;&lt;/p&gt;
-&lt;h3 id=&quot;About-AdaBoost&quot;&gt;&lt;a href=&quot;#About-AdaBoost&quot; class=&quot;headerlink&quot; title=&quot;About AdaBoost&quot;&gt;&lt;/a&gt;About
-    
-    </summary>
-    
-    
-      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关于贝叶斯分类</title>
-    <link href="http://shevacjs.com/2017/07/21/bayes/"/>
-    <id>http://shevacjs.com/2017/07/21/bayes/</id>
-    <published>2017-07-20T16:25:11.000Z</published>
-    <updated>2017-07-21T11:17:33.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>by chenjiansen</p>
-</blockquote>
-<h3 id="判定模型与生成模型"><a href="#判定模型与生成模型" class="headerlink" title="判定模型与生成模型"></a>判定模型与生成模型</h3><p>判定模型的理论基础 :</p>
-<p>$$ y = p(y | x : \theta) $$</p>
-<p>生成模型</p>
-<p>$$ y = p( y | x) = p(x,y) / p(x) = p(x|y) p(y) / p(x) $$</p>
-<p>此时我们会考虑使用$p(x|y)p(y)$ 来评估$p(y|x)$ ，是一个联合概率的考虑</p>
-<h3 id="Native-Bayes"><a href="#Native-Bayes" class="headerlink" title="Native Bayes"></a>Native Bayes</h3><p>考虑判断一个邮件是否是垃圾邮件；我们设定如下的模型: </p>
-<ul>
-<li>$x$ 为输入向量；其中$x_i^{(j)}$ 表示第$i$个样本的第$j$维的特征值,  任何一个邮件可以用如下的形式表示 : </li>
-</ul>
-<p>$$x=\left[ \begin{array}{cc} 0 &amp; a_0\\ 1 &amp; a_1 \\ 1 &amp; a_2\\ 0  &amp; a_3 \\ 1 &amp; a_4 \\ .. &amp; .. \end{array} \right]$$</p>
-<p>其中第$i$行代表着单词$a_i$是否出现在这个邮件里面；$|A|$ 表示着词汇量的个数，也是也是输入特征$x$的维度</p>
-<ul>
-<li>$y$为输入结果,  这里面设定 $y=1$为垃圾邮件，否则$y=0$</li>
-</ul>
-<p>这里，我们准备使用<code>朴素贝叶斯</code>的方法解决分类问题，如上面生成模型的说明, 我们的求解问题转化为:</p>
-<p>$ p(y|x) = p(x|y) p(y) / p(x) $</p>
-<p>我们约定如下: </p>
-<p>$$\phi_{i|y=1} = p(x_i = 1 | y = 1)$$<br>$$\phi_{i|y=0} = p(x_i = 1 | y = 0)$$<br>$$\phi_y = p(y = 1) $$</p>
-<p>则有 : </p>
-<p>$$ \phi_{i|y=1} = \frac{\sum_{i=0}^{m} 1 {x_j^{(i)} = 1 \ and \  y^{(i)} = 1}}{\sum_{i=0}^{m} 1 { y^{(i)} = 1}}$$</p>
-<p>其他的$\phi_{i|y=0} , \phi_y$ 同理易得</p>
-<p>则在样本输入${x^{(i)}, y^{(i)}}, i = 0, 1, 2 …$ 的情况下；对于上面的分类问题，我们可以先求解:</p>
-<p>$$ P(y=1\ |x) = P(x|y=1) P(y=1) / P(x) \\ = \frac{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) P(y=1)}{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) + (\prod_{i=0}^{m}P(x_i\ |y = 0))}$$</p>
-<p>上面的$\prod$ 展开是依赖于所谓的<code>贝叶斯假设</code>， 也就是对于给定的结果$y$, 事件$x_i$相对于$y$是独立分布的, 也就是有: </p>
-<p>$$P(x_1,x_2,…,x_n\ |\ y) = p(x_1|y)p(x_2|y,x_1)….p(x_n|y,x_1,x_2, …) \\ = p(x_1|y)p(x_2|y) … p(x_n|y) \\ = \prod_{i=1}^{n} p(x_i|y)$$</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://guangchun.wordpress.com/2011/10/13/ml-bayes-map/" target="_blank" rel="external">参数估计：最大似然、贝叶斯与最大后验</a> </li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;by chenjiansen&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;判定模型与生成模型&quot;&gt;&lt;a href=&quot;#判定模型与生成模型&quot; class=&quot;headerlink&quot; title=&quot;判定模型与生成模型&quot;&gt;&lt;/a&gt;判定模型与生成模型&lt;
     
     </summary>
     
@@ -1072,35 +1129,6 @@
     
       &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=14446350&quot; t
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170528</title>
-    <link href="http://shevacjs.com/2017/05/28/20170528/"/>
-    <id>http://shevacjs.com/2017/05/28/20170528/</id>
-    <published>2017-05-28T12:30:52.000Z</published>
-    <updated>2017-07-21T04:21:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://nickcraver.com/blog/2016/02/17/stack-overflow-the-architecture-2016-edition/" target="_blank" rel="external">Stack Overflow: The Architecture - 2016 Edition</a> : 内容和设计上面没有太大的亮点，感觉可以关注的是其介绍架构的方法&amp;思路</p>
-</li>
-<li><p><a href="https://nickcraver.com/blog/2017/05/22/https-on-stack-overflow/#mistakes" target="_blank" rel="external">HTTPS on Stack Overflow: The End of a Long Road</a> : 还是stack overflow的文章, 具体介绍其迁移https的艰难历程</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><a href="https://mp.weixin.qq.com/s/AIZQ5-F5AngdIESNCXngWw" target="_blank" rel="external">阿里下一代数据库技术：把数据库装入容器不再是神话</a> : 先mark</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技
     
     </summary>
     
