@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2017-08-22T03:31:41.000Z</updated>
+  <updated>2017-08-28T04:12:35.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,69 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20170827</title>
+    <link href="http://shevacjs.com/2017/08/28/20170827/"/>
+    <id>http://shevacjs.com/2017/08/28/20170827/</id>
+    <published>2017-08-28T04:12:45.000Z</published>
+    <updated>2017-08-28T04:12:35.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><p><a href="https://www.android.com/versions/oreo-8-0/" target="_blank" rel="external">Android Oreo</a> : Google发布安卓8.0, 加入一系列新特性, 包括引入支持模块化框架的<a href="https://android-developers.googleblog.com/2017/05/here-comes-treble-modular-base-for.html" target="_blank" rel="external">Treble</a></p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=15068278" target="_blank" rel="external">Initial Hammer2 filesystem implementation</a> : Hammer2 FS是一个类似于<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.184.3704&amp;rep=rep1&amp;type=pdf" target="_blank" rel="external">ZFS</a>的大型分布式文件系统，支持一系列新特性，可以了解下现在最近文件系统的<a href="https://gitweb.dragonflybsd.org/dragonfly.git/blob_plain/HEAD:/sys/vfs/hammer2/DESIGN" target="_blank" rel="external">设计思路和理念</a></p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=15090424" target="_blank" rel="external">Introducing App Engine Firewall (googleblog.com)</a> : Google App Engine推出的新功能，支持配置一个服务的防火墙，这样可以避免代码上面做改动</p>
+</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><a href="https://cppcon2017.sched.com/event/Bgsj/time-travel-debugging-root-causing-bugs-in-commercial-scale-software" target="_blank" rel="external">Time Travel Debugging: Root Causing Bugs in Commercial Scale Software</a> : 微软开发支持了基于<code>Time Travel Debugging</code>的机制，不过具体这个机制还不是很了解，先mark，等到时候具体talk出来再深究</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li><p><a href="http://ialloc.org/tags.html#nginx-ref" target="_blank" rel="external">nginx源码笔记</a> : 该blog对nginx的实践机制有不少非常深刻的说明，对nginx有兴趣的同学可以多看看</p>
+</li>
+<li><p><a href="https://medium.freecodecamp.org/why-i-still-use-vim-67afd76b4db6" target="_blank" rel="external">Why I Still Use Vim</a> :  “it’s not because I can’t figure out how to close it”, 和其他的编辑器对比了启动时间，内存消耗等特性，vim还是非常精巧的, 上面也推荐了不少vim相关的资料，可以收藏</p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><a href="http://daily.zhihu.com/story/9583047" target="_blank" rel="external">如何快速成为数据分析师?</a> : </li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://mp.weixin.qq.com/s/TjFzJVOowfceHwJNUItcxQ" target="_blank" rel="external">从语言学到深度学习NLP，一文概述自然语言处理</a> : 下一个阶段的目标，就是了解和学习NLP，先mark</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650997427&amp;idx=1&amp;sn=6dcc5fe91cb26c12a5357b10d7dde318" target="_blank" rel="external">测试已死？我看未必！</a> : 多测试人员的多样化需求</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzYwMTk1NA==&amp;mid=2247486468&amp;idx=1&amp;sn=b498aed5576470529d8a155846a8eac7&amp;chksm=96cdad49a1ba245f71d75208ca6711d23b9087fa4329ca68f774a763ce1ecfedd0c0cf9c9835&amp;mpshare=1&amp;scene=23&amp;srcid=08180g1CIQtUh5ECs7m6Of7I#rd" target="_blank" rel="external">推荐给程序员的一些书（不止是技术书</a> : mark，里面有一些社会学的书籍可以关注</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=15089916" target="_blank" rel="external">Feather: Beautiful open-source icons</a> : 收藏了一些精美的icon图标，可以mark</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=15089476" target="_blank" rel="external">Ask HN: What is your all time favorite CS paper?</a> : 必须mark, 上面的那些paper, 最好一篇一篇下载下来认真review</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://www.android.com/versions/oreo-8-0/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Oreo&lt;/a&gt; : Google发布安卓8.0, 加入一系列新特性, 包括引入支持模块化框架的&lt;a href=&quot;https://android-developers.googleblog.com/2017/05/here-comes-treble-modular-base-for.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Treble&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=15068278&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Initial Hammer2 filesystem implementation&lt;/a&gt; : Hammer2 FS是一个类似于&lt;a href=&quot;http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.184.3704&amp;amp;rep=rep1&amp;amp;type=pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ZFS&lt;/a&gt;的大型分布式文件系统，支持一系列新特性，可以了解下现在最近文件系统的&lt;a href=&quot;https://gitweb.dragonflybsd.org/dragonfly.git/blob_plain/HEAD:/sys/vfs/hammer2/DESIGN&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;设计思路和理念&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=15090424&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Introducing App Engine Firewall (googleblog.com)&lt;/a&gt; : Google App Engine推出的新功能，支持配置一个服务的防火墙，这样可以避免代码上面做改动&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://cppcon2017.sched.com/event/Bgsj/time-travel-debugging-root-causing-bugs-in-commercial-scale-software&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Time Travel Debugging: Root Causing Bugs in Commercial Scale Software&lt;/a&gt; : 微软开发支持了基于&lt;code&gt;Time Travel Debugging&lt;/code&gt;的机制，不过具体这个机制还不是很了解，先mark，等到时候具体talk出来再深究&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20170820</title>
@@ -482,60 +545,6 @@
   </entry>
   
   <entry>
-    <title>关于贝叶斯分类</title>
-    <link href="http://shevacjs.com/2017/07/21/bayes/"/>
-    <id>http://shevacjs.com/2017/07/21/bayes/</id>
-    <published>2017-07-20T16:25:11.000Z</published>
-    <updated>2017-07-21T11:17:33.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>by chenjiansen</p>
-</blockquote>
-<h3 id="判定模型与生成模型"><a href="#判定模型与生成模型" class="headerlink" title="判定模型与生成模型"></a>判定模型与生成模型</h3><p>判定模型的理论基础 :</p>
-<p>$$ y = p(y | x : \theta) $$</p>
-<p>生成模型</p>
-<p>$$ y = p( y | x) = p(x,y) / p(x) = p(x|y) p(y) / p(x) $$</p>
-<p>此时我们会考虑使用$p(x|y)p(y)$ 来评估$p(y|x)$ ，是一个联合概率的考虑</p>
-<h3 id="Native-Bayes"><a href="#Native-Bayes" class="headerlink" title="Native Bayes"></a>Native Bayes</h3><p>考虑判断一个邮件是否是垃圾邮件；我们设定如下的模型: </p>
-<ul>
-<li>$x$ 为输入向量；其中$x_i^{(j)}$ 表示第$i$个样本的第$j$维的特征值,  任何一个邮件可以用如下的形式表示 : </li>
-</ul>
-<p>$$x=\left[ \begin{array}{cc} 0 &amp; a_0\\ 1 &amp; a_1 \\ 1 &amp; a_2\\ 0  &amp; a_3 \\ 1 &amp; a_4 \\ .. &amp; .. \end{array} \right]$$</p>
-<p>其中第$i$行代表着单词$a_i$是否出现在这个邮件里面；$|A|$ 表示着词汇量的个数，也是也是输入特征$x$的维度</p>
-<ul>
-<li>$y$为输入结果,  这里面设定 $y=1$为垃圾邮件，否则$y=0$</li>
-</ul>
-<p>这里，我们准备使用<code>朴素贝叶斯</code>的方法解决分类问题，如上面生成模型的说明, 我们的求解问题转化为:</p>
-<p>$ p(y|x) = p(x|y) p(y) / p(x) $</p>
-<p>我们约定如下: </p>
-<p>$$\phi_{i|y=1} = p(x_i = 1 | y = 1)$$<br>$$\phi_{i|y=0} = p(x_i = 1 | y = 0)$$<br>$$\phi_y = p(y = 1) $$</p>
-<p>则有 : </p>
-<p>$$ \phi_{i|y=1} = \frac{\sum_{i=0}^{m} 1 {x_j^{(i)} = 1 \ and \  y^{(i)} = 1}}{\sum_{i=0}^{m} 1 { y^{(i)} = 1}}$$</p>
-<p>其他的$\phi_{i|y=0} , \phi_y$ 同理易得</p>
-<p>则在样本输入${x^{(i)}, y^{(i)}}, i = 0, 1, 2 …$ 的情况下；对于上面的分类问题，我们可以先求解:</p>
-<p>$$ P(y=1\ |x) = P(x|y=1) P(y=1) / P(x) \\ = \frac{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) P(y=1)}{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) + (\prod_{i=0}^{m}P(x_i\ |y = 0))}$$</p>
-<p>上面的$\prod$ 展开是依赖于所谓的<code>贝叶斯假设</code>， 也就是对于给定的结果$y$, 事件$x_i$相对于$y$是独立分布的, 也就是有: </p>
-<p>$$P(x_1,x_2,…,x_n\ |\ y) = p(x_1|y)p(x_2|y,x_1)….p(x_n|y,x_1,x_2, …) \\ = p(x_1|y)p(x_2|y) … p(x_n|y) \\ = \prod_{i=1}^{n} p(x_i|y)$$</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://guangchun.wordpress.com/2011/10/13/ml-bayes-map/" target="_blank" rel="external">参数估计：最大似然、贝叶斯与最大后验</a> </li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;by chenjiansen&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;判定模型与生成模型&quot;&gt;&lt;a href=&quot;#判定模型与生成模型&quot; class=&quot;headerlink&quot; title=&quot;判定模型与生成模型&quot;&gt;&lt;/a&gt;判定模型与生成模型&lt;
-    
-    </summary>
-    
-    
-      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
-    
-  </entry>
-  
-  <entry>
     <title>关于CTR预估的算法</title>
     <link href="http://shevacjs.com/2017/07/21/ctr/"/>
     <id>http://shevacjs.com/2017/07/21/ctr/</id>
@@ -689,6 +698,60 @@
 &lt;/blockquote&gt;
 &lt;p&gt;本文简单介绍下线性回归的基本思想和算法&lt;/p&gt;
 &lt;h3 id=&quot;基本定义&quot;&gt;&lt;a href=&quot;#基本定义&quot;
+    
+    </summary>
+    
+    
+      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于贝叶斯分类</title>
+    <link href="http://shevacjs.com/2017/07/21/bayes/"/>
+    <id>http://shevacjs.com/2017/07/21/bayes/</id>
+    <published>2017-07-20T16:25:11.000Z</published>
+    <updated>2017-07-21T11:17:33.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>by chenjiansen</p>
+</blockquote>
+<h3 id="判定模型与生成模型"><a href="#判定模型与生成模型" class="headerlink" title="判定模型与生成模型"></a>判定模型与生成模型</h3><p>判定模型的理论基础 :</p>
+<p>$$ y = p(y | x : \theta) $$</p>
+<p>生成模型</p>
+<p>$$ y = p( y | x) = p(x,y) / p(x) = p(x|y) p(y) / p(x) $$</p>
+<p>此时我们会考虑使用$p(x|y)p(y)$ 来评估$p(y|x)$ ，是一个联合概率的考虑</p>
+<h3 id="Native-Bayes"><a href="#Native-Bayes" class="headerlink" title="Native Bayes"></a>Native Bayes</h3><p>考虑判断一个邮件是否是垃圾邮件；我们设定如下的模型: </p>
+<ul>
+<li>$x$ 为输入向量；其中$x_i^{(j)}$ 表示第$i$个样本的第$j$维的特征值,  任何一个邮件可以用如下的形式表示 : </li>
+</ul>
+<p>$$x=\left[ \begin{array}{cc} 0 &amp; a_0\\ 1 &amp; a_1 \\ 1 &amp; a_2\\ 0  &amp; a_3 \\ 1 &amp; a_4 \\ .. &amp; .. \end{array} \right]$$</p>
+<p>其中第$i$行代表着单词$a_i$是否出现在这个邮件里面；$|A|$ 表示着词汇量的个数，也是也是输入特征$x$的维度</p>
+<ul>
+<li>$y$为输入结果,  这里面设定 $y=1$为垃圾邮件，否则$y=0$</li>
+</ul>
+<p>这里，我们准备使用<code>朴素贝叶斯</code>的方法解决分类问题，如上面生成模型的说明, 我们的求解问题转化为:</p>
+<p>$ p(y|x) = p(x|y) p(y) / p(x) $</p>
+<p>我们约定如下: </p>
+<p>$$\phi_{i|y=1} = p(x_i = 1 | y = 1)$$<br>$$\phi_{i|y=0} = p(x_i = 1 | y = 0)$$<br>$$\phi_y = p(y = 1) $$</p>
+<p>则有 : </p>
+<p>$$ \phi_{i|y=1} = \frac{\sum_{i=0}^{m} 1 {x_j^{(i)} = 1 \ and \  y^{(i)} = 1}}{\sum_{i=0}^{m} 1 { y^{(i)} = 1}}$$</p>
+<p>其他的$\phi_{i|y=0} , \phi_y$ 同理易得</p>
+<p>则在样本输入${x^{(i)}, y^{(i)}}, i = 0, 1, 2 …$ 的情况下；对于上面的分类问题，我们可以先求解:</p>
+<p>$$ P(y=1\ |x) = P(x|y=1) P(y=1) / P(x) \\ = \frac{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) P(y=1)}{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) + (\prod_{i=0}^{m}P(x_i\ |y = 0))}$$</p>
+<p>上面的$\prod$ 展开是依赖于所谓的<code>贝叶斯假设</code>， 也就是对于给定的结果$y$, 事件$x_i$相对于$y$是独立分布的, 也就是有: </p>
+<p>$$P(x_1,x_2,…,x_n\ |\ y) = p(x_1|y)p(x_2|y,x_1)….p(x_n|y,x_1,x_2, …) \\ = p(x_1|y)p(x_2|y) … p(x_n|y) \\ = \prod_{i=1}^{n} p(x_i|y)$$</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://guangchun.wordpress.com/2011/10/13/ml-bayes-map/" target="_blank" rel="external">参数估计：最大似然、贝叶斯与最大后验</a> </li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;by chenjiansen&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;判定模型与生成模型&quot;&gt;&lt;a href=&quot;#判定模型与生成模型&quot; class=&quot;headerlink&quot; title=&quot;判定模型与生成模型&quot;&gt;&lt;/a&gt;判定模型与生成模型&lt;
     
     </summary>
     
@@ -1096,39 +1159,6 @@
     <summary type="html">
     
       &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170604</title>
-    <link href="http://shevacjs.com/2017/06/04/20170604/"/>
-    <id>http://shevacjs.com/2017/06/04/20170604/</id>
-    <published>2017-06-04T12:30:54.000Z</published>
-    <updated>2017-07-21T04:21:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><a href="https://news.ycombinator.com/item?id=14446350" target="_blank" rel="external">MySQL 8.0: Retiring Support for the Query Cache</a> : Mysql从8.0版本开始放弃对<code>query cache</code>的支持</p>
-</li>
-<li><p><a href="https://blog.chromium.org/2017/05/goodbye-pnacl-hello-webassembly.html" target="_blank" rel="external">Goodbye PNaCl, Hello WebAssembly!</a> : chrome开始全部拥抱webassembly，放弃之前的<code>PnaCl</code>的native code解决方案</p>
-</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><a href="https://redditblog.com/2017/05/24/view-counting-at-reddit/" target="_blank" rel="external">View Counting at Reddit</a> : 介绍Reddit的浏览计数的方案, 其实他们的浏览计数就是<code>uv</code>的统计,  这需要对uid进行去重, Reddit使用了<a href="https://en.wikipedia.org/wiki/HyperLogLog" target="_blank" rel="external">HyperLogLog</a>的基数统计方法, 具体可以查看<a href="http://blog.csdn.net/yunlong34574/article/details/48494663" target="_blank" rel="external">HyperLogLog: 解读Cardinality Estimation算法</a>这篇文章的介绍, 另外redis本身也是支持<a href="http://antirez.com/news/75" target="_blank" rel="external">Hyperloglog</a></li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><a href="https://www.gitbook.com/book/0xax/linux-insides/details" target="_blank" rel="external">linux-insides</a> :  “A book-in-progress about the linux kernel and its insides.<br>“</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=14446350&quot; t
     
     </summary>
     

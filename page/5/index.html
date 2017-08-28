@@ -57,6 +57,82 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-20170129" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/29/20170129/">weekly of 20170129</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/01/29/20170129/" class="article-date">
+  <time datetime="2017-01-29T05:05:13.000Z" itemprop="datePublished">2017-01-29</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><a href="http://arstechnica.com/apple/2017/01/ios-10-3-will-be-apples-first-update-to-convert-storage-to-apfs/" target="_blank" rel="external">APFS is coming soon: iOS 10.3 will automatically upgrade your filesystem</a> : IOS 10.3会自动将你的文件系统升级为APFS, 后者为苹果去年推出的新的基于SSD存储的文件系统</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzI2ODYwMjY1Nw==&amp;mid=2247483762&amp;idx=1&amp;sn=c9c83eff538290d8215233b45eec46a8&amp;chksm=eaec5d3cdd9bd42af9a9c0d69cd76b051ee8a25e5ef945b411b2a434743ab302184c0a27d36a&amp;mpshare=1&amp;scene=23&amp;srcid=0125uL4lcvrXuIgYztTI5D9u#rd" target="_blank" rel="external">千兆网卡真的能每秒发100万个包么？</a> : 结论是不能；因为最小的每个包大小(MSS)在不同的平台都有限制，比如linux, min(MSS) = 88 Byte, 意味着千兆网卡每秒能发送125Mbps / 188 B = 0.88 Mpps</p>
+</li>
+<li><p><a href="http://martin.zinkevich.org/rules_of_ml/rules_of_ml.pdf" target="_blank" rel="external">Rules of Machine Learning: Best Practices for ML Engineering</a> : google的机器学习的最佳工程实践，可以好好关注下</p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><a href="https://code.facebook.com/posts/608854979307125/building-zero-protocol-for-fast-secure-mobile-connections/" target="_blank" rel="external">Building Zero protocol for fast, secure mobile connections</a> : 我们知道基于TLS的https协议交互之前总是需要1~2次RTT，用于密钥的交互; 本文介绍了facebook听过引入<code>QUIC crypto</code>的方法，以便达到<code>0-RTT</code>的效果，这些工程实践也会反馈给TLS 1.3协议(TLS 1.3协议设计上面就支持0-RTT，我们可以拭目以待)</li>
+</ul>
+<ul>
+<li><p><a href="https://medium.com/airbnb-engineering/how-airbnb-manages-to-monitor-customer-issues-at-scale-b883301ca461#.vukbbd3sn" target="_blank" rel="external">How Airbnb manages to monitor customer issues at scale</a> : Airbnb自己的用户反馈处理平台，基于ES的存储，已经自动的趋势预测和发现</p>
+</li>
+<li><p><a href="https://hacks.mozilla.org/2017/01/using-immutable-caching-to-speed-up-the-web/" target="_blank" rel="external">Using Immutable Caching To Speed Up The Web</a> :  Mozila的博客介绍facebook通过引入<code>Cache-Control: immutable</code>来减少无必要的<a href="http://www.mamicode.com/info-detail-1676115.html" target="_blank" rel="external">304请求</a>, 提升整体页面的性能; 几个点可以注意下:1) 之前一直认为如果本地有未过期的缓存, 浏览器是不会发请求给server，但是按照这篇<a href="http://www.w2bc.com/article/209308" target="_blank" rel="external">文章</a>的说法, 当我们主动点击reload按钮, 就会无视本地的缓存去请求server的, 2)通用根据上面那篇文章，我们可以知道不同浏览器对避免无效刷新的请求方法各异，比如chrome主要是依靠自己的算法策略来实现的, 也可以看下facebook专门介绍的这篇文章<a href="https://code.facebook.com/posts/557147474482256/this-browser-tweak-saved-60-of-requests-to-facebook/" target="_blank" rel="external">This browser tweak saved 60% of requests to Facebook</a></p>
+</li>
+<li><p><a href="http://www.brendangregg.com/linuxperf.html" target="_blank" rel="external">Linux Performance</a> : Brendangregg 关于linux performance监控和发现的资料合集，材料非常多, 大家可以收藏 &amp; 慢慢学习下</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="http://pages.tacc.utexas.edu/~eijkhout/istc/istc.html" target="_blank" rel="external">Introduction to High-Performance Scientific Computing</a> : 看起来像是不错的材料，先mark</p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s/m6xX3Q9qegiJ4xqqLzr8Jw" target="_blank" rel="external">Python 为何能坐稳 AI 时代头牌语言</a> : 对于一个有个C背景的程序员而言，一直不喜欢python的代码风格和语法; 不过最近对机器学习的领域的了解，python的确是当之无愧的AI语言, 文章论述了为什么其可以拥有如此地位: “Python 是众多主流语言中唯一一个战略定位明确，而且始终坚持原有战略定位不动摇的语言”</p>
+</li>
+<li><p><a href="http://www.zphj1987.com/2017/01/24/Linux-kernel-TCP-BBR-better/#more" target="_blank" rel="external">Linux 升级内核开启 TCP BBR 有多大好处</a> : 本文以具体的示例说明了TCP BBR拥塞算法的优缺点, 对与那些有一定丢包率的网络(广域网)，BBR的优势是比较明显的</p>
+</li>
+<li><p><a href="https://landing.google.com/sre/book.html" target="_blank" rel="external">Site Reliability Engineering</a> : 可以免费在线观看的Google SRE的书, 虽然我好像有PDF版本</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20170122" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -722,82 +798,6 @@
 <li><p><a href="https://github.com/aymericdamien/TopDeepLearning" target="_blank" rel="external">Top Deep Learning Projects</a> : 一些深度学习项目的list</p>
 </li>
 <li><p><a href="https://github.com/nothings/single_file_libs" target="_blank" rel="external">Single-file public-domain/open source libraries with minimal dependencies</a> :  一些优秀的C++ lib的合集, 先mark</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-1120" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/20/1120/">weekly of 20161120</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2016/11/20/1120/" class="article-date">
-  <time datetime="2016-11-19T16:25:11.000Z" itemprop="datePublished">2016-11-20</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><a href="http://www.infoq.com/cn/news/2016/11/microsoft-data-science-tools" target="_blank" rel="external">微软发布了用于交互式数据探索和建模的数据科学工具</a> : 好像挺有用的样子，先关注下</p>
-</li>
-<li><p><a href="https://www.wikipediap2p.org/" target="_blank" rel="external">WikipediaP2P</a> : WikipediaP2P uses WebRTC for all Peer to Peer communication, which  is based on CacheP2P</p>
-</li>
-<li><p><a href="https://msdn.microsoft.com/en-us/magazine/mt790182.aspx" target="_blank" rel="external">Visual Studio for Mac - Introducing Visual Studio for Mac</a> : </p>
-</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://zhuanlan.zhihu.com/p/23624453" target="_blank" rel="external">Redis 与网络流量整形</a> : 其实具体介绍的就是<code>令牌环</code>流量整形算法在分布式系统的实现(基于<code>redis</code>)</p>
-</li>
-<li><p><a href="http://linuxperf.com/?p=40" target="_blank" rel="external">DISK 100% BUSY，谁造成的？</a> : 本文总结了但<code>io_util</code>打满的时候，如果去寻找异常进程的办法; 包括使用<code>pidstat</code>, <code>iotop</code> 以及最最强大的<code>systemtap</code></p>
-</li>
-<li><p><a href="https://brennan.io/2016/11/14/kernel-dev-ep3/" target="_blank" rel="external">Tutorial - Write a System Call</a> : </p>
-</li>
-<li><p><a href="http://www.tanglei.name/blog/difference-between-du-and-ls.html" target="_blank" rel="external">由一次磁盘告警引发的血案 – du 和 ls 的区别</a> : 挺有意思的一个问题</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="http://www.infoq.com/cn/articles/practise-of-phantomjs-and-nodejs-in-jingdong" target="_blank" rel="external">京东前端：PhantomJS 和NodeJS在网站前端监控平台的最佳实践</a> : 关于前端web页面的可用性的一个监控的方案，可以用来覆盖我们模板错误，<code>DOW</code>异常的情况, 值得我们去了解</p>
-</li>
-<li><p><a href="http://geek.csdn.net/news/detail/124262" target="_blank" rel="external">推荐系统老司机的十条经验</a> : 几点东西自己还是非常有感触的，包括: <code>深度学习给了另一种全新的特征工程之路，也是值得探索的，或许是人工特征工程的终结者，拭目以待</code>,  <code>矩阵分解大法好</code></p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://jaq.alibaba.com/community/art/show?articleid=601" target="_blank" rel="external">值得收藏！国外最佳互联网安全博客TOP 30</a> : 有不少网站可以收藏</p>
-</li>
-<li><p><a href="https://github.com/dhamaniasad/HeadlessBrowsers" target="_blank" rel="external">Headless Browsers</a> : “A web browser without a graphical user interface, controlled programmatically. Used for automation, testing, and other purposes.”,  重点先看看<code>PhantomJS</code></p>
 </li>
 </ul>
 

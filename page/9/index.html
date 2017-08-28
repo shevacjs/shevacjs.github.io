@@ -57,6 +57,68 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-nginx_1_9_10" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/30/nginx_1_9_10/">nginx 1.9.10 特性说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/01/30/nginx_1_9_10/" class="article-date">
+  <time datetime="2016-01-30T06:17:29.000Z" itemprop="datePublished">2016-01-30</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">*) Security: invalid pointer dereference might occur during DNS server</div><div class="line">       response processing if the &quot;resolver&quot; directive was used, allowing an</div><div class="line">       attacker who is able to forge UDP packets from the DNS server to</div><div class="line">       cause segmentation fault in a worker process (CVE-2016-0742).</div><div class="line"></div><div class="line">*) Security: use-after-free condition might occur during CNAME response</div><div class="line">       processing if the &quot;resolver&quot; directive was used, allowing an attacker</div><div class="line">       who is able to trigger name resolution to cause segmentation fault in</div><div class="line">       a worker process, or might have potential other impact</div><div class="line">       (CVE-2016-0746).</div><div class="line"></div><div class="line">*) Security: CNAME resolution was insufficiently limited if the</div><div class="line">       &quot;resolver&quot; directive was used, allowing an attacker who is able to</div><div class="line">       trigger arbitrary name resolution to cause excessive resource</div><div class="line">       consumption in worker processes (CVE-2016-0747).</div><div class="line"></div><div class="line">*) Feature: the &quot;auto&quot; parameter of the &quot;worker_cpu_affinity&quot; directive.</div><div class="line"></div><div class="line">*) Bugfix : ...</div></pre></td></tr></table></figure>
+<p>可以看到主要是几个安全问题的修复，以及一个新的feature的支持; 下面简单说明这个两个点</p>
+<h2 id="安全问题"><a href="#安全问题" class="headerlink" title="安全问题"></a>安全问题</h2><p>几个安全问题都是关于<code>resolver</code>指令，主要问题在于在解析DNS时需要对异常有更强的容错能力，风险点包括如下:</p>
+<ul>
+<li>DNS的服务伪造一个UDP包体可以导致nginx crash</li>
+<li>其他的异常情况导致的nginx crash</li>
+</ul>
+<p>今天问题自己总结如下:</p>
+<p>当我们使用<code>resolver</code>指令的时候，nginx需要和dns服务器进行交互，以便获取具体域名对应的IP; 整个这个交互的过程是nginx自己编码和dns服务交互,  这样存在的一个问题是一旦nginx的容错逻辑有问题，尤其是和外界的dns服务交互的时候，一旦这个DNS服务器可以恶意伪造请求的时候, 比如返回不正常的body的时候, nginx容错一旦处理有点偏颇，就会crash</p>
+<p>所以这种情况一般会出现在: <code>配置了resolver指令，且对于的dns服务器不可信</code></p>
+<blockquote>
+<p>具体可以见 : <a href="http://mailman.nginx.org/pipermail/nginx/2016-January/049700.html" target="_blank" rel="external">http://mailman.nginx.org/pipermail/nginx/2016-January/049700.html</a></p>
+</blockquote>
+<h2 id="worker-cpu-affinity指令优化"><a href="#worker-cpu-affinity指令优化" class="headerlink" title="worker_cpu_affinity指令优化"></a>worker_cpu_affinity指令优化</h2><p>这个指令的功能比较简单，就是可以自动设置cpu的亲和性, demo如下:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="attribute">worker_cpu_affinity</span> auto;</div></pre></td></tr></table></figure>
+<p>具体代码的实现还是比较简单的，不再赘述</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-tcp_keepalive_proxy" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1023,76 +1085,6 @@
 <li><a href="http://www.lenky.info/archives/2013/01/2184" target="_blank" rel="external">nginx对Linux native AIO机制的应用(配置篇)</a></li>
 <li><a href="http://www.lenky.info/archives/2013/01/2186" target="_blank" rel="external">nginx对Linux native AIO机制的应用（实现篇）</a></li>
 </ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-log_rotation" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/07/log_rotation/">nginx日志切分方案说明</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/03/07/log_rotation/" class="article-date">
-  <time datetime="2015-03-07T07:34:36.000Z" itemprop="datePublished">2015-03-07</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>nginx的日志切分问题一直是运维nginx时需要重点关注的。本文将简单说明下nginx支持的两种日志切分方式。</p>
-<h3 id="定时任务切分"><a href="#定时任务切分" class="headerlink" title="定时任务切分"></a>定时任务切分</h3><p>所谓的定时任务切分，是指通过定时任务（比如<code>crontab</code>)，发送信号给nginx，让其重新打开文件。该方法也是nginx官网上面比较推荐的,<a href="http:http://wiki.nginx.org/LogRotation" target="_blank" rel="external">原文</a>说明比较清楚，这里在说明下：</p>
-<p>发送<code>USR1</code> 信号会让nginx主动重新打开日志文件，故操作如下：</p>
-<pre><code>$ mv access.log access.log.0
-$ kill -USR1 `cat master.nginx.pid`
-$ sleep 1
-$ gzip access.log.0    # do something with access.log.0
-</code></pre><p>总结 ：优点是思路较为简单，但效果明显，而且对error_log 同样适用；缺点是有外部依赖（比如 <code>crontab</code>)</p>
-<h3 id="自切分"><a href="#自切分" class="headerlink" title="自切分"></a>自切分</h3><p>自切分是指让nginx自身实现日志切分功能，不依赖crontab等东西。 其主要原理是依赖access_log的强大功能—- 可以用变量定义请求的log路径。</p>
-<p>nginx的acess_log 功能非常强大，其完整指令说明如下，这里主要说明定义日志路径的功能；关于syslog还有gzip, buffer等特性，后续再说明。</p>
-<p>access_log指令:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">	Syntax:	access_log path [format [buffer=size [flush=time]] [if=condition]];</div><div class="line">			   access_log path format gzip[=level] [buffer=size] [flush=time] [if=condition];</div><div class="line">			   access_log syslog:server=address[,parameter=value] [format [if=condition]];</div><div class="line">			   access_log off;</div><div class="line">	Default:	access_log logs/access.log combined;</div><div class="line">	Context:	http, server, location, if in location, limit_except</div><div class="line">    </div><div class="line">```	</div><div class="line">    </div><div class="line">注意path部分是支持nignx变量的，这也就意味这我们只要通过配置正确的nginx变量，就可以实现小时等级别的日志自动拆分了。</div><div class="line"></div><div class="line">一个简单的问题就出现了，假设nginx要实现这个机制，那岂不是每打印一个请求log就得打开文件，写日志，关闭文件？ 这样显然效率太差了，为了解决这个问题，nginx又引入了一个机制，叫做 open_file_cache，简单的说，这个东西的功能就是会缓存打开的文件，只有满足一定条件的时候才会重新去check当前fd对应的文件是否合法，是否需要重新打开。 open file cache的指令如下：</div><div class="line"></div><div class="line">```nginx</div><div class="line"></div><div class="line">	Syntax:	 open_log_file_cache max=N [inactive=time] [min_uses=N] [valid=time];</div><div class="line">				open_log_file_cache off;</div><div class="line">	Default:	 open_log_file_cache off;</div><div class="line">	Context:	 http, server, location</div></pre></td></tr></table></figure>
-<p>open_log_file_cache 里面几个参数的含义为：</p>
-<ul>
-<li><strong>max</strong> : 设置缓存中描述符的最大数量；如果缓存被占满，最近最少使用（LRU）的描述符将被关闭。</li>
-<li><strong>inactive</strong> : 设置缓存文件描述符在多长时间内没有被访问就关闭； 默认为10秒。</li>
-<li><strong>min_use</strong>s : 设置在inactive参数指定的时间里， 最少访问多少次才能使文件描述符保留在缓存中；默认为1。</li>
-<li><strong>valid</strong> :设置一段用于检查超时后文件是否仍以同样名字存在的时间； 默认为60秒。</li>
-<li><strong>off</strong> :禁用缓存。</li>
-</ul>
-<p>综上，要让nginx自切分，需要两个步骤，其一，配置合理的access_log;其二，开启open_log_file_cache提升性能； 下面是用实现小时级别日志切分的配置demo</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#提取nginx变量</div><div class="line">if ($time_iso8601 ~ "^(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)T(\d&#123;2&#125;):(\d&#123;2&#125;):(\d&#123;2&#125;)")</div><div class="line">&#123;</div><div class="line">	set $year $1; </div><div class="line">	set $month $2; </div><div class="line">	set $day $3; </div><div class="line">	set $hour $4; </div><div class="line">	set $minutes $5; </div><div class="line">	set $seconds $6; </div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#配置access_log ；以  hour 为界</div><div class="line">access_log  logs/access.log.$year$month$day$hour;                                                                         </div><div class="line"></div><div class="line">#配置open_log_file_cache</div><div class="line">open_log_file_cache max=10 inactive=60s valid=1m min_uses=2;</div></pre></td></tr></table></figure>
-<p><strong>总结</strong> : 自切分可一定程度上面满足日志切分的需求；但是对性能会有一定的影响； 另外，并不支持error_log的切分，个人更推荐产品线采用方式一的方法切。</p>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>本文主要阐述了nignx日志切分的方案，希望能够帮助大家提升对nginx的理解。另外nginx的日志管理，还是很多值得学习，注意的点，包括syslog支持，gzip支持（想想protobuf）。后续会再为介绍。</p>
 
       
     </div>
