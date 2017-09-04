@@ -57,6 +57,89 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-1127" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/27/1127/">weekly of 20161127</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/11/27/1127/" class="article-date">
+  <time datetime="2016-11-26T16:25:11.000Z" itemprop="datePublished">2016-11-27</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><p><a href="http://www.infoq.com/cn/news/2016/11/webassembly-browser-preview#anch142297" target="_blank" rel="external">WebAssembly浏览器预览版收集社区反馈</a> : 可以试试哈</p>
+</li>
+<li><p><a href="https://code.facebook.com/posts/894756093957171/spam-fighting-scale-2016/" target="_blank" rel="external">Spam Fighting @Scale 2016</a> : “这个里面介绍了不少公司，包括Facebook，LinkedIn, WhatsApp, Netflix 的反作弊经验和策略”, 都是视频；但是有不少感觉挺有兴趣的，包括: Whatsapp基于端到端加密是如何做spam, facebook如何用聚类的策略做假用户识别的, 同时还可以关注<a href="https://code.facebook.com/posts/1709127516080157/networking-scale-boston/" target="_blank" rel="external">Networking @Scale Boston</a>, 关于网络方面的介绍</p>
+</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="http://linuxperf.com/?p=156" target="_blank" rel="external">容易被误读的IOSTAT</a> : 本文具体说明了<code>await</code>的含义, 以及在不同的业务场景下，不同磁盘类型其大概估值的含义和表针的问题(“因为await不仅包括硬盘设备处理I/O的时间，还包括了在队列中等待的时间”)</p>
+</li>
+<li><p><a href="https://code.facebook.com/posts/354469174916519/" target="_blank" rel="external">Keyframes: Delivering scalable, high-quality animations to mobile clients</a> : facebook的文章，看了挺有感慨的； 初衷是支持 动态表情 展现的更友好【其实用PNG之类的也没差多少】；但是他们对这个小问题也追的很深；最后采用的是 基于『Adobe After Effects』的方案； 很多事情，看起来简单，做到极致，挑战和收获都有很多</p>
+</li>
+<li><p><a href="https://learnbchs.org/pledge.html" target="_blank" rel="external">pledge(2): how I learned to love web application sandboxing</a> : <code>pledge</code>是OpenBDS系统下面用于控制系统调用的系统调用, 类似于linux系统下面的<a href="https://en.wikipedia.org/wiki/Seccomp" target="_blank" rel="external">seccomp</a>指令，后者可以深入了解; 在Chrome/docker等多个软件系统都有应用</p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="http://evilcos.me/?p=574" target="_blank" rel="external">关于浏览器混合内容的安全性</a> : 文章具体讨论了，在<code>mixed content</code>情况下，可以采用的安全攻击; 但是感觉博主的思路有点乱; 不过可以关注另外一个blog: <a href="http://paper.seebug.org/" target="_blank" rel="external">Paper:安全技术精粹</a></p>
+</li>
+<li><p><a href="https://blog.eood.cn/prometheus-grafana-monitoring" target="_blank" rel="external">Prometheus 和 Grafana 监控系统指南</a> : 挺符合我设计理念的一个监控系统；或者是信息采集系统</p>
+</li>
+<li><p><a href="http://blog.mailgun.com/machine-learning-for-everyday-tasks/" target="_blank" rel="external">Machine Learning for Everyday Tasks</a> : 本文具体介绍了<code>ML</code> 算法的一个应用, 随着机器学习算法的广泛理解和接受，相信后续有很多之前觉得复杂或者很难的事情，可以很容的被处理; </p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><a href="http://www.benfrederickson.com/numerical-optimization/" target="_blank" rel="external">An Interactive Tutorial on Numerical Optimization</a> : 数值优化的一些说明和可视化展示, 先mark；</li>
+</ul>
+<ul>
+<li><p><a href="http://www.ruanyifeng.com/blog/2016/11/byte-order.html" target="_blank" rel="external">理解字节序</a> : 很简短的文章，当做小科普吧</p>
+</li>
+<li><p><a href="https://github.com/linghuazaii/blog/wiki/Memory-management-every-engineer-needs-to-know" target="_blank" rel="external">Memory management every engineer needs to know</a> : 对于进程的内存管理的说明，还是比较精细的，包括堆，栈，静态区的位置说明, 也可以参看<a href="http://duartes.org/gustavo/blog/post/anatomy-of-a-program-in-memory/" target="_blank" rel="external">Anatomy of a Program in Memory</a></p>
+</li>
+<li><p><a href="http://www.jiqizhixin.com/article/1894" target="_blank" rel="external">服务器端人工智能，FPGA和GPU到底谁更强？</a> : 对GPU, FPGA等一些基础概念可以有初步的了解</p>
+</li>
+<li><p><a href="https://github.com/aymericdamien/TopDeepLearning" target="_blank" rel="external">Top Deep Learning Projects</a> : 一些深度学习项目的list</p>
+</li>
+<li><p><a href="https://github.com/nothings/single_file_libs" target="_blank" rel="external">Single-file public-domain/open source libraries with minimal dependencies</a> :  一些优秀的C++ lib的合集, 先mark</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-1120" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -694,82 +777,6 @@
 <li><p><a href="https://research.googleblog.com/2016/09/image-compression-with-neural-networks.html" target="_blank" rel="external">Image Compression with Neural Networks</a> : 基于神经网络的图片压缩</p>
 </li>
 <li><p><a href="https://hownot2code.com/2016/09/29/collection-of-cheat-sheets-for-programmers/" target="_blank" rel="external">Collection of cheat sheets for programmers</a> : 一些资料干货list</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-0925" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/25/0925/">weekly of 20160925</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2016/09/25/0925/" class="article-date">
-  <time datetime="2016-09-24T16:25:11.000Z" itemprop="datePublished">2016-09-25</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="https://news.ycombinator.com/item?id=12526056" target="_blank" rel="external">Milagro: Distributed Cryptosystem for Cloud Computing (apache.org)</a> : 关于分布式CA的讨论，可以再关注下</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="http://amir.rachum.com/blog/2016/09/17/shared-libraries/" target="_blank" rel="external">Shared Libraries: Understanding Dynamic Loading</a> : 关于动态链接库的介绍文章，总体上面写的还算详细，可以了解下</p>
-</li>
-<li><p><a href="http://blog.francoismaillet.com/is-your-chrome-bigger-than-mine/" target="_blank" rel="external">Is your Chrome bigger than mine? How Chrome ate 21GB of storage</a> : 一句话，如果大家发现<code>/Applications/Google Chrome.app/Contents/Versions</code> 下面文件太大，可以做一些删除</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=12524980" target="_blank" rel="external">Vulnerabilities Induced by Migrating to 64-Bit Platforms [pdf]</a> : 本文具体讨论了从32位系统迁移到64位系统可能面临的问题, 主要是整形溢出方面的问题</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=12552298" target="_blank" rel="external">LL and LR Parsing Demystified</a> : 关于LR/LL的说明和介绍，值得收藏</p>
-</li>
-<li><p><a href="https://blog.g3rt.nl/upgrade-your-ssh-keys.html" target="_blank" rel="external">Upgrade your SSH keys!</a> : 作者建议我们尽量去更新我们的ssh key，具体介绍了不同公钥体系的优缺点, 比如<code>RSA 3072</code>, <code>Ed25519</code> ，对加密之类的有兴趣的可以看看</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=12564442" target="_blank" rel="external">ripgrep is faster than {grep, ag, git grep, ucg, pt, sift}</a> : <code>ripgrep</code>是一个基于rust的写的类似grep的工具，号称性能会比传统的<code>grep,ag</code>等快; 重点看Hack News上面的讨论, 另外一个推荐的文章<a href="http://ridiculousfish.com/blog/posts/old-age-and-treachery.html" target="_blank" rel="external">The Treacherous Optimization</a></p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="http://alpacalunchbox.com/2016/09/01/digging-into-redis-snapshotting.html" target="_blank" rel="external">Digging into redis snapshotting</a> : 关于<code>vm.overcommit = 1</code> 的具体说明</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://news.ycombinator.com/item?id=12523455" target="_blank" rel="external">Ever wondered how many open FTP servers there are?</a> : 给出了作者收集的公开可以匿名登录的FTP地址，同时相关的读者也推荐<a href="https://www.shodan.io/" target="_blank" rel="external">shodan</a>, 大家也可以试试</p>
-</li>
-<li><p><a href="https://www.zhihu.com/question/37692782" target="_blank" rel="external">你见过哪些令你瞠目结舌的C/C++代码技巧?</a> : 各种小技巧</p>
-</li>
-<li><p><a href="https://eev.ee/blog/2016/09/15/music-theory-for-nerds/" target="_blank" rel="external">Music theory for nerds</a> : 感觉是好文章，先mark</p>
-</li>
-<li><p><a href="http://www.cnblogs.com/LeftNotEasy/archive/2011/01/19/svd-and-applications.html" target="_blank" rel="external">机器学习中的数学(5)-强大的矩阵奇异值分解(SVD)及其应用</a> : </p>
 </li>
 </ul>
 
