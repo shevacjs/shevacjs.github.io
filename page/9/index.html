@@ -57,6 +57,69 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-weekly-of-20160522" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/19/weekly-of-20160522/">weekly of 20160522</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/05/19/weekly-of-20160522/" class="article-date">
+  <time datetime="2016-05-19T04:34:36.000Z" itemprop="datePublished">2016-05-19</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>about weekly : 每周个人推荐的技术文章合集</p>
+</blockquote>
+<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="应用实践"><a href="#应用实践" class="headerlink" title="应用实践"></a>应用实践</h2><ul>
+<li><p><a href="https://engineering.quora.com/Applications-of-NLP-at-Quora?share=1" target="_blank" rel="external">Applications of NLP at Quora</a> : 介绍NLPJ技术在Quora的具体应用实践，包括质量检测等</p>
+</li>
+<li><p><a href="https://imququ.com/post/enable-alpn-asap.html" target="_blank" rel="external">为什么我们应该尽快支持 ALPN？</a> : 本文具体说明了当要支持http/2的时候，需要依赖https的协商机制(NPN or ALPN),  继而说明对openssl lib的要求情况，科普文</p>
+</li>
+</ul>
+<h2 id="资料工具"><a href="#资料工具" class="headerlink" title="资料工具"></a>资料工具</h2><ul>
+<li><p><a href="http://blog.petrzemek.net/2016/04/06/things-about-vim-i-wish-i-knew-earlier/" target="_blank" rel="external">Things About Vim I Wish I Knew Earlier</a> : 介绍vim的一些技巧和思路，我个人觉得<code>set relativenumber</code>可以好好考虑</p>
+</li>
+<li><p><a href="http://madusudanan.com/blog/understanding-postgres-caching-in-depth" target="_blank" rel="external">Understanding caching in Postgres - An in-depth guide</a> : mark, postgres好像越来越受重视了，本文具体介绍postgres的cache机制</p>
+</li>
+<li><p><a href="http://tonybai.com/2016/05/16/understanding-unikernels/" target="_blank" rel="external">理解Unikernels</a> : <code>Unikernels</code> 重新定义了对软件栈的组织方式，全新的思维方式，可以考虑和<code>docker</code>的异同之处</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-nginx_1_9_13" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -381,80 +444,6 @@
 
 
     
-      <article id="post-nginx_1_9_9" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/19/nginx_1_9_9/">nginx 1.9.9 特性说明</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/12/19/nginx_1_9_9/" class="article-date">
-  <time datetime="2015-12-19T06:17:30.000Z" itemprop="datePublished">2015-12-19</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="feature说明"><a href="#feature说明" class="headerlink" title="feature说明"></a>feature说明</h2><ul>
-<li>pwritev() support.</li>
-<li>the “include” directive inside the “upstream” block.</li>
-<li>the ngx_http_slice_module.</li>
-</ul>
-<h2 id="pwritev说明"><a href="#pwritev说明" class="headerlink" title="pwritev说明"></a>pwritev说明</h2><p><a href="http://linux.die.net/man/2/pwritev" target="_blank" rel="external">pwritev</a>的具体说明可以见链接；nginx在这个版本里面主要用<code>pwritev</code>替代<code>writev</code>的功能；简单的理解，可以认为是将老的:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">lseek(fd, offset);</div><div class="line">writev(fd, iov);</div></pre></td></tr></table></figure>
-<p>改成</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">pwritev()</div></pre></td></tr></table></figure>
-<p>总结的收益是:</p>
-<ul>
-<li>系统调用从2次改成1次，主要是性能方面的</li>
-<li>pwritev() was introduced in FreeBSD 6 and Linux 2.6.30, glibc 2.10</li>
-</ul>
-<p>具体可以参看文档: <a href="http://blog.libtorrent.org/2012/12/principles-of-high-performance-programs/" target="_blank" rel="external">principles of high performance programs</a></p>
-<h2 id="ngx-http-slice-module"><a href="#ngx-http-slice-module" class="headerlink" title="ngx_http_slice_module"></a>ngx_http_slice_module</h2><p><a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html" target="_blank" rel="external">ngx_http_slice_module</a>是新引入的一个功能模块；大概的作用是可以将一个upstream response body 切成那个小块，然后每个单独缓存; 官方原话:</p>
-<blockquote>
-<p>The module makes it<br>possible to split a big upstream response into smaller parts and cache them<br>independently.</p>
-<p>The module supports range requests.  When a part of a file is requested,<br>only the required slice upstream requests are made.  If caching is enabled,<br>future requests will only go to upstream for missing slices.</p>
-</blockquote>
-<p>可以理解的应用场景:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client ---&gt; proxy(nginx) ---&gt; upstream</div></pre></td></tr></table></figure>
-<ul>
-<li>proxy那边会将一个big file切成小块缓存</li>
-</ul>
-<blockquote>
-<p>todo待补充</p>
-</blockquote>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <article id="post-ngx_variable_flag" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -538,6 +527,80 @@
 <li><a href="http://m.blog.csdn.net/blog/dingyujie/7106524" target="_blank" rel="external">[原]nginx脚本引擎与设计设计(三)</a></li>
 <li><a href="http://blog.lifeibo.com/blog/2011/12/17/nginx-varibles.html" target="_blank" rel="external">Nginx源码分析之变量</a></li>
 </ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-nginx_1_9_9" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/19/nginx_1_9_9/">nginx 1.9.9 特性说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/12/19/nginx_1_9_9/" class="article-date">
+  <time datetime="2015-12-19T06:17:30.000Z" itemprop="datePublished">2015-12-19</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="feature说明"><a href="#feature说明" class="headerlink" title="feature说明"></a>feature说明</h2><ul>
+<li>pwritev() support.</li>
+<li>the “include” directive inside the “upstream” block.</li>
+<li>the ngx_http_slice_module.</li>
+</ul>
+<h2 id="pwritev说明"><a href="#pwritev说明" class="headerlink" title="pwritev说明"></a>pwritev说明</h2><p><a href="http://linux.die.net/man/2/pwritev" target="_blank" rel="external">pwritev</a>的具体说明可以见链接；nginx在这个版本里面主要用<code>pwritev</code>替代<code>writev</code>的功能；简单的理解，可以认为是将老的:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">lseek(fd, offset);</div><div class="line">writev(fd, iov);</div></pre></td></tr></table></figure>
+<p>改成</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">pwritev()</div></pre></td></tr></table></figure>
+<p>总结的收益是:</p>
+<ul>
+<li>系统调用从2次改成1次，主要是性能方面的</li>
+<li>pwritev() was introduced in FreeBSD 6 and Linux 2.6.30, glibc 2.10</li>
+</ul>
+<p>具体可以参看文档: <a href="http://blog.libtorrent.org/2012/12/principles-of-high-performance-programs/" target="_blank" rel="external">principles of high performance programs</a></p>
+<h2 id="ngx-http-slice-module"><a href="#ngx-http-slice-module" class="headerlink" title="ngx_http_slice_module"></a>ngx_http_slice_module</h2><p><a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html" target="_blank" rel="external">ngx_http_slice_module</a>是新引入的一个功能模块；大概的作用是可以将一个upstream response body 切成那个小块，然后每个单独缓存; 官方原话:</p>
+<blockquote>
+<p>The module makes it<br>possible to split a big upstream response into smaller parts and cache them<br>independently.</p>
+<p>The module supports range requests.  When a part of a file is requested,<br>only the required slice upstream requests are made.  If caching is enabled,<br>future requests will only go to upstream for missing slices.</p>
+</blockquote>
+<p>可以理解的应用场景:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client ---&gt; proxy(nginx) ---&gt; upstream</div></pre></td></tr></table></figure>
+<ul>
+<li>proxy那边会将一个big file切成小块缓存</li>
+</ul>
+<blockquote>
+<p>todo待补充</p>
+</blockquote>
 
       
     </div>
@@ -977,100 +1040,6 @@
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
 
       </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-anti_censorship" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/05/anti_censorship/">翻墙杂谈</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/04/05/anti_censorship/" class="article-date">
-  <time datetime="2015-04-05T11:01:40.000Z" itemprop="datePublished">2015-04-05</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-缘由"><a href="#1-缘由" class="headerlink" title="1. 缘由"></a>1. 缘由</h2><p>HC上面的一篇文件<a href="http://sites.inka.de/~W1011/devel/tcp-tcp.html" target="_blank" rel="external">Why TCP Over TCP Is A Bad Idea</a>，顺便梳理下之前零碎的几个知识点, 主要是一些代理，穿透的网络协议的乱七八糟的东西，这里主要说翻墙的一些手段和办法, 以此来说明网路穿透的一些相关机制。</p>
-<h2 id="2-一些基础"><a href="#2-一些基础" class="headerlink" title="2. 一些基础"></a>2. 一些基础</h2><p>要翻墙前提是得有个VPS，可以自己去购买或者之类的，据同事反馈<a href="http://www.linode.name/" target="_blank" rel="external">linode</a>是不错的选择。有了VPS的话，现在问题就是如何利用VPS进行翻墙?</p>
-<p>如下是简单的网络架构:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client ----(GFW) ---&gt; VPS -----&gt; foreign website</div></pre></td></tr></table></figure>
-<p>因此我们需要达到的功能其实可以简化成如下两个步骤:</p>
-<ul>
-<li>找个一个协议能够连上VPS</li>
-<li>让VPS上面的具体软件转发请求并且透传回来</li>
-</ul>
-<h3 id="2-1-连接VPS的方法"><a href="#2-1-连接VPS的方法" class="headerlink" title="2.1 连接VPS的方法"></a>2.1 连接VPS的方法</h3><blockquote>
-<p>PS本部分都是自己理解，全凭自己猜测</p>
-</blockquote>
-<p>连接vps不仅仅是能ping到这个机器，一般是指能够安全加密的和改VPS交互，总结起来大概可以统称为<a href="http://zh.wikipedia.org/wiki/%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE" target="_blank" rel="external">隧道协议</a>, 而隧道协议可以根据协议所工作的ISO层，有如下几类:</p>
-<h5 id="2-1-1-VPN协议"><a href="#2-1-1-VPN协议" class="headerlink" title="2.1.1 VPN协议"></a>2.1.1 VPN协议</h5><p>用于传统支持VPN的相关协议，一般是工作在网络层以下（含），具体包括:</p>
-<ul>
-<li>PPTP/L2TP : 都是基于PPP协议的二层隧道协议, 工作在数据链路层</li>
-<li>IPsec/AppleTalk : 三层隧道协议,工作在网络层</li>
-</ul>
-<h5 id="2-1-2-会话层协议"><a href="#2-1-2-会话层协议" class="headerlink" title="2.1.2 会话层协议"></a>2.1.2 会话层协议</h5><p>这方面的代表主要是<a href="http://zh.wikipedia.org/wiki/SOCKS" target="_blank" rel="external">SOCKS协议</a>, 也是我们常见的SOCKS代理实现的协议</p>
-<h5 id="2-1-3-应用层协议"><a href="#2-1-3-应用层协议" class="headerlink" title="2.1.3 应用层协议"></a>2.1.3 应用层协议</h5><p>具体的包括SSH隧道，一个通过SSH协议建立起来的连接隧道</p>
-<h3 id="2-2-请求转发"><a href="#2-2-请求转发" class="headerlink" title="2.2 请求转发"></a>2.2 请求转发</h3><p>一旦你连接上了一个具体的服务器，要做请求转发相对来说就比较容易了，而且此事一般是代理软件帮你完成的，同样跟进理解到服务器的协议的不同，代理软件也做着不同层次的支持，以我了解到的, 包括:</p>
-<ul>
-<li>ip层的请求转发，此策略常见于配置VPN服务器的需求，比如如果搭建一个PPTP的服务器，一般需要通过如下方法进行转发:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">sudo sed -i <span class="string">'s/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g'</span> /etc/sysctl.conf</div><div class="line">sudo sysctl -p</div><div class="line"></div><div class="line"><span class="comment">#注意这里eth0代表你的外网网卡，请用ifconfig查看或者咨询网络管理员</span></div><div class="line">sudo iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE</div></pre></td></tr></table></figure>
-<ul>
-<li><p>数据层的转发，主要是SOCKS代理服务器，Socks代理只是简单地传递数据包，而不必关心是何种应用协议（比如FTP、HTTP和NNTP请求）</p>
-</li>
-<li><p>应用层的转发，举个例子通过nginx配置正向代理之类的, 用处感觉比较少</p>
-</li>
-</ul>
-<h2 id="3-具体应用"><a href="#3-具体应用" class="headerlink" title="3. 具体应用"></a>3. 具体应用</h2><p>有了上面的基础，我们就可以根据自己的需求创建具体的翻墙策略，这里主要介绍两个，其一是PPTP代理，其二是SSH隧道</p>
-<h3 id="3-1-PPTP代理"><a href="#3-1-PPTP代理" class="headerlink" title="3.1 PPTP代理"></a>3.1 PPTP代理</h3><p>PPTP代理的一个优点是快，缺点个人感觉有两个:</p>
-<ul>
-<li>通用性不强：其对网关有一定的要求，一些路由器之类的不一定支持(比如我们家的TPLINK的某一型号路由器)</li>
-<li>可控性或者自由度不够: 由于PPTP工作较为底层，这也就意味着，如果你一旦启用他，整个PC某人情况下都会走代理，但是大多是时候，我们可能指希望某类应用或者协议（比如HTTP)走代理。如果要达到此目标，还需要额外的控制</li>
-</ul>
-<p>具体如何配置，这里也不赘述，具体可以参看链接: <a href="http://blog.fens.me/ubuntu-vpn-pptp/" target="_blank" rel="external">在Ubuntu上安装PPTP VPN服务</a></p>
-<h3 id="3-2-ssh隧道"><a href="#3-2-ssh隧道" class="headerlink" title="3.2 ssh隧道"></a>3.2 ssh隧道</h3><p>如上，SSH隧道是通过ssh协议构建的一个应用层隧道，因此其可以灵活控制。而大多是SSH客户端支持SOCKS代理，也就是通过建立一个动态的SSH转发，其自动启动一个SOCKS代理，这样浏览器等就可以很方便的使用类似SOCKS代理的方式通信了</p>
-<p>ssh命令启动一个动态SSH隧道的命令如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh -NTf -D 9000 &lt;ssh server&gt;</div></pre></td></tr></table></figure>
-<p>具体可以参考<a href="http://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/" target="_blank" rel="external">实战 SSH 端口转发</a></p>
-<h2 id="4-其他"><a href="#4-其他" class="headerlink" title="4. 其他"></a>4. 其他</h2><p>上面主要介绍了我们如何控制我们机器的网络交互通道来达到翻墙的目标。而对于最常见的HTTP代理，浏览器那边其实也做了一些支持，主要是<a href="http://zh.wikipedia.org/wiki/%E4%BB%A3%E7%90%86%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE" target="_blank" rel="external">代理自动配置</a>，改方案核心思路和上述一样（都是要找代理服务器的啊），但是具体实现层面的话，可以理解是浏览器主动托管了网络交互那层，因此对用户而言，只要配置合理的PAC就可以了, 还是相关不错的</p>
-<p>其他的还有很多方案，具体可以参看wiki百科的<a href="http://zh.wikipedia.org/wiki/%E7%AA%81%E7%A0%B4%E7%BD%91%E7%BB%9C%E5%AE%A1%E6%9F%A5" target="_blank" rel="external">突破网络审查</a></p>
-<h2 id="5-参考链接"><a href="#5-参考链接" class="headerlink" title="5. 参考链接"></a>5. 参考链接</h2><p>首先，建议对几个协议，大家可以具体<a href="http://zh.wikipedia.org/wiki/Wikipedia:%E9%A6%96%E9%A1%B5" target="_blank" rel="external">维基百科</a>之</p>
-<ul>
-<li><a href="http://www.vpninstructions.com/whats-the-difference-between-pptp-l2tp-openvpn-and-socks-when-talking-about-vpns/" target="_blank" rel="external">What’s the difference between PPTP, L2TP, OpenVPN, and SOCKS when talking about VPNs?</a> : 介绍了PPTP,SOCKS等几个协议的异同点</li>
-</ul>
-<p>ssh相关的:</p>
-<ul>
-<li><a href="http://www.ruanyifeng.com/blog/2011/12/ssh_port_forwarding.html" target="_blank" rel="external">SSH原理与运用（二）：远程操作与端口转发</a></li>
-<li><a href="http://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/" target="_blank" rel="external">实战SSH端口转发</a></li>
-<li><a href="http://www.iokay.net/it-technology/ssh-proxy" target="_blank" rel="external">利用SSH代理爬墙</a></li>
-</ul>
-
-      
-    </div>
-    
     
   </div>
   

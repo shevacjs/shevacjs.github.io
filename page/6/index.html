@@ -57,6 +57,66 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-1204" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/04/1204/">weekly of 20161204</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/12/04/1204/" class="article-date">
+  <time datetime="2016-12-03T16:25:11.000Z" itemprop="datePublished">2016-12-04</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><a href="http://blog.kevinalbs.com/base122" target="_blank" rel="external">Base-122 Encoding</a> : Base64是最为常见的将二机制数据转为text的编码方式; 本文提出了一个类似于<code>Base64</code>的编码方案<code>Base122</code>, 相比于base64, base-122理论上认为有更高的压缩比，但是结合gzip之后，实测数据是低于<code>gzip+base64</code>，具体落地收益一般; 不过还是可以让我们对base64之类的编码方式有初步的了解和认识</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><a href="https://blog.hypertrack.io/2016/11/28/battery-efficient-real-time-gps-tracking/" target="_blank" rel="external">Battery Efficient Real-Time GPS Tracking</a> : HyperTrack介绍的如何低功耗的进行GPS追踪; 主要是基于如下两个假设(发现) : 1)GPS数据传输的耗电量是采集的5~10倍 2)主动追踪应用场景的覆盖率比例不会太高(约20%), 然后提出了类似于<code>VARIABLE FREQUENCY MODEL</code>, 以及在这个指导策略下多场景的优化</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://gchq.github.io/CyberChef/" target="_blank" rel="external">CyberChef – A Cyber Swiss Army Knife</a> : 程序猿的网上”瑞士军刀”, 各种小工具助你解决大问题</p>
+</li>
+<li><p><a href="http://muratbuffalo.blogspot.jp/2016/11/my-distributed-systems-seminars-reading.html" target="_blank" rel="external">My Distributed Systems Seminar’s reading list for Spring 2017</a> : 不少文章/paper可以关注</p>
+</li>
+<li><p><a href="https://cpbotha.net/2016/11/27/android-security-in-2016-is-a-mess/" target="_blank" rel="external">Android security in 2016 is a mess</a> : 对Android系统的安全性的概述，其面临的问题和风险还是非常大的；</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-1127" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -712,73 +772,6 @@
 <h2 id="other"><a href="#other" class="headerlink" title="other"></a>other</h2><p>‘</p>
 <p>在x86_64上面，为了把尽可能多的低 2GB 的地址空间留给 LuaJIT 的 GC 管理的内存分配器，ngx_lua 模块中使用 mmap(sbrk(0)) 让数据段里的“堆”，即所谓的 program break，停止生长。这样 glibc 的分配器便不能再使用 brk() 系统调用来分配较小块的内存，而不得不换用 mmap(). 这是书鑫老师的想法。</p>
 <p>‘</p>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-1002" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/02/1002/">weekly of 20161002</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2016/10/02/1002/" class="article-date">
-  <time datetime="2016-10-01T16:25:11.000Z" itemprop="datePublished">2016-10-02</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><a href="https://news.ycombinator.com/item?id=12609752" target="_blank" rel="external">DNS-over-HTTPS</a> : google开放了基于<code>https</code>的DNS查询服务, url为<code>https://dns.google.com/resolve?</code>; <a href="http://www.dmitry-ishkov.com/2016/09/dns-over-https.html" target="_blank" rel="external">DNS over HTTPS</a>这个文章具体介绍，如何用https dns服务搭建dns服务(构建一个dns –&gt; http的代理) </p>
-</li>
-<li><p><a href="https://blog.google/" target="_blank" rel="external">The Keyword: Is this thing on?</a> : “You’ve made it to blog.google, our new central source for news and stories about Google”, google新的众多产品线的官方blog</p>
-</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://blog.separateconcerns.com/2015-06-18-love-hate-luajit.html" target="_blank" rel="external">My love-hate relationship with LuaJIT</a> : 对luajit的想法和讨论, luajit虽然快，但很多时候是一个黑盒，所以作者宁愿选择lua; 个人还是比较认同这个观点的, 所以希望设计一个兼容luajit bitcode的新的lua vm 引擎</p>
-</li>
-<li><p><a href="https://sqlite.org/whentouse.html" target="_blank" rel="external">Appropriate Uses For SQLite</a> : 给出了<code>SQLite</code>的一些使用场景，个人觉得sqlite的确应用场景非常多，只不过之前没有系统梳理过</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="http://mp.weixin.qq.com/s?__biz=MzIzOTU0NTQ0MA==&amp;mid=2247483750&amp;idx=1&amp;sn=d41f5427738369f4a27f4b617184ea9f&amp;mpshare=1&amp;scene=1&amp;srcid=0905CgJUDh0Ytx9shPpEK74e&amp;from=groupmessage&amp;isappinstalled=0#wechat_redirect" target="_blank" rel="external">“异地多活”设计辣么难？其实是你想多了</a> : 和我个人想法差不多, “会不自觉的陷入一个思维误区：我要保证所有业务的“异地多活”！”</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://research.googleblog.com/2016/09/image-compression-with-neural-networks.html" target="_blank" rel="external">Image Compression with Neural Networks</a> : 基于神经网络的图片压缩</p>
-</li>
-<li><p><a href="https://hownot2code.com/2016/09/29/collection-of-cheat-sheets-for-programmers/" target="_blank" rel="external">Collection of cheat sheets for programmers</a> : 一些资料干货list</p>
-</li>
-</ul>
 
       
     </div>
