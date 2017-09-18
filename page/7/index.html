@@ -57,6 +57,86 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-1009" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/09/1009/">weekly of 20161009</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/10/09/1009/" class="article-date">
+  <time datetime="2016-10-08T16:25:11.000Z" itemprop="datePublished">2016-10-09</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><a href="https://news.ycombinator.com/item?id=12635247" target="_blank" rel="external">GitHub Audio (github.audio)</a> : “This website tracks events happening across GitHub and converts them to music notes based on certain parameters.”</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://github.com/Microsoft/language-server-protocol" target="_blank" rel="external">Language Server Protocol</a> : 挺有意思的一个设计, 通过构建一个C/S的模型, 让一些语言分析的工具能够提供服务化的接口; 这对一些编辑器的自动补全/语法检验等都能简单</p>
+</li>
+<li><p><a href="https://github.com/iovisor/bcc/blob/master/docs/kernel-versions.md" target="_blank" rel="external">BPF Features by Linux Kernel Version</a> : 具体介绍了不同版本的linux内核有哪些feature</p>
+</li>
+<li><p><a href="https://ifconfiger.com/page/understanding-on-BIOS-MBR-GRUB" target="_blank" rel="external">BIOS,MBR,GRUB的一些理解</a> : 关于硬盘分区和管理的一些知识</p>
+</li>
+<li><p><a href="https://sanctum.geek.nz/arabesque/series/linux-crypto/" target="_blank" rel="external">Linux Crypto: Introduction</a> : 对Linux的加密体系，尤其是工具有比较详细的说明</p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="http://www.linkedkeeper.com/detail/blog.action?bid=121" target="_blank" rel="external">Redis 内存使用优化与存储</a> : 总结和梳理的挺全面的</p>
+</li>
+<li><p><a href="https://idea.popcount.org/2016-09-20-strange-loop---ip-spoofing/" target="_blank" rel="external">Strange Loop - IP Spoofing</a> : 具体介绍了DDos攻击的概念和IP伪造的方法，其中介绍的关于利用<code>Hilbert Curve</code>曲线描绘IP分布的方法值得学习</p>
+</li>
+<li><p><a href="https://blog.apnic.net/2016/10/14/quic-experiment-chrome-52/" target="_blank" rel="external">A QUIC experiment with Chrome 52+</a> : 具体介绍如何自己测试使用<code>QUIC</code>协议</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://www.zhihu.com/question/23645117/answer/124708083" target="_blank" rel="external">学习分布式系统需要怎样的知识?</a> : 知乎上面一个关于分布式系统的介绍，个人感觉还是可以全局的了解<code>分布式系统</code></p>
+</li>
+<li><p><a href="https://github.com/facert/awesome-spider" target="_blank" rel="external">爬虫集合</a> : 有不少爬虫的干货</p>
+</li>
+<li><p><a href="http://www.teamchuang.com:8080/ttc_web/book/share/297ebe0e572d1d690157a3431d4a06a4" target="_blank" rel="external">终于把区块链的技术与应用讲清楚(57张PPT)</a> : 先收藏</p>
+</li>
+<li><p><a href="http://zhibimo.com/read/wang-miao/mastering-bitcoin/index.html" target="_blank" rel="external">精通比特币</a> : 目前看到最好的关于比特币的书, 免费电子版;另外推荐的东西包括: <a href="http://ethfans.org/wikis/Home" target="_blank" rel="external">以太坊中文官网</a> 以及<a href="http://www.teamchuang.com:8080/ttc_web/book/share/297ebe0e572d1d690157a3431d4a06a4" target="_blank" rel="external">终于把区块链的技术与应用讲清楚了</a>; 东西比较多，需要一个持续的学习过程 </p>
+</li>
+</ul>
+<h2 id="other"><a href="#other" class="headerlink" title="other"></a>other</h2><p>‘</p>
+<p>在x86_64上面，为了把尽可能多的低 2GB 的地址空间留给 LuaJIT 的 GC 管理的内存分配器，ngx_lua 模块中使用 mmap(sbrk(0)) 让数据段里的“堆”，即所谓的 program break，停止生长。这样 glibc 的分配器便不能再使用 brk() 系统调用来分配较小块的内存，而不得不换用 mmap(). 这是书鑫老师的想法。</p>
+<p>‘</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-1002" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -659,74 +739,6 @@
 <li><p><a href="https://wiki.mozilla.org/Security/Server_Side_TLS" target="_blank" rel="external">Security/Server Side TLS</a> : 非常详细和有空的server TLS配置的说明，包括推荐的，不建议的，禁止的多方面内容，也提供了一些tool</p>
 </li>
 <li><p><a href="https://github.com/FallibleInc/security-guide-for-developers" target="_blank" rel="external">A practical security guide for web developers</a> : 一个git<br>仓库，用于记录安全编程的最佳实现，可以mark下后续关注</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-0731" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/31/0731/">weekly of 20160731</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2016/07/31/0731/" class="article-date">
-  <time datetime="2016-07-31T02:34:36.000Z" itemprop="datePublished">2016-07-31</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="http://www.infoq.com/cn/news/2016/07/riak-ts-open-sourced" target="_blank" rel="external">Basho公司开源了它的时序数据库产品Riak TS 1.3</a> : 有一个时间序列数据存储的选择, 可以简单了解下;</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://blog.sqreen.io/7-http-headers-to-secure-your-app-for-the-busy-web-developer/" target="_blank" rel="external">7 HTTP headers to secure your app for the busy web developer</a> : 对常用的http header说明的很系统和全面</p>
-</li>
-<li><p><a href="https://www.coati.io/blog/why_working_on_chrom_made_me_develop_a_tool_for_reading_source_code/" target="_blank" rel="external">Why working on Chrome made me develop a tool for reading source code</a> : coati是一个新的代码浏览工具, 本文具体说明了作者设计思路和意图</p>
-</li>
-<li><p><a href="http://nickfishman.com/post/50557873036/reverse-engineering-native-apps-by-intercepting-network" target="_blank" rel="external">Reverse Engineering Native Apps by Intercepting Network Traffic</a> : 具体分享了如何通过网络请求的分析，来做一些逆向工程的事情，也具体介绍了分析app程序网络请求的一些特定</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="http://www.infoq.com/cn/news/2016/07/Facebook-MapReduce" target="_blank" rel="external">Facebook的实时流处理技术</a> : 具体的方案 其实参考之处没有太多；主要看 他们对问题的拆解 &amp; 思路；</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://blog.acolyer.org/2016/04/21/the-amazing-power-of-word-vectors/" target="_blank" rel="external">The amazing power of word vectors</a> : 一个科普的好文章，写mark，后再看</p>
-</li>
-<li><p><a href="http://www.ruanyifeng.com/blog/2016/07/edge-recognition.html" target="_blank" rel="external">如何识别图像边缘？</a> : 科普小文章</p>
-</li>
-<li><p><a href="https://wiki.freebsd.org/Myths" target="_blank" rel="external">Myths about FreeBSD</a> : 关于<code>FressBsd</code>一些神话的说明，可以有助于更快的理解和认识这个操作系统</p>
 </li>
 </ul>
 
