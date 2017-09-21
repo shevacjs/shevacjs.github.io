@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://shevacjs.com/images/gubeishuizhan.jpg">
 <meta property="og:image" content="http://shevacjs.com/images/http2_demo.png">
 <meta property="og:image" content="http://shevacjs.com/images/http1_demo.png">
-<meta property="og:updated_time" content="2017-09-21T11:43:46.000Z">
+<meta property="og:updated_time" content="2017-09-21T11:51:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx and Http2 应用篇">
 <meta name="twitter:description" content="http2协议 一直被认为是这几年对互联网有着重要影响的新协议，业内对其的支持也是非常迅速和快捷的; 作为一个快速迭代的开源软件nginx，也是保持住对http2的快速支持，从最早的spdy到现在的http2，nginx都是刚为天下先的; 随着相关协议和实现的不断落地，不少大的互联网公司都已经支持http2的访问模式, 比如过google, cloudflare, facebook, 国内的腾讯">
@@ -87,7 +87,8 @@
       
         <p><img src="/images/gubeishuizhan.jpg" alt="古北水镇"></p>
 <p><a href="https://tools.ietf.org/html/rfc7540" target="_blank" rel="external">http2协议</a> 一直被认为是这几年对互联网有着重要影响的新协议，业内对其的支持也是非常迅速和快捷的; 作为一个快速迭代的开源软件nginx，也是保持住对http2的快速支持，从最早的spdy到现在的http2，nginx都是<code>刚为天下先</code>的; 随着相关协议和实现的不断落地，不少大的互联网公司都已经支持http2的访问模式, 比如过google, cloudflare, facebook, 国内的腾讯,天猫也支持了(可以安装<a href="https://chrome.google.com/webstore/detail/http2-and-spdy-indicator/mpbpobfflnpcgagjijhmgnchggcjblin?hl=en" target="_blank" rel="external">HTTP/2 and SPDY indicator</a>这个chrome插件显示)</p>
-<p>这里，要从两个方面的实践去了解https，包括应用篇，具体而已就是通过自己构造client/server, 去了解应用https服务的方方面面；其次是实践篇，重点去分析nginx的代码。 本盘文章主要介绍应用篇的内容</p>
+<p>这里，要从两个方面的实践去了解https，包括应用篇，具体而已就是通过自己构造client/server, 去了解应用https服务的方方面面；其次是实践篇，重点去分析nginx的代码。 本篇文章主要介绍应用篇的内容</p>
+<a id="more"></a>
 <h3 id="整体思路"><a href="#整体思路" class="headerlink" title="整体思路"></a>整体思路</h3><p>我们知道http2协议本身并没有要求底层是否要基于TLS(可选)，但是从实践方面来看，几乎所有的浏览器都只支持基于TLS的http2交互，而nginx相对比友好，两个模式都是<a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#listen" target="_blank" rel="external">可以支持</a>的, 所以我们可以分别去验证着两种模式，前者我们可以采用curl命令发送，后者我们直接基于浏览器, server都用nginx服务。 具体而已，拆成如下两个交互场景: </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">  client                      server(nginx)</div><div class="line"></div><div class="line">+---------+    http2        +------------+</div><div class="line">| curl    +---------------&gt; | without TLS|</div><div class="line">+---------+                 +------------+</div><div class="line"></div><div class="line"></div><div class="line">+---------+    http2        +-------------+</div><div class="line">| Chrome  +----------------&gt;+ With TLS    |</div><div class="line">+---------+                 +-------------+</div></pre></td></tr></table></figure>
 <h3 id="用curl发送http2请求"><a href="#用curl发送http2请求" class="headerlink" title="用curl发送http2请求"></a>用curl发送http2请求</h3><p>这个环节server端配置非常方便，不再赘述，具体如下:</p>
