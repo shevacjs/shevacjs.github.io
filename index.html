@@ -57,6 +57,125 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-nginx_and_http2_apply" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/21/nginx_and_http2_apply/">Nginx and Http2 应用篇</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/09/21/nginx_and_http2_apply/" class="article-date">
+  <time datetime="2017-09-21T11:39:07.000Z" itemprop="datePublished">2017-09-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/gubeishuizhan.jpg" alt="古北水镇"></p>
+<p><a href="https://tools.ietf.org/html/rfc7540" target="_blank" rel="external">http2协议</a> 一直被认为是这几年对互联网有着重要影响的新协议，业内对其的支持也是非常迅速和快捷的; 作为一个快速迭代的开源软件nginx，也是保持住对http2的快速支持，从最早的spdy到现在的http2，nginx都是<code>刚为天下先</code>的; 随着相关协议和实现的不断落地，不少大的互联网公司都已经支持http2的访问模式, 比如过google, cloudflare, facebook, 国内的腾讯,天猫也支持了(可以安装<a href="https://chrome.google.com/webstore/detail/http2-and-spdy-indicator/mpbpobfflnpcgagjijhmgnchggcjblin?hl=en" target="_blank" rel="external">HTTP/2 and SPDY indicator</a>这个chrome插件显示)</p>
+<p>这里，要从两个方面的实践去了解https，包括应用篇，具体而已就是通过自己构造client/server, 去了解应用https服务的方方面面；其次是实践篇，重点去分析nginx的代码。 本盘文章主要介绍应用篇的内容</p>
+<h3 id="整体思路"><a href="#整体思路" class="headerlink" title="整体思路"></a>整体思路</h3><p>我们知道http2协议本身并没有要求底层是否要基于TLS(可选)，但是从实践方面来看，几乎所有的浏览器都只支持基于TLS的http2交互，而nginx相对比友好，两个模式都是<a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#listen" target="_blank" rel="external">可以支持</a>的, 所以我们可以分别去验证着两种模式，前者我们可以采用curl命令发送，后者我们直接基于浏览器, server都用nginx服务。 具体而已，拆成如下两个交互场景: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">  client                      server(nginx)</div><div class="line"></div><div class="line">+---------+    http2        +------------+</div><div class="line">| curl    +---------------&gt; | without TLS|</div><div class="line">+---------+                 +------------+</div><div class="line"></div><div class="line"></div><div class="line">+---------+    http2        +-------------+</div><div class="line">| Chrome  +----------------&gt;+ With TLS    |</div><div class="line">+---------+                 +-------------+</div></pre></td></tr></table></figure>
+<h3 id="用curl发送http2请求"><a href="#用curl发送http2请求" class="headerlink" title="用curl发送http2请求"></a>用curl发送http2请求</h3><p>这个环节server端配置非常方便，不再赘述，具体如下:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">## nginx非TLS的http2接入配置demo</span></div><div class="line">   <span class="section">server</span> &#123;</div><div class="line"></div><div class="line">      <span class="attribute">listen</span> <span class="number">8086</span> http2; </div><div class="line">       <span class="attribute">location</span> / &#123;</div><div class="line">           <span class="attribute">content_by_lua</span> <span class="string">'</span></div><div class="line">               ngx.say("I am location in http2")';</div><div class="line">       &#125;</div><div class="line"></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>而curl这边，则就有点小问题，因为大部分的机器默认安装的curl版本都偏低(7.33.0支持带tls的http2/7.49.0支持降级的http2), 可以参照文末的参考文档进行更新, 剩余的问题就是如何发送一个不带TLS的客户端请求, 通过<code>man curl</code> 加上<code>grep http2</code>, 有如下几个说明:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">--http2-prior-knowledge</div><div class="line">	  (HTTP)  Tells  curl  to issue its non-TLS HTTP requests using HTTP/2 without HTTP/1.1 Upgrade. It requires prior</div><div class="line">	  knowledge that the server supports HTTP/2 straight away. HTTPS requests will still do HTTP/2  the  standard  way</div><div class="line">	  with negotiated protocol version in the TLS handshake.</div><div class="line"></div><div class="line">--http2</div><div class="line">	  (HTTP) Tells curl to use HTTP version 2.</div><div class="line"></div><div class="line">	  See also --no-alpn. --http2 requires that the underlying libcurl was built to support HTTP/2. This option  over-</div><div class="line">	  rides --http1.1 and -0, --http1.0 and --http2-prior-knowledge. Added in 7.33.0.</div></pre></td></tr></table></figure>
+<p> 上面的文档可以概述如下:</p>
+<ul>
+<li>curl可以通过<code>--http2</code>或者<code>--http2-prior-knowledge</code>来发送基于TLS的http2或者明文http2</li>
+<li><code>--http2-prior-knowledge</code>说明，curl和nginx交互可以不走<code>HTTP/1.1</code>的<code>Upgrade</code>机制, 这个里面涉及到一个问题，就是一个客户端如何和服务器通过http2开始交互(还是老的端口)，理解上面，需要引入一个协商机制(negotiate), 从<a href="https://en.wikipedia.org/wiki/HTTP/1.1_Upgrade_header" target="_blank" rel="external">wiki</a>里面介绍的是:<ul>
+<li>如果是h2c, 可以急于http/1.1的upgrade机制</li>
+<li>如果是h2(tls), 是基于<code>ALPN</code>或者<code>NLN</code>(快废弃)</li>
+</ul>
+</li>
+</ul>
+<p>这个里面碰到的问题是，配置的nginx好像不能很好的支持<code>http/1.1 upgrade</code>的协商机制，后续通过源码在分析。如上，最简单的构造http/2协议的方式如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">]$ curl --http2-prior-knowledge  &quot;127.0.0.1:8086&quot; -i                                              16:42:29</div><div class="line">HTTP/2 200</div><div class="line">server: openresty/1.11.2.5</div><div class="line">date: Thu, 21 Sep 2017 08:42:45 GMT</div><div class="line">content-type: application/octet-stream</div><div class="line"></div><div class="line">I am location in http2</div></pre></td></tr></table></figure>
+<h3 id="利用Chrome发送Http-2请求"><a href="#利用Chrome发送Http-2请求" class="headerlink" title="利用Chrome发送Http/2请求"></a>利用Chrome发送Http/2请求</h3><p>如上所述，由于浏览器只支持安全的http2，所以要验证这个demo，我们需要让我们的站点有相应的证书才可以, 所以这个环境主要关注如下几个topic:</p>
+<ul>
+<li>本地证书的生成步骤</li>
+<li>本地nginx的配置</li>
+<li>chrome请求的发送以及验证</li>
+</ul>
+<p>分别如下:</p>
+<h4 id="关于测试证书"><a href="#关于测试证书" class="headerlink" title="关于测试证书"></a>关于测试证书</h4><p>虽然<code>Let&#39;s Encrypt</code>给了我们一个免费生成域名证书的机会，但是灵活性/时效性欠缺, 所以在特定的网络情况下(比如内网, 自己测试使用), 更建议自己生成简单的域名证书, 这样也方便接下来的测试, 因此这里简单介绍下如何通过<code>openssl</code>生成自己的域名证书</p>
+<p>先介绍整体的逻辑, 要对生成一个域名证书，从<code>PKI</code>的体系来看，主要需要如下三个步骤(假设要生成<code>example.org</code>的域名证书):</p>
+<ol>
+<li>网站拥有者先生成自己网站的公钥私钥对(私钥对自己可见) :</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl rsa -in example.org.key -noout -text</div></pre></td></tr></table></figure>
+<ol>
+<li>构造一个<code>Certificate Signing Request (CSR)</code>, 可以理解为你需要描述好你的需求(给那个域名加证书/用什么算法等), 这样后续CA才能依照此颁发证书, 具体如下:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">### 如上，由于这个是描述需求的，所以这个步骤关于最后证书的能力</div><div class="line">### 配置过程中会有不少可选性</div><div class="line">openssl req -new -key example.org.key -out example.org.csr</div></pre></td></tr></table></figure>
+<ol>
+<li><p>现在我们需要的是用CA对<code>CSR</code>请求进行授权，但是我们还缺少CA，所以这个步骤是生成自己的CA证书，大家可以理解这个是一次性的(后续给其他的域名颁发证书，不需要重复执行这一步), 具体如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">### 生成密钥</div><div class="line">openssl genrsa -out ca.key 2048</div><div class="line">### 生成自签名的CA证书</div><div class="line">openssl req -new -x509 -key ca.key -out ca.crt</div></pre></td></tr></table></figure>
+</li>
+<li><p>有了如上CA证书, 最后一步就是用CA给CSR进行签名，具体如下:</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl x509 -req -in example.org.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out example.org.crt</div></pre></td></tr></table></figure>
+<p>主要参考文档如下:</p>
+<ul>
+<li><p><a href="https://gist.github.com/Soarez/9688998" target="_blank" rel="external">How to setup your own CA with OpenSSL</a> : 上面的demo都是来自于这个文档，说的比较详细，包括背后的思路和具体的实践步骤，主要推荐</p>
+</li>
+<li><p><a href="https://jamielinux.com/docs/openssl-certificate-authority/index.html" target="_blank" rel="external">OpenSSL Certificate Authority</a> : 内容更细一些，但是也是非常系统的介绍, 里面还介绍了<code>intermediate CA</code>的操作方式，有此类需求的可以了解</p>
+</li>
+<li><p><a href="http://www.cnblogs.com/liyulong1982/p/6106129.html" target="_blank" rel="external">HTTPS证书生成原理和部署细节</a> : 中文文档</p>
+</li>
+</ul>
+<h4 id="nginx配置以及chrome发送"><a href="#nginx配置以及chrome发送" class="headerlink" title="nginx配置以及chrome发送"></a>nginx配置以及chrome发送</h4><p>nginx配置比较简单，完整起见，具体配置贴出如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen       8443 ssl http2;</div><div class="line">    server_name  www.shevacjs.com;</div><div class="line"></div><div class="line">    ### 证书</div><div class="line">    ssl_certificate      /xxxx/shevacjs.com.crt;</div><div class="line">    ### 私钥</div><div class="line">    ssl_certificate_key  /xxxx/shevacjs.com.key;</div><div class="line"></div><div class="line">    ssl_session_cache    shared:SSL:1m;</div><div class="line">    ssl_session_timeout  5m;</div><div class="line"></div><div class="line">    ssl_ciphers  HIGH:!aNULL:!MD5;</div><div class="line">    ssl_prefer_server_ciphers  on;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">        root   html;</div><div class="line">        index  index.html index.htm;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>用Chrome发送，选择信任此证书, 即可;如下是一个简单的截图:</p>
+<p><img src="/images/http2_demo.png" alt="http2_demo"></p>
+<p>对比如果使用非http2网络交互情况如下:</p>
+<p><img src="/images/http1_demo.png" alt="http1_demo"></p>
+<h3 id="一些细节"><a href="#一些细节" class="headerlink" title="一些细节"></a>一些细节</h3><ul>
+<li><p>用wireshark抓包的时候, 如果协议不是走标准的端口(比如TLS走8443而不是443), 需要手动去配置,告诉wireshark 8443端口上面的应用协议是TLS(一直以为能自动识别), 具体可以参看<a href="https://ask.wireshark.org/questions/34075/why-wireshark-cannot-display-tlsssl" target="_blank" rel="external">Why wireshark cannot display TLS/SSL</a></p>
+</li>
+<li><p>Chrome下面<code>DevTools</code>会显示所谓的<code>Connection Id</code>, 可以看到在http2情况下，同一个域名的连接id是一致的, chrome是复用链接的, 同时可以通过<code>chrome://net-internals/#http2</code> 来查看HTTP2的交互情况</p>
+</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><p><a href="https://simonecarletti.com/blog/2016/01/http2-curl-macosx/" target="_blank" rel="external">Using cURL with HTTP/2 on Mac OS X</a> : 介绍了在macOS下面如何让<code>curl</code>支持发送<code>http2</code>请求, 不过有点坑，如果改方法不行，建议自己手动编译<a href="https://nghttp2.org/blog/2017/08/18/nghttp2-v1-25-0/" target="_blank" rel="external">nghttp2</a>和<a href="https://curl.haxx.se/download.html" target="_blank" rel="external">curl</a></p>
+</li>
+<li><p><a href="https://imququ.com/post/protocol-negotiation-in-http2.html" target="_blank" rel="external">谈谈HTTP/2的协议协商机制</a> 和 <a href="https://imququ.com/post/enable-alpn-asap.html" target="_blank" rel="external">为什么我们应该尽快支持ALPN</a> : 关于Http协议协商(包括Upgrade, NPN, ALPN)的非常好的介绍和说明</p>
+</li>
+</ul>
+<p>以上，有错漏之处后续再补充</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx-http2/">nginx, http2</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20170917" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -591,64 +710,6 @@
         
           <p class="article-more-link">
             <a href="/2017/08/03/nginx_1_13_1_and_2/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-nginx_1_13_0" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/02/nginx_1_13_0/">nginx 1.13.0 版本说明</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/08/02/nginx_1_13_0/" class="article-date">
-  <time datetime="2017-08-02T06:17:29.000Z" itemprop="datePublished">2017-08-02</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="原始feature说明"><a href="#原始feature说明" class="headerlink" title="原始feature说明"></a>原始feature说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">*) Change: SSL renegotiation is now allowed on backend connections.</div><div class="line"></div><div class="line">*) Feature: the &quot;rcvbuf&quot; and &quot;sndbuf&quot; parameters of the &quot;listen&quot;</div><div class="line">   directives of the mail proxy and stream modules.</div><div class="line"></div><div class="line">*) Feature: the &quot;return&quot; and &quot;error_page&quot; directives can now be used to</div><div class="line">   return 308 redirections.</div><div class="line">   Thanks to Simon Leblanc.</div><div class="line"></div><div class="line">*) Feature: the &quot;TLSv1.3&quot; parameter of the &quot;ssl_protocols&quot; directive.</div><div class="line"></div><div class="line">*) Feature: when logging signals nginx now logs PID of the process which</div><div class="line">   sent the signal.</div><div class="line"></div><div class="line">*) Bugfix: in memory allocation error handling.</div><div class="line"></div><div class="line">*) Bugfix: if a server in the stream module listened on a wildcard</div><div class="line">   address, the source address of a response UDP datagram could differ</div><div class="line">   from the original datagram destination address.</div></pre></td></tr></table></figure>
-<p>我们主要关系其新增的feature, 包括:</p>
-<ul>
-<li>return/error_page支持308状态码</li>
-<li>nginx收到信号的时候，支持打印信号源的pid</li>
-<li><code>ssl_protocols</code> 支持 TLSv1.3 协议</li>
-</ul>
-<p><code>TLS 1.3</code>协议是一个比较先进的新协议, 这里先不展开，我们重点介绍前两个功能特性的作用和简单实现</p>
-        
-          <p class="article-more-link">
-            <a href="/2017/08/02/nginx_1_13_0/#more">Read More</a>
           </p>
         
       

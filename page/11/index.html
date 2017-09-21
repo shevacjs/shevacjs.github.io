@@ -57,6 +57,90 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-tcp_close" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/02/01/tcp_close/">tcp的关闭处理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/02/01/tcp_close/" class="article-date">
+  <time datetime="2015-02-01T15:41:49.000Z" itemprop="datePublished">2015-02-01</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>tcp的系列文章，不深究源码，偏于理解&amp;应用</p>
+</blockquote>
+<h2 id="状态图迁移"><a href="#状态图迁移" class="headerlink" title="状态图迁移"></a>状态图迁移</h2><p>一般tcp的关闭称为四次挥手，要求client/server端都关闭该通道的连接，他们的状态迁移图如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">#这里暂不考虑同时关闭的情况</span></div><div class="line"></div><div class="line">主动关闭方                  被动关闭方</div><div class="line"></div><div class="line">ESTABLISTED                 ESTABLISED</div><div class="line">    |                           |</div><div class="line">  (send fin)                (get fin</div><div class="line">    |                       /snd ack)</div><div class="line">    |                           |</div><div class="line">    v                           v</div><div class="line">FIN_WAIT_1                  CLOSE_WAIT</div><div class="line">    |                           |</div><div class="line">  (get ack)                     |</div><div class="line">    |                           |</div><div class="line">    v                       (send fin)</div><div class="line">FIN_WAIT_2                      |</div><div class="line">    |                           v</div><div class="line"> (getfin                    LAST_ACK</div><div class="line"> /send ack)                     |</div><div class="line">    |                           |</div><div class="line">    v                       (get ack )</div><div class="line">TIME_WAIT                       |</div><div class="line">    |                           |</div><div class="line">  (2* MSL)                      v</div><div class="line">    |                        CLOSED</div><div class="line">    v</div><div class="line">CLOSED</div></pre></td></tr></table></figure>
+<h2 id="API关系"><a href="#API关系" class="headerlink" title="API关系"></a>API关系</h2><p>关闭的函数主要有两个，如下:</p>
+<ul>
+<li>close : close主要是减少句柄的引用计数，如果为0，在发送fin信号，关闭这一端的连接;</li>
+<li>shutdown : shutdown则是直接发送FIN信号，不考虑引用计数的问题，可以导致一些正在连接的socket直接无效了</li>
+</ul>
+<p>而在具体使用上面，还有一些细节，包括:</p>
+<ul>
+<li><p>close一般情况下是非阻塞的，但我们可以通过设置SO_LINGER的socket选项对close的行为做一些控制,使之变成非阻塞，具体包括:</p>
+</li>
+<li><p>shutdown可以控制关闭读或者关闭写</p>
+</li>
+</ul>
+<p>这里面的一个经典问题的<code>客户端关闭时，如何让服务端尽量的收到数据?</code>，这个后续再详述。</p>
+<h2 id="常见问题-amp-配置"><a href="#常见问题-amp-配置" class="headerlink" title="常见问题&amp;配置"></a>常见问题&amp;配置</h2><p>回到tcp的状态迁移本身，这里面说明下常见的问题：</p>
+<ul>
+<li>A和B交互，如果A send data后，直接close，会有上面影响？</li>
+</ul>
+<p>首先，我们必须非常明确&amp;理解，socket close的作用，如上，一般的就是减少引用计数，如果为0的话，就发送fin，故我们可以推测如下情况:</p>
+<ol>
+<li><p>A发送成功fin也接收到了ack，此时A的状态迁移到了fin_time_2; 同样可以考虑两个场景:<br> 1.1 B那边也close了socket，此时B的socekt发送ack过来，则A走正常的关闭流程，从fin_wait_2 –&gt; time_wait-&gt;close<br> 1.2 B那边由于长短链接或者协议约定的不一致，B并不关闭socket，此时B的socket已经变成了close wait; 而A只能继续处在fin_time_2的状态</p>
+<p> 问题1.2属于不正常的，一般怎么处理呢?</p>
+<ul>
+<li>为了保证A不浪费太多时间在FIN_WAIT_2，对于FIN_WAIT_2有个(TCP_FIN_TIMEOUT，默认60s)的限制，也就是说如果A 60s后还没有接收到对方的fin，则自己会自动切到关闭(<code>or time wait:待明确</code>)状态</li>
+<li>上面的FIN_WAIT_2状态超时有个细节需要关注，那就是此时的socket必须是属于孤儿状态，也就说没有任何句柄和他们关联，如果有句柄和他关联的话，就就会一直处在FIN_WAIT_2状态。之所以强调这点，是因为tcp本身是允许半关闭的，也就是说肯定有socket是持久的处在FIN_WAIT_2状态的，因为tcp需要提供一个机制来保证该状态的存在，其中最关键的一点就是要先判断一个socket是否是孤儿socket。代码demo如下:</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// 假设对方不关闭close fd，分析本端的行为</span></div><div class="line"><span class="comment">//关闭句柄，假设引用计数会变成0</span></div><div class="line">close(fd);</div><div class="line"><span class="comment">// 此时，发送FIN信号，本地的socket状态变成FIN_WAIT_2</span></div><div class="line"><span class="comment">// 由于没有句柄关联，60s后，改socket将关闭 </span></div><div class="line"></div><div class="line"><span class="comment">// 同样是发送FIN信号，本地socket状态变成FIN_WAIT_2</span></div><div class="line"><span class="comment">// 但是由于有句柄关联，改状态会一直持续</span></div><div class="line">shutdown(fd, SHUT_WR);</div><div class="line"></div><div class="line"><span class="comment">//shutdow 还有SHUT_RD(关闭读,不发送信号)，SHUT_RDWR(关闭读写，类似close)</span></div></pre></td></tr></table></figure>
+<pre><code>* B那边由于被动关闭，而自己也不处理，socket会处于CLOSE WAIT状态，`奇怪的是，系统并没有给close wait一个超时的时间`, 因此我们需要自己想办法清理，`一般close相关的程序就OK了`
+</code></pre><h3 id="FIN-WAIT-1的超时问题"><a href="#FIN-WAIT-1的超时问题" class="headerlink" title="FIN_WAIT_1的超时问题"></a>FIN_WAIT_1的超时问题</h3><p>首先明确，如果一个socket进入FIN_WAIT_1，很大可能性是已经没有句柄关联了(shutdown？)</p>
+<p>如果此时发送失败的话，会受到<code>tcp_orphan_retries</code>参数的控制（重试次数）</p>
+<p>同时为了保证系统的资源有限，<code>tcp_max_orphans</code> 这个参数控制了系统可以存在的最多孤儿socket的个数</p>
+<h3 id="TIME-WAIT的存在必要性问题"><a href="#TIME-WAIT的存在必要性问题" class="headerlink" title="TIME_WAIT的存在必要性问题"></a>TIME_WAIT的存在必要性问题</h3><h3 id="LAST-ACK"><a href="#LAST-ACK" class="headerlink" title="LAST ACK"></a>LAST ACK</h3><h2 id="存在即合理"><a href="#存在即合理" class="headerlink" title="存在即合理"></a>存在即合理</h2><ul>
+<li><p>TCP里面有些状态有超时，有些没有，个人理解其根本原则在于：<code>资源能否被控制住</code>，如果你的资源属于一个进程，那么就不会去限制你的超时，因为进程存在，控制进程就可以了，进程死了你也就死了；如果你已久脱离了进程的管辖，比如说孤儿状态下的FIN_WAIT_2，我们就不能让他活的太持久</p>
+</li>
+<li><p>可以理解对于一个状态要有超时，</p>
+</li>
+<li>对于孤儿的socket</li>
+</ul>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-loader_and_linker" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
