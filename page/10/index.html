@@ -57,6 +57,168 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-waf" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/12/waf/">业务防攻击与WAF调研</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/05/12/waf/" class="article-date">
+  <time datetime="2015-05-12T09:00:37.000Z" itemprop="datePublished">2015-05-12</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>by <a href="mailto:chenjiansen@baidu.com" target="_blank" rel="external">chenjiansen@baidu.com</a> </p>
+</blockquote>
+<h2 id="0x00-现有防攻击支持"><a href="#0x00-现有防攻击支持" class="headerlink" title="0x00 现有防攻击支持"></a>0x00 现有防攻击支持</h2><p>对具体的流量进行分析的话，流量攻击主要包括如下两个点:</p>
+<ul>
+<li>量 : 就是通过构造大量的请求，来影响服务器的服务质量</li>
+<li>质 : 就是伪造特定的请求，这类请求量不需要很大，但可能对系统的安全和稳定性有较大影响</li>
+</ul>
+<p><code>量</code>上面的攻击其实一直是大多数接入系统会重点关注和防御的，以百度而言，大致的接入防攻击有如下:</p>
+<ul>
+<li>BGW : 4层四层防攻击, 支持tcp代理，清洗</li>
+<li>911/BCS : 旁路式的流量检测和清洗，7层防攻击</li>
+<li>BFE : 主要提供了BDS, 同样是一个全局、旁路的七层防攻击体系</li>
+</ul>
+<p>可以看到主要是网络层的防御；虽然他们都会支持七层的防攻击，但由于理业务线有点远，导致效果一直不是很理想</p>
+<p>而<code>质</code>上面主要是只针对一些恶意伪造的请求，主要是针对系统的安全性漏洞,比如XSS攻击，SQL注入等,  这方面依我现在的了解，我们并没有做太多的事情</p>
+<p>总得而言，对我们来说，不大需要关注网络层的ddos攻击，更多的是需要<code>业务的防攻击支持以及安全性保障</code></p>
+<h2 id="0x01-业务防攻击现状"><a href="#0x01-业务防攻击现状" class="headerlink" title="0x01 业务防攻击现状"></a>0x01 业务防攻击现状</h2><p>现有的业务防攻击是通过nginx的扩展在接入层实现的，主要支持如下几个功能:</p>
+<ul>
+<li>IP黑白名单</li>
+<li>HTTP 请求过滤</li>
+<li>单机的分布式(ip, refer, url)支持</li>
+</ul>
+<blockquote>
+<p>几个规则可以通过and/or运算组合成一个更强大的策略</p>
+</blockquote>
+<p>可以理解是拥有初步的功能支持</p>
+<p>而现在防攻击主要面临的问题有:</p>
+<ul>
+<li>功能有限 : 包括:<ul>
+<li>数据都是单机的，对于分布式的攻击，效果有限</li>
+<li>action定义有限，只能简单返回异常码</li>
+</ul>
+</li>
+<li>可用性/友好性较差 : 现在的配置都是用XML描述的，用户难以理解其规则；添加规则的学习成本之类的也很高</li>
+<li>运维复杂<ul>
+<li>比如iplist更新之类的需要重启nginx</li>
+</ul>
+</li>
+<li>系统性 : 现在防攻击主要侧重在攻击上面，但其实没有建立<code>异常捕获+生产策略+线上应用</code> 的闭环，导致策略容易失效，对用户也会造成一定的误伤</li>
+</ul>
+<h2 id="0x02-WAF和业务防攻击"><a href="#0x02-WAF和业务防攻击" class="headerlink" title="0x02 WAF和业务防攻击"></a>0x02 WAF和业务防攻击</h2><p><a href="http://en.wikipedia.org/wiki/Application_firewall" target="_blank" rel="external">WAF</a>是业界对应用层防护的一个主要手段,这里我们主要关注软件waf，其中<a href="https://www.modsecurity.org/" target="_blank" rel="external">mod security</a>可以认为是一个事实的waf标准</p>
+<p>大多数软件的WAF都会支持如下功能:</p>
+<ul>
+<li>HTTP Protection （HTTP防御）: HTTP协议和本地定义使用的detectsviolations策略。 </li>
+<li>Real-time Blacklist Lookups（实时黑名单查询） : 利用第三方IP信誉。 </li>
+<li>HTTP Denial of Service Protections（HTTP的拒绝服务保护）: 防御HTTP的洪水攻击和HTTP Dos 攻击。  </li>
+<li>Common Web Attacks Protection（常见的Web攻击防护） : 检测常见的Web应用程序的安全攻击。  </li>
+<li>Automation Detection（自动化检测） : 检测机器人，爬虫，扫描仪和其他表面恶意活动。  </li>
+<li>Integration with AV Scanning for File Uploads（文件上传防病毒扫描） : 检测通过Web应用程序上传的恶意文件。  </li>
+<li>Tracking Sensitive Data（跟踪敏感数据） : 信用卡通道的使用，并阻止泄漏。  </li>
+<li>SQL注入检测/XSS攻击检测 </li>
+</ul>
+<p>实现层面的话，主要是通过规则的描述, 比较强依赖正则表达式, 比如如下是一个SQL注入的配置规则:</p>
+<blockquote>
+<p>FreeWAF源码</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&#123;</div><div class="line">	id = 41010,</div><div class="line">	action = "SCORE",</div><div class="line">	description = "SQL Injection attempt",</div><div class="line">	opts = &#123; score = 4, transform = 'uri_decode' &#125;,</div><div class="line">	var = &#123;</div><div class="line">		operator = "REGEX",</div><div class="line">		pattern = [=[(?i:\bor\b ?(?:\d&#123;1,10&#125;|[\'\"][^=]&#123;1,10&#125;[\'\"]) ?[=&lt;&gt;]+|(?i:'\s+x?or\s+.&#123;1,20&#125;[+\-!&lt;&gt;=])|\b(?i:x?or)\b\s+(\d&#123;1,10&#125;|'[^=]&#123;1,10&#125;')|\b(?i:x?or)\b\s+(\d&#123;1,10&#125;|'[^=]&#123;1,10&#125;')\s*?[=&lt;&gt;])]=],</div><div class="line">		type = "REQUEST_ARGS",</div><div class="line">		opts = &#123; key = "all" &#125;,</div><div class="line">	&#125;,</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>如上的规则大致会将请求arg里面含有<code>or 1</code>等请求标记为危险请求(比如加上危险的权重), 一些好的waf的实现，还具有请求打分等控制, 可以实现非常复杂的逻辑控制</p>
+<p><a href="http://www.scalescale.com/scaling-cloudflares-massive-waf/" target="_blank" rel="external">CloudFlare</a>多次在其blog介绍其waf的实现，但没有开放源代码。<a href="">FreeWAF</a>是我个人觉得写的相对不错的开源waf，功能强大，基本上涵盖了OWASP的CRS</p>
+<p>事实上，WAF本身是非常复杂的的(有机会可以拿出来单独讨论)，尤其是其SQLi, XSS防御之类的规则学习成本也是比较高的，需要对web安全有一定的了解。但是通用的WAF都提供了一个非常不错的策略描述，执行框架。对于贴吧和业务的业务防攻击需求，其完全是可以复用的，只不过在具体的策略的关注点和侧重点有所不同</p>
+<h2 id="0x03-我们的业务防攻击系统"><a href="#0x03-我们的业务防攻击系统" class="headerlink" title="0x03 我们的业务防攻击系统"></a>0x03 我们的业务防攻击系统</h2><p>需要实现的核心功能如下:</p>
+<ul>
+<li>支持热加载的ip黑白名单</li>
+<li>支持全局存储的分布式防攻击策略</li>
+<li>支持自定义的action处理</li>
+</ul>
+<p>其他可以考虑的功能包括(优先级较低):</p>
+<ul>
+<li>简单的SQL注入防御</li>
+<li>XSS防护</li>
+</ul>
+<blockquote>
+<p>安全相关的内容涉及东西较深，优先级也先降低</p>
+</blockquote>
+<p>大致的系统架构:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">                              ┌───────────┐</div><div class="line">┌──────────────────┐          │           │</div><div class="line">│                  │          │           │</div><div class="line">│    platform      │──notice─▶│           │</div><div class="line">│                  │          │           │</div><div class="line">└───▲─────────┬────┘          │           │</div><div class="line">    │         │               │ router    │</div><div class="line">┌───┴─────────▼────┐          │           │</div><div class="line">│                  │          │           │</div><div class="line">│ strategy analysis│◀───log───│           │</div><div class="line">│                  │          │           │</div><div class="line">└──────────────────┘          │           │</div><div class="line">                              └───────────┘</div></pre></td></tr></table></figure>
+<p>主要包括三个组件:</p>
+<ul>
+<li>router上面的waf扩展 : 负责waf的具体实现，nginx/lua的扩展耦合到router </li>
+<li>策略控制平台 : 负责策略的生产，推送到线上的控制等</li>
+<li>策略分析平台 : 负责对在线策略效果的分析, 反馈给策略控制平台</li>
+</ul>
+<h2 id="0x04-实现和风险考虑"><a href="#0x04-实现和风险考虑" class="headerlink" title="0x04 实现和风险考虑"></a>0x04 实现和风险考虑</h2><p>实现层面的话，希望用nginx/lua重写现有的防攻击策略,同时对现在的功能的不足进行加强, 带来的问题主要有:</p>
+<ul>
+<li>稳定性 : 采用一个分布式存储存取分布式数据(比如redis)，这样下游存储的稳定性直接影响请求的质量</li>
+<li>性能/延迟影响 : 主要对每个请求的延迟和系统总体cpu的影响，大概预估如下:<ul>
+<li>性能cpu占用 : 待评估</li>
+<li>延迟 : 如果依赖分布式存储，得看分布式存储的性能；本身的cpu耗时控制在1ms以内</li>
+</ul>
+</li>
+<li>迁移成本 : 由于整个策略的实现是重写的，因此我们需要保证一些老的规则能够顺利迁移到新的策略上面，可能需要提供一些脚本之类的自动生产</li>
+<li>实现成本 : 规则策略的定义和实现，需要考虑性能，灵活性, nginx/lua如何方便简洁支持多产品等，不过参考了一些开源的waf实现，相信会有帮助</li>
+</ul>
+<blockquote>
+<p>nginx/lua性能相关的配置设施会逐步完善和加强的, 相信有助于相关的性能优化</p>
+</blockquote>
+<p>同时我们还需要提供配套的平台来自动上层相关配置(以后策略不需要人工编辑)</p>
+<h2 id="0x05-参考文档"><a href="#0x05-参考文档" class="headerlink" title="0x05 参考文档"></a>0x05 参考文档</h2><ul>
+<li>公司内部的:<ul>
+<li><a href="http://wiki.babel.baidu.com/twiki/pub/Ps/OP/%E9%9D%99%E6%80%81%E9%9B%86%E7%BE%A4%E6%8E%A5%E5%85%A5bfe/%E6%B5%85%E8%B0%88http%E9%98%B2%E6%94%BB%E5%87%BB%E5%8F%8A%E8%AE%BE%E8%AE%A1_-_%E5%A4%A7%E5%92%96%E7%A7%80.pptx" target="_blank" rel="external">浅谈http防攻击及设计</a></li>
+<li><a href="http://wiki.babel.baidu.com/twiki/bin/view/Ps/OP/BDS" target="_blank" rel="external">Baidu Defense Server（BDS）官方主页</a> : BFE做的旁路防攻击支持</li>
+</ul>
+</li>
+<li><p>WAF科普</p>
+<ul>
+<li><a href="http://www.freebuf.com/articles/web/18084.html" target="_blank" rel="external">走进科学之WAF(Web Appllication Firewall)篇</a></li>
+<li><a href="http://drops.wooyun.org/tips/968" target="_blank" rel="external">深入了解SQL注入绕过waf和过滤机制</a></li>
+<li><a href="http://hebaodan.org/index.php/ModSecurity/SqlModule.html" target="_blank" rel="external">ModSecurity进阶篇-SQL注入模块分析</a> : 以及这个blog主人的文章</li>
+<li><a href="http://www.freebuf.com/tools/54221.html" target="_blank" rel="external">如何打造一款可靠的WAF（Web应用防火墙）</a></li>
+</ul>
+</li>
+<li><p>WAF实践</p>
+<ul>
+<li><a href="http://www.scalescale.com/scaling-cloudflares-massive-waf/" target="_blank" rel="external">Scaling CloudFlare’s Massive WAF</a></li>
+<li><a href="https://www.cryptobells.com/freewaf-a-high-performance-scalable-open-web-firewall/" target="_blank" rel="external">FreeWAF: A High-Performance, Scalable, Open Web Firewall</a></li>
+<li><a href="https://github.com/p0pr0ck5/FreeWAF" target="_blank" rel="external">FreeWAF: github链接</a></li>
+<li><a href="https://www.52os.net/articles/nginx-install-lua-and-lua-based-waf.html" target="_blank" rel="external">nginx配置lua模块和基于lua的waf</a></li>
+<li><a href="https://www.52os.net/articles/nginx-use-modsecurity-module-as-waf.html" target="_blank" rel="external">nginx配合modsecurity实现WAF功能</a></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-hotcode_analysis" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -885,113 +1047,8 @@ $ gzip access.log.0    # do something with access.log.0
 
 
     
-      <article id="post-linux_kernel_lock" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/02/06/linux_kernel_lock/">由linux锁机制想起来的</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/02/06/linux_kernel_lock/" class="article-date">
-  <time datetime="2015-02-06T08:26:33.000Z" itemprop="datePublished">2015-02-06</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="由linux锁机制想起来的"><a href="#由linux锁机制想起来的" class="headerlink" title="由linux锁机制想起来的"></a>由linux锁机制想起来的</h1><h2 id="为什么需要锁"><a href="#为什么需要锁" class="headerlink" title="为什么需要锁"></a>为什么需要锁</h2><p>根本的目标是要实现同步机制，数据不会被打乱。</p>
-<p>而在哪些情况需要同步机制呢？</p>
-<ul>
-<li>多处理器的情况：</li>
-<li>抢占式系统 :</li>
-<li>其他：</li>
-</ul>
-<h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><p>一般是指令自己触发的，处理也是比较简单的，主要有两种：</p>
-<ul>
-<li>页错误： 应该是唯一会出现的内核异常，此时会进行一些换页操作</li>
-<li>其他（比如除以0，int 3）等：一般的流程是，cpu触发异常—&gt; 内核异常流程处理 —&gt; 发送信号给用户进程 –&gt; 如果用户进程不处理，就kill进程 </li>
-</ul>
-<h2 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h2><p>先简单分类:</p>
-<ul>
-<li>I/O 中断:</li>
-<li>时钟中断:</li>
-<li>多处理器中断:</li>
-</ul>
-<p>按照处理的策略一般分为：硬中断和软中断（或者是所谓的下半部)</p>
-<p>硬中断：一般是非常简单的处理逻辑<br>软中断：会拆分很多，包括softirq, tasklist, work queue, kernel thread, 具体见：<a href="https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;uact=8&amp;ved=0CDQQFjAE&amp;url=http%3A%2F%2Fwww.cs.columbia.edu%2F~nahum%2Fw6998%2Flectures%2Finterrupts.ppt&amp;ei=XeyCVOLRJYbbmAXk4oLQBw&amp;usg=AFQjCNFzeobtg_hltZtuHHKYJqQgl_eZ7w&amp;sig2=C2Lz_RP3Fyp48kXC4hygSA&amp;bvm=bv.80642063,d.dGY" target="_blank" rel="external">https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;uact=8&amp;ved=0CDQQFjAE&amp;url=http%3A%2F%2Fwww.cs.columbia.edu%2F~nahum%2Fw6998%2Flectures%2Finterrupts.ppt&amp;ei=XeyCVOLRJYbbmAXk4oLQBw&amp;usg=AFQjCNFzeobtg_hltZtuHHKYJqQgl_eZ7w&amp;sig2=C2Lz_RP3Fyp48kXC4hygSA&amp;bvm=bv.80642063,d.dGY</a></p>
-<h2 id="关于抢占式内核"><a href="#关于抢占式内核" class="headerlink" title="关于抢占式内核"></a>关于抢占式内核</h2><ul>
-<li><p>中断和抢占的区别</p>
-<ul>
-<li>中断总是存在的，响应硬件的事件</li>
-<li>抢占主要是指是否执行的代码是否能被其他进程抢占</li>
-</ul>
-</li>
-<li><p>用户态抢占和内核抢占</p>
-<ul>
-<li>根据被抢占的时机区分用户台态和内核态抢占</li>
-<li>用户态抢占: 用户台的抢占一般比较容易，在系统调用或者中断处理完成之后返回用户态的时候判断就可以了，另外由于此时用户态的上下文保存的较为完成，直接切换到其他的进程，至少感觉实现成本不是很高</li>
-<li>内核态抢占: 简单的说，如果一段代码执行在内核态，能否也被抢占，个人感觉如果支持的话，其主要成本对整个内核的一些同步机制和代码等造成的影响，下面是copy的说明</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">如果内核是不可抢占的（比如说2.4的内核），一旦切进内核态，只要代码不是主动释放CPU它就可以一直占着CPU。例外，虽不可抢占，但若此时发生中断，代码还是要交出CPU，但是中断返回之后，代码又能霸占CPU了，此为可中断但不可抢占。</div><div class="line"></div><div class="line">如果内核是可抢占的（比如2.6或之后的内核），上述情况就不会发生了。内核抢占发生在以下3种情况：</div><div class="line"></div><div class="line">1. 从中断返回内核态时，若此时可抢占，则会强制调用schedule（），尝试抢占，被中断的内核代码不一定能继续霸着CPU。</div><div class="line"></div><div class="line">2.内核变成可抢占状态，此时也会尝试抢占。</div><div class="line"></div><div class="line">3.内核代码主动调用schedule（）。</div><div class="line"></div><div class="line">虽然2.6的内核提供内核抢占，但是也提供关闭的手段。是否可抢占是由preemt_count变量控制（per-cpu），有锁这个计数就+1，释放锁就-1.为0才是可抢占。每当释放锁的时候都会检查是否为0，为0则尝试抢占。</div></pre></td></tr></table></figure>
-<h2 id="关于进程上下文和中断上下文"><a href="#关于进程上下文和中断上下文" class="headerlink" title="关于进程上下文和中断上下文"></a>关于进程上下文和中断上下文</h2><p>个人感觉进程，两个上下文主要有两个含义，一个代表具体上下文关联的环境，比如寄存器之类的；另一个是一段内核代码运行的环境。而后者是更为常见和需要关注的。</p>
-<p>断上下文是引申出来的概念，其主要的目标是明确一个内核代码是否能执行某些操作。比如一个内核代码能否睡眠？ 因为在中断上下文的情况下，是不允许睡眠的。。。</p>
-<p>而更具体实际的差别在于，进程上下文是指一段代码代表一个进程在执行，主要有两种情况:</p>
-<ul>
-<li>一个系统调用导致陷入内核后的代码执行；</li>
-<li>异常出发导致的异常执行</li>
-</ul>
-<p>而中断上下文是但一个中断发生时，其内核代码管理的环境；</p>
-<p>中断上下文的要求是比较多的，包括:</p>
-<ul>
-<li>睡觉或者放弃cpu</li>
-<li>尝试获取信号量</li>
-<li>执行耗时任务</li>
-<li>访问用户空间的虚拟地址 : </li>
-</ul>
-<p>中断处理流程中不能睡眠，具体可以见: <a href="http://www.oschina.net/question/565065_57618" target="_blank" rel="external">http://www.oschina.net/question/565065_57618</a><br>这个上面的讨论</p>
-<p>具体可以见: <a href="http://www.embedu.org/Column/Column240.htm" target="_blank" rel="external">http://www.embedu.org/Column/Column240.htm</a></p>
-<h2 id="各种链接哈"><a href="#各种链接哈" class="headerlink" title="各种链接哈"></a>各种链接哈</h2><ul>
-<li><a href="http://hacklu.com/blog/%E5%86%85%E6%A0%B8%E6%8A%A2%E5%8D%A0%E5%92%8C%E4%B8%AD%E6%96%AD-75/" target="_blank" rel="external">内核抢占和中断</a></li>
-<li><a href="http://wenx05124561.blog.163.com/blog/static/1240008052011717113840215/" target="_blank" rel="external">http://wenx05124561.blog.163.com/blog/static/1240008052011717113840215/</a></li>
-<li><a href="http://guojing.me" target="_blank" rel="external">http://guojing.me</a></li>
-<li><a href="http://blog.sina.com.cn/s/blog_502c8cc401012pxj.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_502c8cc401012pxj.html</a></li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/9/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/11/">下一页 &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/9/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/11/">下一页 &raquo;</a>
       </nav>
     </section>
     <footer id="footer">

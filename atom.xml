@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2017-09-21T11:51:14.000Z</updated>
+  <updated>2017-09-28T07:46:54.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,59 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20170923</title>
+    <link href="http://shevacjs.com/2017/09/28/20170923/"/>
+    <id>http://shevacjs.com/2017/09/28/20170923/</id>
+    <published>2017-09-28T07:35:45.000Z</published>
+    <updated>2017-09-28T07:46:54.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/chifeng01.jpg" alt="赤峰阿旗风光"></p>
+<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><a href="https://mp.weixin.qq.com/s/8bn83425XZWLmRJocSXOUw" target="_blank" rel="external">Apache Struts2 再爆严重安全漏洞</a> : “近日，各大网站都报道了黑客从征信企业 Equifax 窃取了 1.43 亿美国人的详细个人信息，事件相关报导表明 Apache Struts 框架存在安全漏洞”, 应用框架的漏洞，无论是何种语言，对企业的安全都是巨大风险，想到之前的ImageMagick</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/WebAssembly/C_to_wasm" target="_blank" rel="external">Compiling from C/C++ to WebAssembly</a> : 本文具体介绍了mozilla开放的<code>Emscripten</code> 工具，用于支持将C++编译成webassembly代码，对webassembly感兴趣的可以用这个尝尝鲜</li>
+</ul>
+<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><ul>
+<li><a href="https://blog.acolyer.org/2017/09/18/bringing-the-web-up-to-speed-with-webassembly/" target="_blank" rel="external">Bringing the web up to speed with WebAssembly</a> : 本文相对比较学术的介绍了<code>WebAssembly</code>的理念，设计以及实践上面的诸多考虑的点; 作者提了一些有趣的点，包括”linear memory model”, “not to support jumps” 等, 其实很多虚拟机的设计理念是如何保证<code>safe, fast, and portable semantic</code>, 还是非常值得学习的</li>
+</ul>
+<a id="more"></a>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><a href="https://mozillagfx.wordpress.com/2017/09/21/introduction-to-webrender-part-1-browsers-today/" target="_blank" rel="external">Introduction to WebRender – Part 1 – Browsers today</a> : 又是Mozilla的文章，本文简单介绍了浏览器渲染的原理和核心机制, 后续应该还有更深入的文章, 继续mark关注</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="http://martin.zinkevich.org/rules_of_ml/rules_of_ml.pdf" target="_blank" rel="external">Rules of Machine Learning: Best Practices for ML Engineering</a> : 很早的文档，再次mark, </p>
+</li>
+<li><p><a href="https://medium.com/genymobile/if-appimage-flatpak-and-snap-dont-cut-it-you-can-roll-your-own-6175177d6eef" target="_blank" rel="external">If AppImage, Flatpak and Snap don’t cut it, you can roll your own</a> : 作者自己开发了一个软件安装包, 类似的解决方案还有<a href="http://flatpak.org/" target="_blank" rel="external">flatpak</a>, 后者设计理念比较新颖，可以关注review，评估是否可以作为一个新的分发工具</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/9pxQkGB79XHNC146so1Ebw" target="_blank" rel="external">腾讯主要创办人张志东(Tony)：谈谈互联网产品的老化</a> : 感觉上面都是大道理，但细读起来又感同身受, 业内变化日新月异，我们凡人不进则退</p>
+</li>
+<li><p><a href="https://qotoqot.com/blog/improving-focus/" target="_blank" rel="external">How I got to 200 productive hours a month</a> : 如果按照20个工作日算的话，一天需要保障10个小时有效工作时间，还是非常难的，方法大家都是知道，里面的一些tool/资料建议大家关注尝试，包括: <a href="https://qotoqot.com/qbserve/" target="_blank" rel="external">Qbserve</a>(收费), <a href="https://chrome.google.com/webstore/detail/stayfocusd/laankejkbhbdhmipfmgcngdelahlfoji" target="_blank" rel="external">StayFocusd</a>, <a href="https://www.headspace.com/" target="_blank" rel="external">Headspace</a></p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/chifeng01.jpg&quot; alt=&quot;赤峰阿旗风光&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/8bn83425XZWLmRJocSXOUw&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Apache Struts2 再爆严重安全漏洞&lt;/a&gt; : “近日，各大网站都报道了黑客从征信企业 Equifax 窃取了 1.43 亿美国人的详细个人信息，事件相关报导表明 Apache Struts 框架存在安全漏洞”, 应用框架的漏洞，无论是何种语言，对企业的安全都是巨大风险，想到之前的ImageMagick&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/WebAssembly/C_to_wasm&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Compiling from C/C++ to WebAssembly&lt;/a&gt; : 本文具体介绍了mozilla开放的&lt;code&gt;Emscripten&lt;/code&gt; 工具，用于支持将C++编译成webassembly代码，对webassembly感兴趣的可以用这个尝尝鲜&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;每周paper&quot;&gt;&lt;a href=&quot;#每周paper&quot; class=&quot;headerlink&quot; title=&quot;每周paper&quot;&gt;&lt;/a&gt;每周paper&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/09/18/bringing-the-web-up-to-speed-with-webassembly/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Bringing the web up to speed with WebAssembly&lt;/a&gt; : 本文相对比较学术的介绍了&lt;code&gt;WebAssembly&lt;/code&gt;的理念，设计以及实践上面的诸多考虑的点; 作者提了一些有趣的点，包括”linear memory model”, “not to support jumps” 等, 其实很多虚拟机的设计理念是如何保证&lt;code&gt;safe, fast, and portable semantic&lt;/code&gt;, 还是非常值得学习的&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>Nginx and Http2 应用篇</title>
@@ -977,59 +1030,6 @@
   </entry>
   
   <entry>
-    <title>关于AdaBoost&amp;Boosting</title>
-    <link href="http://shevacjs.com/2017/07/21/boosting/"/>
-    <id>http://shevacjs.com/2017/07/21/boosting/</id>
-    <published>2017-07-20T16:25:11.000Z</published>
-    <updated>2017-07-27T17:29:56.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;</p>
-<h3 id="About-AdaBoost"><a href="#About-AdaBoost" class="headerlink" title="About AdaBoost"></a>About AdaBoost</h3><p>AdaBoost的算法归纳如下: </p>
-<p>假设输入样本如下: </p>
-<p>$${ (x_1, y_1,), … (x_n, y_n) }$$</p>
-<p>且 $y \in  { -1, 1}$</p>
-<p>且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果</p>
-<p>则在$m-1$次迭代之后，我们的boost分类器可以表达如下: </p>
-<p>$$C_{(m-1)}(x_i) = \alpha_1k_1(x_i) + … + \alpha_{m-1}k_{m-1}(x_i)$$</p>
-<p>对第m次迭代后，我们的目标分类器的表达式可以表述为: </p>
-<p>$$C_m(x_i) = C_{(m-1)}(xi) + \alpha_mk_m(x_i)$$</p>
-<p>则问题转化为: 我们需要明确$\alpha_m$ 和 $k_m$的值 ;</p>
-<p>设我们的损失函数定义如下: (<code>mark</code>)</p>
-<p>$$E = \sum_{i=1}^n e^{-y_iC_m(x_i)}$$</p>
-<p>令$w_i^{(1)} = 1, w_i^{(m)} = e^{-y_iC_{m-1}(x_i)}$, 则有: </p>
-<p>$$ E = \sum_{i=1}^n w_i^{(m)} e^{-y_i\alpha_mk_m(x_i)}$$</p>
-<p>由于$y_i*k_m(x_i) \in { -1, 1 }$,  则有:</p>
-<p>$$ E = \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m} $$<br>$$ = \sum_{i=1}^N w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)} (e^{\alpha_m}   - e^{-\alpha_m} )$$</p>
-<p>从而可以看到我们关注的$k_m$对E的影响，仅表现在等式右侧,  其需要最小化$\sum _{yi \neq k_m(x_i)} w_i^{(m)}$ </p>
-<p>在考虑$\alpha_m$的取值: </p>
-<p>$$\frac{d E}{d \alpha_m} = - \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m}  $$</p>
-<p>令其取值为0； 则有: </p>
-<p>$$ \alpha_m = \frac{1}{2} \ln( \frac{\sum _{yi=k_m(x_i)} w_i^{(m)} }{\sum _{yi \neq k_m(x_i)} w_i^{(m)}}$$</p>
-<p>令 $\epsilon_m =  {\sum _{yi \neq k_m(x_i)} w_i^{(m)}} / \sum_{i=1}^n w_i^{(m)}$, 则有 : </p>
-<p>$$ \alpha_m = \frac{1}{2} \ln(\frac{1-\epsilon_m}{\epsilon_m})$$</p>
-<p>上面就是我们最常见的算法；</p>
-<p>概述如下：</p>
-<p>At each iteration, choose the classifier $k_{m}$ which minimizes the total weighted error :</p>
-<p>$$\sum_{y_i \neq k_m(x_i)}w_i^m $$</p>
-<p>use this to calculate the error rate </p>
-<p>$$\epsilon_m=\sum_{y_{i}\neq k_{m}(x_{i})}w_{i}^m/\sum_{i=1}^{N}w_{i}^m$$</p>
-<p>use this to calculate the weight<br>$$\alpha_m = \frac{1}{2}\ln\left( \frac{1 - \epsilon_m}{\epsilon_m}\right)$$</p>
-<p>and finally use this to improve the boosted classifier $C_NaN$ to $C_=C_NaN+\alpha _{m}k_{m}$<br>上面所述全来自wiki:  <a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="external">https://en.wikipedia.org/wiki/AdaBoost</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;&lt;/p&gt;
-&lt;h3 id=&quot;About-AdaBoost&quot;&gt;&lt;a href=&quot;#About-AdaBoost&quot; class=&quot;headerlink&quot; title=&quot;About AdaBoost&quot;&gt;&lt;/a&gt;About
-    
-    </summary>
-    
-    
-      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
-    
-  </entry>
-  
-  <entry>
     <title>关于贝叶斯分类</title>
     <link href="http://shevacjs.com/2017/07/21/bayes/"/>
     <id>http://shevacjs.com/2017/07/21/bayes/</id>
@@ -1156,6 +1156,59 @@
   </entry>
   
   <entry>
+    <title>关于AdaBoost&amp;Boosting</title>
+    <link href="http://shevacjs.com/2017/07/21/boosting/"/>
+    <id>http://shevacjs.com/2017/07/21/boosting/</id>
+    <published>2017-07-20T16:25:11.000Z</published>
+    <updated>2017-07-27T17:29:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;</p>
+<h3 id="About-AdaBoost"><a href="#About-AdaBoost" class="headerlink" title="About AdaBoost"></a>About AdaBoost</h3><p>AdaBoost的算法归纳如下: </p>
+<p>假设输入样本如下: </p>
+<p>$${ (x_1, y_1,), … (x_n, y_n) }$$</p>
+<p>且 $y \in  { -1, 1}$</p>
+<p>且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果</p>
+<p>则在$m-1$次迭代之后，我们的boost分类器可以表达如下: </p>
+<p>$$C_{(m-1)}(x_i) = \alpha_1k_1(x_i) + … + \alpha_{m-1}k_{m-1}(x_i)$$</p>
+<p>对第m次迭代后，我们的目标分类器的表达式可以表述为: </p>
+<p>$$C_m(x_i) = C_{(m-1)}(xi) + \alpha_mk_m(x_i)$$</p>
+<p>则问题转化为: 我们需要明确$\alpha_m$ 和 $k_m$的值 ;</p>
+<p>设我们的损失函数定义如下: (<code>mark</code>)</p>
+<p>$$E = \sum_{i=1}^n e^{-y_iC_m(x_i)}$$</p>
+<p>令$w_i^{(1)} = 1, w_i^{(m)} = e^{-y_iC_{m-1}(x_i)}$, 则有: </p>
+<p>$$ E = \sum_{i=1}^n w_i^{(m)} e^{-y_i\alpha_mk_m(x_i)}$$</p>
+<p>由于$y_i*k_m(x_i) \in { -1, 1 }$,  则有:</p>
+<p>$$ E = \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m} $$<br>$$ = \sum_{i=1}^N w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)} (e^{\alpha_m}   - e^{-\alpha_m} )$$</p>
+<p>从而可以看到我们关注的$k_m$对E的影响，仅表现在等式右侧,  其需要最小化$\sum _{yi \neq k_m(x_i)} w_i^{(m)}$ </p>
+<p>在考虑$\alpha_m$的取值: </p>
+<p>$$\frac{d E}{d \alpha_m} = - \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m}  $$</p>
+<p>令其取值为0； 则有: </p>
+<p>$$ \alpha_m = \frac{1}{2} \ln( \frac{\sum _{yi=k_m(x_i)} w_i^{(m)} }{\sum _{yi \neq k_m(x_i)} w_i^{(m)}}$$</p>
+<p>令 $\epsilon_m =  {\sum _{yi \neq k_m(x_i)} w_i^{(m)}} / \sum_{i=1}^n w_i^{(m)}$, 则有 : </p>
+<p>$$ \alpha_m = \frac{1}{2} \ln(\frac{1-\epsilon_m}{\epsilon_m})$$</p>
+<p>上面就是我们最常见的算法；</p>
+<p>概述如下：</p>
+<p>At each iteration, choose the classifier $k_{m}$ which minimizes the total weighted error :</p>
+<p>$$\sum_{y_i \neq k_m(x_i)}w_i^m $$</p>
+<p>use this to calculate the error rate </p>
+<p>$$\epsilon_m=\sum_{y_{i}\neq k_{m}(x_{i})}w_{i}^m/\sum_{i=1}^{N}w_{i}^m$$</p>
+<p>use this to calculate the weight<br>$$\alpha_m = \frac{1}{2}\ln\left( \frac{1 - \epsilon_m}{\epsilon_m}\right)$$</p>
+<p>and finally use this to improve the boosted classifier $C_NaN$ to $C_=C_NaN+\alpha _{m}k_{m}$<br>上面所述全来自wiki:  <a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="external">https://en.wikipedia.org/wiki/AdaBoost</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;&lt;/p&gt;
+&lt;h3 id=&quot;About-AdaBoost&quot;&gt;&lt;a href=&quot;#About-AdaBoost&quot; class=&quot;headerlink&quot; title=&quot;About AdaBoost&quot;&gt;&lt;/a&gt;About
+    
+    </summary>
+    
+    
+      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
+    
+  </entry>
+  
+  <entry>
     <title>weekly of 20170716</title>
     <link href="http://shevacjs.com/2017/07/16/20170716/"/>
     <id>http://shevacjs.com/2017/07/16/20170716/</id>
@@ -1183,53 +1236,6 @@
     
       &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://www.microsoft.com/en-us/seeing-ai/&quot; targ
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170709</title>
-    <link href="http://shevacjs.com/2017/07/09/20170709/"/>
-    <id>http://shevacjs.com/2017/07/09/20170709/</id>
-    <published>2017-07-09T06:15:30.000Z</published>
-    <updated>2017-07-21T06:46:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="https://www.computer.org/csdl/mags/ic/2017/03/mic2017030012.html" target="_blank" rel="external">Two Decades of Recommender Systems at Amazon.com</a> : AWS关于他们推荐系统的介绍，可以好好学习</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="http://nginx.org/en/docs/dev/development_guide.html#introduction" target="_blank" rel="external">Nginx Development guide</a> : Nginx官方的开发手册, 先mark</p>
-</li>
-<li><p><a href="https://blog.haschek.at/2017/how-to-defend-your-website-with-zip-bombs.html" target="_blank" rel="external">How to defend your website with ZIP bombs</a> : 通过<code>zip boom</code> 来应对一些恶意的扫描</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="https://blog.acolyer.org/2017/06/29/twitter-heron-towards-extensible-streaming-engines/" target="_blank" rel="external">Twitter Heron: towards extensible streaming engines</a> : Heron是一个Twritter开源的实时流解决方案，相比于storm/spark, 其特点是可插拔的组件架构, 感觉整个设计理念可以学习下; 同时还可以关注<a href="https://blog.acolyer.org/2017/06/30/dhalion-self-regulating-stream-processing-in-heron/" target="_blank" rel="external">Dhalion: self-regulating stream processing in Heron</a> 另外一个系统，目标是致力于让Heron变成一个<code>self-regulating</code>系统</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://startupsventurecapital.com/essential-cheat-sheets-for-machine-learning-and-deep-learning-researchers-efb6a8ebd2e5" target="_blank" rel="external">Essential Cheat Sheets for Machine Learning and Deep Learning Engineers</a> : 好几个cheat sheets, 感觉挺不错的</p>
-</li>
-<li><p><a href="https://joshondesign.com/2017/07/02/hire_old_programmer" target="_blank" rel="external">Five Reasons Why You Should Hire an Old Programmer</a> : 可以当做自己需要去培养的能力，包括<code>Experience</code>, <code>Judgement</code>, <code>Deep Knowledge</code>, <code>Wide Knowledge</code> 和 <code>Communication Skills</code></p>
-</li>
-<li><p><a href="https://www.kernel.org/doc/html/v4.10/process/coding-style.html" target="_blank" rel="external">Linux kernel coding style</a> : linux内核的编码风格, 大部分的编码方式自己还是比如认同了；除了括号的换行要求</p>
-</li>
-<li><p><a href="https://www.leiphone.com/news/201707/86tSZrqgcVFXEfnc.html" target="_blank" rel="external">谷歌大神Jeff Dean对话Talking Machine：我们要推动机器学习再上一层楼</a> : 佩服的人</p>
-</li>
-<li><p><a href="http://www.yinwang.org/blog-cn/2017/07/06/master-pl" target="_blank" rel="external">如何掌握所有的程序语言</a> : 王垠的新文章，关于如何学习所有语言的, 可以试试”自己实现所有的语言特性”, 相关推荐的文章包括<a href="https://www.zhihu.com/question/62097662" target="_blank" rel="external">知乎: 如何评价王垠新博文《如何掌握所有的程序语言》？</a> 以及 <a href="http://www.yinwang.org/blog-cn/2017/05/23/kotlin" target="_blank" rel="external">Kotlin 和 Checked Exception</a> 介绍checked exception</p>
-</li>
-<li><p><a href="https://medium.com/@matelabs_ai/public-data-sets-use-these-to-train-machine-learning-models-on-mateverse-4dda18a27851" target="_blank" rel="external">Public Data Sets: Use these to train Machine Learning models on Mateverse</a> : 推荐的一些公开的dataset, mark下</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.computer.org/csdl/mags/ic/2017/03/mic20
     
     </summary>
     
