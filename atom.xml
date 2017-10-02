@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2017-09-28T07:46:54.000Z</updated>
+  <updated>2017-10-02T16:17:50.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,61 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20170930</title>
+    <link href="http://shevacjs.com/2017/10/02/20170930/"/>
+    <id>http://shevacjs.com/2017/10/02/20170930/</id>
+    <published>2017-10-01T16:17:45.000Z</published>
+    <updated>2017-10-02T16:17:50.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/chifeng02.jpg" alt="赤峰阿旗风光2"></p>
+<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><a href="https://opensource.googleblog.com/2017/09/introducing-abseil-new-common-libraries.html" target="_blank" rel="external">Introducing Abseil, a new common libraries project</a> : Google新开源的C++的基础库, 一些feature包括<code>Efficient support for handling time</code>, <code>primary synchronization type</code>，可以先观望下</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://blogs.windows.com/buildingapps/2017/09/27/time-travel-debugging-now-available-windbg-preview/#KBvp1SzF3Jp8HJqm.97" target="_blank" rel="external">Time Travel Debugging is now available in WinDbg Preview</a> :  WinDbg开发支持了<code>TTD</code>功能，所谓的<code>TTD</code>可以理解为”Time Travel Debugging (TTD) is a reverse debugging solution that allows you to record the execution of an app or process, replay it both forwards and backwards and use queries to search through the entire trace.”</p>
+</li>
+<li><p><a href="https://tomassetti.me/guide-parsing-algorithms-terminology/" target="_blank" rel="external">A Guide to Parsing: Algorithms and Terminology</a> : 对于词法和语法分析，有非常系统的说明和介绍，如果对此不感兴趣，可以主要关注作者推荐的几个工具，包括: <a href="https://tomassetti.me/antlr-mega-tutorial/" target="_blank" rel="external">ANTLR</a>(LL), yacc/bison(LR)</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5NzkxMzg1Nw==&amp;mid=2653163252&amp;idx=1&amp;sn=0ec4442ecbed6ed20daaf97909e58f7a" target="_blank" rel="external">搜索基础算法重大突破：20行代码解决20年瓶颈问题</a> : minhash算法的优化，可以大大提升性能，不过对其paper没有进一步分析, 先了解吧</p>
+</li>
+</ul>
+<a id="more"></a>
+<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="https://machinelearning.apple.com/2017/09/12/handwriting.html" target="_blank" rel="external">Real-Time Recognition of Handwritten Chinese Characters Spanning a Large Inventory of 30,000 Characters</a> : 苹果的关于中文字符的识别优化实践, 没有深看</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5NzkxMzg1Nw==&amp;mid=2653163244&amp;idx=2&amp;sn=897ff95d521fdb45fd2609e292a922f1&amp;chksm=8b493382bc3eba9449a768278410234b62a6b60778a0d5e1c58a3f3c5f45b10af534739da5dd&amp;scene=0&amp;key=81c0e1f7847266b3ef8f602bf662fae19fafd48d0090c4032e9b5d77acafbd845378df8ec6f32e40fa69176778fadaca3b52d7d9544177727ab932357a74831cb8c486a02036396d9a852c52fe696682&amp;ascene=0&amp;uin=MTQ2Nzg2MzcyMg%3D%3D" target="_blank" rel="external">LinkedIn计划开源Query Analyzer：不增加开销的MySQL查询分析工具</a> : 设计很小巧，精细，通过增加代理，记录每个SQL的执行时间和负载，用于进一步分析系统的问题；感觉可以直接异步日志抓取分析</p>
+</li>
+<li><p><a href="http://x-algo.cn/index.php/2016/12/15/ee-problem-and-bandit-algorithm-for-recommender-systems/" target="_blank" rel="external">推荐系统的EE问题及Bandit算法</a> : 关于冷启动/多臂赌博机问题的一个策略–<code>bandit算法</code>, 还可以参考这篇文章<a href="https://zhuanlan.zhihu.com/p/21388070" target="_blank" rel="external">专治选择困难症——bandit算法</a>, 以及<a href="https://zhuanlan.zhihu.com/p/21404922" target="_blank" rel="external">UCB算法升职记——LinUCB算法</a>, 同时Amazon也发表了一篇paper，关于利用这个思路进行多变量选择<a href="https://blog.acolyer.org/2017/09/27/an-efficient-bandit-algorithm-for-real-time-multivariate-optimization/" target="_blank" rel="external">An efficient bandit algorithm for real-time multivariate optimization</a></p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><a href="https://www.hanselman.com/blog/TheBookOfTheRuntimeTheInternalsOfTheNETRuntimeThatYouWontFindInTheDocumentation.aspx" target="_blank" rel="external">The Book of the Runtime - The internals of the .NET Runtime that you won’t find in the documentation</a> : 关于<code>.Net internal</code>的介绍和说明, 先mark，如果可以想利用其jit的机制，迁移lua的相关代码</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/chifeng02.jpg&quot; alt=&quot;赤峰阿旗风光2&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://opensource.googleblog.com/2017/09/introducing-abseil-new-common-libraries.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Introducing Abseil, a new common libraries project&lt;/a&gt; : Google新开源的C++的基础库, 一些feature包括&lt;code&gt;Efficient support for handling time&lt;/code&gt;, &lt;code&gt;primary synchronization type&lt;/code&gt;，可以先观望下&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://blogs.windows.com/buildingapps/2017/09/27/time-travel-debugging-now-available-windbg-preview/#KBvp1SzF3Jp8HJqm.97&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Time Travel Debugging is now available in WinDbg Preview&lt;/a&gt; :  WinDbg开发支持了&lt;code&gt;TTD&lt;/code&gt;功能，所谓的&lt;code&gt;TTD&lt;/code&gt;可以理解为”Time Travel Debugging (TTD) is a reverse debugging solution that allows you to record the execution of an app or process, replay it both forwards and backwards and use queries to search through the entire trace.”&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://tomassetti.me/guide-parsing-algorithms-terminology/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;A Guide to Parsing: Algorithms and Terminology&lt;/a&gt; : 对于词法和语法分析，有非常系统的说明和介绍，如果对此不感兴趣，可以主要关注作者推荐的几个工具，包括: &lt;a href=&quot;https://tomassetti.me/antlr-mega-tutorial/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ANTLR&lt;/a&gt;(LL), yacc/bison(LR)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s?__biz=MzA5NzkxMzg1Nw==&amp;amp;mid=2653163252&amp;amp;idx=1&amp;amp;sn=0ec4442ecbed6ed20daaf97909e58f7a&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;搜索基础算法重大突破：20行代码解决20年瓶颈问题&lt;/a&gt; : minhash算法的优化，可以大大提升性能，不过对其paper没有进一步分析, 先了解吧&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20170923</title>
@@ -868,71 +923,50 @@
   </entry>
   
   <entry>
-    <title>关于CTR预估的算法</title>
-    <link href="http://shevacjs.com/2017/07/21/ctr/"/>
-    <id>http://shevacjs.com/2017/07/21/ctr/</id>
+    <title>关于AdaBoost&amp;Boosting</title>
+    <link href="http://shevacjs.com/2017/07/21/boosting/"/>
+    <id>http://shevacjs.com/2017/07/21/boosting/</id>
     <published>2017-07-20T16:25:11.000Z</published>
-    <updated>2017-07-21T11:17:05.000Z</updated>
+    <updated>2017-07-27T17:29:56.000Z</updated>
     
-    <content type="html"><![CDATA[<blockquote>
-<p>偏实践应用, by chenjiansen</p>
-<p><code>WARN</code>, 个人理解, 应该是多有谬误</p>
-</blockquote>
-<h3 id="关于CTR预估"><a href="#关于CTR预估" class="headerlink" title="关于CTR预估"></a>关于CTR预估</h3><p>在很多推荐系统里面，rank是一个关键的环节；从不同召回源获取到的数据, 按照哪种排序方式推荐给用户是一个关键的问题; 所谓的<code>CTR预估</code>就是希望我们能对输出的list 做一个合适的点击预估; 抽象起来其实就是算一个item被点击的概率或者可能性；</p>
-<p>这个问题映射为机器学习里面的算法，现在常见的，使用广泛的主要有如下几个算法: </p>
-<h3 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h3><p>映射为LR算法，可以理解为，就是要预测一个算法被判为正例(‘click’)的概率；由于LR算法的输出是一个概率值, 所以可以直接用来sort;</p>
-<p>同时LR由于具有比较好的实现和调试；是早期大家使用较为广泛的Rank算法;</p>
-<h2 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h2><h2 id="FM"><a href="#FM" class="headerlink" title="FM"></a>FM</h2><p>考虑到我们这特征输入的时候，可能有如下几个问题: </p>
-<ul>
-<li>数据稀疏</li>
-<li>特征之间存在一些关联性</li>
-</ul>
-<p>传统的LR算法的$h_\theta(x) = \theta^Tx$，显然可能不适合此类数据，一个简单是思路是引入二次项，包含关联关系的预估, 如下 : </p>
-<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n w_{ij}x_ix_j$$</p>
-<p>这个表达共有$\frac{n(n-1)}{2}$个模型参数,  我们需要训练这么多参数，但是该表达式存在如下问题: </p>
-<ul>
-<li>由于每个$w_{ij}$ 都需要大量$x_i$和$x_j$非零的情况下进行预估，但是样本数据本来就比较稀疏，这将导致整个样本训练的难度非常大</li>
-</ul>
-<p>一个思路是: “所有二次项参数$w_{ij}$可以组成一个对称阵 $W$，那么这个矩阵就可以分解为 $W=V^TV=VV^T$，$V$ 的第 $j$ 列便是第 $j$维特征的隐向量。换句话说，每个参数 $w_{ij}=<v_i,v_j>$” ，所以上面可以转化为 : </v_i,v_j></p>
-<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j$$</v_i,></p>
-<p>其中: </p>
-<ul>
-<li>$v_i$ : 是一个k阶的隐向量$(k &lt;&lt; n)$</li>
-<li>$&lt; , &gt; $代表点积</li>
-</ul>
-<p>为了求上面式子的优化解，我们继续拆分有: </p>
-<p>$$\sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j = \frac{1}{2} \sum_{f=1}^k( (\sum_{i=1}^n v_{i,f} x_i)^2 - \sum_{i=1}^nv_{i,f}^2x_i^2)$$</v_i,></p>
-<p>可以证明FM参数的训练模型是$0(kn)$</p>
-<h3 id="FFM"><a href="#FFM" class="headerlink" title="FFM"></a>FFM</h3><p>基于FM，我们再分析他模型可能存在的问题:  </p>
-<p>在FM模型里面，我们为每个特征定义一个隐向量$\overrightarrow{v_i}$ , $\overrightarrow{v_i}$ 的估计是基于和其他参数的$\overrightarrow{v_j}$的相关性计算而成；这里面就有一个假设，就是任何其他特征对改特征的影响是一致的；但有时候，这个假设不一定合适；所以，我们引入所谓的<code>Field-aware Factorization Machine</code></p>
-<p>在FFM模型里面，每个特征都属于某个field; 所以隐向量不仅和特征有关，也和field有关; 假设样本的 n 个特征属于 f个field，那么FFM的二次项有 nf 个隐向量。而在FM模型中，每一维特征的隐向量只有一个。FM可以看作FFM的特例，是把所有特征都归属到一个field时的FFM模型。其方程可以表达为: </p>
-<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_{i,f_j}, v_{j,f_i}="">x_ix_j$$</v_{i,f_j},></p>
-<p>其中: </p>
-<ul>
-<li>$f_j$是第$j$个特征所属的<code>field</code></li>
-<li>$v_{i,j}$ 表明特征$i$,和 $j$ ，对应的隐向量，其中 $ j \in {  1, 2, 3, … , f }$</li>
-</ul>
-<p>可以看到FFM模型，共有<code>nfk</code>个待学习参数, 其预测复杂度是 $O(kn^2)$</p>
-<p>关于FM和FFM，本质上，都是希望寻找一个模型，能够表征不同特征直接的关联关系；<code>FFM</code>可以理解是在具体应用上面的一个折衷；具有较好的可适应性</p>
-<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><h4 id="FFM-如何落地应用"><a href="#FFM-如何落地应用" class="headerlink" title="FFM 如何落地应用"></a>FFM 如何落地应用</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><p><a href="https://www.zhihu.com/question/26154847" target="_blank" rel="external">广告ctr预估有什么值得推荐的论文？</a> : 好多资料</p>
-</li>
-<li><p><a href="http://tech.meituan.com/deep-understanding-of-ffm-principles-and-practices.html" target="_blank" rel="external">深入FFM原理与实践</a> : 关于<code>FM</code>和<code>FFM</code>的介绍，说的挺清楚的，主要是参考他理解的</p>
-</li>
-<li><p><a href="http://www.jianshu.com/p/005a4e6ac775" target="_blank" rel="external">GBDT：梯度提升决策树</a> : </p>
-</li>
-<li><p><a href="https://www.csie.ntu.edu.tw/~cjlin/libffm/" target="_blank" rel="external">LIBFFM: A Library for Field-aware Factorization Machines</a> : 关于FFM</p>
-</li>
-</ul>
+    <content type="html"><![CDATA[<p>核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;</p>
+<h3 id="About-AdaBoost"><a href="#About-AdaBoost" class="headerlink" title="About AdaBoost"></a>About AdaBoost</h3><p>AdaBoost的算法归纳如下: </p>
+<p>假设输入样本如下: </p>
+<p>$${ (x_1, y_1,), … (x_n, y_n) }$$</p>
+<p>且 $y \in  { -1, 1}$</p>
+<p>且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果</p>
+<p>则在$m-1$次迭代之后，我们的boost分类器可以表达如下: </p>
+<p>$$C_{(m-1)}(x_i) = \alpha_1k_1(x_i) + … + \alpha_{m-1}k_{m-1}(x_i)$$</p>
+<p>对第m次迭代后，我们的目标分类器的表达式可以表述为: </p>
+<p>$$C_m(x_i) = C_{(m-1)}(xi) + \alpha_mk_m(x_i)$$</p>
+<p>则问题转化为: 我们需要明确$\alpha_m$ 和 $k_m$的值 ;</p>
+<p>设我们的损失函数定义如下: (<code>mark</code>)</p>
+<p>$$E = \sum_{i=1}^n e^{-y_iC_m(x_i)}$$</p>
+<p>令$w_i^{(1)} = 1, w_i^{(m)} = e^{-y_iC_{m-1}(x_i)}$, 则有: </p>
+<p>$$ E = \sum_{i=1}^n w_i^{(m)} e^{-y_i\alpha_mk_m(x_i)}$$</p>
+<p>由于$y_i*k_m(x_i) \in { -1, 1 }$,  则有:</p>
+<p>$$ E = \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m} $$<br>$$ = \sum_{i=1}^N w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)} (e^{\alpha_m}   - e^{-\alpha_m} )$$</p>
+<p>从而可以看到我们关注的$k_m$对E的影响，仅表现在等式右侧,  其需要最小化$\sum _{yi \neq k_m(x_i)} w_i^{(m)}$ </p>
+<p>在考虑$\alpha_m$的取值: </p>
+<p>$$\frac{d E}{d \alpha_m} = - \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m}  $$</p>
+<p>令其取值为0； 则有: </p>
+<p>$$ \alpha_m = \frac{1}{2} \ln( \frac{\sum _{yi=k_m(x_i)} w_i^{(m)} }{\sum _{yi \neq k_m(x_i)} w_i^{(m)}}$$</p>
+<p>令 $\epsilon_m =  {\sum _{yi \neq k_m(x_i)} w_i^{(m)}} / \sum_{i=1}^n w_i^{(m)}$, 则有 : </p>
+<p>$$ \alpha_m = \frac{1}{2} \ln(\frac{1-\epsilon_m}{\epsilon_m})$$</p>
+<p>上面就是我们最常见的算法；</p>
+<p>概述如下：</p>
+<p>At each iteration, choose the classifier $k_{m}$ which minimizes the total weighted error :</p>
+<p>$$\sum_{y_i \neq k_m(x_i)}w_i^m $$</p>
+<p>use this to calculate the error rate </p>
+<p>$$\epsilon_m=\sum_{y_{i}\neq k_{m}(x_{i})}w_{i}^m/\sum_{i=1}^{N}w_{i}^m$$</p>
+<p>use this to calculate the weight<br>$$\alpha_m = \frac{1}{2}\ln\left( \frac{1 - \epsilon_m}{\epsilon_m}\right)$$</p>
+<p>and finally use this to improve the boosted classifier $C_NaN$ to $C_=C_NaN+\alpha _{m}k_{m}$<br>上面所述全来自wiki:  <a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="external">https://en.wikipedia.org/wiki/AdaBoost</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;blockquote&gt;
-&lt;p&gt;偏实践应用, by chenjiansen&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;WARN&lt;/code&gt;, 个人理解, 应该是多有谬误&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;关于CTR预估&quot;&gt;&lt;a href=&quot;#关于CTR预估&quot; class=&quot;h
+      &lt;p&gt;核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;&lt;/p&gt;
+&lt;h3 id=&quot;About-AdaBoost&quot;&gt;&lt;a href=&quot;#About-AdaBoost&quot; class=&quot;headerlink&quot; title=&quot;About AdaBoost&quot;&gt;&lt;/a&gt;About
     
     </summary>
     
@@ -1084,6 +1118,80 @@
   </entry>
   
   <entry>
+    <title>关于CTR预估的算法</title>
+    <link href="http://shevacjs.com/2017/07/21/ctr/"/>
+    <id>http://shevacjs.com/2017/07/21/ctr/</id>
+    <published>2017-07-20T16:25:11.000Z</published>
+    <updated>2017-07-21T11:17:05.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>偏实践应用, by chenjiansen</p>
+<p><code>WARN</code>, 个人理解, 应该是多有谬误</p>
+</blockquote>
+<h3 id="关于CTR预估"><a href="#关于CTR预估" class="headerlink" title="关于CTR预估"></a>关于CTR预估</h3><p>在很多推荐系统里面，rank是一个关键的环节；从不同召回源获取到的数据, 按照哪种排序方式推荐给用户是一个关键的问题; 所谓的<code>CTR预估</code>就是希望我们能对输出的list 做一个合适的点击预估; 抽象起来其实就是算一个item被点击的概率或者可能性；</p>
+<p>这个问题映射为机器学习里面的算法，现在常见的，使用广泛的主要有如下几个算法: </p>
+<h3 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h3><p>映射为LR算法，可以理解为，就是要预测一个算法被判为正例(‘click’)的概率；由于LR算法的输出是一个概率值, 所以可以直接用来sort;</p>
+<p>同时LR由于具有比较好的实现和调试；是早期大家使用较为广泛的Rank算法;</p>
+<h2 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h2><h2 id="FM"><a href="#FM" class="headerlink" title="FM"></a>FM</h2><p>考虑到我们这特征输入的时候，可能有如下几个问题: </p>
+<ul>
+<li>数据稀疏</li>
+<li>特征之间存在一些关联性</li>
+</ul>
+<p>传统的LR算法的$h_\theta(x) = \theta^Tx$，显然可能不适合此类数据，一个简单是思路是引入二次项，包含关联关系的预估, 如下 : </p>
+<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n w_{ij}x_ix_j$$</p>
+<p>这个表达共有$\frac{n(n-1)}{2}$个模型参数,  我们需要训练这么多参数，但是该表达式存在如下问题: </p>
+<ul>
+<li>由于每个$w_{ij}$ 都需要大量$x_i$和$x_j$非零的情况下进行预估，但是样本数据本来就比较稀疏，这将导致整个样本训练的难度非常大</li>
+</ul>
+<p>一个思路是: “所有二次项参数$w_{ij}$可以组成一个对称阵 $W$，那么这个矩阵就可以分解为 $W=V^TV=VV^T$，$V$ 的第 $j$ 列便是第 $j$维特征的隐向量。换句话说，每个参数 $w_{ij}=<v_i,v_j>$” ，所以上面可以转化为 : </v_i,v_j></p>
+<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j$$</v_i,></p>
+<p>其中: </p>
+<ul>
+<li>$v_i$ : 是一个k阶的隐向量$(k &lt;&lt; n)$</li>
+<li>$&lt; , &gt; $代表点积</li>
+</ul>
+<p>为了求上面式子的优化解，我们继续拆分有: </p>
+<p>$$\sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j = \frac{1}{2} \sum_{f=1}^k( (\sum_{i=1}^n v_{i,f} x_i)^2 - \sum_{i=1}^nv_{i,f}^2x_i^2)$$</v_i,></p>
+<p>可以证明FM参数的训练模型是$0(kn)$</p>
+<h3 id="FFM"><a href="#FFM" class="headerlink" title="FFM"></a>FFM</h3><p>基于FM，我们再分析他模型可能存在的问题:  </p>
+<p>在FM模型里面，我们为每个特征定义一个隐向量$\overrightarrow{v_i}$ , $\overrightarrow{v_i}$ 的估计是基于和其他参数的$\overrightarrow{v_j}$的相关性计算而成；这里面就有一个假设，就是任何其他特征对改特征的影响是一致的；但有时候，这个假设不一定合适；所以，我们引入所谓的<code>Field-aware Factorization Machine</code></p>
+<p>在FFM模型里面，每个特征都属于某个field; 所以隐向量不仅和特征有关，也和field有关; 假设样本的 n 个特征属于 f个field，那么FFM的二次项有 nf 个隐向量。而在FM模型中，每一维特征的隐向量只有一个。FM可以看作FFM的特例，是把所有特征都归属到一个field时的FFM模型。其方程可以表达为: </p>
+<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_{i,f_j}, v_{j,f_i}="">x_ix_j$$</v_{i,f_j},></p>
+<p>其中: </p>
+<ul>
+<li>$f_j$是第$j$个特征所属的<code>field</code></li>
+<li>$v_{i,j}$ 表明特征$i$,和 $j$ ，对应的隐向量，其中 $ j \in {  1, 2, 3, … , f }$</li>
+</ul>
+<p>可以看到FFM模型，共有<code>nfk</code>个待学习参数, 其预测复杂度是 $O(kn^2)$</p>
+<p>关于FM和FFM，本质上，都是希望寻找一个模型，能够表征不同特征直接的关联关系；<code>FFM</code>可以理解是在具体应用上面的一个折衷；具有较好的可适应性</p>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><h4 id="FFM-如何落地应用"><a href="#FFM-如何落地应用" class="headerlink" title="FFM 如何落地应用"></a>FFM 如何落地应用</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><p><a href="https://www.zhihu.com/question/26154847" target="_blank" rel="external">广告ctr预估有什么值得推荐的论文？</a> : 好多资料</p>
+</li>
+<li><p><a href="http://tech.meituan.com/deep-understanding-of-ffm-principles-and-practices.html" target="_blank" rel="external">深入FFM原理与实践</a> : 关于<code>FM</code>和<code>FFM</code>的介绍，说的挺清楚的，主要是参考他理解的</p>
+</li>
+<li><p><a href="http://www.jianshu.com/p/005a4e6ac775" target="_blank" rel="external">GBDT：梯度提升决策树</a> : </p>
+</li>
+<li><p><a href="https://www.csie.ntu.edu.tw/~cjlin/libffm/" target="_blank" rel="external">LIBFFM: A Library for Field-aware Factorization Machines</a> : 关于FFM</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;偏实践应用, by chenjiansen&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;WARN&lt;/code&gt;, 个人理解, 应该是多有谬误&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;关于CTR预估&quot;&gt;&lt;a href=&quot;#关于CTR预估&quot; class=&quot;h
+    
+    </summary>
+    
+    
+      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
+    
+  </entry>
+  
+  <entry>
     <title>About SVM</title>
     <link href="http://shevacjs.com/2017/07/21/svm/"/>
     <id>http://shevacjs.com/2017/07/21/svm/</id>
@@ -1152,95 +1260,6 @@
     
     
       <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关于AdaBoost&amp;Boosting</title>
-    <link href="http://shevacjs.com/2017/07/21/boosting/"/>
-    <id>http://shevacjs.com/2017/07/21/boosting/</id>
-    <published>2017-07-20T16:25:11.000Z</published>
-    <updated>2017-07-27T17:29:56.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;</p>
-<h3 id="About-AdaBoost"><a href="#About-AdaBoost" class="headerlink" title="About AdaBoost"></a>About AdaBoost</h3><p>AdaBoost的算法归纳如下: </p>
-<p>假设输入样本如下: </p>
-<p>$${ (x_1, y_1,), … (x_n, y_n) }$$</p>
-<p>且 $y \in  { -1, 1}$</p>
-<p>且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果</p>
-<p>则在$m-1$次迭代之后，我们的boost分类器可以表达如下: </p>
-<p>$$C_{(m-1)}(x_i) = \alpha_1k_1(x_i) + … + \alpha_{m-1}k_{m-1}(x_i)$$</p>
-<p>对第m次迭代后，我们的目标分类器的表达式可以表述为: </p>
-<p>$$C_m(x_i) = C_{(m-1)}(xi) + \alpha_mk_m(x_i)$$</p>
-<p>则问题转化为: 我们需要明确$\alpha_m$ 和 $k_m$的值 ;</p>
-<p>设我们的损失函数定义如下: (<code>mark</code>)</p>
-<p>$$E = \sum_{i=1}^n e^{-y_iC_m(x_i)}$$</p>
-<p>令$w_i^{(1)} = 1, w_i^{(m)} = e^{-y_iC_{m-1}(x_i)}$, 则有: </p>
-<p>$$ E = \sum_{i=1}^n w_i^{(m)} e^{-y_i\alpha_mk_m(x_i)}$$</p>
-<p>由于$y_i*k_m(x_i) \in { -1, 1 }$,  则有:</p>
-<p>$$ E = \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m} $$<br>$$ = \sum_{i=1}^N w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)} (e^{\alpha_m}   - e^{-\alpha_m} )$$</p>
-<p>从而可以看到我们关注的$k_m$对E的影响，仅表现在等式右侧,  其需要最小化$\sum _{yi \neq k_m(x_i)} w_i^{(m)}$ </p>
-<p>在考虑$\alpha_m$的取值: </p>
-<p>$$\frac{d E}{d \alpha_m} = - \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m}  $$</p>
-<p>令其取值为0； 则有: </p>
-<p>$$ \alpha_m = \frac{1}{2} \ln( \frac{\sum _{yi=k_m(x_i)} w_i^{(m)} }{\sum _{yi \neq k_m(x_i)} w_i^{(m)}}$$</p>
-<p>令 $\epsilon_m =  {\sum _{yi \neq k_m(x_i)} w_i^{(m)}} / \sum_{i=1}^n w_i^{(m)}$, 则有 : </p>
-<p>$$ \alpha_m = \frac{1}{2} \ln(\frac{1-\epsilon_m}{\epsilon_m})$$</p>
-<p>上面就是我们最常见的算法；</p>
-<p>概述如下：</p>
-<p>At each iteration, choose the classifier $k_{m}$ which minimizes the total weighted error :</p>
-<p>$$\sum_{y_i \neq k_m(x_i)}w_i^m $$</p>
-<p>use this to calculate the error rate </p>
-<p>$$\epsilon_m=\sum_{y_{i}\neq k_{m}(x_{i})}w_{i}^m/\sum_{i=1}^{N}w_{i}^m$$</p>
-<p>use this to calculate the weight<br>$$\alpha_m = \frac{1}{2}\ln\left( \frac{1 - \epsilon_m}{\epsilon_m}\right)$$</p>
-<p>and finally use this to improve the boosted classifier $C_NaN$ to $C_=C_NaN+\alpha _{m}k_{m}$<br>上面所述全来自wiki:  <a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="external">https://en.wikipedia.org/wiki/AdaBoost</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;&lt;/p&gt;
-&lt;h3 id=&quot;About-AdaBoost&quot;&gt;&lt;a href=&quot;#About-AdaBoost&quot; class=&quot;headerlink&quot; title=&quot;About AdaBoost&quot;&gt;&lt;/a&gt;About
-    
-    </summary>
-    
-    
-      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170716</title>
-    <link href="http://shevacjs.com/2017/07/16/20170716/"/>
-    <id>http://shevacjs.com/2017/07/16/20170716/</id>
-    <published>2017-07-16T06:15:30.000Z</published>
-    <updated>2017-07-21T06:46:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><a href="https://www.microsoft.com/en-us/seeing-ai/" target="_blank" rel="external">Seeing AI</a> : 微软新出来的app, “A free app that narrates the world around you. Designed for the low vision community, this research project harnesses the power of AI to describe people, text and objects”</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=14769762" target="_blank" rel="external">Redis 4.0 (groups.google.com)</a> : 感觉有不少特性值得关注，个人觉得有兴趣的包括:<code>PSYNC2</code>, <code>Redis modules</code>, <code>LFU eviction algorithm</code> , <code>MEMORY DOCTOR</code> 以及 <code>Active memory defragmentation</code></p>
-</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><a href="https://paragonie.com/book/pecl-libsodium" target="_blank" rel="external">Using Libsodium in PHP Projects</a> : LibSodium是一个php的安全基础库，会成为PHP 7.2的标准扩展，对于安全的php编程意义重大</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5Nzc4OTA1Mw==&amp;mid=2659599404&amp;idx=1&amp;sn=12c9a9da66286e398e5fd48fe338ad48" target="_blank" rel="external">携程的Web漏洞扫描系统实现细节</a> : 可以了解下, 总感觉很多关键点没说清楚，比如流量重放的脏数据问题,  数据镜像方案等(有点重)</p>
-</li>
-<li><p><a href="http://karpathy.github.io/neuralnets/" target="_blank" rel="external">Hacker’s guide to Neural Networks</a> : 关于深度学习的介绍，先mark</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://www.microsoft.com/en-us/seeing-ai/&quot; targ
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
     
   </entry>
   

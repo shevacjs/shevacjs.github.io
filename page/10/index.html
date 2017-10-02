@@ -57,6 +57,80 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-nginx_1_9_9" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/19/nginx_1_9_9/">nginx 1.9.9 特性说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/12/19/nginx_1_9_9/" class="article-date">
+  <time datetime="2015-12-19T06:17:30.000Z" itemprop="datePublished">2015-12-19</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="feature说明"><a href="#feature说明" class="headerlink" title="feature说明"></a>feature说明</h2><ul>
+<li>pwritev() support.</li>
+<li>the “include” directive inside the “upstream” block.</li>
+<li>the ngx_http_slice_module.</li>
+</ul>
+<h2 id="pwritev说明"><a href="#pwritev说明" class="headerlink" title="pwritev说明"></a>pwritev说明</h2><p><a href="http://linux.die.net/man/2/pwritev" target="_blank" rel="external">pwritev</a>的具体说明可以见链接；nginx在这个版本里面主要用<code>pwritev</code>替代<code>writev</code>的功能；简单的理解，可以认为是将老的:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">lseek(fd, offset);</div><div class="line">writev(fd, iov);</div></pre></td></tr></table></figure>
+<p>改成</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">pwritev()</div></pre></td></tr></table></figure>
+<p>总结的收益是:</p>
+<ul>
+<li>系统调用从2次改成1次，主要是性能方面的</li>
+<li>pwritev() was introduced in FreeBSD 6 and Linux 2.6.30, glibc 2.10</li>
+</ul>
+<p>具体可以参看文档: <a href="http://blog.libtorrent.org/2012/12/principles-of-high-performance-programs/" target="_blank" rel="external">principles of high performance programs</a></p>
+<h2 id="ngx-http-slice-module"><a href="#ngx-http-slice-module" class="headerlink" title="ngx_http_slice_module"></a>ngx_http_slice_module</h2><p><a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html" target="_blank" rel="external">ngx_http_slice_module</a>是新引入的一个功能模块；大概的作用是可以将一个upstream response body 切成那个小块，然后每个单独缓存; 官方原话:</p>
+<blockquote>
+<p>The module makes it<br>possible to split a big upstream response into smaller parts and cache them<br>independently.</p>
+<p>The module supports range requests.  When a part of a file is requested,<br>only the required slice upstream requests are made.  If caching is enabled,<br>future requests will only go to upstream for missing slices.</p>
+</blockquote>
+<p>可以理解的应用场景:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client ---&gt; proxy(nginx) ---&gt; upstream</div></pre></td></tr></table></figure>
+<ul>
+<li>proxy那边会将一个big file切成小块缓存</li>
+</ul>
+<blockquote>
+<p>todo待补充</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-waf" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -978,58 +1052,6 @@ $ gzip access.log.0    # do something with access.log.0
 <li>web性能权威指南</li>
 <li>web之困:现代web应用安全指南 </li>
 </ul>
-
-      
-    </div>
-    
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-0225_bitch_about" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/02/25/0225_bitch_about/">生活与生存</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/02/25/0225_bitch_about/" class="article-date">
-  <time datetime="2015-02-24T16:25:11.000Z" itemprop="datePublished">2015-02-25</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>现在是大年初七凌晨，如之前所料，基本上所有的人都各奔东西，一年一次的聚散又是要匆匆而过</p>
-<p>这次春节和之前差不多，基本上一半的时间都是和那些同学聚在一起，一起踢过球，喝过酒，打过牌，打过麻将，当然包括各种玩笑，谈话，还是很开心的</p>
-<p>有时候会想自己为什么会更享受在家的生活，想的的一些原因包括:</p>
-<ul>
-<li>不需要工作了</li>
-<li>因为有一群同学在，什么东西都可以吐槽</li>
-<li>住在家里</li>
-</ul>
-<p>其实认真想想上面几个点都有一点，但其实自己有一个简单的总结，就是在这边的话，感觉自己更像在<code>生活</code>,其实之前自己对生活和生存，虽然有非常明确的语义以及其具体含义的理解，但是自己慢慢感触这个却是随着自己岁数的不断增大，现在自己的情况，更多的精力应该是让自己生存下去，让自己一直努力，让自己坚持不懈…</p>
-<p>我自己希望能够在工作和<code>生活</code>中找到更好的平衡点，让自己的活的更自在一些，嗯，的确一直在调整…</p>
-<p>今天看到一篇文章，大道理讲的很多，但里面有一个简单的观点，大致是说，不要太过分的欣赏和佩服自己某一刻的努力，大致的意思是世界上比你多努力的人多了去了。。。嗯，有时候后自己就会陷入这个状态，然后盲目的迷失了…</p>
-<p>不再细说，今年自己要好好努力，也希望一切静好:)</p>
 
       
     </div>
