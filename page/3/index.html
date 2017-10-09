@@ -57,6 +57,103 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-svm" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/21/svm/">About SVM</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/07/21/svm/" class="article-date">
+  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务;</p>
+<p>一个直观的理解是: 我们构造的平面, 其距离样本的点距离越远越好;</p>
+<p>而对于线性不可分的情况，我们则可以通过构造映射函数，将其映射到高维空间, 变成一个线性可分的模型</p>
+<p>下面具体介绍这些思路的数学演绎过程</p>
+<h2 id="数学演绎"><a href="#数学演绎" class="headerlink" title="数学演绎"></a>数学演绎</h2><p>设我们的<code>输入样本</code>为: </p>
+<p>$$ { (x_1,y_1), … , (x_N, y_N)}$$</p>
+<p>其中: </p>
+<ul>
+<li>$x_i \in R^n $</li>
+<li>$y_i \in { -1, 1 }$</li>
+</ul>
+<p>首先考虑<code>线性可分</code>的情况;  此时设我们要求解的超平面为: </p>
+<p>$$\textbf{w}^T\textbf{x} + b = 0 $$</p>
+<p>则有: </p>
+<h3 id="间隔定义"><a href="#间隔定义" class="headerlink" title="间隔定义"></a>间隔定义</h3><p>我们定义函数间隔如下: </p>
+<p>$$\widehat{\gamma}_i = y_i (w \centerdot x + b )$$</p>
+<p>定义几何间隔如下 :<br>$$\gamma_i = y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|})$$</p>
+<p>可以看到几何间隔就是在$|w| = 1$ 时候的函数间隔，也是代表这个点到平面的实际几何距离；也有如下关系: </p>
+<p>$$ \gamma = \frac{\widehat {\gamma}}{| w |}$$</p>
+<h3 id="最优值定义"><a href="#最优值定义" class="headerlink" title="最优值定义"></a>最优值定义</h3><p>我们可以理解需要获取一个最大几何间隔的分离超平面(<code>为什么</code> ? ), 表针为: </p>
+<p>$$ \max \limits_{w,b} \gamma  \\ s.t. \ \ \  y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|}) \geqslant  \gamma $$</p>
+<p>用函数间隔替换如下: </p>
+<p>$$ \max \limits_{w,b} \frac{\widehat {\gamma}}{| w |}   \\ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  \widehat{\gamma} $$</p>
+<p>可以令 $\widehat{\gamma} = 1$,  则有: </p>
+<p>$$ \max \limits_{w,b} \frac{1}{| w |}   \\ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  1 $$</p>
+<p>也就是: </p>
+<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2   \\ s.t. \ \ \quad  y_i (w \centerdot x + b ) \geqslant  1 \quad i \in { 1, 2, … , N }$$</p>
+<p><code>也就是可以理解为</code> :  我们需要寻找合适的$w, b$，对应着一个超平面，使得所有的样本点到其的函数间隔都大于1；同时使得$|w|$最小</p>
+<p>上述方程的一个优化方法是:  通过对偶方法构造原来不等式的等价最优解（也就是拉格朗日对偶函数，具体太复杂了，就(也不懂)不展开了) ，总之如上的约束条件的等价对偶问题为:</p>
+<p>$$ \min \limits_{\alpha} \frac{1}{2} \sum_{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy_j - \sum_{i=1}^N\alpha_i \\ s.t. \quad \sum_{i=1}^{N} \alpha_iy_i = 0 \\ a_i (y_i(w*x_i + b) - 1) =0 \\ \\ w = \sum_{i=1}^{N} \alpha_i x_i y_i \\ a_i \geqslant 0 \quad i \in { 1, 2, … , N } $$<br>(可以忽略$\alpha_i$ 为什么会出现)</p>
+<p>这里我们称令$a_i &gt; 0$ 成立的样本点为<code>支持向量</code>, 依照上面的定义，当$a_i &gt; 0 $时，则有: </p>
+<p>$$ y_i(w*x_i + b) - 1 =0$$</p>
+<p>也就是$x_i$ 一定是在间隔的边界</p>
+<h3 id="线性不可分情况"><a href="#线性不可分情况" class="headerlink" title="线性不可分情况"></a>线性不可分情况</h3><p>考虑到现实生活中，存在一些异常或者脏数据，此时我们可以每个样本点引入一个松弛变量$\xi_i$,  则约束条件可以变为 : </p>
+<p>$$ y_i (w \centerdot x_i + b ) \geqslant  1-\xi_i \quad i \in { 1, 2, … , N } $$</p>
+<p>同时目标函数可以变成: </p>
+<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2 + C \sum_{i=1}^{N} \xi_i$$</p>
+<p>其中 : C代表着惩罚系数，需要视具体的业务场景而定 ；C值越大，表明对误差的惩罚增大，反之则减小；</p>
+<p>忽略一些很复杂的计算，可以得到对偶问题如下: </p>
+<p>$$ \min \limits_{\alpha} \frac{1}{2} \sum_{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy_j - \sum_{i=1}^N\alpha_i \\ s.t. \quad \sum_{i=1}^{N} \alpha_iy_i = 0 \\  0 \leqslant a_i \leqslant C \quad i \in { 1, 2, … , N } $$</p>
+<p>从上面可以分析出: </p>
+<ul>
+<li>$w$是确定且唯一的</li>
+<li>$b$的解并不唯一</li>
+</ul>
+<h3 id="核函数及其应用"><a href="#核函数及其应用" class="headerlink" title="核函数及其应用"></a>核函数及其应用</h3><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><p><a href="https://zh.wikipedia.org/wiki/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA" target="_blank" rel="external">支持向量机</a></p>
+</li>
+<li><p><a href="https://en.wikipedia.org/wiki/Support_vector_machine" target="_blank" rel="external">Support vector machine</a> </p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20170716" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -667,84 +764,6 @@
 
 
     
-      <article id="post-20170514" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/14/20170514/">weekly of 20170514</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/05/14/20170514/" class="article-date">
-  <time datetime="2017-05-14T12:30:52.000Z" itemprop="datePublished">2017-05-14</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><a href="http://weibo.com/ttarticle/p/show?id=2309404106694383811134" target="_blank" rel="external">计算机新硬件技术带来的变革与思考</a> : 可以了解，未来无限可能</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/2BKjeVpxSZB4REAhALrTHw" target="_blank" rel="external">如何看待 Google 最新的系统 Fuchsia？</a> : 作者认为<code>Fuchsia</code>是一个未来的操作系统，用于支持VR、AR等未来的交互方式</p>
-</li>
-<li><p><a href="https://android-developers.googleblog.com/2017/05/here-comes-treble-modular-base-for.html" target="_blank" rel="external">Here comes Treble: A modular base for Android</a> : Android准备引入了<code>Vendor Interface</code>, 以便低成本的支持应用程序在不同设备的迁移</p>
-</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://news.ycombinator.com/item?id=14321213" target="_blank" rel="external">When Bash scripts bite (janestreet.com)</a> : 在bash里面，需要对<code>set -euo pipefail</code> 谨慎使用</p>
-</li>
-<li><p><a href="http://www.brendangregg.com/blog/2017-05-09/cpu-utilization-is-wrong.html" target="_blank" rel="external">CPU Utilization is Wrong</a> : 作者认为我们通常说的<code>cpu utilization</code> 并不是cpu的真正利用率，其包括了cpu的cache等待时间; 我们应该更关注<code>IPC</code>(instructions-per-cycle), 通过这个指标我们可以分辨出系统的真正瓶颈(是不是cpu cahce可以优化等); 这中说法并不完全合理，但是也是理想系统的另外一个视角</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="https://www.quora.com/How-does-Quora-use-machine-learning-in-2017/answer/Nikhil-Dandekar?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=social" target="_blank" rel="external">How does Quora use machine learning in 2017?</a> : 具体谈到了<code>Quora</code> 如何利用ML的相关技术来优化他们的产品体验, 包括: 问题理解，推荐等场景; 里面还具体提到了<code>Quora</code>使用到的一些工具和lib，也可以采纳&amp;学习</li>
-</ul>
-<ul>
-<li><a href="https://news.ycombinator.com/item?id=14314931" target="_blank" rel="external">How Cloudflare analyzes 1M DNS queries per second</a> : 非常好的文章, 重点是讨论通过使用<code>Kafka + ClickHouse</code> 来进行在线实时的大规模计算, 其中<a href="https://clickhouse.yandex/" target="_blank" rel="external">ClickHouse</a> 可以持续关注</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://opensource.com/article/16/12/yearbook-9-lessons-25-years-linux-kernel-development" target="_blank" rel="external">9 lessons from 25 years of Linux kernel development</a> : 关于linux内核开发的一些建议和技巧，总结性的东西</p>
-</li>
-<li><p><a href="http://www.freebuf.com/articles/web/133455.html" target="_blank" rel="external">通过浏览器缓存来bypass nonce script CSP</a> : 利用浏览器缓存, 绕过<code>nonce script CSP</code>的一个方式</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650996187&amp;idx=1&amp;sn=f8ae2f2d0b84567004119e41e0a83646" target="_blank" rel="external">技术漫谈：为何KPI毁了索尼，而OKR却成就了谷歌？</a> : 对KPI &amp; OKR 的解释</p>
-</li>
-<li><p><a href="https://github.com/yandex/gixy" target="_blank" rel="external">GIXY:Nginx configuration static analyzer</a> : “Gixy is a tool to analyze Nginx configuration. The main goal of Gixy is to prevent security misconfiguration and automate flaw detection.”</p>
-</li>
-<li><p><a href="https://www.spinellis.gr/blog/20170510/" target="_blank" rel="external">Unix Architecture Evolution Diagrams</a> : 作者写了一个工具<a href="https://github.com/dspinellis/unix-architecture" target="_blank" rel="external">Unix Architecture Diagrams</a>, 其可以通过对源码的分析&amp;扫描，自动生成一个软件的架构图</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/4/">下一页 &raquo;</a>
       </nav>
@@ -780,6 +799,23 @@
 
 
 <script src="/js/script.js"></script>
-  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 </body>
 </html>

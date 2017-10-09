@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2017-10-02T16:17:50.000Z</updated>
+  <updated>2017-10-09T06:14:49.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,78 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20171008</title>
+    <link href="http://shevacjs.com/2017/10/09/20171008/"/>
+    <id>http://shevacjs.com/2017/10/09/20171008/</id>
+    <published>2017-10-09T06:12:45.000Z</published>
+    <updated>2017-10-09T06:14:49.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/yantai.jpg" alt="烟台海岸"></p>
+<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><p><a href="https://blogs.windows.com/windowsexperience/2017/10/05/announcing-microsoft-edge-for-ios-and-android-microsoft-launcher/" target="_blank" rel="external">Announcing Microsoft Edge for iOS and Android, Microsoft Launcher</a> : 微软分别给IOS系统和安卓系统发布了对应的<code>Edge</code>浏览器和<code>Micorsoft Launcher</code></p>
+</li>
+<li><p><a href="https://aws.amazon.com/cn/blogs/ai/introducing-nnvm-compiler-a-new-open-end-to-end-compiler-for-ai-frameworks/" target="_blank" rel="external">Introducing NNVM Compiler: A New Open End-to-End Compiler for AI Frameworks</a> : Amazon开源了一个全新的机器学习框架的方案，通过引入<code>NNVM</code>和<code>TVM</code>, 前者是类似IR的中间语言，后者是具体的实现，希望以为来提升整体机器学习的性能和工程效率, 可以参看中文的讨论<a href="https://www.zhihu.com/question/51216952" target="_blank" rel="external">如何评价陈天奇的模块化深度学习系统NNVM?</a></p>
+</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><a href="https://github.com/billfeller/billfeller.github.io/issues/121" target="_blank" rel="external">Using Wireshark to decode packets on HTTP/2 over TLS in Chrome on Window/Mac OS X</a> : 本文介绍了一个如何用<code>Wireshark</code>分析TLS包的技巧，整体是思路是由于具体tls沟通的时候肯定是通过对称加密算法沟通的，因此把这个对称密钥打印到日志里面，wireshark就有可能对其包体进行分析</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li><p><a href="https://news.ycombinator.com/item?id=15400037" target="_blank" rel="external">Interactive Vim tutorial</a> : 很不错的vim tutorial, 初学者可以试试, PS: 对国外这些小伙如此费心做这些工具真心佩服</p>
+</li>
+<li><p><a href="http://www.scylladb.com/2017/10/05/io-access-methods-scylla/" target="_blank" rel="external">Different I/O Access Methods for Linux, What We Chose for Scylla, and Why</a> : 关于Linux下面文件IO操作的概述性介绍，讲的比较详细，对于系统开发比较深入的同学可以参考下</p>
+</li>
+<li><p><a href="http://robert.ocallahan.org/2017/10/thoughts-on-microsofts-time-travel.html" target="_blank" rel="external">Thoughts On Microsoft’s Time-Travel Debugger</a> : 对之前TTD工具的分析，其实主要是和Mozilla的<a href="https://github.com/mozilla/rr" target="_blank" rel="external">RR</a>做一些对比分析，后者是linux/macOS系统上面比较好的支持调试回放的工具</p>
+</li>
+</ul>
+<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="http://www.averylaird.com/programming/editor/2017/09/30/the-piece-table/" target="_blank" rel="external">Text Editor: Data Structures</a> : 本文探讨一个很有意思的话题，就是用哪种数据结构维护编辑器的内容存储，从普通的array，到<a href="https://www.codeproject.com/Articles/20910/Generic-Gap-Buffer#GapBufferWorks" target="_blank" rel="external">Gap Buffer</a>, 还有<a href="https://en.wikipedia.org/wiki/Piece_table" target="_blank" rel="external">Piece table</a></p>
+</li>
+<li><p><a href="https://www.blog.google/topics/machine-learning/now-anyone-can-explore-machine-learning-no-coding-required/" target="_blank" rel="external">Now anyone can explore machine learning, no coding required</a> : Google提供的一个可视化机器学习demo，其内部主要依赖<a href="https://deeplearnjs.org/" target="_blank" rel="external">deeplearn.js</a>, “It trains a neural net right in your browser—locally on your device—without sending any images to a server”。 可能不少业务场景都可以试试</p>
+</li>
+<li><p><a href="http://www.52cs.org/?p=2371" target="_blank" rel="external">大规模机器学习系统中的No Free Lunch</a> : 个人理解更多是一个科普文，让你对机器学习的实践问题有进一步理解和判断</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="http://eux.baidu.com/blog/2017/08/chrome-%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7%E7%9A%84%E4%B8%80%E4%BA%9B%E9%AB%98%E9%98%B6%E5%8A%9F%E8%83%BD" target="_blank" rel="external">Chrome 调试工具的一些高阶功能</a> : 不少Chrome的小技巧，大家可以关注下</p>
+</li>
+<li><p><a href="https://github.com/nEXT-Browser/nEXT" target="_blank" rel="external">nEXT - The fastest productivity web-browser</a> : 一个基于Lisp集成的浏览器，支持非常灵活的操作</p>
+</li>
+<li><p><a href="https://github.com/heathermiller/dist-prog-book" target="_blank" rel="external">Programming Models for Distributed Computation</a> : “Source repo for the book that I and my students in my course at Northeastern University, CS7680 Special Topics in Computing Systems: Programming Models for Distributed Computing, are writing on the topic of programming models for distributed systems.”, demo可以参看<a href="http://dist-prog-book.com/chapter/2/futures.html" target="_blank" rel="external">Futures and Promises</a>, 感觉排版和内容都不错</p>
+</li>
+<li><p><a href="https://securitytxt.org/#about" target="_blank" rel="external">security.txt</a> : 一个新提议，建议每个网站通过引入<code>security.txt</code>文件，来描述该网站对安全相关的策略以及信息, 有人建议可以参照<a href="https://www.ietf.org/rfc/rfc2142.txt" target="_blank" rel="external">rfc2142.txt</a>, 里面直接有相关的信息和标准，比如定义了<code>security@</code>, <code>abuse@</code>的功能和作用</p>
+</li>
+<li><p><a href="http://pierrickcalvez.com/journal/a-five-minutes-guide-to-better-typography" target="_blank" rel="external">A Five Minutes Guide to Better Typography</a> : 对于一些排版的基本建议，包括字体选择，大小选择(翻倍)， 行间距(1.2x~1.5x)等</p>
+</li>
+<li><p><a href="https://googleprojectzero.blogspot.com/2017/10/using-binary-diffing-to-discover.html" target="_blank" rel="external">Using Binary Diffing to Discover Windows Kernel Memory Disclosure Bugs</a> ：本文主要介绍基于<code>binary differing</code>技术用于分析和追踪MS的一些内核错误，没有细看，先mark</p>
+</li>
+<li><p><a href="https://jcp.org/aboutJava/communityprocess/ec-public/materials/2017-02-14/Java_at_Alibaba.pdf" target="_blank" rel="external">Java at Alibaba</a> : 介绍了Java在阿里巴巴的应用实践, 包括<code>JWarmup</code>, <code>WISP</code> 等, 个人感觉干货还是相对偏少</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/yantai.jpg&quot; alt=&quot;烟台海岸&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://blogs.windows.com/windowsexperience/2017/10/05/announcing-microsoft-edge-for-ios-and-android-microsoft-launcher/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Announcing Microsoft Edge for iOS and Android, Microsoft Launcher&lt;/a&gt; : 微软分别给IOS系统和安卓系统发布了对应的&lt;code&gt;Edge&lt;/code&gt;浏览器和&lt;code&gt;Micorsoft Launcher&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://aws.amazon.com/cn/blogs/ai/introducing-nnvm-compiler-a-new-open-end-to-end-compiler-for-ai-frameworks/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Introducing NNVM Compiler: A New Open End-to-End Compiler for AI Frameworks&lt;/a&gt; : Amazon开源了一个全新的机器学习框架的方案，通过引入&lt;code&gt;NNVM&lt;/code&gt;和&lt;code&gt;TVM&lt;/code&gt;, 前者是类似IR的中间语言，后者是具体的实现，希望以为来提升整体机器学习的性能和工程效率, 可以参看中文的讨论&lt;a href=&quot;https://www.zhihu.com/question/51216952&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;如何评价陈天奇的模块化深度学习系统NNVM?&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/billfeller/billfeller.github.io/issues/121&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Using Wireshark to decode packets on HTTP/2 over TLS in Chrome on Window/Mac OS X&lt;/a&gt; : 本文介绍了一个如何用&lt;code&gt;Wireshark&lt;/code&gt;分析TLS包的技巧，整体是思路是由于具体tls沟通的时候肯定是通过对称加密算法沟通的，因此把这个对称密钥打印到日志里面，wireshark就有可能对其包体进行分析&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20170930</title>
@@ -923,59 +995,6 @@
   </entry>
   
   <entry>
-    <title>关于AdaBoost&amp;Boosting</title>
-    <link href="http://shevacjs.com/2017/07/21/boosting/"/>
-    <id>http://shevacjs.com/2017/07/21/boosting/</id>
-    <published>2017-07-20T16:25:11.000Z</published>
-    <updated>2017-07-27T17:29:56.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;</p>
-<h3 id="About-AdaBoost"><a href="#About-AdaBoost" class="headerlink" title="About AdaBoost"></a>About AdaBoost</h3><p>AdaBoost的算法归纳如下: </p>
-<p>假设输入样本如下: </p>
-<p>$${ (x_1, y_1,), … (x_n, y_n) }$$</p>
-<p>且 $y \in  { -1, 1}$</p>
-<p>且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果</p>
-<p>则在$m-1$次迭代之后，我们的boost分类器可以表达如下: </p>
-<p>$$C_{(m-1)}(x_i) = \alpha_1k_1(x_i) + … + \alpha_{m-1}k_{m-1}(x_i)$$</p>
-<p>对第m次迭代后，我们的目标分类器的表达式可以表述为: </p>
-<p>$$C_m(x_i) = C_{(m-1)}(xi) + \alpha_mk_m(x_i)$$</p>
-<p>则问题转化为: 我们需要明确$\alpha_m$ 和 $k_m$的值 ;</p>
-<p>设我们的损失函数定义如下: (<code>mark</code>)</p>
-<p>$$E = \sum_{i=1}^n e^{-y_iC_m(x_i)}$$</p>
-<p>令$w_i^{(1)} = 1, w_i^{(m)} = e^{-y_iC_{m-1}(x_i)}$, 则有: </p>
-<p>$$ E = \sum_{i=1}^n w_i^{(m)} e^{-y_i\alpha_mk_m(x_i)}$$</p>
-<p>由于$y_i*k_m(x_i) \in { -1, 1 }$,  则有:</p>
-<p>$$ E = \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m} $$<br>$$ = \sum_{i=1}^N w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)} (e^{\alpha_m}   - e^{-\alpha_m} )$$</p>
-<p>从而可以看到我们关注的$k_m$对E的影响，仅表现在等式右侧,  其需要最小化$\sum _{yi \neq k_m(x_i)} w_i^{(m)}$ </p>
-<p>在考虑$\alpha_m$的取值: </p>
-<p>$$\frac{d E}{d \alpha_m} = - \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m}  $$</p>
-<p>令其取值为0； 则有: </p>
-<p>$$ \alpha_m = \frac{1}{2} \ln( \frac{\sum _{yi=k_m(x_i)} w_i^{(m)} }{\sum _{yi \neq k_m(x_i)} w_i^{(m)}}$$</p>
-<p>令 $\epsilon_m =  {\sum _{yi \neq k_m(x_i)} w_i^{(m)}} / \sum_{i=1}^n w_i^{(m)}$, 则有 : </p>
-<p>$$ \alpha_m = \frac{1}{2} \ln(\frac{1-\epsilon_m}{\epsilon_m})$$</p>
-<p>上面就是我们最常见的算法；</p>
-<p>概述如下：</p>
-<p>At each iteration, choose the classifier $k_{m}$ which minimizes the total weighted error :</p>
-<p>$$\sum_{y_i \neq k_m(x_i)}w_i^m $$</p>
-<p>use this to calculate the error rate </p>
-<p>$$\epsilon_m=\sum_{y_{i}\neq k_{m}(x_{i})}w_{i}^m/\sum_{i=1}^{N}w_{i}^m$$</p>
-<p>use this to calculate the weight<br>$$\alpha_m = \frac{1}{2}\ln\left( \frac{1 - \epsilon_m}{\epsilon_m}\right)$$</p>
-<p>and finally use this to improve the boosted classifier $C_NaN$ to $C_=C_NaN+\alpha _{m}k_{m}$<br>上面所述全来自wiki:  <a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="external">https://en.wikipedia.org/wiki/AdaBoost</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;&lt;/p&gt;
-&lt;h3 id=&quot;About-AdaBoost&quot;&gt;&lt;a href=&quot;#About-AdaBoost&quot; class=&quot;headerlink&quot; title=&quot;About AdaBoost&quot;&gt;&lt;/a&gt;About
-    
-    </summary>
-    
-    
-      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Supervised learning ： Linear Regression</title>
     <link href="http://shevacjs.com/2017/07/21/Supervised_Learning/"/>
     <id>http://shevacjs.com/2017/07/21/Supervised_Learning/</id>
@@ -1118,6 +1137,59 @@
   </entry>
   
   <entry>
+    <title>关于AdaBoost&amp;Boosting</title>
+    <link href="http://shevacjs.com/2017/07/21/boosting/"/>
+    <id>http://shevacjs.com/2017/07/21/boosting/</id>
+    <published>2017-07-20T16:25:11.000Z</published>
+    <updated>2017-07-27T17:29:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;</p>
+<h3 id="About-AdaBoost"><a href="#About-AdaBoost" class="headerlink" title="About AdaBoost"></a>About AdaBoost</h3><p>AdaBoost的算法归纳如下: </p>
+<p>假设输入样本如下: </p>
+<p>$${ (x_1, y_1,), … (x_n, y_n) }$$</p>
+<p>且 $y \in  { -1, 1}$</p>
+<p>且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果</p>
+<p>则在$m-1$次迭代之后，我们的boost分类器可以表达如下: </p>
+<p>$$C_{(m-1)}(x_i) = \alpha_1k_1(x_i) + … + \alpha_{m-1}k_{m-1}(x_i)$$</p>
+<p>对第m次迭代后，我们的目标分类器的表达式可以表述为: </p>
+<p>$$C_m(x_i) = C_{(m-1)}(xi) + \alpha_mk_m(x_i)$$</p>
+<p>则问题转化为: 我们需要明确$\alpha_m$ 和 $k_m$的值 ;</p>
+<p>设我们的损失函数定义如下: (<code>mark</code>)</p>
+<p>$$E = \sum_{i=1}^n e^{-y_iC_m(x_i)}$$</p>
+<p>令$w_i^{(1)} = 1, w_i^{(m)} = e^{-y_iC_{m-1}(x_i)}$, 则有: </p>
+<p>$$ E = \sum_{i=1}^n w_i^{(m)} e^{-y_i\alpha_mk_m(x_i)}$$</p>
+<p>由于$y_i*k_m(x_i) \in { -1, 1 }$,  则有:</p>
+<p>$$ E = \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m} $$<br>$$ = \sum_{i=1}^N w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)} (e^{\alpha_m}   - e^{-\alpha_m} )$$</p>
+<p>从而可以看到我们关注的$k_m$对E的影响，仅表现在等式右侧,  其需要最小化$\sum _{yi \neq k_m(x_i)} w_i^{(m)}$ </p>
+<p>在考虑$\alpha_m$的取值: </p>
+<p>$$\frac{d E}{d \alpha_m} = - \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m}  $$</p>
+<p>令其取值为0； 则有: </p>
+<p>$$ \alpha_m = \frac{1}{2} \ln( \frac{\sum _{yi=k_m(x_i)} w_i^{(m)} }{\sum _{yi \neq k_m(x_i)} w_i^{(m)}}$$</p>
+<p>令 $\epsilon_m =  {\sum _{yi \neq k_m(x_i)} w_i^{(m)}} / \sum_{i=1}^n w_i^{(m)}$, 则有 : </p>
+<p>$$ \alpha_m = \frac{1}{2} \ln(\frac{1-\epsilon_m}{\epsilon_m})$$</p>
+<p>上面就是我们最常见的算法；</p>
+<p>概述如下：</p>
+<p>At each iteration, choose the classifier $k_{m}$ which minimizes the total weighted error :</p>
+<p>$$\sum_{y_i \neq k_m(x_i)}w_i^m $$</p>
+<p>use this to calculate the error rate </p>
+<p>$$\epsilon_m=\sum_{y_{i}\neq k_{m}(x_{i})}w_{i}^m/\sum_{i=1}^{N}w_{i}^m$$</p>
+<p>use this to calculate the weight<br>$$\alpha_m = \frac{1}{2}\ln\left( \frac{1 - \epsilon_m}{\epsilon_m}\right)$$</p>
+<p>and finally use this to improve the boosted classifier $C_NaN$ to $C_=C_NaN+\alpha _{m}k_{m}$<br>上面所述全来自wiki:  <a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="external">https://en.wikipedia.org/wiki/AdaBoost</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;&lt;/p&gt;
+&lt;h3 id=&quot;About-AdaBoost&quot;&gt;&lt;a href=&quot;#About-AdaBoost&quot; class=&quot;headerlink&quot; title=&quot;About AdaBoost&quot;&gt;&lt;/a&gt;About
+    
+    </summary>
+    
+    
+      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
+    
+  </entry>
+  
+  <entry>
     <title>关于CTR预估的算法</title>
     <link href="http://shevacjs.com/2017/07/21/ctr/"/>
     <id>http://shevacjs.com/2017/07/21/ctr/</id>
@@ -1183,78 +1255,6 @@
 &lt;p&gt;&lt;code&gt;WARN&lt;/code&gt;, 个人理解, 应该是多有谬误&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h3 id=&quot;关于CTR预估&quot;&gt;&lt;a href=&quot;#关于CTR预估&quot; class=&quot;h
-    
-    </summary>
-    
-    
-      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>About SVM</title>
-    <link href="http://shevacjs.com/2017/07/21/svm/"/>
-    <id>http://shevacjs.com/2017/07/21/svm/</id>
-    <published>2017-07-20T16:25:11.000Z</published>
-    <updated>2017-07-21T09:50:12.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务;</p>
-<p>一个直观的理解是: 我们构造的平面, 其距离样本的点距离越远越好;</p>
-<p>而对于线性不可分的情况，我们则可以通过构造映射函数，将其映射到高维空间, 变成一个线性可分的模型</p>
-<p>下面具体介绍这些思路的数学演绎过程</p>
-<h2 id="数学演绎"><a href="#数学演绎" class="headerlink" title="数学演绎"></a>数学演绎</h2><p>设我们的<code>输入样本</code>为: </p>
-<p>$$ { (x_1,y_1), … , (x_N, y_N)}$$</p>
-<p>其中: </p>
-<ul>
-<li>$x_i \in R^n $</li>
-<li>$y_i \in { -1, 1 }$</li>
-</ul>
-<p>首先考虑<code>线性可分</code>的情况;  此时设我们要求解的超平面为: </p>
-<p>$$\textbf{w}^T\textbf{x} + b = 0 $$</p>
-<p>则有: </p>
-<h3 id="间隔定义"><a href="#间隔定义" class="headerlink" title="间隔定义"></a>间隔定义</h3><p>我们定义函数间隔如下: </p>
-<p>$$\widehat{\gamma}_i = y_i (w \centerdot x + b )$$</p>
-<p>定义几何间隔如下 :<br>$$\gamma_i = y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|})$$</p>
-<p>可以看到几何间隔就是在$|w| = 1$ 时候的函数间隔，也是代表这个点到平面的实际几何距离；也有如下关系: </p>
-<p>$$ \gamma = \frac{\widehat {\gamma}}{| w |}$$</p>
-<h3 id="最优值定义"><a href="#最优值定义" class="headerlink" title="最优值定义"></a>最优值定义</h3><p>我们可以理解需要获取一个最大几何间隔的分离超平面(<code>为什么</code> ? ), 表针为: </p>
-<p>$$ \max \limits_{w,b} \gamma  \\ s.t. \ \ \  y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|}) \geqslant  \gamma $$</p>
-<p>用函数间隔替换如下: </p>
-<p>$$ \max \limits_{w,b} \frac{\widehat {\gamma}}{| w |}   \\ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  \widehat{\gamma} $$</p>
-<p>可以令 $\widehat{\gamma} = 1$,  则有: </p>
-<p>$$ \max \limits_{w,b} \frac{1}{| w |}   \\ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  1 $$</p>
-<p>也就是: </p>
-<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2   \\ s.t. \ \ \quad  y_i (w \centerdot x + b ) \geqslant  1 \quad i \in { 1, 2, … , N }$$</p>
-<p><code>也就是可以理解为</code> :  我们需要寻找合适的$w, b$，对应着一个超平面，使得所有的样本点到其的函数间隔都大于1；同时使得$|w|$最小</p>
-<p>上述方程的一个优化方法是:  通过对偶方法构造原来不等式的等价最优解（也就是拉格朗日对偶函数，具体太复杂了，就(也不懂)不展开了) ，总之如上的约束条件的等价对偶问题为:</p>
-<p>$$ \min \limits_{\alpha} \frac{1}{2} \sum_{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy_j - \sum_{i=1}^N\alpha_i \\ s.t. \quad \sum_{i=1}^{N} \alpha_iy_i = 0 \\ a_i (y_i(w*x_i + b) - 1) =0 \\ \\ w = \sum_{i=1}^{N} \alpha_i x_i y_i \\ a_i \geqslant 0 \quad i \in { 1, 2, … , N } $$<br>(可以忽略$\alpha_i$ 为什么会出现)</p>
-<p>这里我们称令$a_i &gt; 0$ 成立的样本点为<code>支持向量</code>, 依照上面的定义，当$a_i &gt; 0 $时，则有: </p>
-<p>$$ y_i(w*x_i + b) - 1 =0$$</p>
-<p>也就是$x_i$ 一定是在间隔的边界</p>
-<h3 id="线性不可分情况"><a href="#线性不可分情况" class="headerlink" title="线性不可分情况"></a>线性不可分情况</h3><p>考虑到现实生活中，存在一些异常或者脏数据，此时我们可以每个样本点引入一个松弛变量$\xi_i$,  则约束条件可以变为 : </p>
-<p>$$ y_i (w \centerdot x_i + b ) \geqslant  1-\xi_i \quad i \in { 1, 2, … , N } $$</p>
-<p>同时目标函数可以变成: </p>
-<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2 + C \sum_{i=1}^{N} \xi_i$$</p>
-<p>其中 : C代表着惩罚系数，需要视具体的业务场景而定 ；C值越大，表明对误差的惩罚增大，反之则减小；</p>
-<p>忽略一些很复杂的计算，可以得到对偶问题如下: </p>
-<p>$$ \min \limits_{\alpha} \frac{1}{2} \sum_{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy_j - \sum_{i=1}^N\alpha_i \\ s.t. \quad \sum_{i=1}^{N} \alpha_iy_i = 0 \\  0 \leqslant a_i \leqslant C \quad i \in { 1, 2, … , N } $$</p>
-<p>从上面可以分析出: </p>
-<ul>
-<li>$w$是确定且唯一的</li>
-<li>$b$的解并不唯一</li>
-</ul>
-<h3 id="核函数及其应用"><a href="#核函数及其应用" class="headerlink" title="核函数及其应用"></a>核函数及其应用</h3><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><p><a href="https://zh.wikipedia.org/wiki/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA" target="_blank" rel="external">支持向量机</a></p>
-</li>
-<li><p><a href="https://en.wikipedia.org/wiki/Support_vector_machine" target="_blank" rel="external">Support vector machine</a> </p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;思路&quot;&gt;&lt;a href=&quot;#思路&quot; class=&quot;headerlink&quot; title=&quot;思路&quot;&gt;&lt;/a&gt;思路&lt;/h2&gt;&lt;p&gt;SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务;&lt;/p&gt;
-&lt;p&gt;一个直观的理解是: 我们构造的
     
     </summary>
     
