@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>weekly of 20171015 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="工具技巧 Why Constant-Time Crypto? : 本文具体讨论了BearSSL对于constant-time算法的考虑。由于其可以避免被一些旁路监听策略攻击，所以是一个更为安全和理想的加密策略。其后介绍了constant-time的主要方法，一个是masking，就是在代码实现里面加入一些随机因子可以让算法的执行时间不可控，不过这对算法的实现有一些具体的要求，不具有普适性。另外一">
+<meta name="keywords" content="weekly">
+<meta property="og:type" content="article">
+<meta property="og:title" content="weekly of 20171015">
+<meta property="og:url" content="http://shevacjs.com/2017/10/17/20171015/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="工具技巧 Why Constant-Time Crypto? : 本文具体讨论了BearSSL对于constant-time算法的考虑。由于其可以避免被一些旁路监听策略攻击，所以是一个更为安全和理想的加密策略。其后介绍了constant-time的主要方法，一个是masking，就是在代码实现里面加入一些随机因子可以让算法的执行时间不可控，不过这对算法的实现有一些具体的要求，不具有普适性。另外一">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://shevacjs.com/images/football1.jpg">
+<meta property="og:updated_time" content="2017-10-17T11:44:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="weekly of 20171015">
+<meta name="twitter:description" content="工具技巧 Why Constant-Time Crypto? : 本文具体讨论了BearSSL对于constant-time算法的考虑。由于其可以避免被一些旁路监听策略攻击，所以是一个更为安全和理想的加密策略。其后介绍了constant-time的主要方法，一个是masking，就是在代码实现里面加入一些随机因子可以让算法的执行时间不可控，不过这对算法的实现有一些具体的要求，不具有普适性。另外一">
+<meta name="twitter:image" content="http://shevacjs.com/images/football1.jpg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-20171015" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      weekly of 20171015
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/10/17/20171015/" class="article-date">
+  <time datetime="2017-10-17T11:44:45.000Z" itemprop="datePublished">2017-10-17</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/football1.jpg" alt="周五一球"></p>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://www.bearssl.org/constanttime.html" target="_blank" rel="external">Why Constant-Time Crypto?</a> : 本文具体讨论了<code>BearSSL</code>对于<code>constant-time</code>算法的考虑。由于其可以避免被一些旁路监听策略攻击，所以是一个更为安全和理想的加密策略。其后介绍了<code>constant-time</code>的主要方法，一个是<code>masking</code>，就是在代码实现里面加入一些随机因子可以让算法的执行时间不可控，不过这对算法的实现有一些具体的要求，不具有普适性。另外一种办法是让代码实现起来不泄露任何和密钥相关的信息，要保障这点，可以参看<a href="https://cryptocoding.net/index.php/Cryptography_Coding_Standard" target="_blank" rel="external">Cryptography Coding Standard</a>, 其中一个有效的办法是<a href="https://en.wikipedia.org/wiki/Bit_slicing" target="_blank" rel="external">Bit Slicing</a> 其能保障运行时间和具体的信息无关。</p>
+</li>
+<li><p><a href="http://blog.wesleyac.com/posts/elliptic-curves" target="_blank" rel="external">Elliptic Curve Cryptography for Beginners</a> : 关于椭圆曲线密钥的介绍，可以初步了解其精妙和强大的地方，如果对密码学想要有个直观和系统的认识，个人推荐<a href="https://www.amazon.cn/dp/B01HI4WMEC/" target="_blank" rel="external">图解密码技术</a>(日本人写的)，可以当做通识读本，还是很有意义的</p>
+</li>
+<li><p><a href="http://litten.me/2017/07/09/prevent-spiders/" target="_blank" rel="external">反击爬虫，前端工程师的脑洞可以有多大？</a> : 各种trick的逻辑去抵御抓取的策略, 从这个里面发现微信公众号也是有部分抓取策略的</p>
+</li>
+</ul>
+<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><ul>
+<li><a href="https://blog.acolyer.org/2017/10/10/pretzel-email-encryption-and-provider-supplied-functions-are-compatible/" target="_blank" rel="external">Pretzel: email encryption and provider-supplied functions are compatible</a> : 本文具体介绍了一个在<code>e2e</code>模式下面，如果做邮件的anti-spam和topic提取，流程上面比较简单，具体的核心是通过一些同态计算的方式，作者具体引用了姚期智的基本概念<a href="https://blog.acolyer.org/2014/12/01/protocols-for-secure-computations/" target="_blank" rel="external">Protocols for Secure Computations</a> 以及更实践的方法<a href="http://win.ua.ac.be/~adrem/bibrem/pubs/goethals.3.pdf" target="_blank" rel="external">GLLM</a>，前者简单看了能理解流程，后者需要进一步分析</li>
+</ul>
+<a id="more"></a>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="http://ieeexplore.ieee.org/document/8048116/?part=1" target="_blank" rel="external">The Random Forest Based Detection of Shadowsock’s Traffic</a> : 一个paper，介绍基于随机森林去识别SS流量的方案，从摘要来看，准确率可以达到85%以上</p>
+</li>
+<li><p><a href="https://hackernoon.com/spotifys-discover-weekly-how-machine-learning-finds-your-new-music-19a41ab76efe" target="_blank" rel="external">Spotify’s Discover Weekly: How machine learning finds your new music</a> : Spofity分享了其做推荐系统的经验，采用协同，NLP和对音乐的内容分享等三个混合办法生产</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA4Nzg5Nzc5OA==&amp;mid=2651668536&amp;idx=1&amp;sn=3f25593310e45c19ed6fa1673413418b" target="_blank" rel="external">微信月活9亿的高效运维之路</a> : 个人觉得是干货比较多的一个介绍, 虽然都是很多细节点，但是可以感觉到是有过经历和验证的</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="http://dustintran.com/blog/a-research-to-engineering-workflow" target="_blank" rel="external">A Research to Engineering Workflow</a> : 个人觉得非常有干货的文章，作者作为一个Ph.D，主要分享了自己作为一个研究者在寻找研究点，paper管理, 项目组织，代码落地等多个阶段和节奏的实践经验，推荐不少工具包括<a href="http://papersapp.com/" target="_blank" rel="external">Papers App</a>,  <a href="http://edwardlib.org/" target="_blank" rel="external">Edward</a>, <a href="https://www.tensorflow.org/get_started/summaries_and_tensorboard" target="_blank" rel="external">Tensorboard</a></p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=15454352" target="_blank" rel="external">A Little Story About the <code>yes</code> Unix Command</a> : <code>yes</code>命令被认为是linux下面最为简单的几个命令之一，其一个核心重要是<code>yes | sh boring_installation.sh</code> (之前竟然不知道)，在<code>hack news</code>上面更多人讨论的是如何实现高效的yes输出 </p>
+</li>
+<li><p><a href="https://dzone.com/articles/jvm-architecture-explained?oid=18544920" target="_blank" rel="external">The JVM Architecture Explained</a> : 本文大概介绍了JVM架构的核心组件，以及每个组件的大概作用，感觉图画的非常清晰，对JVM有兴趣的同学可以细看</p>
+</li>
+<li><p><a href="http://gfzeng.github.io/blog/2016/11/30/mac-%E8%BE%93%E5%85%A5%E6%B3%95%E5%88%87%E6%8D%A2-bug/" target="_blank" rel="external">Mac 输入法切换 Bug</a> : 最近两周遇到的困扰已久的问题，文中的方法感觉可以解决，推荐下</p>
+</li>
+<li><p><a href="http://blog.mbrt.it/2017-10-01-demystifying-container-networking/" target="_blank" rel="external">Demystifying container networking</a> : 介绍docker的网络隔离的机制和原理</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/10/09/20171008/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20171008&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  var disqus_url = 'http://shevacjs.com/2017/10/17/20171015/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
