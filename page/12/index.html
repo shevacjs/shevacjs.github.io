@@ -57,6 +57,88 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-linux_lock_impl" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/27/linux_lock_impl/">linux 常见锁说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/12/27/linux_lock_impl/" class="article-date">
+  <time datetime="2014-12-27T07:02:14.000Z" itemprop="datePublished">2014-12-27</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在前一次的文章<a href="http://shevacjs.com/lock/2014/12/13/lock/">锁机制概述</a>，大致简单说明了MP系统下面锁的基本原理。这里，再简单说明下在2.6内核体系下面，linux支持的锁，包括内核态和用户态(pthread系列的)。</p>
+<h2 id="内核态"><a href="#内核态" class="headerlink" title="内核态"></a>内核态</h2><h3 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h3><p>自旋锁是最基本的锁支持，在linux内核下，自旋锁的API有如下形式：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock_irqsave</span><span class="params">(<span class="keyword">spinlock_t</span> *lock, <span class="keyword">unsigned</span> <span class="keyword">long</span> flags)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock_irq</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock_bh</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span></div></pre></td></tr></table></figure>
+<p>其中<code>irqsave</code>和<code>bh</code>都是处理和中断有关的，因为在中断等上下文一旦处理不好就可能导致死锁。</p>
+<h3 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h3><p>信号量可以任务是提供一个支持睡醒的锁支持，</p>
+<h3 id="基于性能优化的衍生锁"><a href="#基于性能优化的衍生锁" class="headerlink" title="基于性能优化的衍生锁"></a>基于性能优化的衍生锁</h3><p>这里主要介绍两种, 他们都是针对读写锁的优化，一般都是只试用在一般的场景，这简单说明他们的设计思路。</p>
+<ul>
+<li>Seq Lock :</li>
+</ul>
+<p>seq lock考虑的场景是读多写少。因此在正常读取的时候，如果加上spinlock的收益是非常低的，故其采取如下策略:</p>
+<ul>
+<li>允许多个读者同时访问数据，同时只允许一个写者在更新数据；</li>
+<li>核心指导思想是，通过一个flag来标记要保护的区段的数据是否被更新过，读者可以冲入的读，但需要通过flag来判别是否数据被更新过，如果是，读者需要重新读取新的数据，故读，写者分工如下:<ul>
+<li>读者：读取之后，判断flag，以决定是否需要重新读取</li>
+<li>写者：在修改数据的时候需要更新flag</li>
+</ul>
+</li>
+</ul>
+<p>如下是简单的示意图：其中读者需要判断<code>((count_pre != count_post) &amp;&amp; (count_pre % 2 == 0))</code>来决定数据是否被更新/正在被更新</p>
+<p><img src="seqlock_demo.png" alt="seqlock_demo"></p>
+<ul>
+<li>Rcu Lock</li>
+</ul>
+<p>RCU也是对读写锁的一个优化，适用的场景也是读多写少，但是有其独特的应用场景，先考虑seqlock存在的问题：</p>
+<ul>
+<li>seq-lock可以认为是写优先的，读需要重复频繁的读来确认数据没有被更新；</li>
+<li>seq-lock保护的数据一般是要求不能含有指针的，因为写者很容易直接更新指针的内容，demo如下:</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">data</span> &#123;</span></div><div class="line">    <span class="keyword">int</span> count;</div><div class="line">    <span class="keyword">char</span>* info;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"><span class="comment">// sql-lock reader</span></div><div class="line"></div><div class="line">&#123;</div><div class="line">    data copy_data = curr_data;</div><div class="line">&#125; <span class="keyword">while</span>(no change)</div><div class="line"></div><div class="line"><span class="comment">// do something with copy data</span></div><div class="line"></div><div class="line">f(copy_data)</div></pre></td></tr></table></figure>
+<p>这个里面的copy data其实是可能存在问题的,其对应的info等内容是会被修改的，而这个情况又是内核里面最最常见的场景，需要有更好的解决方案，RCU就是要提供这种支持的，RCU的特性包括：</p>
+<ul>
+<li>RCU是读者优先的，读者不需要任何互斥也不需要任何锁，直接读取就OK；</li>
+<li>写者的核心指导思想是(Read-Copy Update), 写者在访问它时首先拷贝一个副本，然后对副本进行修改，最后使用一个回调（callback）机制在适当的时机把指向原来数据的指针重新指向新的被修改的数据。这个时机就是所有引用该数据的CPU都退出对共享数据的操作。</li>
+</ul>
+<p>思路是比较简单的，但是实现上面还是比较复杂的，这里就不详述，具体可以参考推荐的RCU文章;</p>
+<h2 id="用户态"><a href="#用户态" class="headerlink" title="用户态"></a>用户态</h2><h2 id="锁的资源消耗"><a href="#锁的资源消耗" class="headerlink" title="锁的资源消耗"></a>锁的资源消耗</h2><h2 id="遗留问题-amp-思考"><a href="#遗留问题-amp-思考" class="headerlink" title="遗留问题&amp;思考"></a>遗留问题&amp;思考</h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h2 id="参考-amp-推荐阅读"><a href="#参考-amp-推荐阅读" class="headerlink" title="参考&amp;推荐阅读"></a>参考&amp;推荐阅读</h2><ul>
+<li>seqlock,rcu等的维基百科，都有非常系统的介绍</li>
+<li><a href="http://blog.sina.com.cn/s/blog_5210e67e0100935d.html" target="_blank" rel="external">Linux 内核的同步机制，第4部分顺序锁（seqlock</a></li>
+<li><a href="http://www.verydemo.com/cj.jsp?c=34&amp;u=linuxseqlockamprcu-qian-xi-duo-xian-cheng-zhi-shun-xu-suo" target="_blank" rel="external">linux seqlock &amp; rcu 浅析</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-rcu/" target="_blank" rel="external">Linux 2.6内核中新的锁机制–RCU</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-lockfree/" target="_blank" rel="external">透过 Linux 内核看无锁编程</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-1226_bitch_about" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
