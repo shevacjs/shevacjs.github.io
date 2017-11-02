@@ -57,6 +57,76 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-0626" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/26/0626/">weekly of 20160626</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/06/26/0626/" class="article-date">
+  <time datetime="2016-06-26T07:34:36.000Z" itemprop="datePublished">2016-06-26</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><a href="http://www.freebuf.com/news/107370.html" target="_blank" rel="external">Tor洋葱浏览器加固升级：FBI追踪难度将进一步变大</a> : Tor浏览器采用的新特性, 用户随机化函数的地址，类似于之前随机化main函数的起始地址一样，可以参看论文<a href="https://www.ics.uci.edu/~perl/pets16_selfrando.pdf" target="_blank" rel="external">Selfrando: Securing the Tor Browser against De-anonymization Exploits</a>; PS: 非常建议大家去了解和研究Tor的机制和一些实践上面的方法，是<code>安全和隐私</code>的杰出实践，可以让我们对整体的网络安全有更深的理解</li>
+</ul>
+<h2 id="应用实践"><a href="#应用实践" class="headerlink" title="应用实践"></a>应用实践</h2><ul>
+<li><p><a href="https://zhuanlan.zhihu.com/p/21384857" target="_blank" rel="external">Redis未授权访问缺陷让服务器沦为肉鸡</a> : 一个安全case; 个人觉得通过一些安全case，可以让我们更快的去了解系统的关键特性以及设计的优缺点</p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzA5NzkxMzg1Nw==&amp;mid=2653159795&amp;idx=1&amp;sn=10264108e1da670774b4b53a1e6dbbe4&amp;scene=0" target="_blank" rel="external">优酷土豆的Redis服务平台化之路</a> : 一个特色是 用nginx+lua 做中间的proxy， 一些比较严重的性能问题，可以在nginx/lua做一些策略控制打散, 具体的redis管理则使用redis cluster</p>
+</li>
+<li><p><a href="http://blog.packagecloud.io/eng/2016/06/22/monitoring-tuning-linux-networking-stack-receiving-data/" target="_blank" rel="external">Monitoring and Tuning the Linux Networking Stack: Receiving Data</a> :  文章略长，粗略看了一些，信息量很大，mark下先</p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzI4NDMyNTU2Mw==&amp;mid=2247483695&amp;idx=1&amp;sn=91ea422913fc62579e020e941d1d059e#rd" target="_blank" rel="external">微信自研生产级paxos类库PhxPaxos实现原理介绍</a> :  最近看过的比较一个通俗易懂的关于<code>Paxos</code>的介绍，亮点是将paxos如何在工程应用实践上面和原理结合起来说明，可以加深对其了解和认识</p>
+</li>
+<li><p><a href="https://medium.com/@upal/how-to-use-machine-learning-to-debug-outages-10x-faster-e480b7e2a907#.kj7v43fh2" target="_blank" rel="external">How to use machine learning to debug outages 10x faster</a> : 关于使用机器学习加快问题定位速度的办法; 整体上面，其思路&amp;想法，和我们现在做的自动化运维实践非常相似，接下来就看我们的落地实践做的怎么样了</p>
+</li>
+</ul>
+<h2 id="资料工具"><a href="#资料工具" class="headerlink" title="资料工具"></a>资料工具</h2><ul>
+<li><a href="http://dbaplus.cn/news-21-485-1.html" target="_blank" rel="external">小米架构师主管：移动时代DevOps转型之旅，痛并快乐着</a> : 对DevOps的理念的概述，个人还是比较赞同的, “DevOps不是银弹，是关于效率的文化，自动化的技术”</li>
+</ul>
+<ul>
+<li><p><a href="http://www.slideshare.net/avleenvig/elk-mooseively-scaling-your-log-system" target="_blank" rel="external">ELK: Moose-ively scaling your log system</a> : Etsy 公司使用 ELK 的三年经验总结，涉及集群的设置、监控和性能调优</p>
+</li>
+<li><p><a href="http://weibo.com/ttarticle/p/show?id=2309403990687635878064" target="_blank" rel="external">美国国家学术出版社所有PDF图书开放免费下载</a> : 内附大量链接，不过多为英文，有兴趣同学可以下载看看</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-0619" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -650,68 +720,6 @@
 <h2 id="UDP-Proxy支持"><a href="#UDP-Proxy支持" class="headerlink" title="UDP Proxy支持"></a>UDP Proxy支持</h2><p>这个版本开始，同样开始支持UDP代理了, 整个UDP代理其实和做一个TCP代理，至少理解上面不会查很多，如下是一个具体UDP代理的配置</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="section">server</span> &#123;</div><div class="line">    <span class="attribute">listen</span> <span class="number">53</span> udp;</div><div class="line">    <span class="attribute">proxy_responses</span> <span class="number">1</span>;</div><div class="line">    <span class="attribute">proxy_timeout</span> <span class="number">20s</span>;</div><div class="line">    <span class="attribute">proxy_pass</span> dns.example.com:<span class="number">53</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这里面可以去思考的一个问题是:   </p>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-nginx_1_9_10" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/30/nginx_1_9_10/">nginx 1.9.10 特性说明</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2016/01/30/nginx_1_9_10/" class="article-date">
-  <time datetime="2016-01-30T06:17:29.000Z" itemprop="datePublished">2016-01-30</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">*) Security: invalid pointer dereference might occur during DNS server</div><div class="line">       response processing if the &quot;resolver&quot; directive was used, allowing an</div><div class="line">       attacker who is able to forge UDP packets from the DNS server to</div><div class="line">       cause segmentation fault in a worker process (CVE-2016-0742).</div><div class="line"></div><div class="line">*) Security: use-after-free condition might occur during CNAME response</div><div class="line">       processing if the &quot;resolver&quot; directive was used, allowing an attacker</div><div class="line">       who is able to trigger name resolution to cause segmentation fault in</div><div class="line">       a worker process, or might have potential other impact</div><div class="line">       (CVE-2016-0746).</div><div class="line"></div><div class="line">*) Security: CNAME resolution was insufficiently limited if the</div><div class="line">       &quot;resolver&quot; directive was used, allowing an attacker who is able to</div><div class="line">       trigger arbitrary name resolution to cause excessive resource</div><div class="line">       consumption in worker processes (CVE-2016-0747).</div><div class="line"></div><div class="line">*) Feature: the &quot;auto&quot; parameter of the &quot;worker_cpu_affinity&quot; directive.</div><div class="line"></div><div class="line">*) Bugfix : ...</div></pre></td></tr></table></figure>
-<p>可以看到主要是几个安全问题的修复，以及一个新的feature的支持; 下面简单说明这个两个点</p>
-<h2 id="安全问题"><a href="#安全问题" class="headerlink" title="安全问题"></a>安全问题</h2><p>几个安全问题都是关于<code>resolver</code>指令，主要问题在于在解析DNS时需要对异常有更强的容错能力，风险点包括如下:</p>
-<ul>
-<li>DNS的服务伪造一个UDP包体可以导致nginx crash</li>
-<li>其他的异常情况导致的nginx crash</li>
-</ul>
-<p>今天问题自己总结如下:</p>
-<p>当我们使用<code>resolver</code>指令的时候，nginx需要和dns服务器进行交互，以便获取具体域名对应的IP; 整个这个交互的过程是nginx自己编码和dns服务交互,  这样存在的一个问题是一旦nginx的容错逻辑有问题，尤其是和外界的dns服务交互的时候，一旦这个DNS服务器可以恶意伪造请求的时候, 比如返回不正常的body的时候, nginx容错一旦处理有点偏颇，就会crash</p>
-<p>所以这种情况一般会出现在: <code>配置了resolver指令，且对于的dns服务器不可信</code></p>
-<blockquote>
-<p>具体可以见 : <a href="http://mailman.nginx.org/pipermail/nginx/2016-January/049700.html" target="_blank" rel="external">http://mailman.nginx.org/pipermail/nginx/2016-January/049700.html</a></p>
-</blockquote>
-<h2 id="worker-cpu-affinity指令优化"><a href="#worker-cpu-affinity指令优化" class="headerlink" title="worker_cpu_affinity指令优化"></a>worker_cpu_affinity指令优化</h2><p>这个指令的功能比较简单，就是可以自动设置cpu的亲和性, demo如下:</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="attribute">worker_cpu_affinity</span> auto;</div></pre></td></tr></table></figure>
-<p>具体代码的实现还是比较简单的，不再赘述</p>
 
       
     </div>

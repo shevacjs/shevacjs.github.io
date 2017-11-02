@@ -57,6 +57,83 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-rsync_bitch_about" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/30/rsync_bitch_about/">由rsync命令引发的</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/12/30/rsync_bitch_about/" class="article-date">
+  <time datetime="2014-12-29T16:57:41.000Z" itemprop="datePublished">2014-12-30</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近在鼓捣静态集群，而rsync是我们用于同步不同机器之间文件的一个最为传统的方式，因此认真研究了一遍，到现在总得有两个收获：</p>
+<ul>
+<li>rsync的算法</li>
+<li>对常见命令的使用感概</li>
+</ul>
+<h2 id="rsync算法"><a href="#rsync算法" class="headerlink" title="rsync算法"></a>rsync算法</h2><p>先简单说下rsync的算法吧，这个其实在很多blog都有，这边我简单描述下，不过希望是以推敲的方式导出:</p>
+<p>假设我们现在要同步两个文件src(机器 FROM )和dst(机器 TO)，他们在不同的机器上面，现在rsync算法核心要解决的问题是:</p>
+<blockquote>
+<p>在src和dst文件相似的情况下，尽量少的带宽来同步问题</p>
+</blockquote>
+<p>基于这个目标，算法的核心思路其实就是在src尽量发现dst已经存在的内容（这样就不需要传输了呗）</p>
+<p>因此最好有个算法能够把dst的摘要传输到src这边；然后src能够比对dst哪些是已经存在的，哪些是不存在的；基于此在TO机器上面生成目标问题；故简单算法如下:</p>
+<ol>
+<li>TO机器上面，对dst文件算相关摘要，然后发给FROM机器</li>
+<li>FROM机器根据摘要，分析出dst哪些部分是和src一致的，哪些是不一致的；不一致的需要全部传输，一直的只要发送标记就可以了, 算好之后，生成一个新的文件信息，发给TO机器</li>
+<li>TO机器跟进新的文件信息，构建新的目标问题</li>
+</ol>
+<p>这个是核心思路，剩余两个问题：</p>
+<ul>
+<li>摘要的计算： 一般需要分段&amp;hash校验</li>
+<li>src如何快速和dst的摘要做对比，同样需要注意：<ol>
+<li>src这边的匹配，需要支持快速的从(k1,k2,…kn) –&gt; (k2,k3,…k(n+1)) ：这样才支持src这边一个一个比对</li>
+<li>dst过来的时候，最好对摘要（很多摘要）算相关的hash，这样的话，src可以快速知道摘要是否在dst存在;</li>
+</ol>
+</li>
+</ul>
+<p>对于前者，我们需要引入一个一个类似<code>rolling hash</code>的特定hash算法；对于后者，我们一般在hash是一个方式，其他的快速排序好的查找也是一个方式；</p>
+<h2 id="对常用命令的感慨"><a href="#对常用命令的感慨" class="headerlink" title="对常用命令的感慨"></a>对常用命令的感慨</h2><ul>
+<li>很多命令了解仅限于表面</li>
+<li>对常用的命令没有做很好的系统归纳和梳理</li>
+</ul>
+<p>尤其是后者，争取找个时间弄个和linux命令相关的总结</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://coolshell.cn/articles/7425.html" target="_blank" rel="external">http://coolshell.cn/articles/7425.html</a> : 对rolling sum说明的有点问题</li>
+<li><a href="http://rsync.samba.org/tech_report/tech_report.html" target="_blank" rel="external">http://rsync.samba.org/tech_report/tech_report.html</a> 作者是算法说明</li>
+<li><a href="http://en.wikipedia.org/wiki/Rsync#Algorithm" target="_blank" rel="external">http://en.wikipedia.org/wiki/Rsync#Algorithm</a> 维基百科的说明，一直都很专业</li>
+</ul>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-linux_lock_impl" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     

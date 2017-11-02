@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2017-10-25T02:38:38.000Z</updated>
+  <updated>2017-11-02T06:35:08.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -16,11 +16,67 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>weekly of 20171029</title>
+    <link href="http://shevacjs.com/2017/11/02/20171029/"/>
+    <id>http://shevacjs.com/2017/11/02/20171029/</id>
+    <published>2017-11-02T06:31:45.000Z</published>
+    <updated>2017-11-02T06:35:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/danshui.jpg" alt="台湾-淡水渔人码头"></p>
+<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://mp.weixin.qq.com/s/VZMhbha3sjxxNFTcIGYESw" target="_blank" rel="external">No.22 漫谈数据质量监控</a> : 非常有干货的一篇文章, 可以加深</p>
+</li>
+<li><p><a href="https://github.com/Tencent/tsf" target="_blank" rel="external">Tencent Server Framework</a> : “Tencent Server Framework is a coroutine and Swoole based server framework for fast server deployment which developed by Tencent engineers.”, 先关注下, 看下是否做进一步的落地</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/uzvzF2owmw_g5vP-Np7x5w" target="_blank" rel="external">MixPanel －Android 端埋点技术研究</a> : <code>MixPanel</code>是不多数的开源的可视化埋点的NA框架, 可以关注</p>
+</li>
+</ul>
+<a id="more"></a>
+<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="https://news.ycombinator.com/item?id=15543596" target="_blank" rel="external">Hadoop on IPFS</a> : 一个新的思路，将分布式分析的文件存在一个非中心化的存储系统，比如<a href="https://ipfs.io/" target="_blank" rel="external">IPFS</a>, 其性能会怎么样？这篇paper做了简要的分析，不过对IPFS理解不深，不好做评价，周末研究下</p>
+</li>
+<li><p><a href="https://www.nginx.com/blog/nginx-product-roadmap-2017/" target="_blank" rel="external">NGINX Product Roadmap 2017</a> : 谈论了nginx的过去现在, 以及未来的规划，介绍了三个比较大的topic，包括<a href="https://github.com/nginmesh/nginmesh" target="_blank" rel="external">nginmesh/nginmesh</a>(构建自动化的微服务管理平台), <a href="https://www.nginx.com/blog/introducing-nginx-kubernetes-ingress-controller/" target="_blank" rel="external">Ingress controller for Nginx</a>, 以及<a href="https://www.nginx.com/blog/introducing-nginx-unit/" target="_blank" rel="external">Nginx Unit</a></p>
+</li>
+<li><p><a href="http://www.infoq.com/cn/news/2017/10/qzone-quic-practise" target="_blank" rel="external">QQ空间已在生产环境中使用QUIC协议</a> : 主要介绍了QUIC在QQ空间的落地情况, server端的QUIC实践是通过腾讯云的CLB应用，故没有介绍太多细节，主要介绍QUCI的优势(相比于TCP协议)，以及PC/NA端落地的一些坑，比如端口限制, 丢包等异常情况的策略，这个方面是有不少学习的地方的</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5NzkxMzg1Nw==&amp;mid=2653163552&amp;idx=1&amp;sn=5557b261c38fe68bff821a3cc0e7030e" target="_blank" rel="external">Reddit爆款讨论：那些做机器学习的，平时除了数据清洗还干些啥？</a> : 先mark</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/sJBGJ88_-N-LdA8EHywfAA" target="_blank" rel="external">OpenSSL开发学习总结</a> : 内容很丰富翔实，但感觉系统性和条理性方面可以更优化下;</p>
+</li>
+<li><p><a href="https://sspai.com/post/41477" target="_blank" rel="external">macOS 上都有哪些既免费、又实用的工具？</a> : 一些工具可以关注下, 比如<a href="https://lhc70000.github.io/iina/zh-cn/" target="_blank" rel="external">IINA</a>, <a href="https://github.com/yangshun1029/aria2gui.git" target="_blank" rel="external">Aria2GUI</a>, <a href="https://www.mediaatelier.com/CheatSheet/" target="_blank" rel="external">CheatSheet</a> 等</p>
+</li>
+<li><p><a href="http://insights.thoughtworks.cn/eight-security-problems-in-front-end/" target="_blank" rel="external">8大前端安全问题</a> : 对<code>iframe防御</code>, <code>点击劫持</code>, <code>内容推断</code>等的防御做了一些建议，可以关注包括<code>X-Content-Type-Options</code>, <code>X-Frame-Options</code>等header</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/danshui.jpg&quot; alt=&quot;台湾-淡水渔人码头&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/VZMhbha3sjxxNFTcIGYESw&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;No.22 漫谈数据质量监控&lt;/a&gt; : 非常有干货的一篇文章, 可以加深&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/Tencent/tsf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Tencent Server Framework&lt;/a&gt; : “Tencent Server Framework is a coroutine and Swoole based server framework for fast server deployment which developed by Tencent engineers.”, 先关注下, 看下是否做进一步的落地&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/uzvzF2owmw_g5vP-Np7x5w&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;MixPanel －Android 端埋点技术研究&lt;/a&gt; : &lt;code&gt;MixPanel&lt;/code&gt;是不多数的开源的可视化埋点的NA框架, 可以关注&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
+  
+  <entry>
     <title>weekly of 20171022</title>
     <link href="http://shevacjs.com/2017/10/25/20171022/"/>
     <id>http://shevacjs.com/2017/10/25/20171022/</id>
     <published>2017-10-25T02:38:45.000Z</published>
-    <updated>2017-10-25T02:38:38.000Z</updated>
+    <updated>2017-11-02T06:35:21.000Z</updated>
     
     <content type="html"><![CDATA[<p><img src="/images/xihu.jpg" alt="西湖一景"></p>
 <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
@@ -36,6 +92,9 @@
 </li>
 <li><p><a href="https://github.com/RaRe-Technologies/bounter" target="_blank" rel="external">RaRe-Technologies/bounter</a> : “Efficient Counter that uses a limited (bounded) amount of memory regardless of data size.”, 内部通过<code>HLL</code>，<a href="https://en.wikipedia.org/wiki/Count%E2%80%93min_sketch" target="_blank" rel="external">Count-min Sketch algorithm</a>做近似统计.</p>
 </li>
+</ul>
+<a id="more"></a>
+<ul>
 <li><p><a href="http://www.vidarholen.net/contents/blog/?p=691" target="_blank" rel="external">An ode to pack: gzip’s forgotten decompressor</a> : 介绍了linux下面压缩命令的历史，包括<code>xz</code>, <code>bzip2</code>, <code>zip</code>, <code>compress</code>, <code>pack</code>等, 文末很简单了介绍了哈夫曼编码的机制和原理,</p>
 </li>
 <li><p><a href="https://magicly.me/fe-hpc/gpujs" target="_blank" rel="external">前端高性能计算之四：GPU加速计算</a> : 非常好的科普文，作者的其他几个文章也不错, </p>
@@ -67,7 +126,19 @@
     
       &lt;p&gt;&lt;img src=&quot;/images/xihu.jpg&quot; alt=&quot;西湖一景&quot;&gt;&lt;/p&gt;
 &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;h
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://blogs.windows.com/msedgedev/2017/10/18/documenting-web-together-mdn-web-docs/#akYR4ff8rcL8TY9Q.97&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Documenting the Web together&lt;/a&gt; : 微软宣布把W3C的文档都收敛到MDN, 完成web文档的大一统，个人觉得MDN的文档真心不错，有空可以帮忙上去做一些翻译&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/3OeVknv8H60OdTPQBKFjaA&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;密钥重载攻击：强制WPA2重用Nonce&lt;/a&gt; : 先mark&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=15491553&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;VIM AFTER 15 YEARS&lt;/a&gt; : 作者使用vim整整15年，介绍了一些不错的plugin, 建议包括&lt;a href=&quot;https://github.com/junegunn/fzf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;fzf&lt;/a&gt;(命令行形式的finder) 等 &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://meribold.github.io/2017/10/20/survey-of-cpu-caches/#listing-1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;A Survey of CPU Caches&lt;/a&gt; : 对Cpu Cache很形象的解释和图形化的说明&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/RaRe-Technologies/bounter&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;RaRe-Technologies/bounter&lt;/a&gt; : “Efficient Counter that uses a limited (bounded) amount of memory regardless of data size.”, 内部通过&lt;code&gt;HLL&lt;/code&gt;，&lt;a href=&quot;https://en.wikipedia.org/wiki/Count%E2%80%93min_sketch&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Count-min Sketch algorithm&lt;/a&gt;做近似统计.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -1116,59 +1187,6 @@
     
     
       <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关于AdaBoost&amp;Boosting</title>
-    <link href="http://shevacjs.com/2017/07/21/boosting/"/>
-    <id>http://shevacjs.com/2017/07/21/boosting/</id>
-    <published>2017-07-20T16:25:11.000Z</published>
-    <updated>2017-07-27T17:29:56.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;</p>
-<h3 id="About-AdaBoost"><a href="#About-AdaBoost" class="headerlink" title="About AdaBoost"></a>About AdaBoost</h3><p>AdaBoost的算法归纳如下: </p>
-<p>假设输入样本如下: </p>
-<p>$${ (x_1, y_1,), … (x_n, y_n) }$$</p>
-<p>且 $y \in  { -1, 1}$</p>
-<p>且我们有弱分类器: ${k_1, k_2, .. k_L }$ ，则$k_j(x_i)$ 表示 $j$ 分类器对输入$x_i$的分类结果</p>
-<p>则在$m-1$次迭代之后，我们的boost分类器可以表达如下: </p>
-<p>$$C_{(m-1)}(x_i) = \alpha_1k_1(x_i) + … + \alpha_{m-1}k_{m-1}(x_i)$$</p>
-<p>对第m次迭代后，我们的目标分类器的表达式可以表述为: </p>
-<p>$$C_m(x_i) = C_{(m-1)}(xi) + \alpha_mk_m(x_i)$$</p>
-<p>则问题转化为: 我们需要明确$\alpha_m$ 和 $k_m$的值 ;</p>
-<p>设我们的损失函数定义如下: (<code>mark</code>)</p>
-<p>$$E = \sum_{i=1}^n e^{-y_iC_m(x_i)}$$</p>
-<p>令$w_i^{(1)} = 1, w_i^{(m)} = e^{-y_iC_{m-1}(x_i)}$, 则有: </p>
-<p>$$ E = \sum_{i=1}^n w_i^{(m)} e^{-y_i\alpha_mk_m(x_i)}$$</p>
-<p>由于$y_i*k_m(x_i) \in { -1, 1 }$,  则有:</p>
-<p>$$ E = \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m} $$<br>$$ = \sum_{i=1}^N w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)} (e^{\alpha_m}   - e^{-\alpha_m} )$$</p>
-<p>从而可以看到我们关注的$k_m$对E的影响，仅表现在等式右侧,  其需要最小化$\sum _{yi \neq k_m(x_i)} w_i^{(m)}$ </p>
-<p>在考虑$\alpha_m$的取值: </p>
-<p>$$\frac{d E}{d \alpha_m} = - \sum _{yi=k_m(x_i)} w_i^{(m)}e^{-\alpha_m} + \sum _{yi \neq k_m(x_i)} w_i^{(m)}e^{\alpha_m}  $$</p>
-<p>令其取值为0； 则有: </p>
-<p>$$ \alpha_m = \frac{1}{2} \ln( \frac{\sum _{yi=k_m(x_i)} w_i^{(m)} }{\sum _{yi \neq k_m(x_i)} w_i^{(m)}}$$</p>
-<p>令 $\epsilon_m =  {\sum _{yi \neq k_m(x_i)} w_i^{(m)}} / \sum_{i=1}^n w_i^{(m)}$, 则有 : </p>
-<p>$$ \alpha_m = \frac{1}{2} \ln(\frac{1-\epsilon_m}{\epsilon_m})$$</p>
-<p>上面就是我们最常见的算法；</p>
-<p>概述如下：</p>
-<p>At each iteration, choose the classifier $k_{m}$ which minimizes the total weighted error :</p>
-<p>$$\sum_{y_i \neq k_m(x_i)}w_i^m $$</p>
-<p>use this to calculate the error rate </p>
-<p>$$\epsilon_m=\sum_{y_{i}\neq k_{m}(x_{i})}w_{i}^m/\sum_{i=1}^{N}w_{i}^m$$</p>
-<p>use this to calculate the weight<br>$$\alpha_m = \frac{1}{2}\ln\left( \frac{1 - \epsilon_m}{\epsilon_m}\right)$$</p>
-<p>and finally use this to improve the boosted classifier $C_NaN$ to $C_=C_NaN+\alpha _{m}k_{m}$<br>上面所述全来自wiki:  <a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="external">https://en.wikipedia.org/wiki/AdaBoost</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;核心思想 : 用于将一些弱的分类器组合起来, 提升分类的性能;&lt;/p&gt;
-&lt;h3 id=&quot;About-AdaBoost&quot;&gt;&lt;a href=&quot;#About-AdaBoost&quot; class=&quot;headerlink&quot; title=&quot;About AdaBoost&quot;&gt;&lt;/a&gt;About
-    
-    </summary>
-    
-    
-      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
     
   </entry>
   
