@@ -57,6 +57,91 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-io_in_linux_and_nginx" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/05/io_in_linux_and_nginx/">linux和nginx下的异步文件IO管理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/04/05/io_in_linux_and_nginx/" class="article-date">
+  <time datetime="2015-04-05T06:17:28.000Z" itemprop="datePublished">2015-04-05</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>nginx在其最近发布的<a href="http://nginx.org/en/CHANGES" target="_blank" rel="external">1.7.11版本增加了thread pool</a>的feature, 其引入的<a href="http://nginx.org/en/docs/ngx_core_module.html#thread_pool" target="_blank" rel="external">thread_pool</a>主要是能真正意义的保证读写文件的非阻塞以及异步。为什么需要主动添加<code>thread pool</code>这个机制来支持异步非阻塞的文件读写呢？这里简单说下linux的文件IO管理和以及nginx的thread poo机制的必要性，最后说下nginx thread pool的大致实现机制。</p>
+<p>其实关于linux和nginx的IO管理，已经有非常详细的说明文档，具体包括如下:</p>
+<ul>
+<li><a href="http://www.lenky.info/archives/2013/01/2165" target="_blank" rel="external">异步I/O之glibc AIO篇</a></li>
+<li><a href="http://www.lenky.info/archives/2013/01/2182" target="_blank" rel="external">异步I/O之native AIO篇</a></li>
+</ul>
+<p>这里只是针对上面介绍内容的一个简单总结和概述</p>
+<h3 id="linux下的异步IO支持"><a href="#linux下的异步IO支持" class="headerlink" title="linux下的异步IO支持"></a>linux下的异步IO支持</h3><p>linux下主要有如下两个方式的异步IO支持，分别如下:</p>
+<h4 id="glibc-异步IO支持"><a href="#glibc-异步IO支持" class="headerlink" title="glibc 异步IO支持"></a>glibc 异步IO支持</h4><p>这个是glibc提供的一系列函数，包括<code>aio_read</code>, <code>aio_suspend</code>等(‘man aio_read’查看具体用法), 其核心特点是使用较为方便，但是在实现层面的话，其实是在用户层通过多线程实现的，并非真正意义上面的异步IO，因此其性能相对于真正意义上面的异步IO要慢一些。</p>
+<h4 id="native-AIO支持"><a href="#native-AIO支持" class="headerlink" title="native AIO支持"></a>native AIO支持</h4><p>其实linux本身已经提供了对异步io的支持[2.5版本开始]，也就是<code>io_submit</code>, <code>io_setup</code>之类的函数，但是glibc并没有对这类函数进行封装，因此如果要使用的话，可以通过:<br>1) syscall直接调用操作系统API<br>2) <a href="http://lse.sourceforge.net/io/aio.html" target="_blank" rel="external">libaio</a> : 一个轻量级的封装库</p>
+<p>来使用。</p>
+<p>由于直接是操作系统的支持，因此此类函数的性能相对比与glibc的aio性能上面有较大的提升，但同时也面临着如下两个比较大的问题，导致其应用范围大大受限:</p>
+<ul>
+<li>使用AIO必须打开<code>IO_DIRECT</code> flag，同时要求读写的的大小和偏移要以区块的方式对齐</li>
+<li>启用AIO同时会关闭<code>sendfile</code>，也就意味着此时会丧失了零拷贝的特征；如果继续使用sendfile, 意味着读可能会阻塞</li>
+</ul>
+<p>总之，在现有的linux体系下，对文件的异步读写，没有完美的简单的解决方案。</p>
+<h3 id="nginx对异步IO的支持"><a href="#nginx对异步IO的支持" class="headerlink" title="nginx对异步IO的支持"></a>nginx对异步IO的支持</h3><p>nginx和异步IO相关的主要指令有:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">syntax : aio on | off | thread ;</div><div class="line"></div><div class="line">是否启动aio，如果是指定其关联的thread pool name </div><div class="line"></div><div class="line">syntax : directio size | off ;</div><div class="line"></div><div class="line">是否启用directio; 或者在大于size之后才启用directio</div><div class="line"></div><div class="line">syntax : sendfile on | off  ;</div><div class="line"></div><div class="line">是否启用sendfile </div><div class="line"></div><div class="line">## 加上最新的thread pool</div><div class="line"></div><div class="line">syntax : thread_pool name threads=number [max_queue=number];</div><div class="line"></div><div class="line">创建一个thread pool</div></pre></td></tr></table></figure>
+<p>具体可以参看<a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#aio" target="_blank" rel="external">nginx官方说明文档</a></p>
+<p>基于如上的总结，当<code>aio</code>, <code>directio</code>, <code>sendfile</code>都开启的时候(如果有off的情况，判断较为简单，不在赘述)，整个nginx对文件的读取策略如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">                     _  use aio   _</div><div class="line">                   /                \</div><div class="line">                 yes            has thread pool</div><div class="line">                /                      \</div><div class="line">directio &gt; size                        support asyn &amp; noblock IO</div><div class="line">                \                      /</div><div class="line">                 no             has thread pool</div><div class="line">                   \                 /</div><div class="line">                    \_ use sendfile /</div></pre></td></tr></table></figure>
+<h3 id="nginx的thread-pool机制"><a href="#nginx的thread-pool机制" class="headerlink" title="nginx的thread pool机制"></a>nginx的thread pool机制</h3><p>本来想详细介绍nginx thread pool的实现机制，但是发现可以展开讨论的内容不多。这里就做个系统性的总结。</p>
+<p>由于linux系统对异步IO的支持有着或多或少的局限性，如果nginx要保证其整个worker进程异步非阻塞的模型有一定的难度，因为在读取文件的时候可以存在着阻塞的情况。</p>
+<p>为此nginx的解决方案是引入thread pool, 用户可以创建特定个数的thread pool，每个thread pool可以指定其具体的OS线程数。现在thread pool的核心作用就是托管一些可能存在阻塞的IO操作（包括普通的read, sendfile）, 当有此类操作的时候，nginx会根据用户的配置把任务递送给线程池，尽量不阻塞worker进程。</p>
+<p>具体到thread pool的实现，没有特别的地方(不过我也没看的特别细)，通过<code>pthread lib</code>维护一堆线程, 用户可以提交具体的task给线程池，让其消费。</p>
+<p>其主要作用可能是会提高那些存在高IO读取的webserver的并发支持数。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="https://cnodejs.org/topic/4f16442ccae1f4aa270010a7" target="_blank" rel="external">linux AIO(异步IO)那点事儿</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/linux/l-async/" target="_blank" rel="external">使用异步 I/O 大大提高应用程序的性能</a></li>
+<li><a href="http://stackoverflow.com/questions/8768083/difference-between-posix-aio-and-libaio-on-linux" target="_blank" rel="external">Difference between POSIX AIO and libaio on Linux?</a></li>
+</ul>
+<p>lenky关于AIO的系列文章:</p>
+<ul>
+<li><a href="http://www.lenky.info/archives/2013/01/2165" target="_blank" rel="external">异步I/O之glibc AIO篇</a></li>
+<li><a href="http://www.lenky.info/archives/2013/01/2182" target="_blank" rel="external">异步I/O之native AIO篇</a></li>
+<li><a href="http://www.lenky.info/archives/2013/01/2184" target="_blank" rel="external">nginx对Linux native AIO机制的应用(配置篇)</a></li>
+<li><a href="http://www.lenky.info/archives/2013/01/2186" target="_blank" rel="external">nginx对Linux native AIO机制的应用（实现篇）</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-log_rotation" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -816,70 +901,6 @@ $ gzip access.log.0    # do something with access.log.0
 <li><p><a href="http://blog.csdn.net/chen77716/article/details/30635543" target="_blank" rel="external">CAP理论</a></p>
 </li>
 </ul>
-
-      
-    </div>
-    
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-distribute_store_system" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/01/10/distribute_store_system/">分布式存储系统总结</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/01/10/distribute_store_system/" class="article-date">
-  <time datetime="2015-01-10T08:20:03.000Z" itemprop="datePublished">2015-01-10</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="核心问题"><a href="#核心问题" class="headerlink" title="核心问题"></a>核心问题</h2><p>分布式存储系统VS单机存储: 存储在多个机器!!!</p>
-<p>引发的问题:</p>
-<p>原来:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client --&gt; store system</div></pre></td></tr></table></figure>
-<p>变成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">client ___&gt; st1</div><div class="line">        \_&gt; st2</div><div class="line">        \_&gt; st3</div></pre></td></tr></table></figure>
-<ol>
-<li>存储的分布式: 哪种策略做分布式(client-&gt;st的策略)：负载均衡，支持扩展性;</li>
-<li>容错性: st1,st2…容易出现异常，系统需要具有容错的能力;</li>
-<li>事务性的支持: 传统单机的事务保证如果在分布式系统给予支持;</li>
-</ol>
-<h2 id="设计考虑"><a href="#设计考虑" class="headerlink" title="设计考虑"></a>设计考虑</h2><p>根据具体的存储数据模式，对整个系统的设计也相差很大，下面是一个简单的划分:</p>
-<ol>
-<li>分布式文件系统:</li>
-<li>分布式键值系统：</li>
-<li>分布式表格系统:</li>
-<li>分布式数据库:</li>
-</ol>
-<p>个人理解，上面四个系统的功能逐渐复杂，系统设计也是依次复杂;</p>
-<h2 id="核心协议"><a href="#核心协议" class="headerlink" title="核心协议"></a>核心协议</h2><blockquote>
-<p>个人理解</p>
-</blockquote>
-<p>核心协议拥有抽象分布式系统常见的问题，并且提供一个通用的解决方案，这里面主要说到两个比较重要的协议</p>
-<p>### </p>
 
       
     </div>

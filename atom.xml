@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2017-11-02T06:35:08.000Z</updated>
+  <updated>2017-11-07T08:32:34.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,72 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20171105</title>
+    <link href="http://shevacjs.com/2017/11/07/20171105/"/>
+    <id>http://shevacjs.com/2017/11/07/20171105/</id>
+    <published>2017-11-07T08:31:45.000Z</published>
+    <updated>2017-11-07T08:32:34.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/Austria.jpg" alt="奥地利一景-2015"></p>
+<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzA3ODg4MDk0Ng==&amp;mid=2651113865&amp;idx=1&amp;sn=6a2153fc5eb16c7d2c31e05c83dd6e7a" target="_blank" rel="external">重磅消息！Kotlin要支持iOS开发和Web开发</a> : 有个统一的前端开发栈也是非常不错的</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://paper.seebug.org/423/" target="_blank" rel="external">前端防御从入门到弃坑–CSP变迁</a> : 比较喜欢的文章风格，对CSP的历史缘由，发展历程说的很清楚, 去年paper提出的<code>nonce script</code>和<code>strict-dynamic</code>如今也面临着更多的威胁和挑战</p>
+</li>
+<li><p><a href="https://qiuzhenyuan.github.io/2017/09/24/%E5%B8%B8%E7%94%A8%E5%AF%86%E7%A0%81%E5%AD%A6%E6%8A%80%E6%9C%AF/" target="_blank" rel="external">常用密码学技术</a> : 对密码学的有比较系统的介绍和梳理，感觉非常适合入门者学习; 如果能加上一些应用就更好了；争取本周自己也补一篇此类的文章</p>
+</li>
+<li><p><a href="https://www.igvita.com/2012/12/18/deploying-new-image-formats-on-the-web/" target="_blank" rel="external">Deploying WebP via Accept Content Negotiation</a> : 是一篇2013年的文章, 作者(<a href="https://hpbn.co/" target="_blank" rel="external">High Performance Browser Networking</a>书籍的作者) 很详细的介绍了如果通过client/server等多方的联动，可以透明，相对低成本的接入webp格式的图片; 对后续我们要引入新的资源类型有比较好的参考意义, 也可以参考作者另外一篇文章<a href="https://www.igvita.com/2012/12/18/deploying-new-image-formats-on-the-web/" target="_blank" rel="external">Deploying New Image Formats on the Web</a></p>
+</li>
+<li><p><a href="https://blog.lizzie.io/linux-containers-in-500-loc.html#sec-1" target="_blank" rel="external">Linux containers in 500 lines of code</a> : 本文用一个最小的集合实现vm, 可以加深对linux下面虚拟机机制的理解</p>
+</li>
+</ul>
+<a id="more"></a>
+<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><ul>
+<li><a href="https://blog.acolyer.org/2017/10/26/the-quic-transport-protocol-design-and-internet-scale-deployment/" target="_blank" rel="external">The QUIC transport protocol: design and Internet-scale deployment</a> : 关于<code>QUIC</code>协议的paper,  比较系统的介绍了QUIC的背景(对TCP队首阻塞, 握手消耗问题), 整体设计思路(0-RTT， 1-RTT, 以及基于UDP稍高层次的发送重传机制), 更多资料可以查看<a href="https://www.chromium.org/quic" target="_blank" rel="external">QUIC, a multiplexed stream transport over UDP</a>, 但是没有太多的server支持<code>QUIC</code>, 个人理解nginx/apache是应该要考虑的，静待</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><a href="https://certsimple.com/blog/nginx-brotli" target="_blank" rel="external">Yes, Brotli can compress faster than gzip</a> : <code>Brotli</code>压缩策略已经是正式的<a href="https://tools.ietf.org/html/rfc7932" target="_blank" rel="external">RFC标准</a>了, 在其具体应用上面文章校正大家的常用的一些误解，包括可以确保<code>Brotli</code>可以在压缩大小和速度上面都高于<code>gzip</code>, 通过预生成的<code>.br</code>文件还会有更好的表现, 详细的数据可以查看<a href="https://blogs.akamai.com/2016/02/understanding-brotlis-potential.html" target="_blank" rel="external">Understanding Brotli’s Potential</a>这篇文章, 不过简单review了几个网站, 几个国外的网站基本都是支持<code>br</code>压缩，国内的基本都是<code>gzip</code>方式</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="http://tech.marksblogg.com/sqlite3-tutorial-and-guide.html" target="_blank" rel="external">A Minimalist Guide to SQLite</a> : <code>SQLite</code>的入门介绍文档，通过具有范例说明, 个人感觉对sqlite可以深入熟练的去使用</p>
+</li>
+<li><p><a href="http://weibo.com/ttarticle/p/show?id=2309351000224169168638358204" target="_blank" rel="external">腾讯QQ空间超分辨率技术TSR：为用户节省3/4流量</a> : </p>
+</li>
+<li><p><a href="https://github.com/yishn/tikzcd-editor" target="_blank" rel="external">tikzcd-editor</a> : 很好的一个基于web的图表绘制网站, 好像是要基于node构建；不好没有找到比较好的图标导出方式</p>
+</li>
+<li><p><a href="http://openfootball.github.io/" target="_blank" rel="external">football.db: free open public domain football data</a> : 足球的公开数据集，可以收藏 </p>
+</li>
+<li><p><a href="https://con.openresty.org/cn/2017/books/OpenResty%20Commercialization%20and%20DSL%20Era%20-%20V3.pdf" target="_blank" rel="external">OpenResty 的商业化及小语言时代</a> : zhangyichun的最新的分享，这篇文章更多是侧重介绍openresty现在的商业业务情况，对应技术上面的实现涉及极少一些</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/Austria.jpg&quot; alt=&quot;奥地利一景-2015&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s?__biz=MzA3ODg4MDk0Ng==&amp;amp;mid=2651113865&amp;amp;idx=1&amp;amp;sn=6a2153fc5eb16c7d2c31e05c83dd6e7a&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;重磅消息！Kotlin要支持iOS开发和Web开发&lt;/a&gt; : 有个统一的前端开发栈也是非常不错的&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://paper.seebug.org/423/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;前端防御从入门到弃坑–CSP变迁&lt;/a&gt; : 比较喜欢的文章风格，对CSP的历史缘由，发展历程说的很清楚, 去年paper提出的&lt;code&gt;nonce script&lt;/code&gt;和&lt;code&gt;strict-dynamic&lt;/code&gt;如今也面临着更多的威胁和挑战&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://qiuzhenyuan.github.io/2017/09/24/%E5%B8%B8%E7%94%A8%E5%AF%86%E7%A0%81%E5%AD%A6%E6%8A%80%E6%9C%AF/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;常用密码学技术&lt;/a&gt; : 对密码学的有比较系统的介绍和梳理，感觉非常适合入门者学习; 如果能加上一些应用就更好了；争取本周自己也补一篇此类的文章&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://www.igvita.com/2012/12/18/deploying-new-image-formats-on-the-web/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Deploying WebP via Accept Content Negotiation&lt;/a&gt; : 是一篇2013年的文章, 作者(&lt;a href=&quot;https://hpbn.co/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;High Performance Browser Networking&lt;/a&gt;书籍的作者) 很详细的介绍了如果通过client/server等多方的联动，可以透明，相对低成本的接入webp格式的图片; 对后续我们要引入新的资源类型有比较好的参考意义, 也可以参考作者另外一篇文章&lt;a href=&quot;https://www.igvita.com/2012/12/18/deploying-new-image-formats-on-the-web/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Deploying New Image Formats on the Web&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://blog.lizzie.io/linux-containers-in-500-loc.html#sec-1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Linux containers in 500 lines of code&lt;/a&gt; : 本文用一个最小的集合实现vm, 可以加深对linux下面虚拟机机制的理解&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20171029</title>
@@ -1187,60 +1253,6 @@
     
     
       <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关于贝叶斯分类</title>
-    <link href="http://shevacjs.com/2017/07/21/bayes/"/>
-    <id>http://shevacjs.com/2017/07/21/bayes/</id>
-    <published>2017-07-20T16:25:11.000Z</published>
-    <updated>2017-07-21T11:17:33.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>by chenjiansen</p>
-</blockquote>
-<h3 id="判定模型与生成模型"><a href="#判定模型与生成模型" class="headerlink" title="判定模型与生成模型"></a>判定模型与生成模型</h3><p>判定模型的理论基础 :</p>
-<p>$$ y = p(y | x : \theta) $$</p>
-<p>生成模型</p>
-<p>$$ y = p( y | x) = p(x,y) / p(x) = p(x|y) p(y) / p(x) $$</p>
-<p>此时我们会考虑使用$p(x|y)p(y)$ 来评估$p(y|x)$ ，是一个联合概率的考虑</p>
-<h3 id="Native-Bayes"><a href="#Native-Bayes" class="headerlink" title="Native Bayes"></a>Native Bayes</h3><p>考虑判断一个邮件是否是垃圾邮件；我们设定如下的模型: </p>
-<ul>
-<li>$x$ 为输入向量；其中$x_i^{(j)}$ 表示第$i$个样本的第$j$维的特征值,  任何一个邮件可以用如下的形式表示 : </li>
-</ul>
-<p>$$x=\left[ \begin{array}{cc} 0 &amp; a_0\\ 1 &amp; a_1 \\ 1 &amp; a_2\\ 0  &amp; a_3 \\ 1 &amp; a_4 \\ .. &amp; .. \end{array} \right]$$</p>
-<p>其中第$i$行代表着单词$a_i$是否出现在这个邮件里面；$|A|$ 表示着词汇量的个数，也是也是输入特征$x$的维度</p>
-<ul>
-<li>$y$为输入结果,  这里面设定 $y=1$为垃圾邮件，否则$y=0$</li>
-</ul>
-<p>这里，我们准备使用<code>朴素贝叶斯</code>的方法解决分类问题，如上面生成模型的说明, 我们的求解问题转化为:</p>
-<p>$ p(y|x) = p(x|y) p(y) / p(x) $</p>
-<p>我们约定如下: </p>
-<p>$$\phi_{i|y=1} = p(x_i = 1 | y = 1)$$<br>$$\phi_{i|y=0} = p(x_i = 1 | y = 0)$$<br>$$\phi_y = p(y = 1) $$</p>
-<p>则有 : </p>
-<p>$$ \phi_{i|y=1} = \frac{\sum_{i=0}^{m} 1 {x_j^{(i)} = 1 \ and \  y^{(i)} = 1}}{\sum_{i=0}^{m} 1 { y^{(i)} = 1}}$$</p>
-<p>其他的$\phi_{i|y=0} , \phi_y$ 同理易得</p>
-<p>则在样本输入${x^{(i)}, y^{(i)}}, i = 0, 1, 2 …$ 的情况下；对于上面的分类问题，我们可以先求解:</p>
-<p>$$ P(y=1\ |x) = P(x|y=1) P(y=1) / P(x) \\ = \frac{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) P(y=1)}{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) + (\prod_{i=0}^{m}P(x_i\ |y = 0))}$$</p>
-<p>上面的$\prod$ 展开是依赖于所谓的<code>贝叶斯假设</code>， 也就是对于给定的结果$y$, 事件$x_i$相对于$y$是独立分布的, 也就是有: </p>
-<p>$$P(x_1,x_2,…,x_n\ |\ y) = p(x_1|y)p(x_2|y,x_1)….p(x_n|y,x_1,x_2, …) \\ = p(x_1|y)p(x_2|y) … p(x_n|y) \\ = \prod_{i=1}^{n} p(x_i|y)$$</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://guangchun.wordpress.com/2011/10/13/ml-bayes-map/" target="_blank" rel="external">参数估计：最大似然、贝叶斯与最大后验</a> </li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;by chenjiansen&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;判定模型与生成模型&quot;&gt;&lt;a href=&quot;#判定模型与生成模型&quot; class=&quot;headerlink&quot; title=&quot;判定模型与生成模型&quot;&gt;&lt;/a&gt;判定模型与生成模型&lt;
-    
-    </summary>
-    
-    
-      <category term="ml" scheme="http://shevacjs.com/tags/ml/"/>
     
   </entry>
   

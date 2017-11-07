@@ -153,6 +153,180 @@
 
 
     
+      <article id="post-bayes" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/21/bayes/">关于贝叶斯分类</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/07/21/bayes/" class="article-date">
+  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>by chenjiansen</p>
+</blockquote>
+<h3 id="判定模型与生成模型"><a href="#判定模型与生成模型" class="headerlink" title="判定模型与生成模型"></a>判定模型与生成模型</h3><p>判定模型的理论基础 :</p>
+<p>$$ y = p(y | x : \theta) $$</p>
+<p>生成模型</p>
+<p>$$ y = p( y | x) = p(x,y) / p(x) = p(x|y) p(y) / p(x) $$</p>
+<p>此时我们会考虑使用$p(x|y)p(y)$ 来评估$p(y|x)$ ，是一个联合概率的考虑</p>
+<h3 id="Native-Bayes"><a href="#Native-Bayes" class="headerlink" title="Native Bayes"></a>Native Bayes</h3><p>考虑判断一个邮件是否是垃圾邮件；我们设定如下的模型: </p>
+<ul>
+<li>$x$ 为输入向量；其中$x_i^{(j)}$ 表示第$i$个样本的第$j$维的特征值,  任何一个邮件可以用如下的形式表示 : </li>
+</ul>
+<p>$$x=\left[ \begin{array}{cc} 0 &amp; a_0\\ 1 &amp; a_1 \\ 1 &amp; a_2\\ 0  &amp; a_3 \\ 1 &amp; a_4 \\ .. &amp; .. \end{array} \right]$$</p>
+<p>其中第$i$行代表着单词$a_i$是否出现在这个邮件里面；$|A|$ 表示着词汇量的个数，也是也是输入特征$x$的维度</p>
+<ul>
+<li>$y$为输入结果,  这里面设定 $y=1$为垃圾邮件，否则$y=0$</li>
+</ul>
+<p>这里，我们准备使用<code>朴素贝叶斯</code>的方法解决分类问题，如上面生成模型的说明, 我们的求解问题转化为:</p>
+<p>$ p(y|x) = p(x|y) p(y) / p(x) $</p>
+<p>我们约定如下: </p>
+<p>$$\phi_{i|y=1} = p(x_i = 1 | y = 1)$$<br>$$\phi_{i|y=0} = p(x_i = 1 | y = 0)$$<br>$$\phi_y = p(y = 1) $$</p>
+<p>则有 : </p>
+<p>$$ \phi_{i|y=1} = \frac{\sum_{i=0}^{m} 1 {x_j^{(i)} = 1 \ and \  y^{(i)} = 1}}{\sum_{i=0}^{m} 1 { y^{(i)} = 1}}$$</p>
+<p>其他的$\phi_{i|y=0} , \phi_y$ 同理易得</p>
+<p>则在样本输入${x^{(i)}, y^{(i)}}, i = 0, 1, 2 …$ 的情况下；对于上面的分类问题，我们可以先求解:</p>
+<p>$$ P(y=1\ |x) = P(x|y=1) P(y=1) / P(x) \\ = \frac{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) P(y=1)}{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) + (\prod_{i=0}^{m}P(x_i\ |y = 0))}$$</p>
+<p>上面的$\prod$ 展开是依赖于所谓的<code>贝叶斯假设</code>， 也就是对于给定的结果$y$, 事件$x_i$相对于$y$是独立分布的, 也就是有: </p>
+<p>$$P(x_1,x_2,…,x_n\ |\ y) = p(x_1|y)p(x_2|y,x_1)….p(x_n|y,x_1,x_2, …) \\ = p(x_1|y)p(x_2|y) … p(x_n|y) \\ = \prod_{i=1}^{n} p(x_i|y)$$</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://guangchun.wordpress.com/2011/10/13/ml-bayes-map/" target="_blank" rel="external">参数估计：最大似然、贝叶斯与最大后验</a> </li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-svm" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/21/svm/">About SVM</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/07/21/svm/" class="article-date">
+  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务;</p>
+<p>一个直观的理解是: 我们构造的平面, 其距离样本的点距离越远越好;</p>
+<p>而对于线性不可分的情况，我们则可以通过构造映射函数，将其映射到高维空间, 变成一个线性可分的模型</p>
+<p>下面具体介绍这些思路的数学演绎过程</p>
+<h2 id="数学演绎"><a href="#数学演绎" class="headerlink" title="数学演绎"></a>数学演绎</h2><p>设我们的<code>输入样本</code>为: </p>
+<p>$$ { (x_1,y_1), … , (x_N, y_N)}$$</p>
+<p>其中: </p>
+<ul>
+<li>$x_i \in R^n $</li>
+<li>$y_i \in { -1, 1 }$</li>
+</ul>
+<p>首先考虑<code>线性可分</code>的情况;  此时设我们要求解的超平面为: </p>
+<p>$$\textbf{w}^T\textbf{x} + b = 0 $$</p>
+<p>则有: </p>
+<h3 id="间隔定义"><a href="#间隔定义" class="headerlink" title="间隔定义"></a>间隔定义</h3><p>我们定义函数间隔如下: </p>
+<p>$$\widehat{\gamma}_i = y_i (w \centerdot x + b )$$</p>
+<p>定义几何间隔如下 :<br>$$\gamma_i = y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|})$$</p>
+<p>可以看到几何间隔就是在$|w| = 1$ 时候的函数间隔，也是代表这个点到平面的实际几何距离；也有如下关系: </p>
+<p>$$ \gamma = \frac{\widehat {\gamma}}{| w |}$$</p>
+<h3 id="最优值定义"><a href="#最优值定义" class="headerlink" title="最优值定义"></a>最优值定义</h3><p>我们可以理解需要获取一个最大几何间隔的分离超平面(<code>为什么</code> ? ), 表针为: </p>
+<p>$$ \max \limits_{w,b} \gamma  \\ s.t. \ \ \  y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|}) \geqslant  \gamma $$</p>
+<p>用函数间隔替换如下: </p>
+<p>$$ \max \limits_{w,b} \frac{\widehat {\gamma}}{| w |}   \\ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  \widehat{\gamma} $$</p>
+<p>可以令 $\widehat{\gamma} = 1$,  则有: </p>
+<p>$$ \max \limits_{w,b} \frac{1}{| w |}   \\ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  1 $$</p>
+<p>也就是: </p>
+<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2   \\ s.t. \ \ \quad  y_i (w \centerdot x + b ) \geqslant  1 \quad i \in { 1, 2, … , N }$$</p>
+<p><code>也就是可以理解为</code> :  我们需要寻找合适的$w, b$，对应着一个超平面，使得所有的样本点到其的函数间隔都大于1；同时使得$|w|$最小</p>
+<p>上述方程的一个优化方法是:  通过对偶方法构造原来不等式的等价最优解（也就是拉格朗日对偶函数，具体太复杂了，就(也不懂)不展开了) ，总之如上的约束条件的等价对偶问题为:</p>
+<p>$$ \min \limits_{\alpha} \frac{1}{2} \sum_{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy_j - \sum_{i=1}^N\alpha_i \\ s.t. \quad \sum_{i=1}^{N} \alpha_iy_i = 0 \\ a_i (y_i(w*x_i + b) - 1) =0 \\ \\ w = \sum_{i=1}^{N} \alpha_i x_i y_i \\ a_i \geqslant 0 \quad i \in { 1, 2, … , N } $$<br>(可以忽略$\alpha_i$ 为什么会出现)</p>
+<p>这里我们称令$a_i &gt; 0$ 成立的样本点为<code>支持向量</code>, 依照上面的定义，当$a_i &gt; 0 $时，则有: </p>
+<p>$$ y_i(w*x_i + b) - 1 =0$$</p>
+<p>也就是$x_i$ 一定是在间隔的边界</p>
+<h3 id="线性不可分情况"><a href="#线性不可分情况" class="headerlink" title="线性不可分情况"></a>线性不可分情况</h3><p>考虑到现实生活中，存在一些异常或者脏数据，此时我们可以每个样本点引入一个松弛变量$\xi_i$,  则约束条件可以变为 : </p>
+<p>$$ y_i (w \centerdot x_i + b ) \geqslant  1-\xi_i \quad i \in { 1, 2, … , N } $$</p>
+<p>同时目标函数可以变成: </p>
+<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2 + C \sum_{i=1}^{N} \xi_i$$</p>
+<p>其中 : C代表着惩罚系数，需要视具体的业务场景而定 ；C值越大，表明对误差的惩罚增大，反之则减小；</p>
+<p>忽略一些很复杂的计算，可以得到对偶问题如下: </p>
+<p>$$ \min \limits_{\alpha} \frac{1}{2} \sum_{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy_j - \sum_{i=1}^N\alpha_i \\ s.t. \quad \sum_{i=1}^{N} \alpha_iy_i = 0 \\  0 \leqslant a_i \leqslant C \quad i \in { 1, 2, … , N } $$</p>
+<p>从上面可以分析出: </p>
+<ul>
+<li>$w$是确定且唯一的</li>
+<li>$b$的解并不唯一</li>
+</ul>
+<h3 id="核函数及其应用"><a href="#核函数及其应用" class="headerlink" title="核函数及其应用"></a>核函数及其应用</h3><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><p><a href="https://zh.wikipedia.org/wiki/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA" target="_blank" rel="external">支持向量机</a></p>
+</li>
+<li><p><a href="https://en.wikipedia.org/wiki/Support_vector_machine" target="_blank" rel="external">Support vector machine</a> </p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-boosting" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -317,103 +491,6 @@
 <p>也就是令 $\frac{1}{2} \sum_{i=1}^{m}(y^{(i)} - \theta^Tx^{(i)})^2 $为最小值的时候其概率最大； 正好对应着我们定义的<code>cost function</code></p>
 <h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
 <li><a href="http://www.cnblogs.com/maybe2030/p/4751804.html" target="_blank" rel="external">常见的几种最优化方法</a> : 几个常见的优化算法，说的非常详细</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-svm" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/21/svm/">About SVM</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/07/21/svm/" class="article-date">
-  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务;</p>
-<p>一个直观的理解是: 我们构造的平面, 其距离样本的点距离越远越好;</p>
-<p>而对于线性不可分的情况，我们则可以通过构造映射函数，将其映射到高维空间, 变成一个线性可分的模型</p>
-<p>下面具体介绍这些思路的数学演绎过程</p>
-<h2 id="数学演绎"><a href="#数学演绎" class="headerlink" title="数学演绎"></a>数学演绎</h2><p>设我们的<code>输入样本</code>为: </p>
-<p>$$ { (x_1,y_1), … , (x_N, y_N)}$$</p>
-<p>其中: </p>
-<ul>
-<li>$x_i \in R^n $</li>
-<li>$y_i \in { -1, 1 }$</li>
-</ul>
-<p>首先考虑<code>线性可分</code>的情况;  此时设我们要求解的超平面为: </p>
-<p>$$\textbf{w}^T\textbf{x} + b = 0 $$</p>
-<p>则有: </p>
-<h3 id="间隔定义"><a href="#间隔定义" class="headerlink" title="间隔定义"></a>间隔定义</h3><p>我们定义函数间隔如下: </p>
-<p>$$\widehat{\gamma}_i = y_i (w \centerdot x + b )$$</p>
-<p>定义几何间隔如下 :<br>$$\gamma_i = y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|})$$</p>
-<p>可以看到几何间隔就是在$|w| = 1$ 时候的函数间隔，也是代表这个点到平面的实际几何距离；也有如下关系: </p>
-<p>$$ \gamma = \frac{\widehat {\gamma}}{| w |}$$</p>
-<h3 id="最优值定义"><a href="#最优值定义" class="headerlink" title="最优值定义"></a>最优值定义</h3><p>我们可以理解需要获取一个最大几何间隔的分离超平面(<code>为什么</code> ? ), 表针为: </p>
-<p>$$ \max \limits_{w,b} \gamma  \\ s.t. \ \ \  y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|}) \geqslant  \gamma $$</p>
-<p>用函数间隔替换如下: </p>
-<p>$$ \max \limits_{w,b} \frac{\widehat {\gamma}}{| w |}   \\ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  \widehat{\gamma} $$</p>
-<p>可以令 $\widehat{\gamma} = 1$,  则有: </p>
-<p>$$ \max \limits_{w,b} \frac{1}{| w |}   \\ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  1 $$</p>
-<p>也就是: </p>
-<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2   \\ s.t. \ \ \quad  y_i (w \centerdot x + b ) \geqslant  1 \quad i \in { 1, 2, … , N }$$</p>
-<p><code>也就是可以理解为</code> :  我们需要寻找合适的$w, b$，对应着一个超平面，使得所有的样本点到其的函数间隔都大于1；同时使得$|w|$最小</p>
-<p>上述方程的一个优化方法是:  通过对偶方法构造原来不等式的等价最优解（也就是拉格朗日对偶函数，具体太复杂了，就(也不懂)不展开了) ，总之如上的约束条件的等价对偶问题为:</p>
-<p>$$ \min \limits_{\alpha} \frac{1}{2} \sum_{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy_j - \sum_{i=1}^N\alpha_i \\ s.t. \quad \sum_{i=1}^{N} \alpha_iy_i = 0 \\ a_i (y_i(w*x_i + b) - 1) =0 \\ \\ w = \sum_{i=1}^{N} \alpha_i x_i y_i \\ a_i \geqslant 0 \quad i \in { 1, 2, … , N } $$<br>(可以忽略$\alpha_i$ 为什么会出现)</p>
-<p>这里我们称令$a_i &gt; 0$ 成立的样本点为<code>支持向量</code>, 依照上面的定义，当$a_i &gt; 0 $时，则有: </p>
-<p>$$ y_i(w*x_i + b) - 1 =0$$</p>
-<p>也就是$x_i$ 一定是在间隔的边界</p>
-<h3 id="线性不可分情况"><a href="#线性不可分情况" class="headerlink" title="线性不可分情况"></a>线性不可分情况</h3><p>考虑到现实生活中，存在一些异常或者脏数据，此时我们可以每个样本点引入一个松弛变量$\xi_i$,  则约束条件可以变为 : </p>
-<p>$$ y_i (w \centerdot x_i + b ) \geqslant  1-\xi_i \quad i \in { 1, 2, … , N } $$</p>
-<p>同时目标函数可以变成: </p>
-<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2 + C \sum_{i=1}^{N} \xi_i$$</p>
-<p>其中 : C代表着惩罚系数，需要视具体的业务场景而定 ；C值越大，表明对误差的惩罚增大，反之则减小；</p>
-<p>忽略一些很复杂的计算，可以得到对偶问题如下: </p>
-<p>$$ \min \limits_{\alpha} \frac{1}{2} \sum_{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy_j - \sum_{i=1}^N\alpha_i \\ s.t. \quad \sum_{i=1}^{N} \alpha_iy_i = 0 \\  0 \leqslant a_i \leqslant C \quad i \in { 1, 2, … , N } $$</p>
-<p>从上面可以分析出: </p>
-<ul>
-<li>$w$是确定且唯一的</li>
-<li>$b$的解并不唯一</li>
-</ul>
-<h3 id="核函数及其应用"><a href="#核函数及其应用" class="headerlink" title="核函数及其应用"></a>核函数及其应用</h3><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><p><a href="https://zh.wikipedia.org/wiki/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA" target="_blank" rel="external">支持向量机</a></p>
-</li>
-<li><p><a href="https://en.wikipedia.org/wiki/Support_vector_machine" target="_blank" rel="external">Support vector machine</a> </p>
-</li>
 </ul>
 
       
@@ -758,83 +835,6 @@
             <a href="/2017/06/18/20170618/#more">Read More</a>
           </p>
         
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20170611" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/11/20170611/">weekly of 20170611</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/06/11/20170611/" class="article-date">
-  <time datetime="2017-06-11T12:30:54.000Z" itemprop="datePublished">2017-06-11</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><a href="https://www.bleepingcomputer.com/news/security/malware-uses-router-leds-to-steal-data-from-secure-networks/" target="_blank" rel="external">Malware Uses Router LEDs to Steal Data From Secure Networks</a> : 使用LED灯传递二进制信息, 信息传递的新方式, 挺有创意</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://tech.okcupid.com/evaluating-perceptual-image-hashes-okcupid/" target="_blank" rel="external">Evaluating Perceptual Image Hashes at OkCupid</a> : 提出了一些新的hash算法，用于图片相似度的判断, mark</p>
-</li>
-<li><p><a href="https://engineeringblog.yelp.com/2017/06/making-photos-smaller.html" target="_blank" rel="external">Making Photos Smaller Without Quality Loss</a> : Yelp的图片压缩实践, 其中<code>Mozjpeg</code>的引入可以考虑下，是否和hiphoto一致</p>
-</li>
-<li><p><a href="https://medium.com/@giovannidamiola/making-the-internet-archives-full-text-search-faster-30fb11574ea9" target="_blank" rel="external">Making the Internet Archive’s full text search faster.</a> : Internet Archive的ES优化实践</p>
-</li>
-<li><p><a href="http://tech.youzan.com/redisji-qun-shi-xian-yuan-li-tan-tao/" target="_blank" rel="external">Redis集群实现原理探讨</a> : Redis集群的设计的概述，可以当做科普文</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="http://blog.echen.me/2017/05/30/exploring-lstms/" target="_blank" rel="external">Exploring LSTMs</a> : 先mark</p>
-</li>
-<li><p><a href="http://aivarsk.github.io/2017/04/06/select/" target="_blank" rel="external">Using select(2)</a> : 感觉会是个好文章, 先mark, 注意其对应的链接</p>
-</li>
-<li><p><a href="https://github.com/sdmg15/Best-websites-a-programmer-should-visit" target="_blank" rel="external">Best-websites-a-programmer-should-visit</a> : “Some useful websites for programmers”, 几个news的新闻推荐挺不错的, 可以好好看看, <code>Interview Preparation</code> 上面的一些文件也挺有趣的</p>
-</li>
-<li><p><a href="http://www.pement.org/sed/sed1line.txt" target="_blank" rel="external">USEFUL ONE-LINE SCRIPTS FOR SED</a> : 不少sed技巧, 可以采纳</p>
-</li>
-<li><p><a href="https://www.html5rocks.com/en/tutorials/internals/howbrowserswork/" target="_blank" rel="external">How Browsers Work: Behind the scenes of modern web browsers</a> : 是个干活，内容设计浏览器设计的方方面面，先mark</p>
-</li>
-<li><p><a href="https://www.cl.cam.ac.uk/~fms27/vck/" target="_blank" rel="external">Visual Cryptography Kit</a> : 基于可视化的加密, 还是挺有特色的</p>
-</li>
-<li><p><a href="http://www.brendangregg.com/ebpf.html" target="_blank" rel="external">Linux Enhanced BPF (eBPF) Tracing Tools</a> : 不少好的工具，也是只能先mark, 公司的系统支持还跟不上</p>
-</li>
-<li><p><a href="https://github.com/byoungd/english-level-up-tips-for-Chinese" target="_blank" rel="external">English-level-up-tips-for-Chinese</a> : 写给想提升英语水平的程序员, 有一些技巧可以关注，但个人认为这方面为有不断投入大量时间来学习才是OK的</p>
-</li>
-</ul>
-
       
     </div>
     
