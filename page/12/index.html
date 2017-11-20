@@ -57,6 +57,120 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-Distributed_systems_for_fun_and_profit" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/25/Distributed_systems_for_fun_and_profit/">Distributed systems for fun and profit读书笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/01/25/Distributed_systems_for_fun_and_profit/" class="article-date">
+  <time datetime="2015-01-25T08:26:33.000Z" itemprop="datePublished">2015-01-25</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><p>如果我们有足够的资金，我们大可以不使用什么分布式系统，把硬件弄的足够牛逼即可。</p>
+<p>但是，不行。因此我们的愿景的采用商用的普通的服务器就能支持我们超大计算量，存储量的需求。</p>
+<p>我们关注的是如果设计一个分布式的系统，我们的核心目标包括:</p>
+<ul>
+<li><p>可扩展性:</p>
+</li>
+<li><p>性能(或者说延迟):</p>
+</li>
+<li><p>可用性:</p>
+</li>
+</ul>
+<p>而我们面临的挑战是:</p>
+<p>主要有两个核心的物理因素:</p>
+<ul>
+<li>节点的个数:</li>
+<li>节点的距离(主要是交互时延) ：</li>
+</ul>
+<p>受到上面两个因素的影响:</p>
+<ol>
+<li>节点个数的增加意味着系统里面节点失效概率的增加；</li>
+<li>节点个数的增加意味着节点直接的交互也会增加;</li>
+<li>而节点地理位置的间隔也意味着交互交互延迟的增加</li>
+</ol>
+<p>另外还有一个所谓的<code>智能性</code>，因为</p>
+<p>如何做？</p>
+<p>抽象&amp;建模</p>
+<p>对于数据如何存储在分布式节点上面，两个核心的办法,包括:</p>
+<ol>
+<li>分片 : 可以将每一个节点上面的数据量减少；</li>
+<li>复制<ul>
+<li>优点: 冗余的话可以发挥多个节点的计算能力</li>
+<li>优点: 冗余的话可以提高系统的容错性</li>
+<li>缺点: 复制要求着数据拷贝，也就是意味着我们必须遵循一个特定的数据一致性模型（强一致，弱一致)?</li>
+</ul>
+</li>
+</ol>
+<h2 id="抽象和建模"><a href="#抽象和建模" class="headerlink" title="抽象和建模"></a>抽象和建模</h2><h3 id="系统条件和结果抽象"><a href="#系统条件和结果抽象" class="headerlink" title="系统条件和结果抽象"></a>系统条件和结果抽象</h3><p>系统模型，一个分布式系统意味着有如下特征:</p>
+<ul>
+<li>并行的计算和存储</li>
+<li>节点直接通过网络交互</li>
+<li>没有共享内存和全局时钟</li>
+</ul>
+<p>而我们在建立一个系统模型的时候，其实就是抽象和简化整个系统的特征，对于一个分布式系统，我们主要关心:</p>
+<ul>
+<li>节点拥有什么样的能力，他们什么时候会挂掉？<ul>
+<li>一般只是crash</li>
+<li>不考虑节点欺骗的情况，比如拜占庭问题 </li>
+</ul>
+</li>
+<li>节点直接的交互状态是怎么样的？<ul>
+<li>消息是否会丢弃：</li>
+<li>是否会发生网络分区的情况</li>
+</ul>
+</li>
+<li>系统的属性，比如消息发送的时序性<ul>
+<li>同步系统:</li>
+<li>异步系统: 消息的分发和处理都是无序的</li>
+</ul>
+</li>
+</ul>
+<p>基于如上三个核心属性的抽象，再引入一个结果的抽象： <code>一致性要求</code></p>
+<h3 id="两个基本理论"><a href="#两个基本理论" class="headerlink" title="两个基本理论"></a>两个基本理论</h3><p>第一个是 FLP理论， 跳过<br>第二个是 CAP理论, 这个大家可能听到的比较多，具体为:</p>
+<h3 id="一致性模型"><a href="#一致性模型" class="headerlink" title="一致性模型"></a>一致性模型</h3><ul>
+<li><p>强一致性</p>
+</li>
+<li><p>弱一致性</p>
+<ul>
+<li>基于client控制的一致性支持</li>
+<li>最终一致性</li>
+</ul>
+</li>
+<li><p><a href="http://blog.csdn.net/chen77716/article/details/30635543" target="_blank" rel="external">CAP理论</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-distribute_store_system" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     

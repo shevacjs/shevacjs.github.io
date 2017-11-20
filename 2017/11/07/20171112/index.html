@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>weekly of 20171105 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近略忙, 大部分weekly都延迟了   工具技巧 Nginx 源代码笔记 - Prerequisite : 之前推荐过这个博主的文章, 这篇是比较新的介绍nginx核心处理流程, 对于filter等执行顺序也有比较深入的介绍  eBPF 简史 : “高屋建瓴深入浅出”, 非常好的eBPF系统性介绍, 对这方面有认识的，可以深入了解下   系统设计 Redis Streams and the">
+<meta name="keywords" content="weekly">
+<meta property="og:type" content="article">
+<meta property="og:title" content="weekly of 20171105">
+<meta property="og:url" content="http://shevacjs.com/2017/11/07/20171112/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="最近略忙, 大部分weekly都延迟了   工具技巧 Nginx 源代码笔记 - Prerequisite : 之前推荐过这个博主的文章, 这篇是比较新的介绍nginx核心处理流程, 对于filter等执行顺序也有比较深入的介绍  eBPF 简史 : “高屋建瓴深入浅出”, 非常好的eBPF系统性介绍, 对这方面有认识的，可以深入了解下   系统设计 Redis Streams and the">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://shevacjs.com/images/milan_church.jpg">
+<meta property="og:updated_time" content="2017-11-20T03:32:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="weekly of 20171105">
+<meta name="twitter:description" content="最近略忙, 大部分weekly都延迟了   工具技巧 Nginx 源代码笔记 - Prerequisite : 之前推荐过这个博主的文章, 这篇是比较新的介绍nginx核心处理流程, 对于filter等执行顺序也有比较深入的介绍  eBPF 简史 : “高屋建瓴深入浅出”, 非常好的eBPF系统性介绍, 对这方面有认识的，可以深入了解下   系统设计 Redis Streams and the">
+<meta name="twitter:image" content="http://shevacjs.com/images/milan_church.jpg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-20171112" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      weekly of 20171105
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/11/07/20171112/" class="article-date">
+  <time datetime="2017-11-07T08:31:45.000Z" itemprop="datePublished">2017-11-07</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>最近略忙, 大部分weekly都延迟了</p>
+</blockquote>
+<p><img src="/images/milan_church.jpg" alt="米兰大教堂"></p>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="http://ialloc.org/posts/2017/11/03/ngx-notes-prerequisite/#id2" target="_blank" rel="external">Nginx 源代码笔记 - Prerequisite</a> : 之前推荐过这个博主的文章, 这篇是比较新的介绍nginx核心处理流程, 对于filter等执行顺序也有比较深入的介绍</p>
+</li>
+<li><p><a href="https://www.ibm.com/developerworks/cn/linux/l-lo-eBPF-history/index.html" target="_blank" rel="external">eBPF 简史</a> : “高屋建瓴深入浅出”, 非常好的<code>eBPF</code>系统性介绍, 对这方面有认识的，可以深入了解下</p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="https://brandur.org/redis-streams" target="_blank" rel="external">Redis Streams and the Unified Log</a> : 本文主要介绍了redis新的将要支持的<code>streams</code>机制, 其设计功能类似于<code>kafaka</code>, 用于全局统一的日志/事件记录, 作者任务redis对于精细简单任务更为适合，也更容易上手;</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzI0MjczMjM2NA==&amp;mid=2247483872&amp;idx=1&amp;sn=db0fbb2bec0d4e68593f1b9bfc20a8b5" target="_blank" rel="external">爱奇艺个性化推荐排序实践</a> : 具体介绍了爱奇艺的推荐架构里面排序层的实践，从最原始的<code>LR</code>, 到现在的多层<code>DNN+GBDT+FM</code>, 如果理解是对技术的不断机制追求的探索</p>
+</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/29768996" target="_blank" rel="external">用深度学习检测WAF恶意请求</a> : “总结一下，这篇文章提出了 RNN-LSTM 方法做恶意请求log的判别，用字符序列作为输入给一个简单的 LSTM 可以在自己数据集上达到不错的效果，大家可以一试，这可能是把人类从写规则和写正则里解放出来的一条路”</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404171026404610589" target="_blank" rel="external">最奇葩的编程语言？最让人讨厌的语言？最伟大的语言？</a> : 同样可以关注下几个奇葩的语言<a href="https://gist.github.com/sharmaeklavya2/8a0e2581baf969be0f64" target="_blank" rel="external">Lolcode</a>, <a href="http://progopedia.com/language/befunge/" target="_blank" rel="external">Befunge</a>, <a href="http://www.muppetlabs.com/~breadbox/bf/" target="_blank" rel="external">Brainfuck</a> 等</p>
+</li>
+<li><p><a href="https://www.networkworld.com/article/3236064/servers/minix-the-most-popular-os-in-the-world-thanks-to-intel.html" target="_blank" rel="external">MINIX — The most popular OS in the world, thanks to Intel</a> : Intel在其内置的CPU里面都安卓了<code>MINIX</code>系统, 运行在<code>Ring -3</code>这个层面(我们常规的应用大家知道一般是在<code>Ring 3</code>), 这个系统其拥有”Full networking stack, File systems, Many drivers (including USB, networking, etc.),A web server”, Google的这篇文章<a href="https://schd.ws/hosted_files/osseu17/84/Replace%20UEFI%20with%20Linux.pdf" target="_blank" rel="external">Replace your exploit-ridden firmware with a Linux kernel</a> 对这个方面有非常深入的介绍，有兴趣可以看着</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/11/07/20171105/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20171105&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  var disqus_url = 'http://shevacjs.com/2017/11/07/20171112/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

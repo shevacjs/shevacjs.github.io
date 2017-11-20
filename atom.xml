@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2017-11-07T08:43:29.000Z</updated>
+  <updated>2017-11-20T03:32:36.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,67 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20171105</title>
+    <link href="http://shevacjs.com/2017/11/07/20171112/"/>
+    <id>http://shevacjs.com/2017/11/07/20171112/</id>
+    <published>2017-11-07T08:31:45.000Z</published>
+    <updated>2017-11-20T03:32:36.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>最近略忙, 大部分weekly都延迟了</p>
+</blockquote>
+<p><img src="/images/milan_church.jpg" alt="米兰大教堂"></p>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="http://ialloc.org/posts/2017/11/03/ngx-notes-prerequisite/#id2" target="_blank" rel="external">Nginx 源代码笔记 - Prerequisite</a> : 之前推荐过这个博主的文章, 这篇是比较新的介绍nginx核心处理流程, 对于filter等执行顺序也有比较深入的介绍</p>
+</li>
+<li><p><a href="https://www.ibm.com/developerworks/cn/linux/l-lo-eBPF-history/index.html" target="_blank" rel="external">eBPF 简史</a> : “高屋建瓴深入浅出”, 非常好的<code>eBPF</code>系统性介绍, 对这方面有认识的，可以深入了解下</p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="https://brandur.org/redis-streams" target="_blank" rel="external">Redis Streams and the Unified Log</a> : 本文主要介绍了redis新的将要支持的<code>streams</code>机制, 其设计功能类似于<code>kafaka</code>, 用于全局统一的日志/事件记录, 作者任务redis对于精细简单任务更为适合，也更容易上手;</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzI0MjczMjM2NA==&amp;mid=2247483872&amp;idx=1&amp;sn=db0fbb2bec0d4e68593f1b9bfc20a8b5" target="_blank" rel="external">爱奇艺个性化推荐排序实践</a> : 具体介绍了爱奇艺的推荐架构里面排序层的实践，从最原始的<code>LR</code>, 到现在的多层<code>DNN+GBDT+FM</code>, 如果理解是对技术的不断机制追求的探索</p>
+</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/29768996" target="_blank" rel="external">用深度学习检测WAF恶意请求</a> : “总结一下，这篇文章提出了 RNN-LSTM 方法做恶意请求log的判别，用字符序列作为输入给一个简单的 LSTM 可以在自己数据集上达到不错的效果，大家可以一试，这可能是把人类从写规则和写正则里解放出来的一条路”</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404171026404610589" target="_blank" rel="external">最奇葩的编程语言？最让人讨厌的语言？最伟大的语言？</a> : 同样可以关注下几个奇葩的语言<a href="https://gist.github.com/sharmaeklavya2/8a0e2581baf969be0f64" target="_blank" rel="external">Lolcode</a>, <a href="http://progopedia.com/language/befunge/" target="_blank" rel="external">Befunge</a>, <a href="http://www.muppetlabs.com/~breadbox/bf/" target="_blank" rel="external">Brainfuck</a> 等</p>
+</li>
+<li><p><a href="https://www.networkworld.com/article/3236064/servers/minix-the-most-popular-os-in-the-world-thanks-to-intel.html" target="_blank" rel="external">MINIX — The most popular OS in the world, thanks to Intel</a> : Intel在其内置的CPU里面都安卓了<code>MINIX</code>系统, 运行在<code>Ring -3</code>这个层面(我们常规的应用大家知道一般是在<code>Ring 3</code>), 这个系统其拥有”Full networking stack, File systems, Many drivers (including USB, networking, etc.),A web server”, Google的这篇文章<a href="https://schd.ws/hosted_files/osseu17/84/Replace%20UEFI%20with%20Linux.pdf" target="_blank" rel="external">Replace your exploit-ridden firmware with a Linux kernel</a> 对这个方面有非常深入的介绍，有兴趣可以看着</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;最近略忙, 大部分weekly都延迟了&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;/images/milan_church.jpg&quot; alt=&quot;米兰大教堂&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://ialloc.org/posts/2017/11/03/ngx-notes-prerequisite/#id2&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Nginx 源代码笔记 - Prerequisite&lt;/a&gt; : 之前推荐过这个博主的文章, 这篇是比较新的介绍nginx核心处理流程, 对于filter等执行顺序也有比较深入的介绍&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://www.ibm.com/developerworks/cn/linux/l-lo-eBPF-history/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;eBPF 简史&lt;/a&gt; : “高屋建瓴深入浅出”, 非常好的&lt;code&gt;eBPF&lt;/code&gt;系统性介绍, 对这方面有认识的，可以深入了解下&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;系统设计&quot;&gt;&lt;a href=&quot;#系统设计&quot; class=&quot;headerlink&quot; title=&quot;系统设计&quot;&gt;&lt;/a&gt;系统设计&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://brandur.org/redis-streams&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Redis Streams and the Unified Log&lt;/a&gt; : 本文主要介绍了redis新的将要支持的&lt;code&gt;streams&lt;/code&gt;机制, 其设计功能类似于&lt;code&gt;kafaka&lt;/code&gt;, 用于全局统一的日志/事件记录, 作者任务redis对于精细简单任务更为适合，也更容易上手;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s?__biz=MzI0MjczMjM2NA==&amp;amp;mid=2247483872&amp;amp;idx=1&amp;amp;sn=db0fbb2bec0d4e68593f1b9bfc20a8b5&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;爱奇艺个性化推荐排序实践&lt;/a&gt; : 具体介绍了爱奇艺的推荐架构里面排序层的实践，从最原始的&lt;code&gt;LR&lt;/code&gt;, 到现在的多层&lt;code&gt;DNN+GBDT+FM&lt;/code&gt;, 如果理解是对技术的不断机制追求的探索&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20171105</title>
@@ -1210,44 +1271,6 @@
     
       &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/memcached/memcached/wiki/Rele
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170723</title>
-    <link href="http://shevacjs.com/2017/07/23/20170723/"/>
-    <id>http://shevacjs.com/2017/07/23/20170723/</id>
-    <published>2017-07-23T06:15:31.000Z</published>
-    <updated>2017-07-21T06:46:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="https://stackoverflow.com/channels" target="_blank" rel="external">Stack Overflow Channels</a> : Stack Overflow Channel是SO新退出的产品功能, 用于支持一些组织或者机构内部的问题交流&amp;沉淀, 感觉对于一些中小企业还是有帮助的</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="http://coolshell.cn/articles/17998.html" target="_blank" rel="external">LINUX PID 1 和 SYSTEMD</a> :  关于linux启动的systemd和<code>init 1</code>的恩恩怨怨</p>
-</li>
-<li><p><a href="https://jvns.ca/blog/2017/07/05/linux-tracing-systems/" target="_blank" rel="external">Linux tracing systems &amp; how they fit together</a> : 对Linux系统的trace工具有个系统性的介绍和分类，可以加深我们对这些分类工具和系统的理解</p>
-</li>
-<li><p><a href="https://techcrunch.com/2017/07/18/yandex-open-sources-catboost-a-gradient-boosting-machine-learning-librar/" target="_blank" rel="external">Yandex open sources CatBoost, a gradient boosting machine learning library</a> :  一个新的梯度学习算法库，可以了解参考下</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="http://wetest.qq.com/lab/view/320.html" target="_blank" rel="external">性能百万/s：腾讯轻量级全局流控方案详解</a> : 可以看到比较具体的实现，<code>租赁</code>机制是个不错的创新，可以在性能和功能上面有个合适的折衷</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><a href="http://road.ruanyifeng.com/2007/2007-12-12-joel-spolsky.html" target="_blank" rel="external">Joel Spolsky 在耶鲁大学的演讲</a> : 生活是自己的，好好工作，好好生活</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://stackoverflow.com/channels&quot; target=&quot;_blank&quot;
     
     </summary>
     
