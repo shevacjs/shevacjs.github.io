@@ -57,6 +57,104 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-simple_rank_algo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/21/simple_rank_algo/">简单排序算法概述</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/11/21/simple_rank_algo/" class="article-date">
+  <time datetime="2017-11-21T12:01:29.000Z" itemprop="datePublished">2017-11-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>网上有很多这个方面的资料，这里做个简单的总结, 参考资料里面很多写的都很好</p>
+</blockquote>
+<p>主要介绍两个: Hacker News 和 Reddit</p>
+<h3 id="Hacker-News"><a href="#Hacker-News" class="headerlink" title="Hacker News"></a>Hacker News</h3><p>整体算法如下:</p>
+<p>$$ score = weight * \frac{(base-1)^{0.8}}{(time + 2)^G}$$</p>
+<p>几个关键因子:</p>
+<ul>
+<li>weigth : 对不同的类别，权重可以自定义</li>
+<li>time : 从提交时刻到现在的时间 (以小时计算)</li>
+<li>base : 物料的基本信息, 和业务相关，比如点赞数/评论等等</li>
+<li>G : 控制时间因子的敏感程度</li>
+</ul>
+<p>可以理解是和<code>内容质量(base)</code>/<code>内容分类(weight</code>)/<code>内容新鲜度相关</code>的一个排序算法</p>
+<p>如下可以分析出G对score的影响(敏感程度) :</p>
+<p><img src="/images/hacker_rank.png" alt="敏感程度"></p>
+<blockquote>
+<p>发现直接采用<code>notebook</code> + <code>pyplot</code> 绘制数学曲线还是非常有效的，建议!</p>
+</blockquote>
+<h3 id="Reddit"><a href="#Reddit" class="headerlink" title="Reddit"></a>Reddit</h3><p>如下:</p>
+<p>$$f(t_s, y, z) = log_{10}z + \frac{y*t_s}{45000}$$</p>
+<p>其中:</p>
+<ul>
+<li>$t_s$ : 发帖时间的时间戳</li>
+<li>$y$ : $y \in {-1, 0, 1}$, 且有:</li>
+</ul>
+<p>$$y = {\begin{array}{rl} 1 &amp; if\ x &gt; 0 \\  0  &amp; if \ x = 0 \\ -1 &amp; if\ x &lt; 0 \end{array} $$</p>
+<p>$$ x = U - D $$</p>
+<ul>
+<li>$$z = { \begin{array}{rl} |x| &amp; if|x| \geq 1 \\ 1 &amp; if |x| &lt; 1\end{array}$$</li>
+</ul>
+<p>从上面公式可以分析:</p>
+<ul>
+<li><p>发帖时间对score影响较大, 但是和hacker news不一样的是，发帖分数不会降低，不过新增的贴子分数会比较高</p>
+</li>
+<li><p>由于通过$log_{10}z$ 打平, 前10的投票效果和前100相差不会很大, 而且是算$(U-D)$,所有有争议的文章的分数也不会很高 </p>
+</li>
+</ul>
+<h3 id="分析总结"><a href="#分析总结" class="headerlink" title="分析总结"></a>分析总结</h3><ul>
+<li>reddit对时间较为不敏感，较好的文章可以保留更久, hacker news则不一样</li>
+<li>实现上面, reddit时间系数不变；所以只需要再文章up/down的时候更新score即可</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://www.cnblogs.com/zhengyun_ustc/archive/2010/12/15/amir.html" target="_blank" rel="external">Hacker News与Reddit的算法比较</a></li>
+<li><a href="http://fjdu.github.io/algorithm/2016/11/29/hacker-news-ranking-algorithm.html" target="_blank" rel="external">Hacker News 的排序算法</a></li>
+<li><p><a href="https://redditblog.com/2009/10/15/reddits-new-comment-sorting-system/" target="_blank" rel="external">reddit’s new comment sorting system</a></p>
+</li>
+<li><p><a href="https://moz.com/blog/reddit-stumbleupon-delicious-and-hacker-news-algorithms-exposed" target="_blank" rel="external">Reddit, Stumbleupon, Del.icio.us and Hacker News Algorithms Exposed!</a></p>
+</li>
+<li><p><a href="https://medium.com/hacking-and-gonzo/how-reddit-ranking-algorithms-work-ef111e33d0d9" target="_blank" rel="external">How Reddit ranking algorithms work</a> : 比较新的文章，分析也比较深入，比较推荐</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/misc/">misc</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20171112" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -65,15 +163,15 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/07/20171112/">weekly of 20171105</a>
+      <a class="article-title" href="/2017/11/20/20171112/">weekly of 20171112</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2017/11/07/20171112/" class="article-date">
-  <time datetime="2017-11-07T08:31:45.000Z" itemprop="datePublished">2017-11-07</time>
+      <a href="/2017/11/20/20171112/" class="article-date">
+  <time datetime="2017-11-20T08:31:45.000Z" itemprop="datePublished">2017-11-20</time>
 </a>
       
       
@@ -98,7 +196,7 @@
 </ul>
         
           <p class="article-more-link">
-            <a href="/2017/11/07/20171112/#more">Read More</a>
+            <a href="/2017/11/20/20171112/#more">Read More</a>
           </p>
         
       
@@ -608,69 +706,6 @@
 
 
     
-      <article id="post-20170917" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/18/20170917/">weekly of 20170917</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/09/18/20170917/" class="article-date">
-  <time datetime="2017-09-18T06:01:45.000Z" itemprop="datePublished">2017-09-18</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="https://blog.mozilla.org/firefox/introducing-firefox-multi-account-containers/" target="_blank" rel="external">Put your multiple personalities in Firefox Multi-Account Containers</a> :  Firefox新开发的<code>Muliti-Account Container</code>功能和机制, 可以使得你在一个浏览器上面拥有多个不同的帐号体系(比如工作/生活/娱乐), 改功能在<a href="https://news.ycombinator.com/item?id=15256603" target="_blank" rel="external">hacker news</a>倍受赞誉</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="http://jackhiston.com/2017/9/13/making-a-master-puppeteer/" target="_blank" rel="external">Making a Master Puppeteer</a> : 本文是最之前Chrome开放的<code>Puppeteer</code>(Chrome headless模式)的使用介绍和说明, 有助于大家对这个nodelib有个初步了解</p>
-</li>
-<li><p><a href="https://stackoverflow.com/questions/11227809/why-is-it-faster-to-process-a-sorted-array-than-an-unsorted-array" target="_blank" rel="external">Why is it faster to process a sorted array than an unsorted array?</a> : stack overflow上面一个非常高点赞(25K+)的问题, 分析为什么对一个已经排序好数组排序，速度会更快, 其主要原因认为在于排序好的数组在cpu做分支预测的时候会更准确, 上面的demo对于分支预测的解释非常准确, 可以深入了解</p>
-</li>
-<li><p><a href="https://github.com/agentzh/amazon-polly-batch" target="_blank" rel="external">agentzh: amazon-polly-batch</a> : “Convert large plain text files to MP3 files via Amazon Polly”, 这样你就可以随时随地练练自己的英语听力了。感觉<code>agentzh</code>的确是hacker极致的代表人物, 自己最近做诸多事情，都是偏眼高手低, 心态执行力太差，需要好好反思</p>
-</li>
-<li><p><a href="http://linuxperf.com/?p=83" target="_blank" rel="external">内核如何检测SOFT LOCKUP与HARD LOCKUP？</a> : 核心是有一个不可屏蔽的<code>NMI Watchdog</code>中断，可以定时检测和侦测</p>
-</li>
-</ul>
-        
-          <p class="article-more-link">
-            <a href="/2017/09/18/20170917/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
       </nav>
@@ -706,6 +741,23 @@
 
 
 <script src="/js/script.js"></script>
-  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 </body>
 </html>

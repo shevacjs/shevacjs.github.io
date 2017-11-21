@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2017-11-20T03:32:36.000Z</updated>
+  <updated>2017-11-21T12:02:59.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -16,11 +16,87 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>weekly of 20171105</title>
-    <link href="http://shevacjs.com/2017/11/07/20171112/"/>
-    <id>http://shevacjs.com/2017/11/07/20171112/</id>
-    <published>2017-11-07T08:31:45.000Z</published>
-    <updated>2017-11-20T03:32:36.000Z</updated>
+    <title>简单排序算法概述</title>
+    <link href="http://shevacjs.com/2017/11/21/simple_rank_algo/"/>
+    <id>http://shevacjs.com/2017/11/21/simple_rank_algo/</id>
+    <published>2017-11-21T12:01:29.000Z</published>
+    <updated>2017-11-21T12:02:59.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>网上有很多这个方面的资料，这里做个简单的总结, 参考资料里面很多写的都很好</p>
+</blockquote>
+<p>主要介绍两个: Hacker News 和 Reddit</p>
+<h3 id="Hacker-News"><a href="#Hacker-News" class="headerlink" title="Hacker News"></a>Hacker News</h3><p>整体算法如下:</p>
+<p>$$ score = weight * \frac{(base-1)^{0.8}}{(time + 2)^G}$$</p>
+<p>几个关键因子:</p>
+<ul>
+<li>weigth : 对不同的类别，权重可以自定义</li>
+<li>time : 从提交时刻到现在的时间 (以小时计算)</li>
+<li>base : 物料的基本信息, 和业务相关，比如点赞数/评论等等</li>
+<li>G : 控制时间因子的敏感程度</li>
+</ul>
+<p>可以理解是和<code>内容质量(base)</code>/<code>内容分类(weight</code>)/<code>内容新鲜度相关</code>的一个排序算法</p>
+<p>如下可以分析出G对score的影响(敏感程度) :</p>
+<p><img src="/images/hacker_rank.png" alt="敏感程度"></p>
+<blockquote>
+<p>发现直接采用<code>notebook</code> + <code>pyplot</code> 绘制数学曲线还是非常有效的，建议!</p>
+</blockquote>
+<h3 id="Reddit"><a href="#Reddit" class="headerlink" title="Reddit"></a>Reddit</h3><p>如下:</p>
+<p>$$f(t_s, y, z) = log_{10}z + \frac{y*t_s}{45000}$$</p>
+<p>其中:</p>
+<ul>
+<li>$t_s$ : 发帖时间的时间戳</li>
+<li>$y$ : $y \in {-1, 0, 1}$, 且有:</li>
+</ul>
+<p>$$y = {\begin{array}{rl} 1 &amp; if\ x &gt; 0 \\  0  &amp; if \ x = 0 \\ -1 &amp; if\ x &lt; 0 \end{array} $$</p>
+<p>$$ x = U - D $$</p>
+<ul>
+<li>$$z = { \begin{array}{rl} |x| &amp; if|x| \geq 1 \\ 1 &amp; if |x| &lt; 1\end{array}$$</li>
+</ul>
+<p>从上面公式可以分析:</p>
+<ul>
+<li><p>发帖时间对score影响较大, 但是和hacker news不一样的是，发帖分数不会降低，不过新增的贴子分数会比较高</p>
+</li>
+<li><p>由于通过$log_{10}z$ 打平, 前10的投票效果和前100相差不会很大, 而且是算$(U-D)$,所有有争议的文章的分数也不会很高 </p>
+</li>
+</ul>
+<h3 id="分析总结"><a href="#分析总结" class="headerlink" title="分析总结"></a>分析总结</h3><ul>
+<li>reddit对时间较为不敏感，较好的文章可以保留更久, hacker news则不一样</li>
+<li>实现上面, reddit时间系数不变；所以只需要再文章up/down的时候更新score即可</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://www.cnblogs.com/zhengyun_ustc/archive/2010/12/15/amir.html" target="_blank" rel="external">Hacker News与Reddit的算法比较</a></li>
+<li><a href="http://fjdu.github.io/algorithm/2016/11/29/hacker-news-ranking-algorithm.html" target="_blank" rel="external">Hacker News 的排序算法</a></li>
+<li><p><a href="https://redditblog.com/2009/10/15/reddits-new-comment-sorting-system/" target="_blank" rel="external">reddit’s new comment sorting system</a></p>
+</li>
+<li><p><a href="https://moz.com/blog/reddit-stumbleupon-delicious-and-hacker-news-algorithms-exposed" target="_blank" rel="external">Reddit, Stumbleupon, Del.icio.us and Hacker News Algorithms Exposed!</a></p>
+</li>
+<li><p><a href="https://medium.com/hacking-and-gonzo/how-reddit-ranking-algorithms-work-ef111e33d0d9" target="_blank" rel="external">How Reddit ranking algorithms work</a> : 比较新的文章，分析也比较深入，比较推荐</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;网上有很多这个方面的资料，这里做个简单的总结, 参考资料里面很多写的都很好&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;主要介绍两个: Hacker News 和 Reddit&lt;/p&gt;
+&lt;h3 id=&quot;Hacker-News&quot;&gt;&lt;a href=&quot;#H
+    
+    </summary>
+    
+    
+      <category term="misc" scheme="http://shevacjs.com/tags/misc/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>weekly of 20171112</title>
+    <link href="http://shevacjs.com/2017/11/20/20171112/"/>
+    <id>http://shevacjs.com/2017/11/20/20171112/</id>
+    <published>2017-11-20T08:31:45.000Z</published>
+    <updated>2017-11-21T12:03:14.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>最近略忙, 大部分weekly都延迟了</p>
@@ -1223,59 +1299,6 @@
     
     
       <category term="nginx" scheme="http://shevacjs.com/tags/nginx/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170730</title>
-    <link href="http://shevacjs.com/2017/07/31/20170730/"/>
-    <id>http://shevacjs.com/2017/07/31/20170730/</id>
-    <published>2017-07-31T12:43:11.000Z</published>
-    <updated>2017-07-31T12:43:18.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><a href="https://github.com/memcached/memcached/wiki/ReleaseNotes150" target="_blank" rel="external">Memcached 1.5.0 Release Notes</a> : 支持更丰富强大的LRU策略</p>
-</li>
-<li><p><a href="https://blogs.windows.com/windowsexperience/2017/07/24/ms-paint-stay/#7aOF1Y7VUckzCI8i.97" target="_blank" rel="external">MS Paint is here to stay</a> : <code>画图</code>软件，先说可能被win10放弃，后来不少用户表示遗憾；现在调整为在windows store可以下载</p>
-</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://hacks.mozilla.org/2017/07/the-next-generation-of-web-gaming/" target="_blank" rel="external">The Next Generation of Web Gaming</a> : Mozilla的官方blog论述近几年浏览器对web game的支持情况，包括<code>webassembly</code>, <code>SIMD</code>指令支持, <code>SharedArrayBuffer</code>等</p>
-</li>
-<li><p><a href="https://blogs.technet.microsoft.com/machinelearning/2017/07/25/lessons-learned-benchmarking-fast-machine-learning-algorithms/" target="_blank" rel="external">Lessons Learned From Benchmarking Fast Machine Learning Algorithms</a> : This blog shows the Microsoft’s efforts on <code>boosted decision trees</code> algrothim – LightGBM, which is think to be faster than XGBBoost; We can have a try later. </p>
-</li>
-<li><p><a href="http://codefine.co/2918.html" target="_blank" rel="external">Linux TCP Backlog机制分析</a> : 主要介绍了当半连接队列打满时候，客户端和服务端的行为, <code>tcp_abort_on_overflow</code> 可以控制不同的行为</p>
-</li>
-<li><p><a href="https://zhuanlan.zhihu.com/p/28197440" target="_blank" rel="external">《攻击者说企业安全》之终端安全建议</a> : 先mark里面的建议: <code>强烈推荐习惯 GPG，官网 http://gnupg.org，超强公私钥加密体系，其实习惯后，使用成本很低的，而且免费，以后一些重要文件需要传播，用 GPG 绝对是第一选择，顺便建议学学 gpg 命令</code></p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="http://www.52cs.org/?p=1851&amp;from=timeline&amp;isappinstalled=1" target="_blank" rel="external">点击率预估综述</a> :  对rank的排序算法有个非常系统和完整的介绍，理解了一部分，mark后继续</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/1y5WD_vRfoSmGPbJ2-e86Q" target="_blank" rel="external">如何直观解释卷积神经网络的工作原理？</a> : </p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="http://codebay.cn/post/3964.html" target="_blank" rel="external">调查显示：近半程序员认为上级技术水平不如自己</a> : 有点标题党，不过里面的其他一些信息还是有指导意义, 包括”程序员在未来三个月内想要学习的顶尖工具：Docker，Python，Angular，Ansible和Jenkins”</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=14842276" target="_blank" rel="external">Ask HN: What programming blogs do you follow?</a> : 有很多非常好的blog推荐, 先mark，后续看看怎么放到RSS上面</p>
-</li>
-<li><p><a href="http://ruder.io/deep-learning-nlp-best-practices/" target="_blank" rel="external">Deep Learning for NLP Best Practices</a> : 先mark</p>
-</li>
-<li><p><a href="https://medium.com/towards-data-science/symspell-vs-bk-tree-100x-faster-fuzzy-string-search-spell-checking-c4f10d80a078" target="_blank" rel="external">SymSpell vs. BK-tree: 100x faster fuzzy string search &amp; spell checking</a> : 也是只能先mark</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/memcached/memcached/wiki/Rele
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
     
   </entry>
   

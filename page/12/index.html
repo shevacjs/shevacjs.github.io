@@ -57,6 +57,97 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-loader_and_linker" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/02/01/loader_and_linker/">linux系统下的链接&amp;加载</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/02/01/loader_and_linker/" class="article-date">
+  <time datetime="2015-02-01T15:41:35.000Z" itemprop="datePublished">2015-02-01</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="静态库"><a href="#静态库" class="headerlink" title="静态库"></a>静态库</h2><p><code>.a</code>文件，一大堆<code>.o</code>文件的组合体，对于系统库而言，一般一个<code>.o</code>文件对于一个函数<br>静态文件的链接世界上就是一大堆<code>.o</code>文件的代码的合并&amp;段合并（比如把<code>.text</code>段合并起来），组成一个新的目标文件;<br>其核心要解决的问题包括:</p>
+<ul>
+<li>符号重定位 ： 不同obj文件里面的地址在调整之后，需要调整对应的一些地址（函数地址，变量地址等）；解决方案是每个obj都有一个重定位段，用于记录需要重定位的地址和符号信息(<code>.rel.text</code>,<code>.rel.data</code>等 )</li>
+<li>符号决策：强符号/弱符号</li>
+</ul>
+<p>总的来说，静态链接是比较简单，可以理解为就是简单的代码拷贝，加上基址重定位</p>
+<h2 id="动态库实现"><a href="#动态库实现" class="headerlink" title="动态库实现"></a>动态库实现</h2><p>如上，静态库存在两个比较大的问题：</p>
+<ul>
+<li>bin文件对存储空间的浪费</li>
+<li>执行时候对内存的浪费</li>
+</ul>
+<p>解决的思路很简单，就是让bin链接的库是动态加载的，一个简单的办法就是让上面做静态链接的过程放在程序的加载过程，也就是所谓的装载重定位(<code>-shared</code>标签)，但装载重定位存在一个问题就是，不同的bin的装载的地址不一致，导致加载进来的动态库的虚存地址也不一致，因此并不能起到节省内存的效果，如何解决呢？</p>
+<p>方法就是让编译出来的so地址无关，这样无论应用程序把so装载到那个地方，所有的经常都能恭喜相同的代码段。</p>
+<p>要生成地址无关的代码(<code>-fPIC</code>),解决也比较简单。由于每个so最终会主要包括两个段: text段和data段，其中text段是要共享的，data段是每个进程都会有的，而data和text的偏移量的固定的，因此所有的地址都可以先存在data段(<code>GOT表</code>)，然后访问的时候先去访问GOT表，获取真正的地址。</p>
+<p>事实上，为了优化动态库的加载速度等，系统还做了一些比如延迟加载等技术，这里就不深入探讨。</p>
+<h2 id="linux动态库的组织"><a href="#linux动态库的组织" class="headerlink" title="linux动态库的组织"></a>linux动态库的组织</h2><p>所谓的动态库的组织，其实就是要提供一个通用的机制方便其他elf文件加载&amp;链接，核心解决两个问题</p>
+<h3 id="去哪里找"><a href="#去哪里找" class="headerlink" title="去哪里找"></a>去哪里找</h3><ol>
+<li>系统路径: /lib, /usr/lib, /usr/loca/lib, 可以参看FHS规范</li>
+<li>配置查找路径: 查看<code>ld.so.con</code>配置的路径</li>
+<li>一些系统变量，比如LD_LIBRARY_PATH</li>
+</ol>
+<p>查找的规则顺序是3-&gt;2-&gt;1 </p>
+<p>其他一些可以关注的点包括: LD_PRELOAD, LD_DEBUG, -rpath</p>
+<h3 id="找哪个"><a href="#找哪个" class="headerlink" title="找哪个"></a>找哪个</h3><p>由于动态库可能会一直升级，基本我们找到了那个so，我们能否使用之，会不会版本太老或者太新等。为止，我们需要有相关的规范约定动态库能够被使用，具体来说，由如下三个部分沟通:</p>
+<h4 id="so版本库概念"><a href="#so版本库概念" class="headerlink" title="so版本库概念"></a>so版本库概念</h4><p>具体约定每个so按照如下命名规则:</p>
+<p>lib_name_.so._x_._y_._z_</p>
+<ul>
+<li>x : 主版本号,表示重大升级，不同主版本号可以不兼容</li>
+<li>y : 次版本号，表示增量升级，新建一些接口，且会兼容老的版本</li>
+<li>z : 发布版本号，一般表示库的错误的修正，不增加新的接口，兼容老版本</li>
+</ul>
+<p>由上，我们只要保证一个程序在查找so的时候满足如下规则即可:</p>
+<ul>
+<li>相同的主版本号</li>
+<li>查找到次版本号高于或者等于程序需要的此版本号</li>
+</ul>
+<h4 id="so-name"><a href="#so-name" class="headerlink" title="so-name"></a>so-name</h4><p>so-name简单的说，就是表示一个程序要链接的so-name，so-name是可以让应用程序就记录<code>so-name</code>，而非具体的so的版本信息，故<code>so-name</code>主要定义如下:</p>
+<ul>
+<li>每个so-name 包括libname和主版本号信息，比如libtest.2，2是主版本</li>
+<li>由于主版本不能保证指向的so能兼容所有程序，姑系统会让<code>so-name</code>指向该主版本对应的最高的此版本so,比如:</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">ll libtest.so.2</div><div class="line">libtest.so.2 -&gt; libtest.so.2.4.1 [2.4是最高的次版本]</div></pre></td></tr></table></figure>
+<p>在ELF文件<code>.dynamic</code>段里面记录的链接库信息就是用的so-name</p>
+<p>同时为了保证总能指向最新的此版本so，当so升级的时候，需要运行<code>ldconfig</code>去调整so-name对应的软连接</p>
+<h4 id="符号版本机制"><a href="#符号版本机制" class="headerlink" title="符号版本机制"></a>符号版本机制</h4><p>so-name虽然能解决很大一部分问题，但是有时候，我们希望做更细粒度的控制，比如如果一个so升级了，但是其中部分函数没有修改，我们依旧希望这个部分的代码能被老版本的ELF使用，怎么做呢？很多简单，就是给每个符号加一个版本信息</p>
+<p>当在linux gcc下面其实上述符号版本并没有大规模使用，gcc通报拆分so（glibc软件包提供了20多个共享库）,来达到细粒度控制so版本的目标。</p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>一些异类，主要是两类 最核心的so，包括:</p>
+<ul>
+<li>glibc :</li>
+<li>ld : </li>
+</ul>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-Distributed_systems_for_fun_and_profit" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
