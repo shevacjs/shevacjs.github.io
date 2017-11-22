@@ -14,7 +14,7 @@
 <meta property="og:description" content="网上有很多这个方面的资料，这里做个简单的总结, 参考资料里面很多写的都很好  主要介绍两个: Hacker News 和 Reddit Hacker News整体算法如下: $$ score = weight * \frac{(base-1)^{0.8}}{(time + 2)^G}$$ 几个关键因子:  weigth : 对不同的类别，权重可以自定义 time : 从提交时刻到现在的时间 (">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://shevacjs.com/images/hacker_rank.png">
-<meta property="og:updated_time" content="2017-11-21T12:02:59.000Z">
+<meta property="og:updated_time" content="2017-11-22T04:33:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="简单排序算法概述">
 <meta name="twitter:description" content="网上有很多这个方面的资料，这里做个简单的总结, 参考资料里面很多写的都很好  主要介绍两个: Hacker News 和 Reddit Hacker News整体算法如下: $$ score = weight * \frac{(base-1)^{0.8}}{(time + 2)^G}$$ 几个关键因子:  weigth : 对不同的类别，权重可以自定义 time : 从提交时刻到现在的时间 (">
@@ -109,11 +109,15 @@
 <li>$t_s$ : 发帖时间的时间戳</li>
 <li>$y$ : $y \in {-1, 0, 1}$, 且有:</li>
 </ul>
-<p>$$y = {\begin{array}{rl} 1 &amp; if\ x &gt; 0 \\  0  &amp; if \ x = 0 \\ -1 &amp; if\ x &lt; 0 \end{array} $$</p>
+<p>$$<br>y = \begin{cases}<br>    1 &amp; \text{if x &gt; 0} \\<br>    0 &amp; \text{if x = 0} \\<br>   -1 &amp; \text{if x &lt; 0}<br>    \end{cases}<br>$$</p>
+<ul>
+<li>$x$, 其为$U$,$D$之差，前者为正反馈数量(比如点赞/评论)，后者为负反馈数量(比如踩之类的)</li>
+</ul>
 <p>$$ x = U - D $$</p>
 <ul>
-<li>$$z = { \begin{array}{rl} |x| &amp; if|x| \geq 1 \\ 1 &amp; if |x| &lt; 1\end{array}$$</li>
+<li>而z者为：</li>
 </ul>
+<p>$$<br>z = \begin{cases}<br>     |x| &amp; \text{if |x| } \geq 1  \\<br>         1 &amp; \text{if |x| &lt; 1 }<br>     \end{cases}<br>$$</p>
 <p>从上面公式可以分析:</p>
 <ul>
 <li><p>发帖时间对score影响较大, 但是和hacker news不一样的是，发帖分数不会降低，不过新增的贴子分数会比较高</p>
