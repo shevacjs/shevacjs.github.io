@@ -57,6 +57,59 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-nginx_and_http2_apply" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/21/nginx_and_http2_apply/">Nginx and Http2 应用篇</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/09/21/nginx_and_http2_apply/" class="article-date">
+  <time datetime="2017-09-21T11:39:07.000Z" itemprop="datePublished">2017-09-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/gubeishuizhan.jpg" alt="古北水镇"></p>
+<p><a href="https://tools.ietf.org/html/rfc7540" target="_blank" rel="external">http2协议</a> 一直被认为是这几年对互联网有着重要影响的新协议，业内对其的支持也是非常迅速和快捷的; 作为一个快速迭代的开源软件nginx，也是保持住对http2的快速支持，从最早的spdy到现在的http2，nginx都是<code>刚为天下先</code>的; 随着相关协议和实现的不断落地，不少大的互联网公司都已经支持http2的访问模式, 比如过google, cloudflare, facebook, 国内的腾讯,天猫也支持了(可以安装<a href="https://chrome.google.com/webstore/detail/http2-and-spdy-indicator/mpbpobfflnpcgagjijhmgnchggcjblin?hl=en" target="_blank" rel="external">HTTP/2 and SPDY indicator</a>这个chrome插件显示)</p>
+<p>这里，要从两个方面的实践去了解https，包括应用篇，具体而已就是通过自己构造client/server, 去了解应用https服务的方方面面；其次是实践篇，重点去分析nginx的代码。 本篇文章主要介绍应用篇的内容</p>
+        
+          <p class="article-more-link">
+            <a href="/2017/09/21/nginx_and_http2_apply/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx-http2/">nginx, http2</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20170917" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -591,64 +644,6 @@
         
           <p class="article-more-link">
             <a href="/2017/08/03/nginx_1_13_1_and_2/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-nginx_1_13_0" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/02/nginx_1_13_0/">nginx 1.13.0 版本说明</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/08/02/nginx_1_13_0/" class="article-date">
-  <time datetime="2017-08-02T06:17:29.000Z" itemprop="datePublished">2017-08-02</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="原始feature说明"><a href="#原始feature说明" class="headerlink" title="原始feature说明"></a>原始feature说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">*) Change: SSL renegotiation is now allowed on backend connections.</div><div class="line"></div><div class="line">*) Feature: the &quot;rcvbuf&quot; and &quot;sndbuf&quot; parameters of the &quot;listen&quot;</div><div class="line">   directives of the mail proxy and stream modules.</div><div class="line"></div><div class="line">*) Feature: the &quot;return&quot; and &quot;error_page&quot; directives can now be used to</div><div class="line">   return 308 redirections.</div><div class="line">   Thanks to Simon Leblanc.</div><div class="line"></div><div class="line">*) Feature: the &quot;TLSv1.3&quot; parameter of the &quot;ssl_protocols&quot; directive.</div><div class="line"></div><div class="line">*) Feature: when logging signals nginx now logs PID of the process which</div><div class="line">   sent the signal.</div><div class="line"></div><div class="line">*) Bugfix: in memory allocation error handling.</div><div class="line"></div><div class="line">*) Bugfix: if a server in the stream module listened on a wildcard</div><div class="line">   address, the source address of a response UDP datagram could differ</div><div class="line">   from the original datagram destination address.</div></pre></td></tr></table></figure>
-<p>我们主要关系其新增的feature, 包括:</p>
-<ul>
-<li>return/error_page支持308状态码</li>
-<li>nginx收到信号的时候，支持打印信号源的pid</li>
-<li><code>ssl_protocols</code> 支持 TLSv1.3 协议</li>
-</ul>
-<p><code>TLS 1.3</code>协议是一个比较先进的新协议, 这里先不展开，我们重点介绍前两个功能特性的作用和简单实现</p>
-        
-          <p class="article-more-link">
-            <a href="/2017/08/02/nginx_1_13_0/#more">Read More</a>
           </p>
         
       

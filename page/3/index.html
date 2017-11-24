@@ -57,6 +57,64 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-nginx_1_13_0" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/02/nginx_1_13_0/">nginx 1.13.0 版本说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/08/02/nginx_1_13_0/" class="article-date">
+  <time datetime="2017-08-02T06:17:29.000Z" itemprop="datePublished">2017-08-02</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="原始feature说明"><a href="#原始feature说明" class="headerlink" title="原始feature说明"></a>原始feature说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">*) Change: SSL renegotiation is now allowed on backend connections.</div><div class="line"></div><div class="line">*) Feature: the &quot;rcvbuf&quot; and &quot;sndbuf&quot; parameters of the &quot;listen&quot;</div><div class="line">   directives of the mail proxy and stream modules.</div><div class="line"></div><div class="line">*) Feature: the &quot;return&quot; and &quot;error_page&quot; directives can now be used to</div><div class="line">   return 308 redirections.</div><div class="line">   Thanks to Simon Leblanc.</div><div class="line"></div><div class="line">*) Feature: the &quot;TLSv1.3&quot; parameter of the &quot;ssl_protocols&quot; directive.</div><div class="line"></div><div class="line">*) Feature: when logging signals nginx now logs PID of the process which</div><div class="line">   sent the signal.</div><div class="line"></div><div class="line">*) Bugfix: in memory allocation error handling.</div><div class="line"></div><div class="line">*) Bugfix: if a server in the stream module listened on a wildcard</div><div class="line">   address, the source address of a response UDP datagram could differ</div><div class="line">   from the original datagram destination address.</div></pre></td></tr></table></figure>
+<p>我们主要关系其新增的feature, 包括:</p>
+<ul>
+<li>return/error_page支持308状态码</li>
+<li>nginx收到信号的时候，支持打印信号源的pid</li>
+<li><code>ssl_protocols</code> 支持 TLSv1.3 协议</li>
+</ul>
+<p><code>TLS 1.3</code>协议是一个比较先进的新协议, 这里先不展开，我们重点介绍前两个功能特性的作用和简单实现</p>
+        
+          <p class="article-more-link">
+            <a href="/2017/08/02/nginx_1_13_0/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20170730" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -183,6 +241,116 @@
       <footer class="article-footer">
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-Supervised_Learning" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/21/Supervised_Learning/">Supervised learning ： Linear Regression</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/07/21/Supervised_Learning/" class="article-date">
+  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>chenjiansen from CS229 Lecture notes by Andrew Ng</p>
+</blockquote>
+<p>本文简单介绍下线性回归的基本思想和算法</p>
+<h3 id="基本定义"><a href="#基本定义" class="headerlink" title="基本定义"></a>基本定义</h3><p>设有 :  </p>
+<p>$$X = { x^{(1)},  x^{(2)}, … , x^{(m)} }$$<br>$$Y = { y^{(1)},   y^{(2)}, … , y^{(m)} }$$</p>
+<p>X表示输入集合，Y则代表对应的输出，则对于任意$x^{(i)}$, 有$x^{(i)} = {x_1, x_2,x_3, … x_n }$, 也就是我们假设这个数据集有<code>m</code>个元素，每个元素是<code>n</code>个维度的</p>
+<p>同时，目标预测函数满足线性回归，则我们的假设函数可以写成: </p>
+<p>$$h_\theta(x) = \theta_0 + \theta_1x_1 + \theta_2x_2 + … + \theta_nx_n = \sum_{i=0}^{n}\theta_ix_i = \theta^TX$$</p>
+<p>同时定义我们的<code>cost function</code> ，我们可以把他定义为<code>差的平方和</code>(具体后面会解释为什么可以这样定义) : </p>
+<p>$$ J(\theta) = \frac{1}{2} \sum_{i=0}^m(h_{(\theta)}(x^{(i)}) - y^{(i)})^2$$</p>
+<p>则我们的问题可以简化为, 给定数据集合$X, Y$,  求让$J(\theta)$ 最小的$\theta$</p>
+<h3 id="优化算法"><a href="#优化算法" class="headerlink" title="优化算法"></a>优化算法</h3><p>最优化算法有非常多，这里面主要介绍两种最优化算法，包括<code>梯度下降法</code>和<code>最小二乘法</code>，下面分别说明 : </p>
+<h4 id="梯度下降法"><a href="#梯度下降法" class="headerlink" title="梯度下降法"></a>梯度下降法</h4><p>考虑到上面定义的cost function，梯度下降法在这边的应用可以直接的表示为 : </p>
+<p>$$ \theta_j : \theta_j - \alpha \frac{\partial}{\partial\theta} J(\theta)$$</p>
+<p>其中$\alpha$表示下降的速度，$ j = { 0, 1, 2, … , n}$</p>
+<p>下面我们来求解上面那个方程，简单起见，我们考虑只有一个样本的情况，如下: </p>
+<p>$$ \frac{\partial}{\partial \theta} J(\theta) = \frac{1}{2} \ast 2 (h_{(\theta)}(x^{(i)}) - y^{(i)})  \ast \frac{\partial}{\partial\theta}{(h_{(\theta)}(x^{(i)} -y^{(i)})}$$</p>
+<p>$$ = (h_{(\theta)}(x^{(i)}) - y^{(i)}) \ast \frac{\partial}{\partial\theta}{(\theta^TX -y^{(i)})} $$</p>
+<p>$$ = (h_{(\theta)}(x^{(i)}) - y^{(i)}) \ast  x_j$$</p>
+<p>也就是可以表示为:<br>$$ \theta_j =  \theta_j + \alpha \ast (h_{\theta}(x^{(i)}) - y^{(i)}) \ast  x_j $$</p>
+<p>则一般在实际应用的时候，可以有两个办法：</p>
+<p>第一个办法称为<code>batch gradient descent</code>,  大概算法如下 : </p>
+<p>Repeat until convergence {<br>$$\theta_j = \theta_j + \alpha \sum_{i=0}^{m}( y^{(i)} - h_{\theta}(x^{(i)}) $$<br>[ for every j ]<br>}</p>
+<p>第二个办法成为<code>incremental gradient descent</code> , 大概形式如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Loop &#123;</div><div class="line">	for i = 1 to m &#123;</div></pre></td></tr></table></figure></p>
+<p>$        \theta_j = \theta_j + \alpha \ast ( y^{(i)} - h_{\theta}(x^{(i)})  $ ( for every j)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到: </p>
+<ul>
+<li><p>批量梯度下降: 最小化所有训练样本的损失函数，使得最终求解的是全局的最优解，即求解的参数是使得风险函数最小，但是对于大规模样本问题效率低下；每迭代一次需要的计算量约为<code>m*n^2</code>，如果m很大的话，性能上面会有比较大的压力</p>
+</li>
+<li><p>随机梯度下降 : 最小化每条样本的损失函数，虽然不是每次迭代得到的损失函数都向着全局最优方向， 但是大的整体的方向是向全局最优解的，最终的结果往往是在全局最优解附近，适用于大规模训练样本情况。</p>
+</li>
+</ul>
+<h4 id="最小二乘法"><a href="#最小二乘法" class="headerlink" title="最小二乘法"></a>最小二乘法</h4><p>上面的优化问题，也可以用最小二乘法求解，依照输入的情况，我们定义如下几个变量 :</p>
+<ul>
+<li>矩阵 A :  m*n矩阵， 行向量 $x^{(j)}  $ 代表一个样本 </li>
+<li>向量$\overrightarrow{\theta}$ : n*1 向量，也就是我们要求解的参数向量</li>
+<li>向量 $\overrightarrow{y}$ :  m*1 向量，每个元素$y^{(i)}$, 对应着输入样本$x^{(i)}$的值</li>
+</ul>
+<p>则我们的问题可以转换为，求解向量$\overrightarrow{\theta}$, 使得 : </p>
+<p>$$ A \overrightarrow {\theta} = \overrightarrow{y} $$</p>
+<p>有最优解或者有解；无论矩阵A是否可逆那个，我们知道最小二乘的解为 (具体证明下面另述):</p>
+<p>$$ \overrightarrow {\theta} = (A^TA)^{(-1)} A^T \overrightarrow{y} $$ </p>
+<blockquote>
+<p>个人理解: 缺点应该是整体的计算量会非常大</p>
+</blockquote>
+<h3 id="概率解释"><a href="#概率解释" class="headerlink" title="概率解释"></a>概率解释</h3><p>上面说到，我们使用<code>least-squares function</code> 来定义我们的cost function；下面简单说明，如此定义的合理性；</p>
+<p>首先，对于预测结果和实际结果的关系，我们可以用如下式子说明 : </p>
+<p>$$ y^{(i)} = \theta^T x^{(i)} + \epsilon^{(i)}$$</p>
+<p>其中 $\epsilon^{(i)}$ 代表着我们的预估结果误差；</p>
+<p>现在我们假设$\epsilon^{(i)}$ 满足正态分布，也就是$\epsilon^{(i)} \sim \aleph (0, \sigma^2)$ , 则有: </p>
+<p>$$ p(y^{(i)} |  x^{(i)}, \theta ) = \frac{1}{\sqrt{2\pi}\sigma} exp (-\frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2\sigma^2})$$</p>
+<p>同样，现在我们面临的问题是，给定了集合${X, Y}$ , 需要预估一个合理的$\theta$,  所以我们定义似然函数如下: </p>
+<p>$$ L(\theta) = L(\theta; X, \overrightarrow{y}) = p(\overrightarrow{y} | X; \theta)$$</p>
+<p>如上，我们考虑到所有的$\epsilon^{(i)}$ 是独立的，所以有 ： </p>
+<p>$$L(\theta) = \prod_{i=1}^{m} \frac{1}{\sqrt{2\pi}\sigma} exp (-\frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2\sigma^2}) $$</p>
+<p>现在就是要求这个函数的最大值, 我们求解<code>log likehood</code>的情况: </p>
+<p>$$ l(\theta) = log L(\theta) = log \prod_{i=1}^{m} \frac{1}{\sqrt{2\pi}\sigma} exp (-\frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2\sigma^2})  $$</p>
+<p>$$ = \sum_{i=0}^{m} log \frac{1}{\sqrt{2\pi}\sigma} exp (-\frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2\sigma^2})$$</p>
+<p>$$ = m  \ast log \frac{1}{\sqrt{2\pi}\sigma}  - \frac{1}{\sigma^2} \ast \frac{1}{2} \sum_{i=1}^{m}(y^{(i)} - \theta^Tx^{(i)})^2$$</p>
+<p>也就是令 $\frac{1}{2} \sum_{i=1}^{m}(y^{(i)} - \theta^Tx^{(i)})^2 $为最小值的时候其概率最大； 正好对应着我们定义的<code>cost function</code></p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="http://www.cnblogs.com/maybe2030/p/4751804.html" target="_blank" rel="external">常见的几种最优化方法</a> : 几个常见的优化算法，说的非常详细</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
 
       </footer>
     
@@ -469,116 +637,6 @@
 
 
     
-      <article id="post-Supervised_Learning" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/21/Supervised_Learning/">Supervised learning ： Linear Regression</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/07/21/Supervised_Learning/" class="article-date">
-  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>chenjiansen from CS229 Lecture notes by Andrew Ng</p>
-</blockquote>
-<p>本文简单介绍下线性回归的基本思想和算法</p>
-<h3 id="基本定义"><a href="#基本定义" class="headerlink" title="基本定义"></a>基本定义</h3><p>设有 :  </p>
-<p>$$X = { x^{(1)},  x^{(2)}, … , x^{(m)} }$$<br>$$Y = { y^{(1)},   y^{(2)}, … , y^{(m)} }$$</p>
-<p>X表示输入集合，Y则代表对应的输出，则对于任意$x^{(i)}$, 有$x^{(i)} = {x_1, x_2,x_3, … x_n }$, 也就是我们假设这个数据集有<code>m</code>个元素，每个元素是<code>n</code>个维度的</p>
-<p>同时，目标预测函数满足线性回归，则我们的假设函数可以写成: </p>
-<p>$$h_\theta(x) = \theta_0 + \theta_1x_1 + \theta_2x_2 + … + \theta_nx_n = \sum_{i=0}^{n}\theta_ix_i = \theta^TX$$</p>
-<p>同时定义我们的<code>cost function</code> ，我们可以把他定义为<code>差的平方和</code>(具体后面会解释为什么可以这样定义) : </p>
-<p>$$ J(\theta) = \frac{1}{2} \sum_{i=0}^m(h_{(\theta)}(x^{(i)}) - y^{(i)})^2$$</p>
-<p>则我们的问题可以简化为, 给定数据集合$X, Y$,  求让$J(\theta)$ 最小的$\theta$</p>
-<h3 id="优化算法"><a href="#优化算法" class="headerlink" title="优化算法"></a>优化算法</h3><p>最优化算法有非常多，这里面主要介绍两种最优化算法，包括<code>梯度下降法</code>和<code>最小二乘法</code>，下面分别说明 : </p>
-<h4 id="梯度下降法"><a href="#梯度下降法" class="headerlink" title="梯度下降法"></a>梯度下降法</h4><p>考虑到上面定义的cost function，梯度下降法在这边的应用可以直接的表示为 : </p>
-<p>$$ \theta_j : \theta_j - \alpha \frac{\partial}{\partial\theta} J(\theta)$$</p>
-<p>其中$\alpha$表示下降的速度，$ j = { 0, 1, 2, … , n}$</p>
-<p>下面我们来求解上面那个方程，简单起见，我们考虑只有一个样本的情况，如下: </p>
-<p>$$ \frac{\partial}{\partial \theta} J(\theta) = \frac{1}{2} \ast 2 (h_{(\theta)}(x^{(i)}) - y^{(i)})  \ast \frac{\partial}{\partial\theta}{(h_{(\theta)}(x^{(i)} -y^{(i)})}$$</p>
-<p>$$ = (h_{(\theta)}(x^{(i)}) - y^{(i)}) \ast \frac{\partial}{\partial\theta}{(\theta^TX -y^{(i)})} $$</p>
-<p>$$ = (h_{(\theta)}(x^{(i)}) - y^{(i)}) \ast  x_j$$</p>
-<p>也就是可以表示为:<br>$$ \theta_j =  \theta_j + \alpha \ast (h_{\theta}(x^{(i)}) - y^{(i)}) \ast  x_j $$</p>
-<p>则一般在实际应用的时候，可以有两个办法：</p>
-<p>第一个办法称为<code>batch gradient descent</code>,  大概算法如下 : </p>
-<p>Repeat until convergence {<br>$$\theta_j = \theta_j + \alpha \sum_{i=0}^{m}( y^{(i)} - h_{\theta}(x^{(i)}) $$<br>[ for every j ]<br>}</p>
-<p>第二个办法成为<code>incremental gradient descent</code> , 大概形式如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Loop &#123;</div><div class="line">	for i = 1 to m &#123;</div></pre></td></tr></table></figure></p>
-<p>$        \theta_j = \theta_j + \alpha \ast ( y^{(i)} - h_{\theta}(x^{(i)})  $ ( for every j)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>可以看到: </p>
-<ul>
-<li><p>批量梯度下降: 最小化所有训练样本的损失函数，使得最终求解的是全局的最优解，即求解的参数是使得风险函数最小，但是对于大规模样本问题效率低下；每迭代一次需要的计算量约为<code>m*n^2</code>，如果m很大的话，性能上面会有比较大的压力</p>
-</li>
-<li><p>随机梯度下降 : 最小化每条样本的损失函数，虽然不是每次迭代得到的损失函数都向着全局最优方向， 但是大的整体的方向是向全局最优解的，最终的结果往往是在全局最优解附近，适用于大规模训练样本情况。</p>
-</li>
-</ul>
-<h4 id="最小二乘法"><a href="#最小二乘法" class="headerlink" title="最小二乘法"></a>最小二乘法</h4><p>上面的优化问题，也可以用最小二乘法求解，依照输入的情况，我们定义如下几个变量 :</p>
-<ul>
-<li>矩阵 A :  m*n矩阵， 行向量 $x^{(j)}  $ 代表一个样本 </li>
-<li>向量$\overrightarrow{\theta}$ : n*1 向量，也就是我们要求解的参数向量</li>
-<li>向量 $\overrightarrow{y}$ :  m*1 向量，每个元素$y^{(i)}$, 对应着输入样本$x^{(i)}$的值</li>
-</ul>
-<p>则我们的问题可以转换为，求解向量$\overrightarrow{\theta}$, 使得 : </p>
-<p>$$ A \overrightarrow {\theta} = \overrightarrow{y} $$</p>
-<p>有最优解或者有解；无论矩阵A是否可逆那个，我们知道最小二乘的解为 (具体证明下面另述):</p>
-<p>$$ \overrightarrow {\theta} = (A^TA)^{(-1)} A^T \overrightarrow{y} $$ </p>
-<blockquote>
-<p>个人理解: 缺点应该是整体的计算量会非常大</p>
-</blockquote>
-<h3 id="概率解释"><a href="#概率解释" class="headerlink" title="概率解释"></a>概率解释</h3><p>上面说到，我们使用<code>least-squares function</code> 来定义我们的cost function；下面简单说明，如此定义的合理性；</p>
-<p>首先，对于预测结果和实际结果的关系，我们可以用如下式子说明 : </p>
-<p>$$ y^{(i)} = \theta^T x^{(i)} + \epsilon^{(i)}$$</p>
-<p>其中 $\epsilon^{(i)}$ 代表着我们的预估结果误差；</p>
-<p>现在我们假设$\epsilon^{(i)}$ 满足正态分布，也就是$\epsilon^{(i)} \sim \aleph (0, \sigma^2)$ , 则有: </p>
-<p>$$ p(y^{(i)} |  x^{(i)}, \theta ) = \frac{1}{\sqrt{2\pi}\sigma} exp (-\frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2\sigma^2})$$</p>
-<p>同样，现在我们面临的问题是，给定了集合${X, Y}$ , 需要预估一个合理的$\theta$,  所以我们定义似然函数如下: </p>
-<p>$$ L(\theta) = L(\theta; X, \overrightarrow{y}) = p(\overrightarrow{y} | X; \theta)$$</p>
-<p>如上，我们考虑到所有的$\epsilon^{(i)}$ 是独立的，所以有 ： </p>
-<p>$$L(\theta) = \prod_{i=1}^{m} \frac{1}{\sqrt{2\pi}\sigma} exp (-\frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2\sigma^2}) $$</p>
-<p>现在就是要求这个函数的最大值, 我们求解<code>log likehood</code>的情况: </p>
-<p>$$ l(\theta) = log L(\theta) = log \prod_{i=1}^{m} \frac{1}{\sqrt{2\pi}\sigma} exp (-\frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2\sigma^2})  $$</p>
-<p>$$ = \sum_{i=0}^{m} log \frac{1}{\sqrt{2\pi}\sigma} exp (-\frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2\sigma^2})$$</p>
-<p>$$ = m  \ast log \frac{1}{\sqrt{2\pi}\sigma}  - \frac{1}{\sigma^2} \ast \frac{1}{2} \sum_{i=1}^{m}(y^{(i)} - \theta^Tx^{(i)})^2$$</p>
-<p>也就是令 $\frac{1}{2} \sum_{i=1}^{m}(y^{(i)} - \theta^Tx^{(i)})^2 $为最小值的时候其概率最大； 正好对应着我们定义的<code>cost function</code></p>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
-<li><a href="http://www.cnblogs.com/maybe2030/p/4751804.html" target="_blank" rel="external">常见的几种最优化方法</a> : 几个常见的优化算法，说的非常详细</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <article id="post-bayes" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -764,90 +822,6 @@
 <li><p><a href="http://www.yinwang.org/blog-cn/2017/07/06/master-pl" target="_blank" rel="external">如何掌握所有的程序语言</a> : 王垠的新文章，关于如何学习所有语言的, 可以试试”自己实现所有的语言特性”, 相关推荐的文章包括<a href="https://www.zhihu.com/question/62097662" target="_blank" rel="external">知乎: 如何评价王垠新博文《如何掌握所有的程序语言》？</a> 以及 <a href="http://www.yinwang.org/blog-cn/2017/05/23/kotlin" target="_blank" rel="external">Kotlin 和 Checked Exception</a> 介绍checked exception</p>
 </li>
 <li><p><a href="https://medium.com/@matelabs_ai/public-data-sets-use-these-to-train-machine-learning-models-on-mateverse-4dda18a27851" target="_blank" rel="external">Public Data Sets: Use these to train Machine Learning models on Mateverse</a> : 推荐的一些公开的dataset, mark下</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20170702" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/02/20170702/">weekly of 20170702</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/07/02/20170702/" class="article-date">
-  <time datetime="2017-07-02T06:15:29.000Z" itemprop="datePublished">2017-07-02</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="https://news.ycombinator.com/item?id=14663790" target="_blank" rel="external">Analysis of the Alexa Top 1M sites (mozilla.org)</a> : 对前100W流量的网站的安全设施的分析(包括http头部, csp策略等), 总体的结论是，趋势来看，网站的安全保障性是越来越好的; 评论上面两个论点可以关注，其一是<a href="https://ejj.io/cost-of-security-headers/" target="_blank" rel="external">The Cost Of Security Headers</a> 注重说明 任何安全设施都不是免费午餐, 落地实践需要考虑相关的副作用，包括<code>HTTP Public Key Pinning (HPKP)</code> 或者 <code>HTTP Strict Transport Security</code>, 另外是一个paper, <a href="https://www.sba-research.org/wp-content/uploads/publications/usenixTLSpreprint.pdf" target="_blank" rel="external">On the Usability of Deploying HTTPS</a> 讨论https落地部署的可行性(包括简便，可持续等)</li>
-</ul>
-<ul>
-<li><a href="https://github.com/Microsoft/ELL" target="_blank" rel="external">Microsoft: Embedded Learning Library</a> : The Embedded Learning Library (ELL) allows you to build and deploy machine-learned pipelines onto embedded platforms, like Raspberry Pis, Arduinos, micro:bits, and other microcontrollers. </li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://engineering.talkdesk.com/stream-processing-metamorphosis-9b97f75097a" target="_blank" rel="external">Stream Processing Metamorphosis - A Kafka’s tale</a> : 可以理解是kafka的软文, 现在对kafaka印象也是不错的</p>
-</li>
-<li><p><a href="https://0x0d.im/archives/get-visitor-qq-number-through-dns-rebinding.html" target="_blank" rel="external">通过 DNS Rebinding 获取访客 QQ 号</a> : 对Mac QQ的漏洞的介绍, 好像此漏洞已经修复了, 不过里面的两个推荐文章可以关注，包括<a href="https://ricterz.me/posts/Use%20DNS%20Rebinding%20to%20Bypass%20IP%20Restriction" target="_blank" rel="external">Use DNS Rebinding to Bypass IP Restriction</a> 和 <a href="http://blog.knownsec.com/2015/03/jsonp_security_technic/" target="_blank" rel="external">JSONP 安全攻防技术</a></p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650996610&amp;idx=1&amp;sn=f5f59cfe8ab83613600b9efc0906d5c5" target="_blank" rel="external">微信后台基于时间序的海量数据冷热分级架构设计实践</a> : 感觉非常奇怪的设计，微信的几个系统设计感觉都非常奇怪；脱离社区，可用性扩展性感觉偏弱；不知道是不是真的是因为他们的流量太大导致还是其他方面的因素</p>
-</li>
-<li><p><a href="http://tech.meituan.com/thrifycopy_and_faultdrill_system.html" target="_blank" rel="external">美团点评酒店后台故障演练系统</a> : 在线压测的系统看过很多，总感觉没有特别满意和靠谱的，大多数系统的普适性都不是很强</p>
-</li>
-<li><p><a href="http://ticki.github.io/blog/how-lz4-works/" target="_blank" rel="external">How LZ4 works</a> : LZ4的工作机制和原理, mark，没完成看懂</p>
-</li>
-<li><p><a href="https://fly.io/articles/why-fast-pages-are-important/" target="_blank" rel="external">Why App Speed Matters: Revenue</a> : 关于速度和收入的关系, 有个不是那么完美的论述</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=14670602" target="_blank" rel="external">Apache RocketMQ</a> : 阿里开源解决方案RocketMQ的介绍</p>
-</li>
-<li><p><a href="https://blog.vivekpanyam.com/scaling-a-web-service-load-balancing/" target="_blank" rel="external">Scaling a Web Service: Load Balancing</a> : 对LB的介绍还是非常系统</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="http://www.freebuf.com/news/137844.html" target="_blank" rel="external">Google和必应都无法替代的10大深网搜索引擎</a> : 先mark，里面的东西可以试试</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=14642193" target="_blank" rel="external">How https works</a> : 关键看评论, 里面推荐了不少干货和问题</p>
-</li>
-<li><p><a href="http://xyz.insightdataengineering.com/blog/pipeline_map/" target="_blank" rel="external">Interactive map for architecting big data pipelines</a> : 交互式的大数据的技术栈的展示</p>
-</li>
-<li><p><a href="https://ying-zhang.github.io/cloud/2017/spanner-truetime-cap/" target="_blank" rel="external">Spanner, TrueTime 和CAP理论</a> : 英文的翻译版，可以加上对spanner设计的理解</p>
-</li>
-<li><p><a href="https://www.zhihu.com/question/20830906/answer/190831888" target="_blank" rel="external">deep learning 可以用来做推荐系统吗？</a> : 可以了解下</p>
 </li>
 </ul>
 

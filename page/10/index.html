@@ -57,6 +57,84 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-weekly-of-20160529" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/29/weekly-of-20160529/">weekly of 20160529</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/05/29/weekly-of-20160529/" class="article-date">
+  <time datetime="2016-05-29T15:01:29.000Z" itemprop="datePublished">2016-05-29</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><p><a href="http://tech.adroll.com/blog/data/2016/05/24/traildb-open-sourced.html" target="_blank" rel="external">Announcing TrailDB - An Efficient Library for Storing and Processing Event Data</a> : 关于event data数据存储的另外一个思路</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=11787152" target="_blank" rel="external">Same-site Cookies</a> : 新引入的”same-site”机制，通过次申明可以让浏览器在做跨越请求的时候，不携带目标域名的cookie，这个机制可以有效的解决CSRF的问题, 可以多看看<a href="https://news.ycombinator.com/item?id=11787152" target="_blank" rel="external">hacker news</a>上面讨论</p>
+</li>
+</ul>
+<h2 id="应用实践"><a href="#应用实践" class="headerlink" title="应用实践"></a>应用实践</h2><ul>
+<li><p><a href="http://techblog.netflix.com/2016/05/application-data-caching-using-ssds.html" target="_blank" rel="external">Application data caching using SSDs</a> : Netflix的文章，介绍如何支持全球的在线业务, 包括<a href="http://techblog.netflix.com/2016/03/global-cloud-active-active-and-beyond.html" target="_blank" rel="external">Global Cloud - Active-Active and Beyond</a></p>
+</li>
+<li><p><a href="http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html" target="_blank" rel="external">What Every Computer Scientist Should Know About Floating-Point Arithmetic</a> : 关于浮点计算的说明，都是英文，先mark，需要找个中文快速理解下</p>
+</li>
+<li><p><a href="https://blog.benjojo.co.uk/post/ssh-port-fluxing-with-totp" target="_blank" rel="external">TOTP SSH port fluxing</a> : <a href="https://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm" target="_blank" rel="external">TOTP</a>(Time-based One-time Password Algorithm)类似于我们的ssh token,  不过作者是利用动态token作为port的前缀, 类似的技术可以参看<a href="https://en.wikipedia.org/wiki/Port_knocking" target="_blank" rel="external">Port knocking</a></p>
+</li>
+<li><p><a href="http://weibo.com/ttarticle/p/show?id=2309403978986932807291" target="_blank" rel="external">用最少的机器支撑万亿级访问，微博6年Redis优化历程</a> : 微博的redis落地实践，对一些常见的问题的处理方案&amp;思路</p>
+</li>
+<li><p><a href="http://xiezhenye.com/2013/02/%E5%8A%A8%E6%80%81%E4%BF%AE%E6%94%B9%E8%BF%90%E8%A1%8C%E4%B8%AD%E8%BF%9B%E7%A8%8B%E7%9A%84-rlimit.html" target="_blank" rel="external">动态修改运行中进程的 rlimit</a> : 主要介绍了可以动态调整运行程序的rlimit参数的办法，采用系统调用<code>prlimit</code>或者trick的gdb修改, 文中的gdb代码比较恶心，可以参考这篇文章里面<a href="https://gregchapple.com/updating-ulimit-on-running-linux-process/" target="_blank" rel="external">Updating ulimit on a running Linux process</a>, gdb的强大之处</p>
+</li>
+</ul>
+<h2 id="资料工具"><a href="#资料工具" class="headerlink" title="资料工具"></a>资料工具</h2><ul>
+<li><p><a href="http://weibo.com/ttarticle/p/show?id=2309403978201981434927" target="_blank" rel="external">云舒，一个技术至上者的理想主义</a> : 听闻其名，看过其文，每一个牛逼的人都是对其信念和追求的用不停息的坚持</p>
+</li>
+<li><p><a href="https://eigenstate.org/notes/regex-debug" target="_blank" rel="external">Eigenstate : Regex Debugging</a> : 用于调试正则表达式，真是牛逼</p>
+</li>
+<li><p><a href="http://synisma.neocities.org/perf_scale_cheatsheet.pdf" target="_blank" rel="external">Software Performance &amp; Scalability: A Cheatsheet</a> : 还不错</p>
+</li>
+<li><p><a href="http://www.jianshu.com/p/05de8f667eea" target="_blank" rel="external">顶尖程序员不同于常人的5个区别</a> : 简单的励志文章，需要一直督促自己</p>
+</li>
+<li><p><a href="https://github.com/lichuang/Lua-Source-Internal" target="_blank" rel="external">lichuang/Lua-Source-Internal</a> : lua的源码剖析，比云风之前的文章还要详细，好好学习(有空真想自己写个lua的VM)</p>
+</li>
+<li><p><a href="http://openresty.org/posts/dynamic-tracing/" target="_blank" rel="external">动态追踪技术漫谈</a> : by 章亦春, 比较科普的文章；非凡之人，必有非凡的魄力，非凡的坚持</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-first-blog-of-Hexo" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -487,6 +565,80 @@
 
 
     
+      <article id="post-nginx_1_9_9" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/19/nginx_1_9_9/">nginx 1.9.9 特性说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/12/19/nginx_1_9_9/" class="article-date">
+  <time datetime="2015-12-19T06:17:30.000Z" itemprop="datePublished">2015-12-19</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="feature说明"><a href="#feature说明" class="headerlink" title="feature说明"></a>feature说明</h2><ul>
+<li>pwritev() support.</li>
+<li>the “include” directive inside the “upstream” block.</li>
+<li>the ngx_http_slice_module.</li>
+</ul>
+<h2 id="pwritev说明"><a href="#pwritev说明" class="headerlink" title="pwritev说明"></a>pwritev说明</h2><p><a href="http://linux.die.net/man/2/pwritev" target="_blank" rel="external">pwritev</a>的具体说明可以见链接；nginx在这个版本里面主要用<code>pwritev</code>替代<code>writev</code>的功能；简单的理解，可以认为是将老的:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">lseek(fd, offset);</div><div class="line">writev(fd, iov);</div></pre></td></tr></table></figure>
+<p>改成</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">pwritev()</div></pre></td></tr></table></figure>
+<p>总结的收益是:</p>
+<ul>
+<li>系统调用从2次改成1次，主要是性能方面的</li>
+<li>pwritev() was introduced in FreeBSD 6 and Linux 2.6.30, glibc 2.10</li>
+</ul>
+<p>具体可以参看文档: <a href="http://blog.libtorrent.org/2012/12/principles-of-high-performance-programs/" target="_blank" rel="external">principles of high performance programs</a></p>
+<h2 id="ngx-http-slice-module"><a href="#ngx-http-slice-module" class="headerlink" title="ngx_http_slice_module"></a>ngx_http_slice_module</h2><p><a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html" target="_blank" rel="external">ngx_http_slice_module</a>是新引入的一个功能模块；大概的作用是可以将一个upstream response body 切成那个小块，然后每个单独缓存; 官方原话:</p>
+<blockquote>
+<p>The module makes it<br>possible to split a big upstream response into smaller parts and cache them<br>independently.</p>
+<p>The module supports range requests.  When a part of a file is requested,<br>only the required slice upstream requests are made.  If caching is enabled,<br>future requests will only go to upstream for missing slices.</p>
+</blockquote>
+<p>可以理解的应用场景:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client ---&gt; proxy(nginx) ---&gt; upstream</div></pre></td></tr></table></figure>
+<ul>
+<li>proxy那边会将一个big file切成小块缓存</li>
+</ul>
+<blockquote>
+<p>todo待补充</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-ngx_variable_flag" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -570,80 +722,6 @@
 <li><a href="http://m.blog.csdn.net/blog/dingyujie/7106524" target="_blank" rel="external">[原]nginx脚本引擎与设计设计(三)</a></li>
 <li><a href="http://blog.lifeibo.com/blog/2011/12/17/nginx-varibles.html" target="_blank" rel="external">Nginx源码分析之变量</a></li>
 </ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-nginx_1_9_9" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/19/nginx_1_9_9/">nginx 1.9.9 特性说明</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/12/19/nginx_1_9_9/" class="article-date">
-  <time datetime="2015-12-19T06:17:30.000Z" itemprop="datePublished">2015-12-19</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="feature说明"><a href="#feature说明" class="headerlink" title="feature说明"></a>feature说明</h2><ul>
-<li>pwritev() support.</li>
-<li>the “include” directive inside the “upstream” block.</li>
-<li>the ngx_http_slice_module.</li>
-</ul>
-<h2 id="pwritev说明"><a href="#pwritev说明" class="headerlink" title="pwritev说明"></a>pwritev说明</h2><p><a href="http://linux.die.net/man/2/pwritev" target="_blank" rel="external">pwritev</a>的具体说明可以见链接；nginx在这个版本里面主要用<code>pwritev</code>替代<code>writev</code>的功能；简单的理解，可以认为是将老的:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">lseek(fd, offset);</div><div class="line">writev(fd, iov);</div></pre></td></tr></table></figure>
-<p>改成</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">pwritev()</div></pre></td></tr></table></figure>
-<p>总结的收益是:</p>
-<ul>
-<li>系统调用从2次改成1次，主要是性能方面的</li>
-<li>pwritev() was introduced in FreeBSD 6 and Linux 2.6.30, glibc 2.10</li>
-</ul>
-<p>具体可以参看文档: <a href="http://blog.libtorrent.org/2012/12/principles-of-high-performance-programs/" target="_blank" rel="external">principles of high performance programs</a></p>
-<h2 id="ngx-http-slice-module"><a href="#ngx-http-slice-module" class="headerlink" title="ngx_http_slice_module"></a>ngx_http_slice_module</h2><p><a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html" target="_blank" rel="external">ngx_http_slice_module</a>是新引入的一个功能模块；大概的作用是可以将一个upstream response body 切成那个小块，然后每个单独缓存; 官方原话:</p>
-<blockquote>
-<p>The module makes it<br>possible to split a big upstream response into smaller parts and cache them<br>independently.</p>
-<p>The module supports range requests.  When a part of a file is requested,<br>only the required slice upstream requests are made.  If caching is enabled,<br>future requests will only go to upstream for missing slices.</p>
-</blockquote>
-<p>可以理解的应用场景:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client ---&gt; proxy(nginx) ---&gt; upstream</div></pre></td></tr></table></figure>
-<ul>
-<li>proxy那边会将一个big file切成小块缓存</li>
-</ul>
-<blockquote>
-<p>todo待补充</p>
-</blockquote>
 
       
     </div>
@@ -829,179 +907,6 @@
 
 
     
-      <article id="post-hotcode_analysis" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/10/hotcode_analysis/">nginx扩展/lua的性能剖析支持</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/05/10/hotcode_analysis/" class="article-date">
-  <time datetime="2015-05-09T18:27:32.000Z" itemprop="datePublished">2015-05-10</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>by <a href="mailto:chenjiansen@baidu.com" target="_blank" rel="external">chenjiansen@baidu.com</a></p>
-</blockquote>
-<h2 id="0x00-背景"><a href="#0x00-背景" class="headerlink" title="0x00 背景"></a>0x00 背景</h2><p>nginx的扩展和nginx lua在贴吧有了越来越多的应用，但是对于整个nginx相关组件的性能测试一直没有完善的支持。除了常规的流量压测，cpu利用率的分析等。我们还需要对nginx的具体性能瓶颈进一步分析，<code>发现具体的代码热点</code>，以便进一步的性能优化。</p>
-<p>简而言之，我们需要达到如下目标:</p>
-<ul>
-<li>对于C扩展，我们能够明确其代码热点</li>
-<li>对于nginx lua代码，我们同样也能明确其lua代码热点</li>
-</ul>
-<p>这里主要介绍nginx扩展/lua的性能剖析的现状支持，以及贴吧短期内的落地实践规划</p>
-<h2 id="0x01-性能剖析工具"><a href="#0x01-性能剖析工具" class="headerlink" title="0x01 性能剖析工具"></a>0x01 性能剖析工具</h2><h3 id="C-C-程序的热点分析"><a href="#C-C-程序的热点分析" class="headerlink" title="C/C++ 程序的热点分析"></a>C/C++ 程序的热点分析</h3><p>首先简单看下现在linux工具链对代码热点发现的支持</p>
-<p><a href="http://zh.wikipedia.org/wiki/%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90" target="_blank" rel="external">维基百科</a>上面对性能剖析工具有个简单的介绍, 由于是需要做热代码的发现，因此很少有静态代码分析的办法，一般都是运行时的剖析，具体可以分为:</p>
-<ul>
-<li>逻辑注入的性能分析：一把是指在编译链接的时候，链上相关的lib(其实也有运行时的代码注入，暂不考虑)，这些lib会在函数执行的时候自动做一些统计和分析，比较典型的是<a href="https://sourceware.org/binutils/docs/gprof/" target="_blank" rel="external">gprof</a></li>
-<li>非逻辑注入的性能分析：此类分析一般没有对具体的应用程序进行修改，更多是一种旁路异步的观察方式，而根据数据获取方式的不同一般区分为:<ul>
-<li>基于事件的性能分析: 是指为特定事件增加回调,记录事件发生次数</li>
-<li>基于采样的性能分析: 构造以一定周期重复的触发器用来采样<br>现在的一般性能剖析工具都是这两则的结合，比如说perf, perf的sampling的机制是基于对事件的统计（比如1000个cpu周期(事件)采样一次)，故其实没太大的区分，最为常见的工具包括<a href="">perf</a>, <a href="https://sourceware.org/systemtap/wiki" target="_blank" rel="external">systemtap</a>,<br>其中perf和systemtap下面会进一步介绍</li>
-</ul>
-</li>
-</ul>
-<h3 id="解释型语言的热点分析"><a href="#解释型语言的热点分析" class="headerlink" title="解释型语言的热点分析"></a>解释型语言的热点分析</h3><p>上面剖析出来的更多是C/C++代码层面的函数热点，但如果是一个解释型的脚本语言，要找出脚本的代码热点，上面的方法并不靠谱，还需要进一步的支持。其主要原因是一般解释型语言的实现大概如下:</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">vm_execute</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="comment">//fetch code</span></div><div class="line">        <span class="keyword">switch</span>(op) &#123;</div><div class="line">            <span class="keyword">case</span> BYTECODE_A: <span class="comment">//do somthing a</span></div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> BTYECODE_B: <span class="comment">//do something b</span></div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这样在执行的时候会发现大部分热点是在<code>vm_execute</code>里面，我们看不到代码级别的热点，故没有太多参考意义。</p>
-<p>java，php, nodejs, lua等都面临此类问题，那他们是如何解决的，大致如下:</p>
-<ul>
-<li><p>语言/扩展层面提供具体的解决方案 : 比如php的xprofile，其<a href="http://blog.csdn.net/yzongyu/article/details/8457209" target="_blank" rel="external">机制</a>大体类似</p>
-</li>
-<li><p>语言层面提供部分支持，再通过外部工具进行剖析 : 也是语言层面的支持，但和上述不同的是，并不是提供具体是profile的支持，而是一些机制的支持,再和一些外部工具结合(比如perf record)，产生性能剖析的结果，比较常见的包括:</p>
-<ul>
-<li>JVM的JVMTI机制，提供提供给性能分析器的hook，可以抓到像函数调用、类加载、卸载、线程的进入及离开等事件, 具体可以见<a href="http://www.ibm.com/developerworks/cn/java/j-lo-jpda2/" target="_blank" rel="external">深入 Java 调试体系，第 2 部分: JVMTI 和 Agent 实现</a></li>
-<li>luajit的<code>LUAJIT_USE_PERFTOOLS</code> option，具体可以看下文 </li>
-</ul>
-</li>
-<li><p>语言层面不提供任何支持 : 比如lua，此时只能依赖外部工具了，现在比较常见的是systemtap，下面会详细介绍systemtap如何进行lua源码级别的性能剖析</p>
-</li>
-</ul>
-<h2 id="0x02-lua源码的性能剖析"><a href="#0x02-lua源码的性能剖析" class="headerlink" title="0x02 lua源码的性能剖析"></a>0x02 lua源码的性能剖析</h2><p>联系到我们的具体需求，我们主要是考虑现有的工具如果快速支持nginx/lua的性能剖析，从两个最为常见的工具入手: systemtap和perf tools，看下他们对这个的支持情况</p>
-<h3 id="基于systemtap的性能分析"><a href="#基于systemtap的性能分析" class="headerlink" title="基于systemtap的性能分析"></a>基于systemtap的性能分析</h3><p><a href="https://github.com/agentzh" target="_blank" rel="external">agentzh</a>在git的<a href="https://github.com/openresty/nginx-systemtap-toolkit" target="_blank" rel="external">openresty/nginx-systemtap-toolkit</a>就已经提供了对lua/luajit的源码级别的热点发现，那他是如何实现的呢？</p>
-<p>简单介绍下systemtap一些核心特性,包括:</p>
-<ul>
-<li>systemtap支持多样的probe, 包括kernel/user space function调用，离开等事件</li>
-<li>systemtap支持读取特定进程的内存信息，同时支持加载特定的符号信息</li>
-<li>systamtap支持类C语法的指针操作</li>
-</ul>
-<p>依照如上特性，systemtap对lua源码的栈帧的采集策略大概如下:</p>
-<blockquote>
-<p>perl脚本，来自ngx-sample-lua-bt : <a href="https://github.com/openresty/nginx-systemtap-toolkit/blob/master/ngx-sample-lua-bt" target="_blank" rel="external">https://github.com/openresty/nginx-systemtap-toolkit/blob/master/ngx-sample-lua-bt</a></p>
-</blockquote>
-<ol>
-<li>通过probe, 获取VM的指针</li>
-</ol>
-<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// 监测lua_pcall函数，存储VM的指针</div><div class="line">probe process(<span class="string">"$lua_path"</span>).function(<span class="string">"lua_resume"</span>),</div><div class="line">      process(<span class="string">"$lua_path"</span>).function(<span class="string">"lua_pcall"</span>)</div><div class="line">&#123;</div><div class="line">    my_pid = pid()</div><div class="line">    <span class="keyword">if</span> ($condition) &#123;</div><div class="line">        lua_states[my_pid] = \$L</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ol>
-<li>通过VM的指针，依照语言特性，获取栈帧</li>
-</ol>
-<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// 依照语言特性, 获取栈帧 --&gt; 强语言依赖</div><div class="line">function lua_getstack(L, level) &#123;</div><div class="line">    <span class="regexp">/* code from function lj_debug_frame in LuaJIT 2.0 */</span></div><div class="line">    /* TValue *frame, *nextframe, *bot; *<span class="regexp">/</span></div><div class="line">    bot = tvref(\&amp;$L-&gt;stack)  /<span class="regexp">/ TValue *</span></div><div class="line">    found_frame = 0</div><div class="line">    for (nextframe = frame = $L-&gt;base - $sizeof_TValue; frame &gt; bot; ) &#123;</div><div class="line">        /* Traverse frames backwards *<span class="regexp">/</span></div><div class="line">        if (frame_gc(frame) == L) &#123;</div><div class="line">            /<span class="regexp">/dd("Skip dummy frames. See lj_meta_call")</span></div><div class="line">            level++</div><div class="line">        &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
-<ol>
-<li>通过<code>timer probe</code>进行频繁的采样和存储</li>
-</ol>
-<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">probe timer.profile &#123;</div><div class="line">    my_pid = pid()</div><div class="line">    <span class="keyword">if</span> ($condition) &#123;</div><div class="line">        L = lua_states[my_pid]</div><div class="line">        // 采样 &amp;&amp; 存储</div></pre></td></tr></table></figure>
-<p>大概的原理就是通过systemtap定时器和进程侵入的特性，直接读取nginx进程的地址空间内容，又依照对nginx lua/luajit的内存布局理解(通过review lua/luajit的源码)，直接打印出栈布局。 这要求systemtap脚本对lua/luajit的代码非常熟悉，而且一旦程序有相关升级之类的，可能就有兼容性问题 </p>
-<p>总结下来，如下:</p>
-<ul>
-<li>优点: 功能强大，同时支持lua/luajit</li>
-<li>缺点: systemtap在线上安装成本颇高，后续维护也是问题</li>
-</ul>
-<h3 id="基于perf-record的性能分析"><a href="#基于perf-record的性能分析" class="headerlink" title="基于perf record的性能分析"></a>基于perf record的性能分析</h3><p>考虑到systemtap落地和维护的成本，我们在考虑能不能用<code>perf record</code>做一个简单的支持。答案是肯定的!</p>
-<p>在2009年，perf events增加了对<a href="https://lkml.org/lkml/2009/6/8/499" target="_blank" rel="external">jit symbol的支持</a>, 总的来说一个JIT的VM只要做如下的支持就可以了:</p>
-<ul>
-<li>应用程序需要导出<code>/tmp/perf-PID.map</code>的文件, 文件以文本格式存储内存地址，大小以及符号名称 </li>
-</ul>
-<p>其中<a href="http://www.brendangregg.com/blog/2014-06-12/java-flame-graphs.html" target="_blank" rel="external">jave</a>和<a href="http://www.brendangregg.com/blog/2014-09-17/node-flame-graphs-on-linux.html" target="_blank" rel="external">nodejs</a>先后依据此特性增加了对perf tool的支持</p>
-<p>那luajit呢？是否有这个方面的支持？查阅了luajit的官网上面的文档，并没有涉及此方面的讨论，连Makefile里面的feature也没有提及到这一点。不过直接grep源码，还是有惊喜的，如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[chenjiansen@cq01-rdqa-dev028.cq01.baidu.com LuaJIT-2.0.3]$ grep <span class="string">"perftool"</span> * -r -i -n</div><div class="line">src/lj_trace.c:85:<span class="comment">#ifdef LUAJIT_USE_PERFTOOLS</span></div><div class="line">src/lj_trace.c:96:static void perftools_addtrace(GCtrace *T)<span class="string">""</span></div></pre></td></tr></table></figure>
-<p>简单的说，主要开启<code>LUAJIT_USE_PERFTOOLS</code>宏，应该就能自动导出<code>/tmp/perf-{PDI}</code>文件</p>
-<p>重新编译luajit，执行nginx/lua，可以看到的确有相关文件导出，如下:</p>
-<blockquote>
-<p>luajit在每次jit的时候，会导出此符号文件，但这些不一定的应用程序的热点, 只是lua vm的热点</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[forum@db-forum-phpfr01.db01.baidu.com ~]$ cat /tmp/perf-23998.map </div><div class="line">bffff55 a4 TRACE_1::/home/work/nginx_inner/lua/tieba/lua_script/service_status/setServiceStatus.lua:89</div><div class="line">bffff2a 24 TRACE_2::/home/work/nginx_inner/lua/tieba/lua_script/service_status/setServiceStatus.lua:90</div><div class="line">bfffe96 8d TRACE_3::/home/work/nginx_inner/lua/tieba/lua_script/util/http_instruct_util.lua:47</div><div class="line">bfffd40 14f TRACE_4::/home/work/nginx_inner/lua/tieba/lua_script/rewrite/ngx_rewrite_server_degradation.lua:1</div></pre></td></tr></table></figure>
-<p>用<code>perf report</code>就可以看到如下的结果:</p>
-<p><img src="perf_report_sample.png" alt="perf_report_demo"></p>
-<p>总结下来，如下:</p>
-<ul>
-<li>优点: 使用起来简单方便，无需太多的额外操作</li>
-<li>缺点: 灵活性有限，仅支持luajit</li>
-</ul>
-<h3 id="火焰图"><a href="#火焰图" class="headerlink" title="火焰图"></a>火焰图</h3><p>如上采样统计分析的结果，一般就是各种栈帧的采集，需要一些工具做进一步的分析总结，比如说用<code>perf report</code>进行分析</p>
-<p>而<a href="http://www.brendangregg.com/blog/index.html" target="_blank" rel="external">Brendan Gregg</a>的<a href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html" target="_blank" rel="external">火焰图</a> 则给这些数据做一个可视化的展现，通过简单的<a href="https://github.com/brendangregg/FlameGraph" target="_blank" rel="external">脚本</a>能快速生成相应的<code>.svg</code> 文件，通过浏览器可以清晰的看到具体的热点</p>
-<p>如下是一个火焰图的<a href="http://db-forum-phpfr01.db01.baidu.com:8200/svg//nginx_runtime_jit.svg" target="_blank" rel="external">demo</a>:</p>
-<p><img src="http://db-forum-phpfr01.db01.baidu.com:8200/svg//nginx_runtime_jit.svg" alt="flame_demo"></p>
-<p>可以清楚的看到热点在<code>test.lua:7</code>这个地方</p>
-<h2 id="0x03-后续计划"><a href="#0x03-后续计划" class="headerlink" title="0x03 后续计划"></a>0x03 后续计划</h2><blockquote>
-<p>短期内的贴吧落地实践</p>
-</blockquote>
-<p>主要采用<code>perf record + luajit</code>的机制, 为了满足此需求，现实的nginx会调整如下:</p>
-<ul>
-<li>nginx lua全部迁移nginx luajit : 之前有些case问题，这方面会重新review，争取全部迁移过去</li>
-<li>所有线下的luajit编译时候开启<code>LUAJIT_USE_PERFTOOLS</code>选项(由于不会自动删除过期文件，且reload的时候会重新生成/temp/perf-*文件，线上暂不开启)</li>
-<li>在上线流程的时候，性能测试报告，必须附上火焰图的链接</li>
-</ul>
-<p>如下两个图的router和inrouter的性能分析图(可以看到inrouter的的DNA扩展占用了3%的无效cpu)</p>
-<blockquote>
-<p>使用http_load 压测（可以沟通不同的URL), runtime nginx用nginx lua简单mock了</p>
-</blockquote>
-<ul>
-<li>router的火焰图(<a href="http://db-forum-phpfr01.db01.baidu.com:8200/svg//router_jit.svg" target="_blank" rel="external">点此</a>新窗口打开)</li>
-</ul>
-<p><img src="http://db-forum-phpfr01.db01.baidu.com:8200/svg//router_jit.svg" alt="router_flame"></p>
-<ul>
-<li>inrouter的火焰图(<a href="http://db-forum-phpfr01.db01.baidu.com:8200/svg//inner_jit.svg" target="_blank" rel="external">点此</a>新窗口打开)<br><img src="http://db-forum-phpfr01.db01.baidu.com:8200/svg//inner_jit.svg" alt="inrouter_flame"></li>
-</ul>
-<h2 id="0x04-参考"><a href="#0x04-参考" class="headerlink" title="0x04 参考"></a>0x04 参考</h2><p>上面讨论略去一些无关的细节，比如说<code>perf</code>在后续的版本也支持了<a href="https://gnu.wildebeest.org/blog/mjw/2012/05/24/pull-user-space-probe-instrumentation/" target="_blank" rel="external">function probe</a>的功能, 一些结论也是猜测，可能有比较多的错误之处，欢迎指出</p>
-<p>最后附上一些参考资料: </p>
-<ul>
-<li>perf的一些资料<ul>
-<li><a href="http://www.brendangregg.com/perf.html#FlameGraphs" target="_blank" rel="external">perf Examples</a> : 具体介绍了perf record的优缺点以及具体的解决方案</li>
-<li><a href="https://perf.wiki.kernel.org/index.php/Tutorial" target="_blank" rel="external">Perf Tutorial</a> : perf的非常不错入门介绍，介绍简单的使用和内部机制</li>
-<li><a href="http://files.cnblogs.com/files/jiayy/Perf%E5%9C%A8Linux%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_v3.pdf" target="_blank" rel="external">Perf在Linux性能评估中的应用</a> : 淘宝承刚的perf PDF，入门也是不错的</li>
-</ul>
-</li>
-<li><p>systemtap的资料</p>
-<ul>
-<li><a href="https://sourceware.org/systemtap/wiki" target="_blank" rel="external">systemtap wiki主页</a></li>
-<li><a href="http://blog.yufeng.info/archives/tag/systemtap" target="_blank" rel="external">系统技术非业余研究: systemtap的专题</a></li>
-</ul>
-</li>
-<li><p><a href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html" target="_blank" rel="external">CPU Flame Graphs</a> : CPU火焰图说明</p>
-</li>
-<li><a href="http://www.brendangregg.com/blog/2014-09-17/node-flame-graphs-on-linux.html" target="_blank" rel="external">node.js Flame Graphs on Linux</a> : nodejs的火焰图</li>
-<li><a href="http://www.slideshare.net/chaoslawful/cc-14971110" target="_blank" rel="external">C/C++调试、跟踪及性能分析工具综述</a></li>
-<li><a href="http://www.slideshare.net/brendangregg/linux-performance-analysis-new-tools-and-old-secrets" target="_blank" rel="external">Linux Performance Analysis: New Tools and Old Secrets</a></li>
-</ul>
-
-      
-    </div>
-    
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/9/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/11/">下一页 &raquo;</a>
       </nav>
@@ -1037,23 +942,6 @@
 
 
 <script src="/js/script.js"></script>
-  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
