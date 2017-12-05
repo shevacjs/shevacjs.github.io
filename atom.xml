@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2017-11-24T08:52:13.000Z</updated>
+  <updated>2017-12-05T03:39:46.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,61 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20171126</title>
+    <link href="http://shevacjs.com/2017/12/05/20171126/"/>
+    <id>http://shevacjs.com/2017/12/05/20171126/</id>
+    <published>2017-12-05T03:39:45.000Z</published>
+    <updated>2017-12-05T03:39:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/shanghai01.jpg" alt="上海外滩"></p>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://aws.amazon.com/cn/blogs/opensource/better-random-number-generation-for-openssl-libc-and-linux-mainline/" target="_blank" rel="external">Better Random Number Generation for OpenSSL, libc, and Linux Mainline</a> : AWS构建了自己的ssl库(<a href="https://aws.amazon.com/cn/blogs/security/introducing-s2n-a-new-open-source-tls-implementation/" target="_blank" rel="external">s2c</a>), 其在随机数生成里面考虑了具体在linux系统下面实线的一个问题，比如fork子进程的时候会完全拷贝内存，导致信息泄露, 引入了在madvise的新的option(<code>MADV_DONTFORK</code>)；还是非常佩服这些公司，能够持续的在这些基础技术上面做投入</p>
+</li>
+<li><p><a href="https://draveness.me/docker" target="_blank" rel="external">Docker 核心技术与实现原理</a> :  非常不错的docker技术的普及和介绍</p>
+</li>
+<li><p><a href="https://www.opengarden.com/meshkit.html" target="_blank" rel="external">MeshKit: Mesh networking made easy</a> : 可以支持各设备以<code>P2P</code>的方式交互, 类似于PC上面的P2P，个人觉得随着视频等富媒体的增长，此方向是一个不错的技术选择，但是需要考虑和权衡对用户体验/隐私等方面的保护</p>
+</li>
+<li><p><a href="https://zhuanlan.zhihu.com/p/31630417" target="_blank" rel="external">拒绝超大coredump - 用backtrace和addr2line搞定异常函数栈</a> : 思路可以总结为自己捕捉段错误的信息, 然后通过<code>backtrace</code>和<code>addr2line</code>打印相应的堆栈信息</p>
+</li>
+<li><p><a href="http://www.commandlinefu.com/commands/browse/sort-by-votes" target="_blank" rel="external">Commandlinefu</a> : 不少命令还挺有用的，关注<code>curl ifconfig.me</code>, <code>dig +short txt &lt;keyword&gt;.wp.dg.cx</code></p>
+</li>
+<li><p><a href="https://hackernoon.com/how-ive-captured-all-passwords-trying-to-ssh-into-my-server-d26a2a6263ec" target="_blank" rel="external">How I’ve captured all passwords trying to ssh into my server!</a> : 挺有意思的一个研究, 作者通过重编译<code>openssh</code>使得其可以打印出来登录的用户名和密码, 再基于这些数据做研究，可以发现很多攻击者和登陆者的特征</p>
+</li>
+</ul>
+<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="https://code.facebook.com/posts/190251048047090/myrocks-a-space-and-write-optimized-mysql-database/" target="_blank" rel="external">MyRocks: A space- and write-optimized MySQL database</a> : <code>MyRocks</code>是基于<code>RocksDB</code>封装的mysql存储引擎,  对存储空间和写优化上面做了大幅的提升, 可以了解下，另外也可以参看<a href="https://code.facebook.com/posts/1478526992216557/migrating-a-database-from-innodb-to-myrocks/" target="_blank" rel="external">Migrating a database from InnoDB to MyRocks</a> 了解他们迁移到Innodb的具体过程</p>
+</li>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404179898175459305" target="_blank" rel="external">企业大规模部署机器学习模型的困境</a> : 通过类似于<code>FAAS</code>的方式，提供人工智能相关的服务，可以让其他更多专注于策略的迭代和开发</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://developers.googleblog.com/2017/09/introducing-tensorflow-datasets.html" target="_blank" rel="external">Introduction to TensorFlow Datasets and Estimators</a> : 关于tensorflow的教程，先收藏mark</p>
+</li>
+<li><p><a href="https://leastauthority.com/blog/mixnet-intro/" target="_blank" rel="external">Introduction to Mix Networks and Anonymous Communication Networks</a> : 对于混杂网络和匿名通信的系统性介绍, 简单扫了一眼，感觉是非常系统性的文章，先收藏mark</p>
+</li>
+<li><p><a href="https://cs007.blog/" target="_blank" rel="external">Stanford CS007: Personal Finance For Engineers</a> : 斯坦福的教程，一些对于工程师财务管理的建议和指导，现在的材料多为PPT, 先mark收藏</p>
+</li>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404179321597125139" target="_blank" rel="external">【深度长文】为什么微博不像微信一样设计得简洁？</a> : 对产品的思考和分析</p>
+</li>
+<li><p><a href="https://rafalcieslak.wordpress.com/2013/04/02/dynamic-linker-tricks-using-ld_preload-to-cheat-inject-features-and-investigate-programs/" target="_blank" rel="external">Dynamic linker tricks: Using LD_PRELOAD to cheat, inject features and investigate programs</a> : 我们知道系统在搜索动态链接库的时候会优先加载<code>LD_PRELOAD</code>里面的so, 通过着特性，如果我们构造合适威胁的so，可能对程序的行为有着重大影响，比如随机数生成等</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/shanghai01.jpg&quot; alt=&quot;上海外滩&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20171119</title>
@@ -1211,75 +1266,6 @@
     
     
       <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>nginx 1.13.1/2 版本说明</title>
-    <link href="http://shevacjs.com/2017/08/03/nginx_1_13_1_and_2/"/>
-    <id>http://shevacjs.com/2017/08/03/nginx_1_13_1_and_2/</id>
-    <published>2017-08-03T06:17:29.000Z</published>
-    <updated>2017-08-05T08:01:11.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="原始feature说明"><a href="#原始feature说明" class="headerlink" title="原始feature说明"></a>原始feature说明</h3><blockquote>
-<p>主要摘录1.13.1/1.13.2新feature</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">*) Feature: now a hostname can be used as the &quot;set_real_ip_from&quot;</div><div class="line">       directive parameter.</div><div class="line"></div><div class="line">*) Feature: the &quot;add_trailer&quot; directive.</div><div class="line"></div><div class="line">*) Change: nginx now returns 200 instead of 416 when a range starting</div><div class="line">       with 0 is requested from an empty file.</div></pre></td></tr></table></figure>
-<p>具体而言包括:</p>
-<ul>
-<li><code>set_real_ip_from</code> 指令支持指定hostname定义可信的来源</li>
-<li>新增<code>add_trailer</code> 指令, 其具体功能后面详述</li>
-<li>对于一个empty的文件，现在是返回200而不是<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/416" target="_blank" rel="external">416</a></li>
-</ul>
-<p>同样，这类详细说明前两者的实现，功能以及作用</p>
-<a id="more"></a>
-<h3 id="set-real-ip-from"><a href="#set-real-ip-from" class="headerlink" title="set_real_ip_from"></a>set_real_ip_from</h3><p><code>set_real_ip_from</code> 是属于模块<a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html" target="_blank" rel="external">ngx_http_realip_module</a>的一个指令，用于设置信任的源IP地址，以便做类似于<code>X-Forwarded-For</code>的替换; 之前主要是用IP地址(包括address/CIDR/unix), 现在支持<code>域名</code>控制，具体实现如下:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//code path: http/modules/ngx_http_realip_module.c</span></div><div class="line"></div><div class="line"><span class="comment">//如上, 尝试解析ip/unix地址, 现在对hostname做判断</span></div><div class="line"></div><div class="line">u.host = value[<span class="number">1</span>];</div><div class="line"></div><div class="line"><span class="comment">// 域名解析</span></div><div class="line"><span class="keyword">if</span> (ngx_inet_resolve_host(cf-&gt;pool, &amp;u) != NGX_OK) &#123;</div><div class="line">    <span class="keyword">if</span> (u.err) &#123;</div><div class="line">        ngx_conf_log_error(NGX_LOG_EMERG, cf, <span class="number">0</span>,</div><div class="line">                           <span class="string">"%s in set_real_ip_from \"%V\""</span>,</div><div class="line">                           u.err, &amp;u.host);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> NGX_CONF_ERROR;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 预留空间</span></div><div class="line">cidr = ngx_array_push_n(rlcf-&gt;from, u.naddrs);</div><div class="line"><span class="keyword">if</span> (cidr == <span class="literal">NULL</span>) &#123;</div><div class="line">    <span class="keyword">return</span> NGX_CONF_ERROR;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 填充IP地址</span></div><div class="line">ngx_memzero(cidr, u.naddrs * <span class="keyword">sizeof</span>(<span class="keyword">ngx_cidr_t</span>));</div><div class="line"></div><div class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; u.naddrs; i++) &#123;</div><div class="line">    cidr[i].family = u.addrs[i].sockaddr-&gt;sa_family;</div><div class="line"></div><div class="line">    <span class="keyword">switch</span> (cidr[i].family) &#123;</div><div class="line">    <span class="keyword">default</span>: <span class="comment">/* AF_INET */</span></div><div class="line">        <span class="built_in">sin</span> = (struct sockaddr_in *) u.addrs[i].sockaddr;</div><div class="line">        cidr[i].u.in.addr = <span class="built_in">sin</span>-&gt;sin_addr.s_addr;</div><div class="line">        cidr[i].u.in.mask = <span class="number">0xffffffff</span>;</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>从代码实现来看，其策略是nginx启动的时候，通过对hostname的反解获取对应的IP，然后存储起来；<br>在处理请求的时候，和存储的ip list进行比对；可以看到存在的一个风险是: 如果在运行过程中hostname ip发生变化了，可能会存在误判的情况</p>
-<h3 id="add-trailer-指令"><a href="#add-trailer-指令" class="headerlink" title="add_trailer 指令"></a>add_trailer 指令</h3><p><a href="http://nginx.org/en/docs/http/ngx_http_headers_module.html#add_trailer" target="_blank" rel="external">add_trailer</a> 指令是在<code>1.13.2</code>版本支持的; 在看其具体实现之前，先分析其具体作用, 如下是<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Trailer" target="_blank" rel="external">MDN web docs</a>的说明: </p>
-<blockquote>
-<p>Trailer 是一个响应首部，允许发送方在分块发送的消息后面添加额外的元信息，这些元信息是随着消息主体的发送动态生成的，比如消息完整性校验，数字签名，或者后处理状态等。</p>
-</blockquote>
-<p>再看看demo，应该会容易理解一些: </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">## 头部内容, `Trailer: Expires` 指定在body里面会有这段信息</div><div class="line">HTTP/1.1 200 OK </div><div class="line">Content-Type: text/plain </div><div class="line">Transfer-Encoding: chunked</div><div class="line">Trailer: Expires</div><div class="line"></div><div class="line">7\r\n </div><div class="line">Mozilla\r\n </div><div class="line">9\r\n </div><div class="line">Developer\r\n </div><div class="line">7\r\n </div><div class="line">Network\r\n </div><div class="line">0\r\n </div><div class="line">Expires: Wed, 21 Oct 2015 07:28:00 GMT\r\n  --&gt; 这里注意`Trailer`信息是放在终止块之后 </div><div class="line">\r\n</div></pre></td></tr></table></figure>
-<p>具体作用，在nginx forum上面有较多的讨论，具体可以参看<a href="https://forum.nginx.org/read.php?29,267882,269331" target="_blank" rel="external">add support for trailers in HTTP responses</a> 以及相关的文档<a href="http://engineering.pivotal.io/post/http-trailers/" target="_blank" rel="external">HTTP Trailers</a>, 由于<code>trailer</code>相比于之前的header方式，主要在于其可以在body返回之后返回一些信息，可以预期到的应用空间有:</p>
-<blockquote>
-<p>让nginx支持trailer，作者和committer还有还不少争论，具体可以参看<a href="https://forum.nginx.org/read.php?29,267882,268680#msg-268680" target="_blank" rel="external">add support for trailers in HTTP</a>, 可以加深对改feature的理解</p>
-</blockquote>
-<ul>
-<li>对于返回的body做一些checksum，包括算hash值等, trailer机制可以支持一次流式计算</li>
-<li>标记返回body的状态: 我们可以在返回的body里面标记相关的状态</li>
-</ul>
-<p>实现方面, 简单说明如下: </p>
-<blockquote>
-<p>主要是<a href="http://nginx.org/en/docs/http/ngx_http_headers_module.html#add_trailer" target="_blank" rel="external">ngx_http_headers_module</a> 模块实现</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">// code path: src/http/modules/ngx_http_headers_filter_module.c</div><div class="line"></div><div class="line">//引入trailer关联变量, 关联指令:</div><div class="line"></div><div class="line">typedef struct &#123;</div><div class="line">    ngx_http_expires_t         expires;</div><div class="line">    time_t                     expires_time;</div><div class="line">    ngx_http_complex_value_t  *expires_value;</div><div class="line">    ngx_array_t               *headers;</div><div class="line">    ngx_array_t               *trailers;</div><div class="line">&#125; ngx_http_headers_conf_t;</div><div class="line"></div><div class="line">static ngx_command_t  ngx_http_headers_filter_commands[] = &#123;</div><div class="line">    ...</div><div class="line">    &#123; ngx_string(&quot;add_trailer&quot;),</div><div class="line">      NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_HTTP_LIF_CONF</div><div class="line">                        |NGX_CONF_TAKE23,</div><div class="line">      ngx_http_headers_add,</div><div class="line">      NGX_HTTP_LOC_CONF_OFFSET,</div><div class="line">      offsetof(ngx_http_headers_conf_t, trailers), //存储结果在如上trailers变量里面</div><div class="line">      NULL &#125;,</div><div class="line">      ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>发送头部的时候，加上如下逻辑，插入: </p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// code path: ngx_http_headers_filter_module.c</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> ngx_int_t</span></div><div class="line"><span class="title">ngx_http_trailers_filter</span><span class="params">(<span class="keyword">ngx_http_request_t</span> *r, <span class="keyword">ngx_chain_t</span> *in)</span></div><div class="line">&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">    <span class="keyword">switch</span> (r-&gt;headers_out.status) &#123;</div><div class="line"></div><div class="line">    <span class="comment">// 对于满足状态的才输出</span></div><div class="line">    h = conf-&gt;trailers-&gt;elts;</div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; conf-&gt;trailers-&gt;nelts; i++) &#123;</div><div class="line">        <span class="comment">//解析变量</span></div><div class="line">        <span class="keyword">if</span> (ngx_http_complex_value(r, &amp;h[i].value, &amp;value) != NGX_OK) &#123;</div><div class="line">            <span class="keyword">return</span> NGX_ERROR;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 结果存储在 headers_out.trailers</span></div><div class="line">        <span class="keyword">if</span> (value.len) &#123;</div><div class="line">            t = ngx_list_push(&amp;r-&gt;headers_out.trailers);</div><div class="line">            <span class="keyword">if</span> (t == <span class="literal">NULL</span>) &#123;</div><div class="line">                <span class="keyword">return</span> NGX_ERROR;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            t-&gt;key = h[i].key;</div><div class="line">            t-&gt;value = value;</div><div class="line">            t-&gt;hash = <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> ngx_http_next_body_filter(r, in);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在发送包体的时候，把trailer的信息插入到尾部(这里面有一点现在还没有理解，<code>就是这个扩展不主动添加trailer头部, 需要进一步明确</code>), 具体如下:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// code path : ngx_http_chunked_filter_module.c</span></div><div class="line"><span class="function"><span class="keyword">static</span> ngx_chain_t *</span></div><div class="line"><span class="title">ngx_http_chunked_create_trailers</span><span class="params">(<span class="keyword">ngx_http_request_t</span> *r,</span></div><div class="line">    <span class="keyword">ngx_http_chunked_filter_ctx_t</span> *ctx)</div><div class="line">&#123;</div><div class="line"></div><div class="line">    len = <span class="number">0</span>;</div><div class="line"></div><div class="line">    part = &amp;r-&gt;headers_out.trailers.part;</div><div class="line"></div><div class="line">    <span class="comment">// ... 省略，先计算buffer长度 len</span></div><div class="line"></div><div class="line">    b-&gt;pos = ngx_palloc(r-&gt;pool, len);</div><div class="line">    <span class="keyword">if</span> (b-&gt;pos == <span class="literal">NULL</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    b-&gt;last = b-&gt;pos;</div><div class="line"></div><div class="line">    <span class="comment">// 下面代码是填充最后一个chunked </span></div><div class="line">    *b-&gt;last++ = CR; *b-&gt;last++ = LF;</div><div class="line">    *b-&gt;last++ = <span class="string">'0'</span>;</div><div class="line">    *b-&gt;last++ = CR; *b-&gt;last++ = LF;</div><div class="line"></div><div class="line">    <span class="comment">// 真正填充信息</span></div><div class="line">    part = &amp;r-&gt;headers_out.trailers.part;</div><div class="line">    header = part-&gt;elts;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; <span class="comment">/* void */</span>; i++) &#123;</div><div class="line">        <span class="comment">// ... 具体填充</span></div><div class="line">        b-&gt;last = ngx_copy(b-&gt;last, header[i].key.data, header[i].key.len);</div><div class="line">        *b-&gt;last++ = <span class="string">':'</span>; *b-&gt;last++ = <span class="string">' '</span>;</div><div class="line"></div><div class="line">        b-&gt;last = ngx_copy(b-&gt;last, header[i].value.data, header[i].value.len);</div><div class="line">        *b-&gt;last++ = CR; *b-&gt;last++ = LF;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    *b-&gt;last++ = CR; *b-&gt;last++ = LF;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> cl;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>还有一个todo的是，需要明确下一步的具体应用场景, 上面资料提到的一个是<a href="https://www.w3.org/TR/server-timing/" target="_blank" rel="external">Server Timing</a>，的确不错，但如需要进一步探究</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;原始feature说明&quot;&gt;&lt;a href=&quot;#原始feature说明&quot; class=&quot;headerlink&quot; title=&quot;原始feature说明&quot;&gt;&lt;/a&gt;原始feature说明&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;主要摘录1.13.1/1.13.2新feature&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;*) Feature: now a hostname can be used as the &amp;quot;set_real_ip_from&amp;quot;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;       directive parameter.&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;*) Feature: the &amp;quot;add_trailer&amp;quot; directive.&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;*) Change: nginx now returns 200 instead of 416 when a range starting&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;       with 0 is requested from an empty file.&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;具体而言包括:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;set_real_ip_from&lt;/code&gt; 指令支持指定hostname定义可信的来源&lt;/li&gt;
-&lt;li&gt;新增&lt;code&gt;add_trailer&lt;/code&gt; 指令, 其具体功能后面详述&lt;/li&gt;
-&lt;li&gt;对于一个empty的文件，现在是返回200而不是&lt;a href=&quot;https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/416&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;416&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;同样，这类详细说明前两者的实现，功能以及作用&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="nginx" scheme="http://shevacjs.com/tags/nginx/"/>
     
   </entry>
   

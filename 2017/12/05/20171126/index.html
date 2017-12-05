@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>weekly of 20171126 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="工具技巧 Better Random Number Generation for OpenSSL, libc, and Linux Mainline : AWS构建了自己的ssl库(s2c), 其在随机数生成里面考虑了具体在linux系统下面实线的一个问题，比如fork子进程的时候会完全拷贝内存，导致信息泄露, 引入了在madvise的新的option(MADV_DONTFORK)；还是非常佩服">
+<meta name="keywords" content="weekly">
+<meta property="og:type" content="article">
+<meta property="og:title" content="weekly of 20171126">
+<meta property="og:url" content="http://shevacjs.com/2017/12/05/20171126/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="工具技巧 Better Random Number Generation for OpenSSL, libc, and Linux Mainline : AWS构建了自己的ssl库(s2c), 其在随机数生成里面考虑了具体在linux系统下面实线的一个问题，比如fork子进程的时候会完全拷贝内存，导致信息泄露, 引入了在madvise的新的option(MADV_DONTFORK)；还是非常佩服">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://shevacjs.com/images/shanghai01.jpg">
+<meta property="og:updated_time" content="2017-12-05T03:39:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="weekly of 20171126">
+<meta name="twitter:description" content="工具技巧 Better Random Number Generation for OpenSSL, libc, and Linux Mainline : AWS构建了自己的ssl库(s2c), 其在随机数生成里面考虑了具体在linux系统下面实线的一个问题，比如fork子进程的时候会完全拷贝内存，导致信息泄露, 引入了在madvise的新的option(MADV_DONTFORK)；还是非常佩服">
+<meta name="twitter:image" content="http://shevacjs.com/images/shanghai01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-20171126" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      weekly of 20171126
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/12/05/20171126/" class="article-date">
+  <time datetime="2017-12-05T03:39:45.000Z" itemprop="datePublished">2017-12-05</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/shanghai01.jpg" alt="上海外滩"></p>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://aws.amazon.com/cn/blogs/opensource/better-random-number-generation-for-openssl-libc-and-linux-mainline/" target="_blank" rel="external">Better Random Number Generation for OpenSSL, libc, and Linux Mainline</a> : AWS构建了自己的ssl库(<a href="https://aws.amazon.com/cn/blogs/security/introducing-s2n-a-new-open-source-tls-implementation/" target="_blank" rel="external">s2c</a>), 其在随机数生成里面考虑了具体在linux系统下面实线的一个问题，比如fork子进程的时候会完全拷贝内存，导致信息泄露, 引入了在madvise的新的option(<code>MADV_DONTFORK</code>)；还是非常佩服这些公司，能够持续的在这些基础技术上面做投入</p>
+</li>
+<li><p><a href="https://draveness.me/docker" target="_blank" rel="external">Docker 核心技术与实现原理</a> :  非常不错的docker技术的普及和介绍</p>
+</li>
+<li><p><a href="https://www.opengarden.com/meshkit.html" target="_blank" rel="external">MeshKit: Mesh networking made easy</a> : 可以支持各设备以<code>P2P</code>的方式交互, 类似于PC上面的P2P，个人觉得随着视频等富媒体的增长，此方向是一个不错的技术选择，但是需要考虑和权衡对用户体验/隐私等方面的保护</p>
+</li>
+<li><p><a href="https://zhuanlan.zhihu.com/p/31630417" target="_blank" rel="external">拒绝超大coredump - 用backtrace和addr2line搞定异常函数栈</a> : 思路可以总结为自己捕捉段错误的信息, 然后通过<code>backtrace</code>和<code>addr2line</code>打印相应的堆栈信息</p>
+</li>
+<li><p><a href="http://www.commandlinefu.com/commands/browse/sort-by-votes" target="_blank" rel="external">Commandlinefu</a> : 不少命令还挺有用的，关注<code>curl ifconfig.me</code>, <code>dig +short txt &lt;keyword&gt;.wp.dg.cx</code></p>
+</li>
+<li><p><a href="https://hackernoon.com/how-ive-captured-all-passwords-trying-to-ssh-into-my-server-d26a2a6263ec" target="_blank" rel="external">How I’ve captured all passwords trying to ssh into my server!</a> : 挺有意思的一个研究, 作者通过重编译<code>openssh</code>使得其可以打印出来登录的用户名和密码, 再基于这些数据做研究，可以发现很多攻击者和登陆者的特征</p>
+</li>
+</ul>
+<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="https://code.facebook.com/posts/190251048047090/myrocks-a-space-and-write-optimized-mysql-database/" target="_blank" rel="external">MyRocks: A space- and write-optimized MySQL database</a> : <code>MyRocks</code>是基于<code>RocksDB</code>封装的mysql存储引擎,  对存储空间和写优化上面做了大幅的提升, 可以了解下，另外也可以参看<a href="https://code.facebook.com/posts/1478526992216557/migrating-a-database-from-innodb-to-myrocks/" target="_blank" rel="external">Migrating a database from InnoDB to MyRocks</a> 了解他们迁移到Innodb的具体过程</p>
+</li>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404179898175459305" target="_blank" rel="external">企业大规模部署机器学习模型的困境</a> : 通过类似于<code>FAAS</code>的方式，提供人工智能相关的服务，可以让其他更多专注于策略的迭代和开发</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://developers.googleblog.com/2017/09/introducing-tensorflow-datasets.html" target="_blank" rel="external">Introduction to TensorFlow Datasets and Estimators</a> : 关于tensorflow的教程，先收藏mark</p>
+</li>
+<li><p><a href="https://leastauthority.com/blog/mixnet-intro/" target="_blank" rel="external">Introduction to Mix Networks and Anonymous Communication Networks</a> : 对于混杂网络和匿名通信的系统性介绍, 简单扫了一眼，感觉是非常系统性的文章，先收藏mark</p>
+</li>
+<li><p><a href="https://cs007.blog/" target="_blank" rel="external">Stanford CS007: Personal Finance For Engineers</a> : 斯坦福的教程，一些对于工程师财务管理的建议和指导，现在的材料多为PPT, 先mark收藏</p>
+</li>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404179321597125139" target="_blank" rel="external">【深度长文】为什么微博不像微信一样设计得简洁？</a> : 对产品的思考和分析</p>
+</li>
+<li><p><a href="https://rafalcieslak.wordpress.com/2013/04/02/dynamic-linker-tricks-using-ld_preload-to-cheat-inject-features-and-investigate-programs/" target="_blank" rel="external">Dynamic linker tricks: Using LD_PRELOAD to cheat, inject features and investigate programs</a> : 我们知道系统在搜索动态链接库的时候会优先加载<code>LD_PRELOAD</code>里面的so, 通过着特性，如果我们构造合适威胁的so，可能对程序的行为有着重大影响，比如随机数生成等</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/11/24/20171119/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20171119&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  var disqus_url = 'http://shevacjs.com/2017/12/05/20171126/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
