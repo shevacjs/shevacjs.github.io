@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2017-12-05T03:39:46.000Z</updated>
+  <updated>2017-12-12T07:17:20.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,63 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20171210</title>
+    <link href="http://shevacjs.com/2017/12/12/20171210/"/>
+    <id>http://shevacjs.com/2017/12/12/20171210/</id>
+    <published>2017-12-12T07:17:45.000Z</published>
+    <updated>2017-12-12T07:17:20.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/seu.jpg" alt="SEU四牌楼-冬日清晨"></p>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://www.haproxy.com/blog/dynamic-configuration-haproxy-runtime-api/" target="_blank" rel="external">Dynamic Configuration with the HAProxy Runtime API</a> : 介绍了<code>HAProxy</code>的动态configure功能，其可以通过一个<code>socat</code>的命令行工具进行交互, 感觉这个设计对于nginx也很有借鉴意义，先mark</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=15845114" target="_blank" rel="external">Evolution of <img>: Gif without the GIF</a> : 先mark</p>
+</li>
+<li><p><a href="https://github.com/Microsoft/ProcDump-for-Linux" target="_blank" rel="external">Microsoft/ProcDump-for-Linux</a> : “ProcDump provides a convenient way for Linux developers to create core dumps of their application based on performance triggers”</p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/arm-takes-wing/" target="_blank" rel="external">ARM Takes Wing: Qualcomm vs. Intel CPU comparison</a> : 本文具体对比了intel和高通的CPU在服务器市场的性能情况，文章具体分析了在<code>openssl</code>, <code>zlib</code>, <code>go</code>语言, <code>nginx</code>等，在以C语言为基础的组件里面intel的cpu在单核上面优势都比较明显，但是整体的性能(28核vs48核)会弱一些，而go语言arm的处理器没有太多优势; 整体来看, arm后续的服务器的处理器还是很有竞争力的</p>
+</li>
+</ul>
+<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><ul>
+<li><p><a href="https://machinelearning.apple.com/docs/learning-with-privacy-at-scale/appledifferentialprivacysystem.pdf" target="_blank" rel="external">Learning with Privacy at Scale</a> : 苹果介绍了其差分隐私(Differential Privacy)的实践和经验，略长，先mark</p>
+</li>
+<li><p><a href="https://blog.acolyer.org/2017/11/28/popularity-predictions-of-facebook-videos-for-higher-quality-streaming/" target="_blank" rel="external">Popularity predictions of Facebook videos for higher quality streaming</a> : 预判一些内容的流行度/热点有时候非常有用，比如说视频转H265对CPU等成本非常高, 所以我们如果能够正确预估哪些视频会是热点，并且提前压缩，对带宽和cpu等资源的利用率会有质的提升，具体的预估算法不是特别理解，反正是又引入了一个简单的神经网络模型进行训练，下来可以细看下</p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="https://blog.cloudflare.com/make-ssl-boring-again/" target="_blank" rel="external">Make SSL boring again</a> : CloudFlare的分享文章，介绍其引入google的开源<a href="https://boringssl.googlesource.com/boringssl/" target="_blank" rel="external">BoringSSL</a>的历程以及收获, 除了对TLS1.3更好的支持以外，还包括<code>private key callback</code>, <code>equal-preference cipher grouping</code>等特性，对于大规模的SSL部署，非常有裨益</p>
+</li>
+<li><p><a href="https://www.nginx.com/blog/optimizing-web-servers-for-high-throughput-and-low-latency/" target="_blank" rel="external">Optimizing Web Servers for High Throughput and Low Latency</a> : 对于实现一个高性能web server的建议, 从硬件CPU的选择到上层lib库和nginx配置的控制, 讲得非常细，非常系统, 对里面一些优化的理解可以加深对nginx/linux系统的理解，建议多多review</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/sDRftJL1xNBR6tQB7S4SIA" target="_blank" rel="external">Aurora Serveless的红与黑</a> : <code>Aurora Serveless</code>是AWS新推出的无服务,类似于mysql的存储解决方案，现在还不大清楚里面的一些实现细节，但是其设计抽象理念值得关注</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://www.gatesnotes.com/About-Bill-Gates/Best-Books-2017" target="_blank" rel="external">5 amazing books I read this year</a> :  Bill Gates推荐2017的几本书，包括<code>The Rise of ISIS by</code>, <code>Turtles All the Way Down</code>, <code>The Color of Law</code> 等, 以上几本书亚马逊基本都有售，可以考虑入手</p>
+</li>
+<li><p><a href="http://www.visualcapitalist.com/histomap/" target="_blank" rel="external">Histomap: Visualizing the 4,000 Year History of Global Power</a> : 通过可视化的方式展现近4000年历史上各个权利的迭代更替</p>
+</li>
+<li><p><a href="https://www.feistyduck.com/books/openssl-cookbook/" target="_blank" rel="external">OpenSSL Cookbook</a> : 非常好的关于openssl的工具和实践书籍，对此有兴趣的可以深入看看</p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/randomness-101-lavarand-in-production/" target="_blank" rel="external">Randomness 101: LavaRand in Production</a> : CloudFlare通过摄像头采集<code>LavaRand</code>的信息，来作为加密随机数的输入变量</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/seu.jpg&quot; alt=&quot;SEU四牌楼-冬日清晨&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20171126</title>
@@ -1210,62 +1267,6 @@
     
     
       <category term="nginx" scheme="http://shevacjs.com/tags/nginx/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170806</title>
-    <link href="http://shevacjs.com/2017/08/08/20170806/"/>
-    <id>http://shevacjs.com/2017/08/08/20170806/</id>
-    <published>2017-08-08T04:51:00.000Z</published>
-    <updated>2017-08-08T04:52:17.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://stackoverflow.com/questions/1427032/fast-linux-file-count-for-a-large-number-of-files" target="_blank" rel="external">Fast Linux File Count for a large number of files</a> : 一个小技巧, <code>By default ls sorts the names, which can take a while if there are a lot of them. Also there will be no output until all of the names are read and sorted. Use the ls -f option to turn off sorting</code></p>
-</li>
-<li><p><a href="https://github.com/gwuhaolin/blog/issues/10" target="_blank" rel="external">流媒体加密</a> : 科普的小文章, 具体介绍了<code>HLS</code>格式的传输方式，以及其对视频的加密原理，此类的科普文章还是非常值得花点时间去读的</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/6f_w_Cpu8WFKE9lGPC84Ug" target="_blank" rel="external">数据处理中的准确性问题</a> : 不少干货, 非常中肯的技巧&amp;建议</p>
-</li>
-<li><p><a href="http://loup-vaillant.fr/articles/rolling-your-own-crypto" target="_blank" rel="external">Rolling Your Own Crypto</a> : 作者是加密库<a href="http://loup-vaillant.fr/projects/monocypher/" target="_blank" rel="external">Monocypher</a> 的作者, 本文作者分享了对于<code>Crypto</code>的理解，对于加密从应用到自己实现加密库到<code>inventing crypto</code> 的理解，个人对加密还是非常有兴趣的，也先mark</p>
-</li>
-</ul>
-<a id="more"></a>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="http://muratbuffalo.blogspot.com/2017/07/a-comparison-of-distributed-machine.html" target="_blank" rel="external">A Comparison of Distributed Machine Learning Platforms</a> : 关于几个机器学习平台的对比，包括spark, <a href="https://blog.acolyer.org/2016/01/27/petuum/" target="_blank" rel="external">PMLS (Petuum)</a>, Tensorflow等, 结论有”It is safe to say the parameter-server approach won for training in distributed ML platforms.” , 不过<a href="https://news.ycombinator.com/item?id=14889630" target="_blank" rel="external">hacker news</a>上面对此颇有异议</p>
-</li>
-<li><p><a href="http://tech.lede.com/2017/07/21/rd/server/crossdomain/" target="_blank" rel="external">Nginx缓存引发的跨域惨案</a> : 一个Nginx的缓存的问题, 虽然很简单, 可以当做入门读物</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/-tc8MSpu6h5q3h8xuaRtcw" target="_blank" rel="external">PhxSQL设计与实现（详细版）</a> : 先mark</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://mp.weixin.qq.com/s/cQ6LnH1t7n3iy4K83qOoRQ" target="_blank" rel="external">科学式家｜戴文渊：机器学习教科书的7大经典问题</a> : 结论不一定对，但是对于这些问题的拆分，分析和理解，可以加深我们对机器学习的认识</p>
-</li>
-<li><p><a href="https://scram-pra.org/index.html" target="_blank" rel="external">SCRAM 0.14.0</a> : “SCRAM is a free and open source probabilistic risk analysis tool that supports the Open-PSA Model Exchange Format.”，感觉会是个有趣的东西, 先mark</p>
-</li>
-<li><p><a href="https://blog.sicara.com/07-2017-best-big-data-new-articles-this-month-acb58d4bb15d" target="_blank" rel="external">The Best of Big Data: New Articles Published This Month (July 2017)</a> : 一些Big Data / Machine Learning的材料, 先mark</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://stackoverflow.com/questions/1427032/fast-linux-file-count-for-a-large-number-of-files&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Fast Linux File Count for a large number of files&lt;/a&gt; : 一个小技巧, &lt;code&gt;By default ls sorts the names, which can take a while if there are a lot of them. Also there will be no output until all of the names are read and sorted. Use the ls -f option to turn off sorting&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/gwuhaolin/blog/issues/10&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;流媒体加密&lt;/a&gt; : 科普的小文章, 具体介绍了&lt;code&gt;HLS&lt;/code&gt;格式的传输方式，以及其对视频的加密原理，此类的科普文章还是非常值得花点时间去读的&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/6f_w_Cpu8WFKE9lGPC84Ug&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;数据处理中的准确性问题&lt;/a&gt; : 不少干货, 非常中肯的技巧&amp;amp;建议&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://loup-vaillant.fr/articles/rolling-your-own-crypto&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Rolling Your Own Crypto&lt;/a&gt; : 作者是加密库&lt;a href=&quot;http://loup-vaillant.fr/projects/monocypher/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Monocypher&lt;/a&gt; 的作者, 本文作者分享了对于&lt;code&gt;Crypto&lt;/code&gt;的理解，对于加密从应用到自己实现加密库到&lt;code&gt;inventing crypto&lt;/code&gt; 的理解，个人对加密还是非常有兴趣的，也先mark&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
     
   </entry>
   

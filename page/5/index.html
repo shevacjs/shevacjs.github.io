@@ -57,7 +57,7 @@
   </div>
 </header>
     <section id="main" class="outer">
-      <article id="post-classification_and_logistic_regression" class="article article-type-post" itemscope itemprop="blogPost">
+      <article id="post-20170507" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -65,69 +65,60 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/06/classification_and_logistic_regression/">Classification and logistic regression</a>
+      <a class="article-title" href="/2017/05/07/20170507/">weekly of 20170507</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2017/05/06/classification_and_logistic_regression/" class="article-date">
-  <time datetime="2017-05-05T16:25:11.000Z" itemprop="datePublished">2017-05-06</time>
+      <a href="/2017/05/07/20170507/" class="article-date">
+  <time datetime="2017-05-07T12:30:51.000Z" itemprop="datePublished">2017-05-07</time>
 </a>
       
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="分类问题"><a href="#分类问题" class="headerlink" title="分类问题"></a>分类问题</h3><p>线性回归用来具体预测一个连续的value，对于离散值的预测是怎么样的呢？是否可以用同样的办法？这个是本节需要讨论的内容， 简单起见，我们先考虑一个二元的分类问题，多元的分类可以基于这个模型进行扩展 </p>
-<p>通常情况下，在二元分类问题上，我们会约定，结果集: </p>
-<p>$$ y \in { 0, 1 }$$</p>
-<p>其中1一般成为正例，0成为反例</p>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><blockquote>
-<p> <code>WARN</code>: 个人理解</p>
-</blockquote>
-<p>回到线性回归模型，我们是定义如下函数用于预测: </p>
-<p>$$ y = h_\theta(\overrightarrow{x})$$</p>
-<p>y是连续值；一个问题是，是否有办法用类似的办法解决我们的二元分类问题？</p>
-<p>一个自然的想法是，如果我们能把$h_\theta(x)$的结果控制在$[0, 1]$之间的话，可以把其定义为为正例(或者负例)的概率，也就是: </p>
-<p>$$ P(y=1|x : \theta) = h_\theta(x)$$</p>
-<p>这样的定义，我们可以理解为，给定一个输入$x$, 我们要做的是预测其为正例的概率；所以还是类似于一个线性回归的问题； 下面具体看，如何对这个问题进一步建模；</p>
-<p>首先，我们会用如下函数约束我们的输出 : </p>
-<p>$$ g(z) = \frac{1}{1+ e^{-z}}$$</p>
-<p>$$h_\theta(x) = g(\theta^Tx) = \frac{1}{1 + e^{-\theta^Tx}}$$</p>
-<p>这个函数具有良好的特性，比如说：返回结果总是属于(0, 1) ，还有他的导数性质(暂且不说)；</p>
-<p>其次，如上基于概率的思想，我们可以有如下定义:</p>
-<p>$$ P(y=1|x : \theta) = h_\theta(x)$$</p>
-<p>$$ P(y=0|x : \theta) = 1- h_\theta(x)$$</p>
-<p>就是可以写成，对于任意一个输入$x$, 给定$\theta$, 其概率函数为: </p>
-<p>$$ p(y|x;\theta) = (h_\theta(x))^y(1-h_\theta(x))^{1-y}$$</p>
-<p>所以，在已知数据集合${X, Y }$的情况下,  我们要做的就是求$\theta$的最优解</p>
-<p>我们定义的最大似然函数 : </p>
-<p>$$ L(\theta) = p(\overrightarrow{y}| X ; \theta)$$<br>$$ = \prod_i^m p(y^{(i)}|x^{(i)};\theta)$$</p>
-<p>令 ： </p>
-<p>$$l(\theta) = log L(\theta) = \sum_{i=1}^m p(y^{(i)} | x^{(i)}; \theta)$$</p>
-<p>其实要求的就是$l(\theta)$的最大值， 这里我们假定我们可以用梯度下降的办法求解，也就是求解$\theta$可以使用如下方程推导:</p>
-<p>$$ \theta_j : = \theta_j + \alpha \frac{\partial}{\partial\theta} J(\theta)$$</p>
-<p>通过对上面函数的求导，我们可以得到类似线性回归的模式:</p>
-<p>$$ \theta_j =  \theta_j + \alpha \ast ( y^{(i)}- h_{\theta}(x^{(i)}) ) \ast  x_j$$</p>
-<h3 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h3><p>依照上面的策略，我们可以知道对于一个输入$x$, 我们的$h_\theta(x)$是一个概率值，这样怎么定义结果的正例和负例呢？一般情况下，我们可以约定 :</p>
-<p>$$ y = 1,  if \ \  h_\theta(x)&gt; 0.5; else\ \ y = 0 $$</p>
-<h3 id="多元分类问题"><a href="#多元分类问题" class="headerlink" title="多元分类问题"></a>多元分类问题</h3><p>上面讨论的是二元分类的问题，如何应用于n $(n &gt; 2)$元分类呢？一个简单的办法是： <code>one-vs-all</code> : 也就是每次就区分一个分类和剩余分类；如此重复n次，大概如下: </p>
-<ul>
-<li><p>对于每个分类$i$, 训练他的逻辑回归函数$h_\theta^{(i)}(x)$；按照上面的定义，可以理解为，其对应着 $ y = i $的概率</p>
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><a href="https://news.ycombinator.com/item?id=14241286" target="_blank" rel="external">LuaJIT 2.0.5 and 2.1.0-beta3 released</a> : 新版本的LuaJit, 不过看change好像都是实现细节上面的改动&amp;升级</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://developers.google.com/web/updates/2017/04/headless-chrome" target="_blank" rel="external">Getting Started with Headless Chrome</a> : 可以试试Chrome的<a href="https://en.wikipedia.org/wiki/Headless_software" target="_blank" rel="external">Headless</a>模式</p>
 </li>
-<li><p>对于一个新的输入 x, 我们计算 $\max \limits_i h_\theta^{(i)}(x)$, 对应着$i$分类</p>
+<li><p><a href="http://cenalulu.github.io/python/gil-in-python/" target="_blank" rel="external">Python的GIL是什么鬼，多线程性能究竟如何</a> : 对Python GIL可以有初步的认识和了解</p>
 </li>
 </ul>
-<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="https://blog.acolyer.org/2017/05/01/the-design-implementation-and-deployment-of-a-system-to-transparently-compress-hundreds-of-petabytes-of-image-files-for-a-file-storage-service/" target="_blank" rel="external">The design, implementation and deployment of a system to transparently compress hundreds of petabytes of image files for a file storage service</a> : Dropbox关于图片压缩的实践，在传统的JPEG算法上面，又引入了基于Hufferman的无损压缩算法，可以使文件的大小进一步减少(差不多23%)，整体思路是非常清晰，贴吧可以采纳下；具体还可以看<a href="https://www.usenix.org/sites/default/files/conference/protected-files/nsdi17_slides_horn.pdf" target="_blank" rel="external">slider</a>的介绍</p>
+</li>
+<li><p><a href="https://blog.acolyer.org/2017/04/26/improving-user-perceived-page-load-time-using-gaze/" target="_blank" rel="external">Improving user perceived page load time using gaze</a> : 传统的性能优化可能会侧重于<code>Onload</code> 或者 <code>SpeedIndex</code> 的响应时间，但是作者认为我们应该更关注所为的<code>perceives page load time</code>； 也就是一个页面的部分核心组件的展现时间（paper里面通过实际的实验来说明这个时间和常规的时间还是有不少差异的），提出了通过构建<code>自动发现页面核心组件</code> 以及相应的优化核心组件的加载时间来提升用户体验的办法; 感觉想法是非常新颖的 </p>
+</li>
+<li><p><a href="https://blog.acolyer.org/2016/11/02/memc3-compact-and-concurrent-memcache-with-dumber-caching-and-smarter-hashing/" target="_blank" rel="external">MemC3: Compact and concurrent Memcache with dumber caching and smarter hashing</a> : 一篇介绍memcached优化的文章，memcached虽然相对简单，但是深入研究，可以改进和优化的空间不少，本paper具体提了两个重大的方法，包括基于<a href="https://en.wikipedia.org/wiki/Cuckoo_hashing" target="_blank" rel="external">Cuckoo Hash</a>的hash改造，其可以提升内存存储效率&amp;支持并行访问，其次是基于<a href="https://en.wikipedia.org/wiki/Page_replacement_algorithm#Clock" target="_blank" rel="external">Clock LRU</a>的LRU改造方法；总体上面可以使得内存和运行速度分别有30%和3倍的提升</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://wit.ai/blog/2017/05/01/new-duckling" target="_blank" rel="external">Open Sourcing our new Duckling</a> : 挺有意思的一个项目, 先mark</p>
+</li>
+<li><p><a href="https://httpd.apache.org/docs/2.4/mod/mod_lua.html" target="_blank" rel="external">Apache Module mod_lua</a> : Apache的mod lua，看功能简介有点想nginx lua</p>
+</li>
+<li><p><a href="http://www.jianshu.com/p/90579ec3113f" target="_blank" rel="external">当CPU飙高时，它在做什么</a> : 看完的结论是自己赶紧写一个类似的脚本</p>
+</li>
+<li><p><a href="https://littlemaninmyhead.wordpress.com/2017/04/22/top-10-developer-crypto-mistakes/" target="_blank" rel="external">TOP 10 DEVELOPER CRYPTO MISTAKES</a> : 一些安全编码的方式&amp;技巧</p>
+</li>
+<li><p><a href="http://www.hackerfactor.com/blog/index.php?/archives/762-Attacked-Over-Tor.html" target="_blank" rel="external">Attacked Over Tor</a> : 里面讲到的<code>ZIP BOOM</code>的case可以关注下，是个不错的对待攻击者的方式</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=14280625" target="_blank" rel="external">Why does Google prepend while(1); to their JSON responses? </a> : 一个很巧妙的解决CSRF攻击的办法，可以了解下</p>
+</li>
+</ul>
+
       
     </div>
     
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
 
       </footer>
     
@@ -294,6 +285,92 @@
 <li><a href="http://blog.csdn.net/zhongkelee/article/details/44064401" target="_blank" rel="external">主成分分析（PCA）原理详解</a></li>
 </ul>
 
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-classification_and_logistic_regression" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/06/classification_and_logistic_regression/">Classification and logistic regression</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/05/06/classification_and_logistic_regression/" class="article-date">
+  <time datetime="2017-05-05T16:25:11.000Z" itemprop="datePublished">2017-05-06</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="分类问题"><a href="#分类问题" class="headerlink" title="分类问题"></a>分类问题</h3><p>线性回归用来具体预测一个连续的value，对于离散值的预测是怎么样的呢？是否可以用同样的办法？这个是本节需要讨论的内容， 简单起见，我们先考虑一个二元的分类问题，多元的分类可以基于这个模型进行扩展 </p>
+<p>通常情况下，在二元分类问题上，我们会约定，结果集: </p>
+<p>$$ y \in { 0, 1 }$$</p>
+<p>其中1一般成为正例，0成为反例</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><blockquote>
+<p> <code>WARN</code>: 个人理解</p>
+</blockquote>
+<p>回到线性回归模型，我们是定义如下函数用于预测: </p>
+<p>$$ y = h_\theta(\overrightarrow{x})$$</p>
+<p>y是连续值；一个问题是，是否有办法用类似的办法解决我们的二元分类问题？</p>
+<p>一个自然的想法是，如果我们能把$h_\theta(x)$的结果控制在$[0, 1]$之间的话，可以把其定义为为正例(或者负例)的概率，也就是: </p>
+<p>$$ P(y=1|x : \theta) = h_\theta(x)$$</p>
+<p>这样的定义，我们可以理解为，给定一个输入$x$, 我们要做的是预测其为正例的概率；所以还是类似于一个线性回归的问题； 下面具体看，如何对这个问题进一步建模；</p>
+<p>首先，我们会用如下函数约束我们的输出 : </p>
+<p>$$ g(z) = \frac{1}{1+ e^{-z}}$$</p>
+<p>$$h_\theta(x) = g(\theta^Tx) = \frac{1}{1 + e^{-\theta^Tx}}$$</p>
+<p>这个函数具有良好的特性，比如说：返回结果总是属于(0, 1) ，还有他的导数性质(暂且不说)；</p>
+<p>其次，如上基于概率的思想，我们可以有如下定义:</p>
+<p>$$ P(y=1|x : \theta) = h_\theta(x)$$</p>
+<p>$$ P(y=0|x : \theta) = 1- h_\theta(x)$$</p>
+<p>就是可以写成，对于任意一个输入$x$, 给定$\theta$, 其概率函数为: </p>
+<p>$$ p(y|x;\theta) = (h_\theta(x))^y(1-h_\theta(x))^{1-y}$$</p>
+<p>所以，在已知数据集合${X, Y }$的情况下,  我们要做的就是求$\theta$的最优解</p>
+<p>我们定义的最大似然函数 : </p>
+<p>$$ L(\theta) = p(\overrightarrow{y}| X ; \theta)$$<br>$$ = \prod_i^m p(y^{(i)}|x^{(i)};\theta)$$</p>
+<p>令 ： </p>
+<p>$$l(\theta) = log L(\theta) = \sum_{i=1}^m p(y^{(i)} | x^{(i)}; \theta)$$</p>
+<p>其实要求的就是$l(\theta)$的最大值， 这里我们假定我们可以用梯度下降的办法求解，也就是求解$\theta$可以使用如下方程推导:</p>
+<p>$$ \theta_j : = \theta_j + \alpha \frac{\partial}{\partial\theta} J(\theta)$$</p>
+<p>通过对上面函数的求导，我们可以得到类似线性回归的模式:</p>
+<p>$$ \theta_j =  \theta_j + \alpha \ast ( y^{(i)}- h_{\theta}(x^{(i)}) ) \ast  x_j$$</p>
+<h3 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h3><p>依照上面的策略，我们可以知道对于一个输入$x$, 我们的$h_\theta(x)$是一个概率值，这样怎么定义结果的正例和负例呢？一般情况下，我们可以约定 :</p>
+<p>$$ y = 1,  if \ \  h_\theta(x)&gt; 0.5; else\ \ y = 0 $$</p>
+<h3 id="多元分类问题"><a href="#多元分类问题" class="headerlink" title="多元分类问题"></a>多元分类问题</h3><p>上面讨论的是二元分类的问题，如何应用于n $(n &gt; 2)$元分类呢？一个简单的办法是： <code>one-vs-all</code> : 也就是每次就区分一个分类和剩余分类；如此重复n次，大概如下: </p>
+<ul>
+<li><p>对于每个分类$i$, 训练他的逻辑回归函数$h_\theta^{(i)}(x)$；按照上面的定义，可以理解为，其对应着 $ y = i $的概率</p>
+</li>
+<li><p>对于一个新的输入 x, 我们计算 $\max \limits_i h_\theta^{(i)}(x)$, 对应着$i$分类</p>
+</li>
+</ul>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3>
       
     </div>
     
@@ -692,90 +769,6 @@
 <li><p><a href="https://news.ycombinator.com/item?id=13925238" target="_blank" rel="external">An advanced browser fingerprint calculator aimed mainly at Tor Browser users</a> :  主要看评论, 有人介绍了两个比较接地气的user track办法, 其一是使用flash cookie, 其二是使用图片的etags; 现在更推荐用第二种方案</p>
 </li>
 <li><p><a href="https://docs.surfly.com/" target="_blank" rel="external">The Surfly</a> : Surfly’s co-browsing technology enables you to share your browser with others, 解决类似于屏幕共享的需求，不过这里面主要focus在浏览器; 大概思路还在于”to send over the real HTML content “</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20170319" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/19/20170319/">weekly of 20170319</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/03/19/20170319/" class="article-date">
-  <time datetime="2017-03-18T16:29:56.000Z" itemprop="datePublished">2017-03-19</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><a href="https://opensource.googleblog.com/2017/03/guetzli-new-open-source-jpeg-encoder.html" target="_blank" rel="external">Announcing Guetzli: A New Open Source JPEG Encoder</a> : “a new open source algorithm that creates high quality JPEG images with file sizes 35% smaller than currently available methods”</p>
-</li>
-<li><p><a href="https://medium.com/@hoffa/hacker-news-on-bigquery-now-with-daily-updates-so-what-are-the-top-domains-963d3c68b2e2#.fvrs3wkmh" target="_blank" rel="external">Hacker News on BigQuery: Now with daily updates — So what are the top domains?</a> : 很赞同” BigQuery Public Datasets Program”的理念</p>
-</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://news.ycombinator.com/item?id=13856552" target="_blank" rel="external">syncthing</a> : 一个数据同步工具，感觉很给力, 下来可以试用下; 可以关注<a href="https://kastelo.net/2017/03/08/syncthing-kcp.html" target="_blank" rel="external">Advanced NAT traversal via UDP</a> 和 <a href="https://github.com/syncthing/syncthing/pull/3986" target="_blank" rel="external">Internal filesystem notification watch facility for near realtime sync</a> 两个相关文章;</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=13899829" target="_blank" rel="external">Lua VM running in a WASM environment</a> : 持续关注, 不知是否可以支持可信客户端;</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://thehftguy.com/2016/11/01/docker-in-production-an-history-of-failure/" target="_blank" rel="external">Docker in Production: A History of Failure</a> : 看看docker的问题, 虽然不全对，但是可以加深我们对docker的认知和理解</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5Nzc4OTA1Mw==&amp;mid=2659599059&amp;idx=1&amp;sn=af9af208d412c8dad088b538c72260ed&amp;chksm=8be997c1bc9e1ed757c61f5da1151c11721e8d1e6873f4908c4281ded846e4561b3fc8e4a19a#rd" target="_blank" rel="external">如何安全的存储用户密码？</a> : 对于密码存储的方式和方法，进行了非常系统和详细的介绍; 强烈推荐 &amp; mark</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzI4MjE3MTcwNA==&amp;mid=2664335359&amp;idx=1&amp;sn=015f84d1b04a0fe7aac0a1aa335bf4cf&amp;chksm=f0a427a8c7d3aebe84c137c3505639b07af744a584c2a748547968aecf7b6abab47c07296371&amp;mpshare=1&amp;scene=1&amp;srcid=03142AVQn9cL1eMLmsBb4cmX&amp;pass_ticket=HkUjgEyv%2Fadt2%2FxZf7VS04wYLPSApXsAq2TCbOqBbk9r1ci6NC8uKHgYruBkEe8v#rd" target="_blank" rel="external">互动直播的技术细节和解决方案实践经验谈</a> : 互动直播相比于之前的普通视频直播, 面临的延迟等问题更大, 具体介绍了百度云对于互动直播的支持和技术解决方案, 可以了解, 开阔下视野</p>
-</li>
-<li><p><a href="http://tech.meituan.com/SharkSDK.html" target="_blank" rel="external">美团点评移动网络优化实践</a> : 网络接入优化现在的优秀app的默认功能</p>
-</li>
-<li><p><a href="https://www.pipelinedb.com/blog/pipelinedb-0-9-7-delta-streams-and-towards-a-postgresql-extension" target="_blank" rel="external">PipelineDB 0.9.7 - Delta Streams and Towards a PostgreSQL Extension</a> : PipelineDB的理念和思路值得关注 </p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://fauna.com/blog/distributed-acid-transaction-performance" target="_blank" rel="external">120,000 distributed consistent writes per second with Calvin</a> : 先mark</p>
-</li>
-<li><p><a href="https://vimgifs.com/y/" target="_blank" rel="external">Vimgifs</a> : vim命令的gif展示，感觉外国人做好多事情都非常认真，细心</p>
-</li>
-<li><p><a href="https://www.netlifycms.org/" target="_blank" rel="external">netlifycms: An open-source CMS for your Git workflow</a> : 基于github接口的CMS系统，不用原生依赖存储，感觉还是很给力的，hacker news上面评价不错, 有空可以关注下</p>
-</li>
-<li><p><a href="https://github.com/chromium/badssl.com" target="_blank" rel="external">chromium/badssl.com</a> : Memorable site for testing clients against bad SSL configs</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&amp;mid=2650724442&amp;idx=1&amp;sn=d321d5195770982762cf138ad9fc68a4&amp;chksm=871b1c24b06c9532e1886afaba634311c64fc49ed5de2425f90fd50c61daa459bf91d0ac559f&amp;scene=0&amp;key=05a6fbe786a1ddb51c9f387d3bf18cf1c14be3fc51c5126f601aff076ab08fd47e185dfdf3630a88bc36543168d60327dad539f30b25803d9d5407b2a0e4525eba22685f22975c695d71537332420693&amp;ascene=7&amp;uin=MTgwOTU2NjU0MQ%3D%3D&amp;devicetype=android-24&amp;version=26050630&amp;nettype=WIFI&amp;abtest_cookie=AQABAAgAAQCAhh4AAAA%3D&amp;pass_ticket=JKudu6TNpIwQ11QhDz4%2BHUI1mPblIR7ptPSSa%2Ffun71r6VjXjB4YvdwqR99E7LZr&amp;wx_header=1" target="_blank" rel="external">谷歌微软等科技巨头数据科学面试107道真题：你能答出多少？</a> : 不少问题，值得好好思考和理解</p>
-</li>
-<li><p><a href="https://en.wikipedia.org/wiki/Anti-spam_techniques" target="_blank" rel="external">Anti-spam techniques</a> : 反作弊技术的概述, 值得持续跟进反思</p>
 </li>
 </ul>
 
