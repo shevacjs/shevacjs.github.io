@@ -57,6 +57,88 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-an_problem_about_so_copy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/23/an_problem_about_so_copy/">一个so不能copy引发的问题&amp;思考</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/12/23/an_problem_about_so_copy/" class="article-date">
+  <time datetime="2014-12-22T17:23:09.000Z" itemprop="datePublished">2014-12-23</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>问题的背景其实比较简单，也很常见，就是如果一个bin文件，通过<code>dlopen</code>的方式打开so，继续连接的时候；在程序进行升级的时候，如果bin文件还在执行，不能简单的copy，一般是需要用mv之类的方法，否则很容易出core。</p>
+<p>这是为什么呢？</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>首先比较cp命令和mv命令的区别，大致如下：</p>
+<ul>
+<li>cp –&gt; open(O_WRONLY | O_TRUNC) : 原来文件的inode不变，修改内容</li>
+<li>mv –&gt; unlink | create ：删除原来文件, inode 失效</li>
+</ul>
+<p>总而言之，<code>最大的区别是inode的节点的变化</code>。那这为什么会导致程序出core呢？</p>
+<p>这个推敲过程比较复杂，这里就简单说明概括性的结论,而且结论还不一定对。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>下面分析仅仅使用于linux</p>
+</blockquote>
+<ul>
+<li><p>为什么可以被copy？<br>  linux下面的文件被加载到内存执行，一般就两个情况，一个是exe/bin文件，一个是so文件。理论上，或者理想的话，一个文件如果被加载到内存，且程序在被执行过程，这个时候对他的原始文件的修改，是应该不被允许的。而事实上，是怎么样的呢？</p>
+<ul>
+<li>对bin文件：的确系统提供了保护机制，但是系统监控的最要是以inode节点为依据的。也就是说，如果你对同一个inode节点做变更的话，是不被允许的（也就是会发生TEXT BUSY)之类的错误；但是你如果先unlink，在copy一个同样名字的bin文件过来，就是可以的（这也就是linux可以热升级bin文件的缘故）。</li>
+<li>对动态加载的so文件，系统是通过mmap映射文件加载进来的，早期的linux支持DENYWRITE的选项，后来废弃了（man手册上面说明是因为会导致dos攻击，为什么？）。因此理论上我们是可以随便把一个内容cp到一个正在运行的so上面的。</li>
+</ul>
+</li>
+<li><p>copy发生了什么?<br>  明确了so可以被copy后，让我们看为什么copy之后会发生core呢？理论上你的东西都已经跑到内存里面了，我随便改改文件应该没什么影响啊？根据<code>深入理解LINUX内核</code>上面对mmap的说明，大概猜测如下：</p>
+<ul>
+<li>linux是有页高速缓存的，用于缓存文件的内容；</li>
+<li>mmap做内存文件映射的时候，其实并没有开辟什么新的内存空间，而是直接指向了页高速缓存的区域；</li>
+<li><p>当外部程序对文件进行修改的时候，页高速缓存就会失效；下一次主程序读取的时候，就会重新从磁盘文件里面加载最小的文件内容；(这个通过程序的验证，可以通过写个mmap的程序读取会动态发生内容改变的程序);</p>
+<p>总的来说，通过mmap获取的内存区域，在文件发生内容变化的时候，其内存地址对于的内容也会发生改变</p>
+</li>
+</ul>
+</li>
+<li><p>程序为什么会core呢？</p>
+<p>  有了上面的基础，整个原因就比较清晰了；因为一个so里面被加载之后，总是需要做地址重定向的；在copy发生后，我们只是简单的更改了内容，当没有重定向地址，这样就导致了此时在访问次共享内存的时候，很多地址都是无效的，那肯定容易出core啊</p>
+</li>
+</ul>
+<h2 id="跟进"><a href="#跟进" class="headerlink" title="跟进"></a>跟进</h2><ul>
+<li>页高速缓存的机制</li>
+<li>linux常见命令对应的操作系统调用情况</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="http://unix.stackexchange.com/questions/74142/why-does-a-software-package-run-just-fine-even-when-it-is-being-upgraded?lq=1" target="_blank" rel="external">Why does a software package run just fine even when it is being upgraded?</a></li>
+<li><a href="http://unix.stackexchange.com/questions/74165/how-to-upgrade-shared-library-without-crash" target="_blank" rel="external">How to upgrade shared library without crash?</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_622a99700100pjv3.html" target="_blank" rel="external">linux下So覆盖导致coredump问题的分析</a></li>
+<li><a href="http://www.piao2010.com/%E4%B8%BA%E4%BD%95cp%E8%A6%86%E7%9B%96%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%8A%A8%E6%80%81%E5%BA%93so%E4%BC%9A%E5%AF%BC%E8%87%B4coredump" target="_blank" rel="external">为何cp覆盖进程的动态库(so)会导致coredump</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-1220_bitch_about" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -292,7 +374,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2017 shevacjs&nbsp;
+      &copy; 2018 shevacjs&nbsp;
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
     </div>
   </div>

@@ -57,6 +57,116 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-Supervised_Learning" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/21/Supervised_Learning/">Supervised learning ： Linear Regression</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/07/21/Supervised_Learning/" class="article-date">
+  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>chenjiansen from CS229 Lecture notes by Andrew Ng</p>
+</blockquote>
+<p>本文简单介绍下线性回归的基本思想和算法</p>
+<h3 id="基本定义"><a href="#基本定义" class="headerlink" title="基本定义"></a>基本定义</h3><p>设有 :  </p>
+<p>$$X = { x^{(1)},  x^{(2)}, … , x^{(m)} }$$<br>$$Y = { y^{(1)},   y^{(2)}, … , y^{(m)} }$$</p>
+<p>X表示输入集合，Y则代表对应的输出，则对于任意$x^{(i)}$, 有$x^{(i)} = {x_1, x_2,x_3, … x_n }$, 也就是我们假设这个数据集有<code>m</code>个元素，每个元素是<code>n</code>个维度的</p>
+<p>同时，目标预测函数满足线性回归，则我们的假设函数可以写成: </p>
+<p>$$h_\theta(x) = \theta_0 + \theta_1x_1 + \theta_2x_2 + … + \theta_nx_n = \sum_{i=0}^{n}\theta_ix_i = \theta^TX$$</p>
+<p>同时定义我们的<code>cost function</code> ，我们可以把他定义为<code>差的平方和</code>(具体后面会解释为什么可以这样定义) : </p>
+<p>$$ J(\theta) = \frac{1}{2} \sum_{i=0}^m(h_{(\theta)}(x^{(i)}) - y^{(i)})^2$$</p>
+<p>则我们的问题可以简化为, 给定数据集合$X, Y$,  求让$J(\theta)$ 最小的$\theta$</p>
+<h3 id="优化算法"><a href="#优化算法" class="headerlink" title="优化算法"></a>优化算法</h3><p>最优化算法有非常多，这里面主要介绍两种最优化算法，包括<code>梯度下降法</code>和<code>最小二乘法</code>，下面分别说明 : </p>
+<h4 id="梯度下降法"><a href="#梯度下降法" class="headerlink" title="梯度下降法"></a>梯度下降法</h4><p>考虑到上面定义的cost function，梯度下降法在这边的应用可以直接的表示为 : </p>
+<p>$$ \theta_j : \theta_j - \alpha \frac{\partial}{\partial\theta} J(\theta)$$</p>
+<p>其中$\alpha$表示下降的速度，$ j = { 0, 1, 2, … , n}$</p>
+<p>下面我们来求解上面那个方程，简单起见，我们考虑只有一个样本的情况，如下: </p>
+<p>$$ \frac{\partial}{\partial \theta} J(\theta) = \frac{1}{2} \ast 2 (h_{(\theta)}(x^{(i)}) - y^{(i)})  \ast \frac{\partial}{\partial\theta}{(h_{(\theta)}(x^{(i)} -y^{(i)})}$$</p>
+<p>$$ = (h_{(\theta)}(x^{(i)}) - y^{(i)}) \ast \frac{\partial}{\partial\theta}{(\theta^TX -y^{(i)})} $$</p>
+<p>$$ = (h_{(\theta)}(x^{(i)}) - y^{(i)}) \ast  x_j$$</p>
+<p>也就是可以表示为:<br>$$ \theta_j =  \theta_j + \alpha \ast (h_{\theta}(x^{(i)}) - y^{(i)}) \ast  x_j $$</p>
+<p>则一般在实际应用的时候，可以有两个办法：</p>
+<p>第一个办法称为<code>batch gradient descent</code>,  大概算法如下 : </p>
+<p>Repeat until convergence {<br>$$\theta_j = \theta_j + \alpha \sum_{i=0}^{m}( y^{(i)} - h_{\theta}(x^{(i)}) $$<br>[ for every j ]<br>}</p>
+<p>第二个办法成为<code>incremental gradient descent</code> , 大概形式如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Loop &#123;</div><div class="line">	for i = 1 to m &#123;</div></pre></td></tr></table></figure></p>
+<p>$        \theta_j = \theta_j + \alpha \ast ( y^{(i)} - h_{\theta}(x^{(i)})  $ ( for every j)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到: </p>
+<ul>
+<li><p>批量梯度下降: 最小化所有训练样本的损失函数，使得最终求解的是全局的最优解，即求解的参数是使得风险函数最小，但是对于大规模样本问题效率低下；每迭代一次需要的计算量约为<code>m*n^2</code>，如果m很大的话，性能上面会有比较大的压力</p>
+</li>
+<li><p>随机梯度下降 : 最小化每条样本的损失函数，虽然不是每次迭代得到的损失函数都向着全局最优方向， 但是大的整体的方向是向全局最优解的，最终的结果往往是在全局最优解附近，适用于大规模训练样本情况。</p>
+</li>
+</ul>
+<h4 id="最小二乘法"><a href="#最小二乘法" class="headerlink" title="最小二乘法"></a>最小二乘法</h4><p>上面的优化问题，也可以用最小二乘法求解，依照输入的情况，我们定义如下几个变量 :</p>
+<ul>
+<li>矩阵 A :  m*n矩阵， 行向量 $x^{(j)}  $ 代表一个样本 </li>
+<li>向量$\overrightarrow{\theta}$ : n*1 向量，也就是我们要求解的参数向量</li>
+<li>向量 $\overrightarrow{y}$ :  m*1 向量，每个元素$y^{(i)}$, 对应着输入样本$x^{(i)}$的值</li>
+</ul>
+<p>则我们的问题可以转换为，求解向量$\overrightarrow{\theta}$, 使得 : </p>
+<p>$$ A \overrightarrow {\theta} = \overrightarrow{y} $$</p>
+<p>有最优解或者有解；无论矩阵A是否可逆那个，我们知道最小二乘的解为 (具体证明下面另述):</p>
+<p>$$ \overrightarrow {\theta} = (A^TA)^{(-1)} A^T \overrightarrow{y} $$ </p>
+<blockquote>
+<p>个人理解: 缺点应该是整体的计算量会非常大</p>
+</blockquote>
+<h3 id="概率解释"><a href="#概率解释" class="headerlink" title="概率解释"></a>概率解释</h3><p>上面说到，我们使用<code>least-squares function</code> 来定义我们的cost function；下面简单说明，如此定义的合理性；</p>
+<p>首先，对于预测结果和实际结果的关系，我们可以用如下式子说明 : </p>
+<p>$$ y^{(i)} = \theta^T x^{(i)} + \epsilon^{(i)}$$</p>
+<p>其中 $\epsilon^{(i)}$ 代表着我们的预估结果误差；</p>
+<p>现在我们假设$\epsilon^{(i)}$ 满足正态分布，也就是$\epsilon^{(i)} \sim \aleph (0, \sigma^2)$ , 则有: </p>
+<p>$$ p(y^{(i)} |  x^{(i)}, \theta ) = \frac{1}{\sqrt{2\pi}\sigma} exp (-\frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2\sigma^2})$$</p>
+<p>同样，现在我们面临的问题是，给定了集合${X, Y}$ , 需要预估一个合理的$\theta$,  所以我们定义似然函数如下: </p>
+<p>$$ L(\theta) = L(\theta; X, \overrightarrow{y}) = p(\overrightarrow{y} | X; \theta)$$</p>
+<p>如上，我们考虑到所有的$\epsilon^{(i)}$ 是独立的，所以有 ： </p>
+<p>$$L(\theta) = \prod_{i=1}^{m} \frac{1}{\sqrt{2\pi}\sigma} exp (-\frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2\sigma^2}) $$</p>
+<p>现在就是要求这个函数的最大值, 我们求解<code>log likehood</code>的情况: </p>
+<p>$$ l(\theta) = log L(\theta) = log \prod_{i=1}^{m} \frac{1}{\sqrt{2\pi}\sigma} exp (-\frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2\sigma^2})  $$</p>
+<p>$$ = \sum_{i=0}^{m} log \frac{1}{\sqrt{2\pi}\sigma} exp (-\frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2\sigma^2})$$</p>
+<p>$$ = m  \ast log \frac{1}{\sqrt{2\pi}\sigma}  - \frac{1}{\sigma^2} \ast \frac{1}{2} \sum_{i=1}^{m}(y^{(i)} - \theta^Tx^{(i)})^2$$</p>
+<p>也就是令 $\frac{1}{2} \sum_{i=1}^{m}(y^{(i)} - \theta^Tx^{(i)})^2 $为最小值的时候其概率最大； 正好对应着我们定义的<code>cost function</code></p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="http://www.cnblogs.com/maybe2030/p/4751804.html" target="_blank" rel="external">常见的几种最优化方法</a> : 几个常见的优化算法，说的非常详细</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20170716" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -667,84 +777,6 @@
 
 
     
-      <article id="post-20170514" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/14/20170514/">weekly of 20170514</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/05/14/20170514/" class="article-date">
-  <time datetime="2017-05-14T12:30:52.000Z" itemprop="datePublished">2017-05-14</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><a href="http://weibo.com/ttarticle/p/show?id=2309404106694383811134" target="_blank" rel="external">计算机新硬件技术带来的变革与思考</a> : 可以了解，未来无限可能</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/2BKjeVpxSZB4REAhALrTHw" target="_blank" rel="external">如何看待 Google 最新的系统 Fuchsia？</a> : 作者认为<code>Fuchsia</code>是一个未来的操作系统，用于支持VR、AR等未来的交互方式</p>
-</li>
-<li><p><a href="https://android-developers.googleblog.com/2017/05/here-comes-treble-modular-base-for.html" target="_blank" rel="external">Here comes Treble: A modular base for Android</a> : Android准备引入了<code>Vendor Interface</code>, 以便低成本的支持应用程序在不同设备的迁移</p>
-</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://news.ycombinator.com/item?id=14321213" target="_blank" rel="external">When Bash scripts bite (janestreet.com)</a> : 在bash里面，需要对<code>set -euo pipefail</code> 谨慎使用</p>
-</li>
-<li><p><a href="http://www.brendangregg.com/blog/2017-05-09/cpu-utilization-is-wrong.html" target="_blank" rel="external">CPU Utilization is Wrong</a> : 作者认为我们通常说的<code>cpu utilization</code> 并不是cpu的真正利用率，其包括了cpu的cache等待时间; 我们应该更关注<code>IPC</code>(instructions-per-cycle), 通过这个指标我们可以分辨出系统的真正瓶颈(是不是cpu cahce可以优化等); 这中说法并不完全合理，但是也是理想系统的另外一个视角</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="https://www.quora.com/How-does-Quora-use-machine-learning-in-2017/answer/Nikhil-Dandekar?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=social" target="_blank" rel="external">How does Quora use machine learning in 2017?</a> : 具体谈到了<code>Quora</code> 如何利用ML的相关技术来优化他们的产品体验, 包括: 问题理解，推荐等场景; 里面还具体提到了<code>Quora</code>使用到的一些工具和lib，也可以采纳&amp;学习</li>
-</ul>
-<ul>
-<li><a href="https://news.ycombinator.com/item?id=14314931" target="_blank" rel="external">How Cloudflare analyzes 1M DNS queries per second</a> : 非常好的文章, 重点是讨论通过使用<code>Kafka + ClickHouse</code> 来进行在线实时的大规模计算, 其中<a href="https://clickhouse.yandex/" target="_blank" rel="external">ClickHouse</a> 可以持续关注</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://opensource.com/article/16/12/yearbook-9-lessons-25-years-linux-kernel-development" target="_blank" rel="external">9 lessons from 25 years of Linux kernel development</a> : 关于linux内核开发的一些建议和技巧，总结性的东西</p>
-</li>
-<li><p><a href="http://www.freebuf.com/articles/web/133455.html" target="_blank" rel="external">通过浏览器缓存来bypass nonce script CSP</a> : 利用浏览器缓存, 绕过<code>nonce script CSP</code>的一个方式</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650996187&amp;idx=1&amp;sn=f8ae2f2d0b84567004119e41e0a83646" target="_blank" rel="external">技术漫谈：为何KPI毁了索尼，而OKR却成就了谷歌？</a> : 对KPI &amp; OKR 的解释</p>
-</li>
-<li><p><a href="https://github.com/yandex/gixy" target="_blank" rel="external">GIXY:Nginx configuration static analyzer</a> : “Gixy is a tool to analyze Nginx configuration. The main goal of Gixy is to prevent security misconfiguration and automate flaw detection.”</p>
-</li>
-<li><p><a href="https://www.spinellis.gr/blog/20170510/" target="_blank" rel="external">Unix Architecture Evolution Diagrams</a> : 作者写了一个工具<a href="https://github.com/dspinellis/unix-architecture" target="_blank" rel="external">Unix Architecture Diagrams</a>, 其可以通过对源码的分析&amp;扫描，自动生成一个软件的架构图</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/3/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/5/">下一页 &raquo;</a>
       </nav>
@@ -753,7 +785,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2017 shevacjs&nbsp;
+      &copy; 2018 shevacjs&nbsp;
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
     </div>
   </div>
@@ -780,6 +812,23 @@
 
 
 <script src="/js/script.js"></script>
-  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 </body>
 </html>
