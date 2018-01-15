@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2018-01-07T07:08:49.000Z</updated>
+  <updated>2018-01-15T10:38:30.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,65 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20180114</title>
+    <link href="http://shevacjs.com/2018/01/15/20180114/"/>
+    <id>http://shevacjs.com/2018/01/15/20180114/</id>
+    <published>2018-01-15T10:28:45.000Z</published>
+    <updated>2018-01-15T10:38:30.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/Barcelona_Seaside.jpg" alt="巴塞罗那-海边"></p>
+<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://www.netguru.co/codestories/nginx-tutorial-performance" target="_blank" rel="external">Nginx Tutorial #2: Performance</a> : 关于nginx的介绍文章，这篇重点介绍nginx在性能优化方向做的事情，详细说明了<code>TCP_NODEALY</code>, <code>sendfile</code>等特性, 非常值得学习 </p>
+</li>
+<li><p><a href="http://servercoder.com/2018/01/10/protobuf-usages/" target="_blank" rel="external">你真的用对protobuf了吗?</a> : Protobuf使用的一些tips</p>
+</li>
+<li><p><a href="https://zoumiaojiang.com/article/common-web-security/" target="_blank" rel="external">常见 Web 安全攻防总结</a> : 概述的还是非常全面的，包括<code>XSS</code>, <code>CSRF</code>, <code>SQL注入</code></p>
+</li>
+<li><p><a href="http://facebook.github.io/zstd/" target="_blank" rel="external">Zstandard</a> : “Zstandard is a real-time compression algorithm, providing high compression ratios, It also offers a special mode for small data, called dictionary compression, and can create dictionaries from any sample set”; 后面的特性值得关注</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/" target="_blank" rel="external">What’s a service mesh? And why do I need one?</a> : 关于Service Mesh的初步介绍, 去年中旬到现在，是微服务框架的一个很多的概念, 其他可以参考的文章包括<a href="https://istio.io/docs/" target="_blank" rel="external">Istio Document</a>, <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650998746&amp;idx=1&amp;sn=5ef8234abc6855482db64b581e4e9a9a" target="_blank" rel="external">Service Mesh：下一代微服务？</a>, <a href="https://mp.weixin.qq.com/s?__biz=MzU0MTMyMDg1NQ==&amp;mid=2247483697&amp;idx=1&amp;sn=b5fdd3af4ae352942820cec9280257c3" target="_blank" rel="external">演讲实录 | Service Mesh 时代的选边与站队</a>, <a href="http://dockone.io/article/3022" target="_blank" rel="external">使用Istio治理微服务入门</a>, 感觉和自己之前琐碎梳理的想法很一致, 需要进一步提升对问题和解决方案的归纳总结能力</p>
+</li>
+<li><p><a href="http://blog.cnbang.net/tech/3531/" target="_blank" rel="external">移动 APP 网络优化概述</a> : 概括性的介绍了移动APP的网络优化思路，包括在弱网情况下的优化策略</p>
+</li>
+<li><p><a href="https://www.bbsmax.com/A/kmzLLLolzG/" target="_blank" rel="external">TLS协议分析 与 现代加密通信协议设计</a> : 对TLS和密码技术的非常全面的介绍，是之前个人比较想写的一类文章，非常赞，先mark</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/6V-zQYwvWuvu3bwtkpaM7w" target="_blank" rel="external">Jeff Dean晒谷歌大脑成绩单，TPU、AutoML、TensorFlow等重大突破</a> : 真心佩服这些无论在高屋建瓴还是技术细节方面，都能考虑周全，推进落地的人员,  其整体战略目标是非常清楚的</p>
+</li>
+</ul>
+<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><ul>
+<li><a href="https://www.gnu.org/software/gawk/manual/html_node/Reference-to-Elements.html" target="_blank" rel="external">AWK: Referring to an Array Element</a> : 在AWK里面直接使用<code>array[index-expression]</code>是有副作用的，awk内部会自动为此index生成一个emtpy value, 所以判断一个arry的某个index是否存在，最合理的办法是<code>if inx in array</code>，而不是<code>array[index] == &quot;&quot;</code>, 也可以参看<a href="https://www.gnu.org/software/gawk/manual/html_node/Array-Intro.html#Array-Intro" target="_blank" rel="external">AWK:Introduction to Arrays</a></li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247487608&amp;idx=3&amp;sn=a6392d5028f0f33bfeebf89baf9e2975" target="_blank" rel="external">Facebook开源端到端自动语音识别系统wav2letter</a> : 其是由Facebook AI 研究团队开源的一款简单而高效的端到端自动语音识别系统, 简单看了文档，感觉安装之类的还是很复杂的</p>
+</li>
+<li><p><a href="https://www.jiqizhixin.com/articles/2018-01-12-5/" target="_blank" rel="external">前端慌不慌？用深度学习自动生成HTML代码</a> : “如何用前端页面原型生成对应的代码一直是我们关注的问题，本文作者根据 pix2code 等论文构建了一个强大的前端代码生成模型，并详细解释了如何利用 LSTM 与 CNN 将设计原型编写为 HTML 和 CSS 网站”</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/Zaqj421ASh0kWGnR2ksHJA" target="_blank" rel="external">由全民吃鸡引发的网游加速学习总结</a> : 关于游戏网络速度优化的说明，可以了解国内的网络拓扑的大概情况</p>
+</li>
+<li><p><a href="https://www.toutiao.com/a6509770828173804045/" target="_blank" rel="external">10张图，看懂今日头条核心算法技术</a> : 初步介绍今日头条的算法策略, 后续应该还会有更详细的说明</p>
+</li>
+<li><p><a href="https://www.jianshu.com/p/56acbd66d525" target="_blank" rel="external">天天写业务代码很焦虑，怎么破?</a> : 关于业务和技术开发的常规讨论, “每一层技术实现，都服务于上一层，都以上一层的需求为业务”, 里面对于业务和技术的感受的区分点个人还是很认可的</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16140418" target="_blank" rel="external">iOS 11 Security[pdf]</a> : 苹果的官方文档，关于IOS系统安全性的白皮书, 文档写的非常系统，排版也非常漂亮，值得mark学习</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/Barcelona_Seaside.jpg&quot; alt=&quot;巴塞罗那-海边&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;u
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>nginx 1.13.8 版本说明</title>
@@ -1213,57 +1272,6 @@
 &lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://www.infoq.com/cn/news/2017/08/Memsniff-Memcached&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Memsniff：一个健壮的Memcached流量分析工具&lt;/a&gt; : 思路是通过分析网络包(tcpdump产出等)，来对memcached进行相关的分析, 有时候应该有用&lt;/li&gt;
 &lt;/ul&gt;
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170813</title>
-    <link href="http://shevacjs.com/2017/08/14/20170813/"/>
-    <id>http://shevacjs.com/2017/08/14/20170813/</id>
-    <published>2017-08-14T11:51:00.000Z</published>
-    <updated>2017-08-14T11:51:38.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><a href="https://medium.com/@andrewng/deeplearning-ai-announcing-new-deep-learning-courses-on-coursera-43af0a368116" target="_blank" rel="external">Deeplearning.ai: Announcing new Deep Learning courses on Coursera</a> : Ng的新的关于Deep Learning的AI课程将会在courses发布，有兴趣的同学可以关注</p>
-</li>
-<li><p><a href="http://nginx.org/en/CHANGES" target="_blank" rel="external">nginx 1.13.4 </a> : Nginx退出1.13.4版本, 支持<a href="http://nginx.org/en/docs/http/ngx_http_mirror_module.html" target="_blank" rel="external">mirror module</a>，感觉有不少应用场景，可以关注下</p>
-</li>
-<li><p><a href="http://www.infoq.com/cn/news/2017/08/deeplearn-js-Browser-machine-int" target="_blank" rel="external">deeplearn.js：浏览器端机器智能框架</a> : “deeplearn.js最初由Google Brain PAIR开发，是一款基于硬件加速的开源JavaScript库，可被用在机器智能领域”</p>
-</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="http://www.brendangregg.com/blog/2017-08-08/linux-load-averages.html" target="_blank" rel="external">Linux Load Averages: Solving the Mystery</a> : 对<code>load average</code> 有非常系统的阐述和说明, 可以加深对其的认识和理解, mark</p>
-</li>
-<li><p><a href="https://tools.ietf.org/id/draft-nottingham-thanks-larry-00.html#RFC2324" target="_blank" rel="external">Reserving the 418 HTTP Status Code</a> : 现在才知道还有418这个奇葩的状态码，含义是:”I’m a teapot’”</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://medium.com/netflix-techblog/starting-the-avalanche-640e69b14a06" target="_blank" rel="external">Starting the Avalanche</a> : Netflix关于发现和防止系统雪崩的设计, 最后一段的总结还是有不少干货</p>
-</li>
-<li><p><a href="http://www.infoq.com/cn/presentations/practice-of-wechat-advertising-engine-and-rhythm-algorithm?utm_source=infoq&amp;utm_medium=videos_homepage&amp;utm_campaign=videos_row2" target="_blank" rel="external">微信广告引擎与播放节奏算法实践</a> : 微信的广告算法实践，相比于百度等公司，其策略里面会更多引入社交相关的信息，另外整个PPT做的非常好看，值得收藏</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=15005031" target="_blank" rel="external">An Intro to Compilers</a> : 对编译器很简洁但很系统的介绍，另外hacker news上面的讨论有不少干货和资料，可以关注，mark</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://zhuanlan.zhihu.com/p/28418760" target="_blank" rel="external">机器学习领域值得关注的 10 位 Quora 大咖</a> : 感觉不错，里面的一些相关问题的推荐可以都好好读一遍</p>
-</li>
-<li><p><a href="https://github.com/vahidk/EffectiveTensorflow?" target="_blank" rel="external">Effective Tensorflow</a> : Tensorflow的教程，这几周需要抽时间开始系统学习了</p>
-</li>
-<li><p><a href="https://www.thomas-krenn.com/de/wikiDE/images/e/e0/Linux-storage-stack-diagram_v4.10.png" target="_blank" rel="external">Linux Storage Stack Diagram</a> : 图花的很好，可以收藏</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://medium.com/@andrewng/deeplearning-ai-ann
     
     </summary>
     
