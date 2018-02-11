@@ -57,6 +57,146 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-nginx_1_9_10" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/30/nginx_1_9_10/">nginx 1.9.10 特性说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/01/30/nginx_1_9_10/" class="article-date">
+  <time datetime="2016-01-30T06:17:29.000Z" itemprop="datePublished">2016-01-30</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">*) Security: invalid pointer dereference might occur during DNS server</div><div class="line">       response processing if the &quot;resolver&quot; directive was used, allowing an</div><div class="line">       attacker who is able to forge UDP packets from the DNS server to</div><div class="line">       cause segmentation fault in a worker process (CVE-2016-0742).</div><div class="line"></div><div class="line">*) Security: use-after-free condition might occur during CNAME response</div><div class="line">       processing if the &quot;resolver&quot; directive was used, allowing an attacker</div><div class="line">       who is able to trigger name resolution to cause segmentation fault in</div><div class="line">       a worker process, or might have potential other impact</div><div class="line">       (CVE-2016-0746).</div><div class="line"></div><div class="line">*) Security: CNAME resolution was insufficiently limited if the</div><div class="line">       &quot;resolver&quot; directive was used, allowing an attacker who is able to</div><div class="line">       trigger arbitrary name resolution to cause excessive resource</div><div class="line">       consumption in worker processes (CVE-2016-0747).</div><div class="line"></div><div class="line">*) Feature: the &quot;auto&quot; parameter of the &quot;worker_cpu_affinity&quot; directive.</div><div class="line"></div><div class="line">*) Bugfix : ...</div></pre></td></tr></table></figure>
+<p>可以看到主要是几个安全问题的修复，以及一个新的feature的支持; 下面简单说明这个两个点</p>
+<h2 id="安全问题"><a href="#安全问题" class="headerlink" title="安全问题"></a>安全问题</h2><p>几个安全问题都是关于<code>resolver</code>指令，主要问题在于在解析DNS时需要对异常有更强的容错能力，风险点包括如下:</p>
+<ul>
+<li>DNS的服务伪造一个UDP包体可以导致nginx crash</li>
+<li>其他的异常情况导致的nginx crash</li>
+</ul>
+<p>今天问题自己总结如下:</p>
+<p>当我们使用<code>resolver</code>指令的时候，nginx需要和dns服务器进行交互，以便获取具体域名对应的IP; 整个这个交互的过程是nginx自己编码和dns服务交互,  这样存在的一个问题是一旦nginx的容错逻辑有问题，尤其是和外界的dns服务交互的时候，一旦这个DNS服务器可以恶意伪造请求的时候, 比如返回不正常的body的时候, nginx容错一旦处理有点偏颇，就会crash</p>
+<p>所以这种情况一般会出现在: <code>配置了resolver指令，且对于的dns服务器不可信</code></p>
+<blockquote>
+<p>具体可以见 : <a href="http://mailman.nginx.org/pipermail/nginx/2016-January/049700.html" target="_blank" rel="external">http://mailman.nginx.org/pipermail/nginx/2016-January/049700.html</a></p>
+</blockquote>
+<h2 id="worker-cpu-affinity指令优化"><a href="#worker-cpu-affinity指令优化" class="headerlink" title="worker_cpu_affinity指令优化"></a>worker_cpu_affinity指令优化</h2><p>这个指令的功能比较简单，就是可以自动设置cpu的亲和性, demo如下:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="attribute">worker_cpu_affinity</span> auto;</div></pre></td></tr></table></figure>
+<p>具体代码的实现还是比较简单的，不再赘述</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-tcp_keepalive_proxy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/19/tcp_keepalive_proxy/">让nginx支持TCP长连接代理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/01/19/tcp_keepalive_proxy/" class="article-date">
+  <time datetime="2016-01-19T06:17:30.000Z" itemprop="datePublished">2016-01-19</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">              -----&gt; LCS </div><div class="line">            /</div><div class="line">Client(PHP) -------&gt; LCS</div><div class="line">            \</div><div class="line">             ------&gt; LCS</div></pre></td></tr></table></figure>
+<p>如上，我们客户端需要和LCS交互，正常情况下，由于PHP比较难做长链接(当然RAL后续可以做长连接的支持)，所以现在每次和LCS交互，都需要建立一次TCP连接，然后做数据传输；现在问题是，如果LCS在其他的IDC，这样client和LCS每次都得做一次跨机房的三次握手, 这样对服务稳定性等都有一定的影响</p>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">                        -----&gt; LCS </div><div class="line">                      /</div><div class="line">Client(PHP)---&gt; Proxy -------&gt; LCS</div><div class="line">                      \</div><div class="line">                        ------&gt; LCS</div></pre></td></tr></table></figure>
+<p>一个方案是如上，加上一个proxy，这个Proxy的作用是和LCS维护一个长连接，和client保持短连接，同时让Client和Proxy部署在一个IDC, Proxy和LCS可以跨IDC；此时Proxy和LCS的由于是长连接交互，不必要每次都有个跨IDC的三次握手, 但也有如下的问题:</p>
+<ul>
+<li>增加了一层，意味着多一层网络交互，</li>
+<li>长连接的跨IDC交互有可能也避免不了跨IDC的网络异常问题</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>如上，上面的proxy，其实就是我们说的nginx proxy, 现在的问题是nginx虽然支持简单的tcp proxy，但是并不支持downstream是短链接，然后upstream是长连接(upstream和downstream的长短链接必须一致), 但是我们知道nginx http模块里面是有一个keepalive模块的，所以技术上面应该问题不大的，我们要做的就是把那个东西迁移过来, 具体如下:</p>
+<h3 id="关于nginx-HTTP-长连接"><a href="#关于nginx-HTTP-长连接" class="headerlink" title="关于nginx HTTP  长连接"></a>关于nginx HTTP  长连接</h3><ul>
+<li>内部实现 : <a href="http://blog.csdn.net/gzh0222/article/details/8523635" target="_blank" rel="external">http://blog.csdn.net/gzh0222/article/details/8523635</a></li>
+<li>大概思路 :<ul>
+<li>对于一个具体的upstream，可以设置其connection pool的size</li>
+<li>每次需要访问upstream的时候，先去connection pool里面查找, 如果存在，就用改连接；否则新建一个连接</li>
+<li>当访问结束的时候, 不主动断开连接，而且放回到连接池; 如果连接池是满的，需要释放最老的无用的连接(LRU)</li>
+</ul>
+</li>
+</ul>
+<h3 id="配置demo"><a href="#配置demo" class="headerlink" title="配置demo"></a>配置demo</h3><p>依照http upstream keepalive module的工作原理，我们编写了一个tcp upstream keepalie模块，具体代码请见<a href="http://gitlab.baidu.com/nginx/ngx_stream_keepalive_module/tree/master" target="_blank" rel="external">ngx_stream_keepalive_module</a></p>
+<p>如下是简单的配置demo</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="section">stream</span> &#123;</div><div class="line">    <span class="attribute">upstream</span> stream_test &#123;</div><div class="line">        <span class="comment"># 设置连接池的大小, 用法同http upstream keepalive module</span></div><div class="line">        <span class="attribute">keepalive</span> <span class="number">10</span>;</div><div class="line">        <span class="attribute">server</span> yf-forum-rdcjs1.yf01.baidu.com:<span class="number">12388</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="section">server</span> &#123;</div><div class="line">        <span class="attribute">listen</span> <span class="number">12345</span>;</div><div class="line">        <span class="attribute">proxy_pass</span> stream_test;</div><div class="line">        <span class="attribute">proxy_protocol</span> <span class="literal">on</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="问题-amp-思路"><a href="#问题-amp-思路" class="headerlink" title="问题&amp;思路"></a>问题&amp;思路</h3><p>一旦加入一个proxy，我们其实又面临一个问题，以上图为例，就是LCS如何获取真正的client ip? </p>
+<p>像http协议的代理，一般会在应用层做这个事情，比如说通过<a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html" target="_blank" rel="external">ngx_http_realip_module</a> 把相关的信息放到header里面，这样是能满足业务需求的; 那tcp proxy怎么办?</p>
+<p>像TCP层一下的代理，比如说<a href="https://en.wikipedia.org/wiki/Linux_Virtual_Server" target="_blank" rel="external">LVS</a>一般会需要<a href="http://www.just4coding.com/blog/2015/11/16/toa/" target="_blank" rel="external">内核的支持</a>，以便我们正确的获取客户端的IP，感觉解决方案都是挺重的</p>
+<p>一个简单的方案是<a href="http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt" target="_blank" rel="external">The PROXY protocol</a>, 这个协议原理&amp;思路非常简单，就是在协议代理，新建连接的时候，会传输具体的代理信息。比如按照上图，当<code>Proxy</code>和<code>LCS</code>建立连接的时候，他做的第一个事情是发送一个文本信息，告诉<code>LCS</code>相关的client信息，大概如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">PROXY TCP4 192.168.0.1 192.168.0.11 56324 443</div></pre></td></tr></table></figure>
+<p>所以此时客户端需要修改其读取逻辑，在首次连接之后，需要尝试去读取proxy的信息，如果存在，就可以做一些具体的解析</p>
+<p>同时，也要求proxy做一些修改，在发送请求给后端的时候，需要额外带上这些信息，具体可以通过<a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_protocol" target="_blank" rel="external">proxy_protocol</a>这个指令控制;</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html" target="_blank" rel="external">nginx stream module官方链接</a></li>
+<li><a href="http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt" target="_blank" rel="external">proxy protocol具体说明文档</a> </li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-tcp_proxy" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -955,133 +1095,6 @@
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
 
       </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-log_rotation" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/07/log_rotation/">nginx日志切分方案说明</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/03/07/log_rotation/" class="article-date">
-  <time datetime="2015-03-07T07:34:36.000Z" itemprop="datePublished">2015-03-07</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>nginx的日志切分问题一直是运维nginx时需要重点关注的。本文将简单说明下nginx支持的两种日志切分方式。</p>
-<h3 id="定时任务切分"><a href="#定时任务切分" class="headerlink" title="定时任务切分"></a>定时任务切分</h3><p>所谓的定时任务切分，是指通过定时任务（比如<code>crontab</code>)，发送信号给nginx，让其重新打开文件。该方法也是nginx官网上面比较推荐的,<a href="http:http://wiki.nginx.org/LogRotation" target="_blank" rel="external">原文</a>说明比较清楚，这里在说明下：</p>
-<p>发送<code>USR1</code> 信号会让nginx主动重新打开日志文件，故操作如下：</p>
-<pre><code>$ mv access.log access.log.0
-$ kill -USR1 `cat master.nginx.pid`
-$ sleep 1
-$ gzip access.log.0    # do something with access.log.0
-</code></pre><p>总结 ：优点是思路较为简单，但效果明显，而且对error_log 同样适用；缺点是有外部依赖（比如 <code>crontab</code>)</p>
-<h3 id="自切分"><a href="#自切分" class="headerlink" title="自切分"></a>自切分</h3><p>自切分是指让nginx自身实现日志切分功能，不依赖crontab等东西。 其主要原理是依赖access_log的强大功能—- 可以用变量定义请求的log路径。</p>
-<p>nginx的acess_log 功能非常强大，其完整指令说明如下，这里主要说明定义日志路径的功能；关于syslog还有gzip, buffer等特性，后续再说明。</p>
-<p>access_log指令:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">	Syntax:	access_log path [format [buffer=size [flush=time]] [if=condition]];</div><div class="line">			   access_log path format gzip[=level] [buffer=size] [flush=time] [if=condition];</div><div class="line">			   access_log syslog:server=address[,parameter=value] [format [if=condition]];</div><div class="line">			   access_log off;</div><div class="line">	Default:	access_log logs/access.log combined;</div><div class="line">	Context:	http, server, location, if in location, limit_except</div><div class="line">    </div><div class="line">```	</div><div class="line">    </div><div class="line">注意path部分是支持nignx变量的，这也就意味这我们只要通过配置正确的nginx变量，就可以实现小时等级别的日志自动拆分了。</div><div class="line"></div><div class="line">一个简单的问题就出现了，假设nginx要实现这个机制，那岂不是每打印一个请求log就得打开文件，写日志，关闭文件？ 这样显然效率太差了，为了解决这个问题，nginx又引入了一个机制，叫做 open_file_cache，简单的说，这个东西的功能就是会缓存打开的文件，只有满足一定条件的时候才会重新去check当前fd对应的文件是否合法，是否需要重新打开。 open file cache的指令如下：</div><div class="line"></div><div class="line">```nginx</div><div class="line"></div><div class="line">	Syntax:	 open_log_file_cache max=N [inactive=time] [min_uses=N] [valid=time];</div><div class="line">				open_log_file_cache off;</div><div class="line">	Default:	 open_log_file_cache off;</div><div class="line">	Context:	 http, server, location</div></pre></td></tr></table></figure>
-<p>open_log_file_cache 里面几个参数的含义为：</p>
-<ul>
-<li><strong>max</strong> : 设置缓存中描述符的最大数量；如果缓存被占满，最近最少使用（LRU）的描述符将被关闭。</li>
-<li><strong>inactive</strong> : 设置缓存文件描述符在多长时间内没有被访问就关闭； 默认为10秒。</li>
-<li><strong>min_use</strong>s : 设置在inactive参数指定的时间里， 最少访问多少次才能使文件描述符保留在缓存中；默认为1。</li>
-<li><strong>valid</strong> :设置一段用于检查超时后文件是否仍以同样名字存在的时间； 默认为60秒。</li>
-<li><strong>off</strong> :禁用缓存。</li>
-</ul>
-<p>综上，要让nginx自切分，需要两个步骤，其一，配置合理的access_log;其二，开启open_log_file_cache提升性能； 下面是用实现小时级别日志切分的配置demo</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#提取nginx变量</div><div class="line">if ($time_iso8601 ~ "^(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)T(\d&#123;2&#125;):(\d&#123;2&#125;):(\d&#123;2&#125;)")</div><div class="line">&#123;</div><div class="line">	set $year $1; </div><div class="line">	set $month $2; </div><div class="line">	set $day $3; </div><div class="line">	set $hour $4; </div><div class="line">	set $minutes $5; </div><div class="line">	set $seconds $6; </div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#配置access_log ；以  hour 为界</div><div class="line">access_log  logs/access.log.$year$month$day$hour;                                                                         </div><div class="line"></div><div class="line">#配置open_log_file_cache</div><div class="line">open_log_file_cache max=10 inactive=60s valid=1m min_uses=2;</div></pre></td></tr></table></figure>
-<p><strong>总结</strong> : 自切分可一定程度上面满足日志切分的需求；但是对性能会有一定的影响； 另外，并不支持error_log的切分，个人更推荐产品线采用方式一的方法切。</p>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>本文主要阐述了nignx日志切分的方案，希望能够帮助大家提升对nginx的理解。另外nginx的日志管理，还是很多值得学习，注意的点，包括syslog支持，gzip支持（想想protobuf）。后续会再为介绍。</p>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-mixed_content_control" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/06/mixed_content_control/">关于https嵌套http iframe的问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/03/06/mixed_content_control/" class="article-date">
-  <time datetime="2015-03-06T03:13:44.000Z" itemprop="datePublished">2015-03-06</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>主要是https 和 http页面嵌套，引用的一些具体规则？哪些是允许的，哪些是不允许的？</p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>一般地，我们主要规范https页面上面对http请求的场景。http页面可以嵌入https一般浏览器不会太care</p>
-<p>浏览器把https嵌入的外部资源分成两大类，如下:</p>
-<ul>
-<li>Mixed Passive Content (a.k.a. Mixed Display Content) : 被动页面嵌入内容，此类的资源不会对已有的https主页面产生修改，更新之类的操作，具体包括:  images, audio, and video loads. </li>
-<li>Mixed Active Content (a.k.a. Mixed Script Content) : 主动页面嵌入内容，此类的资源可能会影响原来的页面的展现和内容，具体包括: JavaScript, CSS, objects, xhr requests, iframes, and fonts</li>
-</ul>
-<blockquote>
-<p>PS: 不同浏览器对MPC和MAC的分类不一定一致，比如说iframe在chrome下面属于MPC,而在ie/firefox属于MAC</p>
-</blockquote>
-<p>一般的浏览器如果发现一个资源属于MAC，就会blocking此类请求</p>
-<p>故，综上，在IE浏览器下面一个https页面嵌入http请求会直接被block</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://blog.mozilla.org/tanvi/2013/04/10/mixed-content-blocking-enabled-in-firefox-23/" target="_blank" rel="external">Mixed Content Blocking Enabled in Firefox 23!</a></li>
-<li><a href="http://www.tinywebgallery.com/blog/iframe-do-not-mix-http-and-https" target="_blank" rel="external">Why you should not mix http and https when using iframes</a></li>
-<li><a href="http://lison.sinaapp.com/?p=317" target="_blank" rel="external">HTTPS和HTTP相互间IFRAME的浏览器限制及安全提示</a></li>
-</ul>
-
-      
-    </div>
-    
     
   </div>
   

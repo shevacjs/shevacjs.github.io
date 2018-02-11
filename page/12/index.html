@@ -57,6 +57,133 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-log_rotation" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/07/log_rotation/">nginx日志切分方案说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/03/07/log_rotation/" class="article-date">
+  <time datetime="2015-03-07T07:34:36.000Z" itemprop="datePublished">2015-03-07</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>nginx的日志切分问题一直是运维nginx时需要重点关注的。本文将简单说明下nginx支持的两种日志切分方式。</p>
+<h3 id="定时任务切分"><a href="#定时任务切分" class="headerlink" title="定时任务切分"></a>定时任务切分</h3><p>所谓的定时任务切分，是指通过定时任务（比如<code>crontab</code>)，发送信号给nginx，让其重新打开文件。该方法也是nginx官网上面比较推荐的,<a href="http:http://wiki.nginx.org/LogRotation" target="_blank" rel="external">原文</a>说明比较清楚，这里在说明下：</p>
+<p>发送<code>USR1</code> 信号会让nginx主动重新打开日志文件，故操作如下：</p>
+<pre><code>$ mv access.log access.log.0
+$ kill -USR1 `cat master.nginx.pid`
+$ sleep 1
+$ gzip access.log.0    # do something with access.log.0
+</code></pre><p>总结 ：优点是思路较为简单，但效果明显，而且对error_log 同样适用；缺点是有外部依赖（比如 <code>crontab</code>)</p>
+<h3 id="自切分"><a href="#自切分" class="headerlink" title="自切分"></a>自切分</h3><p>自切分是指让nginx自身实现日志切分功能，不依赖crontab等东西。 其主要原理是依赖access_log的强大功能—- 可以用变量定义请求的log路径。</p>
+<p>nginx的acess_log 功能非常强大，其完整指令说明如下，这里主要说明定义日志路径的功能；关于syslog还有gzip, buffer等特性，后续再说明。</p>
+<p>access_log指令:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">	Syntax:	access_log path [format [buffer=size [flush=time]] [if=condition]];</div><div class="line">			   access_log path format gzip[=level] [buffer=size] [flush=time] [if=condition];</div><div class="line">			   access_log syslog:server=address[,parameter=value] [format [if=condition]];</div><div class="line">			   access_log off;</div><div class="line">	Default:	access_log logs/access.log combined;</div><div class="line">	Context:	http, server, location, if in location, limit_except</div><div class="line">    </div><div class="line">```	</div><div class="line">    </div><div class="line">注意path部分是支持nignx变量的，这也就意味这我们只要通过配置正确的nginx变量，就可以实现小时等级别的日志自动拆分了。</div><div class="line"></div><div class="line">一个简单的问题就出现了，假设nginx要实现这个机制，那岂不是每打印一个请求log就得打开文件，写日志，关闭文件？ 这样显然效率太差了，为了解决这个问题，nginx又引入了一个机制，叫做 open_file_cache，简单的说，这个东西的功能就是会缓存打开的文件，只有满足一定条件的时候才会重新去check当前fd对应的文件是否合法，是否需要重新打开。 open file cache的指令如下：</div><div class="line"></div><div class="line">```nginx</div><div class="line"></div><div class="line">	Syntax:	 open_log_file_cache max=N [inactive=time] [min_uses=N] [valid=time];</div><div class="line">				open_log_file_cache off;</div><div class="line">	Default:	 open_log_file_cache off;</div><div class="line">	Context:	 http, server, location</div></pre></td></tr></table></figure>
+<p>open_log_file_cache 里面几个参数的含义为：</p>
+<ul>
+<li><strong>max</strong> : 设置缓存中描述符的最大数量；如果缓存被占满，最近最少使用（LRU）的描述符将被关闭。</li>
+<li><strong>inactive</strong> : 设置缓存文件描述符在多长时间内没有被访问就关闭； 默认为10秒。</li>
+<li><strong>min_use</strong>s : 设置在inactive参数指定的时间里， 最少访问多少次才能使文件描述符保留在缓存中；默认为1。</li>
+<li><strong>valid</strong> :设置一段用于检查超时后文件是否仍以同样名字存在的时间； 默认为60秒。</li>
+<li><strong>off</strong> :禁用缓存。</li>
+</ul>
+<p>综上，要让nginx自切分，需要两个步骤，其一，配置合理的access_log;其二，开启open_log_file_cache提升性能； 下面是用实现小时级别日志切分的配置demo</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#提取nginx变量</div><div class="line">if ($time_iso8601 ~ "^(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)T(\d&#123;2&#125;):(\d&#123;2&#125;):(\d&#123;2&#125;)")</div><div class="line">&#123;</div><div class="line">	set $year $1; </div><div class="line">	set $month $2; </div><div class="line">	set $day $3; </div><div class="line">	set $hour $4; </div><div class="line">	set $minutes $5; </div><div class="line">	set $seconds $6; </div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#配置access_log ；以  hour 为界</div><div class="line">access_log  logs/access.log.$year$month$day$hour;                                                                         </div><div class="line"></div><div class="line">#配置open_log_file_cache</div><div class="line">open_log_file_cache max=10 inactive=60s valid=1m min_uses=2;</div></pre></td></tr></table></figure>
+<p><strong>总结</strong> : 自切分可一定程度上面满足日志切分的需求；但是对性能会有一定的影响； 另外，并不支持error_log的切分，个人更推荐产品线采用方式一的方法切。</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>本文主要阐述了nignx日志切分的方案，希望能够帮助大家提升对nginx的理解。另外nginx的日志管理，还是很多值得学习，注意的点，包括syslog支持，gzip支持（想想protobuf）。后续会再为介绍。</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-mixed_content_control" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/06/mixed_content_control/">关于https嵌套http iframe的问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/03/06/mixed_content_control/" class="article-date">
+  <time datetime="2015-03-06T03:13:44.000Z" itemprop="datePublished">2015-03-06</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>主要是https 和 http页面嵌套，引用的一些具体规则？哪些是允许的，哪些是不允许的？</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>一般地，我们主要规范https页面上面对http请求的场景。http页面可以嵌入https一般浏览器不会太care</p>
+<p>浏览器把https嵌入的外部资源分成两大类，如下:</p>
+<ul>
+<li>Mixed Passive Content (a.k.a. Mixed Display Content) : 被动页面嵌入内容，此类的资源不会对已有的https主页面产生修改，更新之类的操作，具体包括:  images, audio, and video loads. </li>
+<li>Mixed Active Content (a.k.a. Mixed Script Content) : 主动页面嵌入内容，此类的资源可能会影响原来的页面的展现和内容，具体包括: JavaScript, CSS, objects, xhr requests, iframes, and fonts</li>
+</ul>
+<blockquote>
+<p>PS: 不同浏览器对MPC和MAC的分类不一定一致，比如说iframe在chrome下面属于MPC,而在ie/firefox属于MAC</p>
+</blockquote>
+<p>一般的浏览器如果发现一个资源属于MAC，就会blocking此类请求</p>
+<p>故，综上，在IE浏览器下面一个https页面嵌入http请求会直接被block</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://blog.mozilla.org/tanvi/2013/04/10/mixed-content-blocking-enabled-in-firefox-23/" target="_blank" rel="external">Mixed Content Blocking Enabled in Firefox 23!</a></li>
+<li><a href="http://www.tinywebgallery.com/blog/iframe-do-not-mix-http-and-https" target="_blank" rel="external">Why you should not mix http and https when using iframes</a></li>
+<li><a href="http://lison.sinaapp.com/?p=317" target="_blank" rel="external">HTTPS和HTTP相互间IFRAME的浏览器限制及安全提示</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-about_https" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -770,165 +897,6 @@
 
 
     
-      <article id="post-rsync_bitch_about" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/12/30/rsync_bitch_about/">由rsync命令引发的</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/12/30/rsync_bitch_about/" class="article-date">
-  <time datetime="2014-12-29T16:57:41.000Z" itemprop="datePublished">2014-12-30</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近在鼓捣静态集群，而rsync是我们用于同步不同机器之间文件的一个最为传统的方式，因此认真研究了一遍，到现在总得有两个收获：</p>
-<ul>
-<li>rsync的算法</li>
-<li>对常见命令的使用感概</li>
-</ul>
-<h2 id="rsync算法"><a href="#rsync算法" class="headerlink" title="rsync算法"></a>rsync算法</h2><p>先简单说下rsync的算法吧，这个其实在很多blog都有，这边我简单描述下，不过希望是以推敲的方式导出:</p>
-<p>假设我们现在要同步两个文件src(机器 FROM )和dst(机器 TO)，他们在不同的机器上面，现在rsync算法核心要解决的问题是:</p>
-<blockquote>
-<p>在src和dst文件相似的情况下，尽量少的带宽来同步问题</p>
-</blockquote>
-<p>基于这个目标，算法的核心思路其实就是在src尽量发现dst已经存在的内容（这样就不需要传输了呗）</p>
-<p>因此最好有个算法能够把dst的摘要传输到src这边；然后src能够比对dst哪些是已经存在的，哪些是不存在的；基于此在TO机器上面生成目标问题；故简单算法如下:</p>
-<ol>
-<li>TO机器上面，对dst文件算相关摘要，然后发给FROM机器</li>
-<li>FROM机器根据摘要，分析出dst哪些部分是和src一致的，哪些是不一致的；不一致的需要全部传输，一直的只要发送标记就可以了, 算好之后，生成一个新的文件信息，发给TO机器</li>
-<li>TO机器跟进新的文件信息，构建新的目标问题</li>
-</ol>
-<p>这个是核心思路，剩余两个问题：</p>
-<ul>
-<li>摘要的计算： 一般需要分段&amp;hash校验</li>
-<li>src如何快速和dst的摘要做对比，同样需要注意：<ol>
-<li>src这边的匹配，需要支持快速的从(k1,k2,…kn) –&gt; (k2,k3,…k(n+1)) ：这样才支持src这边一个一个比对</li>
-<li>dst过来的时候，最好对摘要（很多摘要）算相关的hash，这样的话，src可以快速知道摘要是否在dst存在;</li>
-</ol>
-</li>
-</ul>
-<p>对于前者，我们需要引入一个一个类似<code>rolling hash</code>的特定hash算法；对于后者，我们一般在hash是一个方式，其他的快速排序好的查找也是一个方式；</p>
-<h2 id="对常用命令的感慨"><a href="#对常用命令的感慨" class="headerlink" title="对常用命令的感慨"></a>对常用命令的感慨</h2><ul>
-<li>很多命令了解仅限于表面</li>
-<li>对常用的命令没有做很好的系统归纳和梳理</li>
-</ul>
-<p>尤其是后者，争取找个时间弄个和linux命令相关的总结</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="http://coolshell.cn/articles/7425.html" target="_blank" rel="external">http://coolshell.cn/articles/7425.html</a> : 对rolling sum说明的有点问题</li>
-<li><a href="http://rsync.samba.org/tech_report/tech_report.html" target="_blank" rel="external">http://rsync.samba.org/tech_report/tech_report.html</a> 作者是算法说明</li>
-<li><a href="http://en.wikipedia.org/wiki/Rsync#Algorithm" target="_blank" rel="external">http://en.wikipedia.org/wiki/Rsync#Algorithm</a> 维基百科的说明，一直都很专业</li>
-</ul>
-
-      
-    </div>
-    
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-linux_lock_impl" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/12/27/linux_lock_impl/">linux 常见锁说明</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/12/27/linux_lock_impl/" class="article-date">
-  <time datetime="2014-12-27T07:02:14.000Z" itemprop="datePublished">2014-12-27</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在前一次的文章<a href="http://shevacjs.com/lock/2014/12/13/lock/">锁机制概述</a>，大致简单说明了MP系统下面锁的基本原理。这里，再简单说明下在2.6内核体系下面，linux支持的锁，包括内核态和用户态(pthread系列的)。</p>
-<h2 id="内核态"><a href="#内核态" class="headerlink" title="内核态"></a>内核态</h2><h3 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h3><p>自旋锁是最基本的锁支持，在linux内核下，自旋锁的API有如下形式：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock_irqsave</span><span class="params">(<span class="keyword">spinlock_t</span> *lock, <span class="keyword">unsigned</span> <span class="keyword">long</span> flags)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock_irq</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock_bh</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span></div></pre></td></tr></table></figure>
-<p>其中<code>irqsave</code>和<code>bh</code>都是处理和中断有关的，因为在中断等上下文一旦处理不好就可能导致死锁。</p>
-<h3 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h3><p>信号量可以任务是提供一个支持睡醒的锁支持，</p>
-<h3 id="基于性能优化的衍生锁"><a href="#基于性能优化的衍生锁" class="headerlink" title="基于性能优化的衍生锁"></a>基于性能优化的衍生锁</h3><p>这里主要介绍两种, 他们都是针对读写锁的优化，一般都是只试用在一般的场景，这简单说明他们的设计思路。</p>
-<ul>
-<li>Seq Lock :</li>
-</ul>
-<p>seq lock考虑的场景是读多写少。因此在正常读取的时候，如果加上spinlock的收益是非常低的，故其采取如下策略:</p>
-<ul>
-<li>允许多个读者同时访问数据，同时只允许一个写者在更新数据；</li>
-<li>核心指导思想是，通过一个flag来标记要保护的区段的数据是否被更新过，读者可以冲入的读，但需要通过flag来判别是否数据被更新过，如果是，读者需要重新读取新的数据，故读，写者分工如下:<ul>
-<li>读者：读取之后，判断flag，以决定是否需要重新读取</li>
-<li>写者：在修改数据的时候需要更新flag</li>
-</ul>
-</li>
-</ul>
-<p>如下是简单的示意图：其中读者需要判断<code>((count_pre != count_post) &amp;&amp; (count_pre % 2 == 0))</code>来决定数据是否被更新/正在被更新</p>
-<p><img src="seqlock_demo.png" alt="seqlock_demo"></p>
-<ul>
-<li>Rcu Lock</li>
-</ul>
-<p>RCU也是对读写锁的一个优化，适用的场景也是读多写少，但是有其独特的应用场景，先考虑seqlock存在的问题：</p>
-<ul>
-<li>seq-lock可以认为是写优先的，读需要重复频繁的读来确认数据没有被更新；</li>
-<li>seq-lock保护的数据一般是要求不能含有指针的，因为写者很容易直接更新指针的内容，demo如下:</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">data</span> &#123;</span></div><div class="line">    <span class="keyword">int</span> count;</div><div class="line">    <span class="keyword">char</span>* info;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"><span class="comment">// sql-lock reader</span></div><div class="line"></div><div class="line">&#123;</div><div class="line">    data copy_data = curr_data;</div><div class="line">&#125; <span class="keyword">while</span>(no change)</div><div class="line"></div><div class="line"><span class="comment">// do something with copy data</span></div><div class="line"></div><div class="line">f(copy_data)</div></pre></td></tr></table></figure>
-<p>这个里面的copy data其实是可能存在问题的,其对应的info等内容是会被修改的，而这个情况又是内核里面最最常见的场景，需要有更好的解决方案，RCU就是要提供这种支持的，RCU的特性包括：</p>
-<ul>
-<li>RCU是读者优先的，读者不需要任何互斥也不需要任何锁，直接读取就OK；</li>
-<li>写者的核心指导思想是(Read-Copy Update), 写者在访问它时首先拷贝一个副本，然后对副本进行修改，最后使用一个回调（callback）机制在适当的时机把指向原来数据的指针重新指向新的被修改的数据。这个时机就是所有引用该数据的CPU都退出对共享数据的操作。</li>
-</ul>
-<p>思路是比较简单的，但是实现上面还是比较复杂的，这里就不详述，具体可以参考推荐的RCU文章;</p>
-<h2 id="用户态"><a href="#用户态" class="headerlink" title="用户态"></a>用户态</h2><h2 id="锁的资源消耗"><a href="#锁的资源消耗" class="headerlink" title="锁的资源消耗"></a>锁的资源消耗</h2><h2 id="遗留问题-amp-思考"><a href="#遗留问题-amp-思考" class="headerlink" title="遗留问题&amp;思考"></a>遗留问题&amp;思考</h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h2 id="参考-amp-推荐阅读"><a href="#参考-amp-推荐阅读" class="headerlink" title="参考&amp;推荐阅读"></a>参考&amp;推荐阅读</h2><ul>
-<li>seqlock,rcu等的维基百科，都有非常系统的介绍</li>
-<li><a href="http://blog.sina.com.cn/s/blog_5210e67e0100935d.html" target="_blank" rel="external">Linux 内核的同步机制，第4部分顺序锁（seqlock</a></li>
-<li><a href="http://www.verydemo.com/cj.jsp?c=34&amp;u=linuxseqlockamprcu-qian-xi-duo-xian-cheng-zhi-shun-xu-suo" target="_blank" rel="external">linux seqlock &amp; rcu 浅析</a></li>
-<li><a href="https://www.ibm.com/developerworks/cn/linux/l-rcu/" target="_blank" rel="external">Linux 2.6内核中新的锁机制–RCU</a></li>
-<li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-lockfree/" target="_blank" rel="external">透过 Linux 内核看无锁编程</a></li>
-</ul>
-
-      
-    </div>
-    
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/11/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/13/">下一页 &raquo;</a>
       </nav>
@@ -964,6 +932,23 @@
 
 
 <script src="/js/script.js"></script>
-  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 </body>
 </html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>weekly of 20180121 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="工具技巧 SYN packet handling in the wild : 关于TCP SYN交互和实现的深入讨论，包括内核和应用程序对于syn flood, syn queue, accept queue的介绍  揭秘超分辨率的正确打开方式 : 具体介绍超分图片背后的理念，以及在微信的应用和效果，手百现在也在推动此类的事情。对于超分的应用场景也做了比较好的分析和介绍   系统设计 The D">
+<meta name="keywords" content="weekly">
+<meta property="og:type" content="article">
+<meta property="og:title" content="weekly of 20180121">
+<meta property="og:url" content="http://shevacjs.com/2018/02/11/20180121/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="工具技巧 SYN packet handling in the wild : 关于TCP SYN交互和实现的深入讨论，包括内核和应用程序对于syn flood, syn queue, accept queue的介绍  揭秘超分辨率的正确打开方式 : 具体介绍超分图片背后的理念，以及在微信的应用和效果，手百现在也在推动此类的事情。对于超分的应用场景也做了比较好的分析和介绍   系统设计 The D">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://shevacjs.com/images/Austria_02.jpg">
+<meta property="og:updated_time" content="2018-02-11T03:33:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="weekly of 20180121">
+<meta name="twitter:description" content="工具技巧 SYN packet handling in the wild : 关于TCP SYN交互和实现的深入讨论，包括内核和应用程序对于syn flood, syn queue, accept queue的介绍  揭秘超分辨率的正确打开方式 : 具体介绍超分图片背后的理念，以及在微信的应用和效果，手百现在也在推动此类的事情。对于超分的应用场景也做了比较好的分析和介绍   系统设计 The D">
+<meta name="twitter:image" content="http://shevacjs.com/images/Austria_02.jpg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-20180121" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      weekly of 20180121
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/02/11/20180121/" class="article-date">
+  <time datetime="2018-02-11T03:32:45.000Z" itemprop="datePublished">2018-02-11</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/Austria_02.jpg" alt="奥地利"></p>
+<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://blog.cloudflare.com/syn-packet-handling-in-the-wild/" target="_blank" rel="external">SYN packet handling in the wild</a> : 关于TCP SYN交互和实现的深入讨论，包括内核和应用程序对于<code>syn flood</code>, <code>syn queue</code>, <code>accept queue</code>的介绍</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU3MDM4OTE1Mw==&amp;mid=2247483680&amp;idx=1&amp;sn=96c8379db26115cb6e166ce0ef5bdc1d&amp;scene=45#wechat_redirect" target="_blank" rel="external">揭秘超分辨率的正确打开方式</a> : 具体介绍超分图片背后的理念，以及在微信的应用和效果，手百现在也在推动此类的事情。对于超分的应用场景也做了比较好的分析和介绍</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="http://www.dwmkerr.com/the-death-of-microservice-madness-in-2018/" target="_blank" rel="external">The Death of Microservice Madness in 2018</a> : 对微服务化的又一次系统性概述，分析，对于希望或者想要设计更理想业务模式的同学而言，是个很好的思路学习机会，也有<a href="http://www.jdon.com/49261" target="_blank" rel="external">中文翻译版</a></p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/why-tls-1-3-isnt-in-browsers-yet/" target="_blank" rel="external">Why TLS 1.3 isn’t in browsers yet</a> : 随着<code>TLS 1.3</code>的规范落地，其业务落地也是需要重点考虑的问题，然而现实情况是，由于一些<code>middlebox</code>在实现等兼容性的问题, 浏览器其实并不能透明的从<code>TLS 1.2</code>升级到<code>TLS 1.3</code>, 作者具体分析了这里面的一些风险和问题, 包括协议设计上面的兼容性问题等等，整体下来可以加深对TLS协议的理解</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/8KYlDIhYmF0jCpbdBsIdcw" target="_blank" rel="external">如何节省1T图片带宽？ 解密极致图像压缩</a> : 腾讯的团队，分别介绍了在<code>WebP</code>, 自研<code>WXAM</code>, 以及<code>guetzli</code>的落地经验。两个总结, 一个是腾讯在这个方面还是做了较多的研究和分析的，文章分享的问题都是比较干货的；其次是, 虽然之前也考虑落地过<code>guetzli</code>, 但没有成功, 整体来说, 执行力还是太差了</p>
+</li>
+<li><p><a href="http://www.arkteam.net/?p=3390" target="_blank" rel="external">Deemon:自动化CSRF安全检测框架</a> : 关于自动化<code>CSRF</code>攻击检测的设计理念, 一些东西没有完全理解，先mark</p>
+</li>
+</ul>
+<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://blog.cloudflare.com/2017-holiday-reading-from-the-cloudflare-blog/" target="_blank" rel="external">Technical reading from the Cloudflare blog for the holidays</a> : 可以认为是2017年<a href="https://blog.cloudflare.com/" target="_blank" rel="external">CloudFlare博客</a>的精选, 里面文章质量都不错，可以mark关注下</p>
+</li>
+<li><p><a href="https://www.nginx.com/blog/modsecurity-apache-struts-cve-2017-5638/" target="_blank" rel="external">Using ModSecurity to Virtual Patch Apache Struts CVE-2017-5638</a> : 对于一些紧急的线上安全问题, 使用类似于<code>ModSecurtiy</code>的安全策略可以快速止损, 具体nginx的modsecurity的文档可以参看<a href="https://www.nginx.com/resources/library/modsecurity-3-nginx-quick-start-guide/" target="_blank" rel="external">ModSecurity 3.0 and NGINX: Quick Start Guide</a></p>
+</li>
+<li><p><a href="https://www.gatesnotes.com/Books/Enlightenment-Now" target="_blank" rel="external">Bill Gates: My new favorite book of all time</a> : 作者推荐了一本新书<a href="https://www.amazon.cn/dp/0525559027/" target="_blank" rel="external">Enlightenment Now: The Case for Reason, Science, Humanism, and Progress</a>, 现在英文版刚才出来</p>
+</li>
+<li><p><a href="http://zulko.github.io/moviepy/getting_started/getting_started.html" target="_blank" rel="external">MoviePy: Video editing with Python</a> : 一个Python的视频编辑库, 可以让你快速做一些视频Gif抽取等工作, 但并不擅长”You only need to do frame-by-frame video analysis “, “You only want to convert a video file, or turn a series of image files into a movie”, 可以先mark关注</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/Law7FpS53TjrDrzSMCtcVg" target="_blank" rel="external">低调现身北京的吴恩达，刚刚给人工智能公司下了个定义</a> : 关于传统公司，互联网公司和人工智能公司的定义和理解；其一直强调人工智能技术会想电能等成为企业和产业改造的源动力, 里面的关键在于数据驱动思想的注入以及和行业的深度结合</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/02/11/20180211/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          weekly of 20180211
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/15/20180114/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20180114&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  var disqus_url = 'http://shevacjs.com/2018/02/11/20180121/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

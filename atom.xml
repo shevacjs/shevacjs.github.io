@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2018-01-15T10:38:30.000Z</updated>
+  <updated>2018-02-11T03:34:45.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,112 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20180211</title>
+    <link href="http://shevacjs.com/2018/02/11/20180211/"/>
+    <id>http://shevacjs.com/2018/02/11/20180211/</id>
+    <published>2018-02-11T03:33:45.000Z</published>
+    <updated>2018-02-11T03:34:45.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/Japan_Fuji.jpg" alt="日本-富士山"></p>
+<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><a href="https://www.ctrl.blog/entry/chrome-adblocker" target="_blank" rel="external">Here’s how Google Chrome’s new ad blocker works</a> : 关于Chrome的广告防御系统的设计和构建, 可以了解整个Chrome反作弊体系的设计思路和理念；感觉Google做多系统和模块设计的系统化和组件化都很强，非常值得学习</li>
+</ul>
+<ul>
+<li><a href="https://blog.harmonicinc.com/apple-backs-av1-what-does-this-mean-for-the-future-of-video-codecs/" target="_blank" rel="external">Apple Backs AV1: What Does This Mean for the Future of Video Codecs</a> : 苹果也会加入并且支持AV1，对于视频编解码生态不大了解的可以参看<a href="http://media.pkusz.edu.cn/achievements/?p=138" target="_blank" rel="external">谁将引领新一代视频编码标准：HEVC、AVS2和AV1性能对比报告</a> 和<a href="http://www.sohu.com/a/198863865_458408" target="_blank" rel="external">下一代开放视频编码标准AV1</a></li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://lwn.net/Articles/745590/" target="_blank" rel="external">QUIC as a solution to protocol ossification</a> : 文章讨论了<code>QUIC</code>的设计理念, 其主要面临的问题不仅仅是协议设计上面的优化，还包括如何能支持在现在互联网生态</p>
+</li>
+<li><p><a href="https://code.facebook.com/posts/471099566618454/2017-year-in-review-building-immersive-experiences/" target="_blank" rel="external">2017 Year in review: Building immersive experiences</a> : Facebook总结2017年在用户沉浸式体验上面的改造，包括在文本方面对于多语言和翻译的支持, 以及在VR以及全景图上面的优化和改进</p>
+</li>
+<li><p><a href="https://code.facebook.com/posts/348442828901047/aquila-what-s-next-for-high-altitude-connectivity-/" target="_blank" rel="external">Aquila: What’s next for high-altitude connectivity?</a> : Facebook为了提升偏远地区的用户体验和网络可达率, 决定成立<code>Aquila</code>项目，核心的思路是通过一个运行在相对低空的太阳能无人机来提供地空的网络链接支持</p>
+</li>
+<li><p><a href="https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md" target="_blank" rel="external">寻找一种易于理解的一致性算法</a> : 对Raft的解释，先mark，到时候给个总结</p>
+</li>
+</ul>
+<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="http://www.calstephens.tech/blog/announcing-ar-planes" target="_blank" rel="external">Announcing AR Planes</a> : 关于AR Plane的一个Demo, 可惜是付费软件，不能试用；不过idea可以参考</p>
+</li>
+<li><p><a href="https://qianduan.group/posts/5a66f36e0cf6b624d2239c74" target="_blank" rel="external">2018 Web 开发者路线图</a> : 可以对整体技术栈有全局的认识, 另外几张图个人感觉画的非常好，可惜不知道画图软件</p>
+</li>
+<li><p><a href="https://fosdem.org/2018/schedule/event/introduction/" target="_blank" rel="external">Introduction to LLVM</a> : 关于LLVM的介绍，先mark</p>
+</li>
+<li><p><a href="https://zhuanlan.zhihu.com/p/33678187" target="_blank" rel="external">Google Project Zero 成员教你如何入门搞安全</a> : 定个小目标, 明天开始对安全相关的研究做进一步的深入学习</p>
+</li>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404205853535261184" target="_blank" rel="external">科普: 宇宙奥德赛 — 太阳系之旅</a> : 众多关于太阳系星球科普的文章, 看了一部分非常值得推荐, mark</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/Q9ZRHbRI5lkqAn1NLkDzXg" target="_blank" rel="external">纠正你对区块链的认知偏见</a> : 又是一个区块链的文章, 作为最近的业内的风口, 此类的文章不少，希望下来自己也写一篇更具针对性的总结文章</p>
+</li>
+<li><p><a href="http://www.techug.com/post/webassembly-application-example.html" target="_blank" rel="external">WebAssembly 能干什么？8个WebAssembly 应用案例</a> : 关注WebAssembly在多媒体网页编辑上面的应用，希望能够对一些PGC/UGC内容的生产带来不一样的体验</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/Japan_Fuji.jpg&quot; alt=&quot;日本-富士山&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>weekly of 20180121</title>
+    <link href="http://shevacjs.com/2018/02/11/20180121/"/>
+    <id>http://shevacjs.com/2018/02/11/20180121/</id>
+    <published>2018-02-11T03:32:45.000Z</published>
+    <updated>2018-02-11T03:33:13.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/Austria_02.jpg" alt="奥地利"></p>
+<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://blog.cloudflare.com/syn-packet-handling-in-the-wild/" target="_blank" rel="external">SYN packet handling in the wild</a> : 关于TCP SYN交互和实现的深入讨论，包括内核和应用程序对于<code>syn flood</code>, <code>syn queue</code>, <code>accept queue</code>的介绍</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU3MDM4OTE1Mw==&amp;mid=2247483680&amp;idx=1&amp;sn=96c8379db26115cb6e166ce0ef5bdc1d&amp;scene=45#wechat_redirect" target="_blank" rel="external">揭秘超分辨率的正确打开方式</a> : 具体介绍超分图片背后的理念，以及在微信的应用和效果，手百现在也在推动此类的事情。对于超分的应用场景也做了比较好的分析和介绍</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="http://www.dwmkerr.com/the-death-of-microservice-madness-in-2018/" target="_blank" rel="external">The Death of Microservice Madness in 2018</a> : 对微服务化的又一次系统性概述，分析，对于希望或者想要设计更理想业务模式的同学而言，是个很好的思路学习机会，也有<a href="http://www.jdon.com/49261" target="_blank" rel="external">中文翻译版</a></p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/why-tls-1-3-isnt-in-browsers-yet/" target="_blank" rel="external">Why TLS 1.3 isn’t in browsers yet</a> : 随着<code>TLS 1.3</code>的规范落地，其业务落地也是需要重点考虑的问题，然而现实情况是，由于一些<code>middlebox</code>在实现等兼容性的问题, 浏览器其实并不能透明的从<code>TLS 1.2</code>升级到<code>TLS 1.3</code>, 作者具体分析了这里面的一些风险和问题, 包括协议设计上面的兼容性问题等等，整体下来可以加深对TLS协议的理解</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/8KYlDIhYmF0jCpbdBsIdcw" target="_blank" rel="external">如何节省1T图片带宽？ 解密极致图像压缩</a> : 腾讯的团队，分别介绍了在<code>WebP</code>, 自研<code>WXAM</code>, 以及<code>guetzli</code>的落地经验。两个总结, 一个是腾讯在这个方面还是做了较多的研究和分析的，文章分享的问题都是比较干货的；其次是, 虽然之前也考虑落地过<code>guetzli</code>, 但没有成功, 整体来说, 执行力还是太差了</p>
+</li>
+<li><p><a href="http://www.arkteam.net/?p=3390" target="_blank" rel="external">Deemon:自动化CSRF安全检测框架</a> : 关于自动化<code>CSRF</code>攻击检测的设计理念, 一些东西没有完全理解，先mark</p>
+</li>
+</ul>
+<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://blog.cloudflare.com/2017-holiday-reading-from-the-cloudflare-blog/" target="_blank" rel="external">Technical reading from the Cloudflare blog for the holidays</a> : 可以认为是2017年<a href="https://blog.cloudflare.com/" target="_blank" rel="external">CloudFlare博客</a>的精选, 里面文章质量都不错，可以mark关注下</p>
+</li>
+<li><p><a href="https://www.nginx.com/blog/modsecurity-apache-struts-cve-2017-5638/" target="_blank" rel="external">Using ModSecurity to Virtual Patch Apache Struts CVE-2017-5638</a> : 对于一些紧急的线上安全问题, 使用类似于<code>ModSecurtiy</code>的安全策略可以快速止损, 具体nginx的modsecurity的文档可以参看<a href="https://www.nginx.com/resources/library/modsecurity-3-nginx-quick-start-guide/" target="_blank" rel="external">ModSecurity 3.0 and NGINX: Quick Start Guide</a></p>
+</li>
+<li><p><a href="https://www.gatesnotes.com/Books/Enlightenment-Now" target="_blank" rel="external">Bill Gates: My new favorite book of all time</a> : 作者推荐了一本新书<a href="https://www.amazon.cn/dp/0525559027/" target="_blank" rel="external">Enlightenment Now: The Case for Reason, Science, Humanism, and Progress</a>, 现在英文版刚才出来</p>
+</li>
+<li><p><a href="http://zulko.github.io/moviepy/getting_started/getting_started.html" target="_blank" rel="external">MoviePy: Video editing with Python</a> : 一个Python的视频编辑库, 可以让你快速做一些视频Gif抽取等工作, 但并不擅长”You only need to do frame-by-frame video analysis “, “You only want to convert a video file, or turn a series of image files into a movie”, 可以先mark关注</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/Law7FpS53TjrDrzSMCtcVg" target="_blank" rel="external">低调现身北京的吴恩达，刚刚给人工智能公司下了个定义</a> : 关于传统公司，互联网公司和人工智能公司的定义和理解；其一直强调人工智能技术会想电能等成为企业和产业改造的源动力, 里面的关键在于数据驱动思想的注入以及和行业的深度结合</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/Austria_02.jpg&quot; alt=&quot;奥地利&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20180114</title>
@@ -1151,126 +1257,6 @@
 &lt;/ul&gt;
 &lt;h2 id=&quot;每周paper&quot;&gt;&lt;a href=&quot;#每周paper&quot; class=&quot;headerlink&quot; title=&quot;每周paper&quot;&gt;&lt;/a&gt;每周paper&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/08/28/using-chatbots-against-voicespam-analyzing-lennys-effectiveness/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Using chatbots against voicespam: analyzing Lenny’s effectiveness&lt;/a&gt; :  这篇paper介绍了一种应对电话骚扰的简单而又有效的办法: 通过构建一个对话机器人，该机器人无需进行复杂的语音识别等，只需要通过固定的句式和轮回对话，就能大大拖累攻击者的会话时间，使其攻击成本成倍提升&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170827</title>
-    <link href="http://shevacjs.com/2017/08/28/20170827/"/>
-    <id>http://shevacjs.com/2017/08/28/20170827/</id>
-    <published>2017-08-28T04:12:45.000Z</published>
-    <updated>2017-08-28T04:12:35.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><a href="https://www.android.com/versions/oreo-8-0/" target="_blank" rel="external">Android Oreo</a> : Google发布安卓8.0, 加入一系列新特性, 包括引入支持模块化框架的<a href="https://android-developers.googleblog.com/2017/05/here-comes-treble-modular-base-for.html" target="_blank" rel="external">Treble</a></p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=15068278" target="_blank" rel="external">Initial Hammer2 filesystem implementation</a> : Hammer2 FS是一个类似于<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.184.3704&amp;rep=rep1&amp;type=pdf" target="_blank" rel="external">ZFS</a>的大型分布式文件系统，支持一系列新特性，可以了解下现在最近文件系统的<a href="https://gitweb.dragonflybsd.org/dragonfly.git/blob_plain/HEAD:/sys/vfs/hammer2/DESIGN" target="_blank" rel="external">设计思路和理念</a></p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=15090424" target="_blank" rel="external">Introducing App Engine Firewall (googleblog.com)</a> : Google App Engine推出的新功能，支持配置一个服务的防火墙，这样可以避免代码上面做改动</p>
-</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><a href="https://cppcon2017.sched.com/event/Bgsj/time-travel-debugging-root-causing-bugs-in-commercial-scale-software" target="_blank" rel="external">Time Travel Debugging: Root Causing Bugs in Commercial Scale Software</a> : 微软开发支持了基于<code>Time Travel Debugging</code>的机制，不过具体这个机制还不是很了解，先mark，等到时候具体talk出来再深究</li>
-</ul>
-<a id="more"></a>
-<ul>
-<li><p><a href="http://ialloc.org/tags.html#nginx-ref" target="_blank" rel="external">nginx源码笔记</a> : 该blog对nginx的实践机制有不少非常深刻的说明，对nginx有兴趣的同学可以多看看</p>
-</li>
-<li><p><a href="https://medium.freecodecamp.org/why-i-still-use-vim-67afd76b4db6" target="_blank" rel="external">Why I Still Use Vim</a> :  “it’s not because I can’t figure out how to close it”, 和其他的编辑器对比了启动时间，内存消耗等特性，vim还是非常精巧的, 上面也推荐了不少vim相关的资料，可以收藏</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="http://daily.zhihu.com/story/9583047" target="_blank" rel="external">如何快速成为数据分析师?</a> : </li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://mp.weixin.qq.com/s/TjFzJVOowfceHwJNUItcxQ" target="_blank" rel="external">从语言学到深度学习NLP，一文概述自然语言处理</a> : 下一个阶段的目标，就是了解和学习NLP，先mark</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650997427&amp;idx=1&amp;sn=6dcc5fe91cb26c12a5357b10d7dde318" target="_blank" rel="external">测试已死？我看未必！</a> : 多测试人员的多样化需求</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzYwMTk1NA==&amp;mid=2247486468&amp;idx=1&amp;sn=b498aed5576470529d8a155846a8eac7&amp;chksm=96cdad49a1ba245f71d75208ca6711d23b9087fa4329ca68f774a763ce1ecfedd0c0cf9c9835&amp;mpshare=1&amp;scene=23&amp;srcid=08180g1CIQtUh5ECs7m6Of7I#rd" target="_blank" rel="external">推荐给程序员的一些书（不止是技术书</a> : mark，里面有一些社会学的书籍可以关注</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=15089916" target="_blank" rel="external">Feather: Beautiful open-source icons</a> : 收藏了一些精美的icon图标，可以mark</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=15089476" target="_blank" rel="external">Ask HN: What is your all time favorite CS paper?</a> : 必须mark, 上面的那些paper, 最好一篇一篇下载下来认真review</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://www.android.com/versions/oreo-8-0/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Oreo&lt;/a&gt; : Google发布安卓8.0, 加入一系列新特性, 包括引入支持模块化框架的&lt;a href=&quot;https://android-developers.googleblog.com/2017/05/here-comes-treble-modular-base-for.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Treble&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=15068278&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Initial Hammer2 filesystem implementation&lt;/a&gt; : Hammer2 FS是一个类似于&lt;a href=&quot;http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.184.3704&amp;amp;rep=rep1&amp;amp;type=pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ZFS&lt;/a&gt;的大型分布式文件系统，支持一系列新特性，可以了解下现在最近文件系统的&lt;a href=&quot;https://gitweb.dragonflybsd.org/dragonfly.git/blob_plain/HEAD:/sys/vfs/hammer2/DESIGN&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;设计思路和理念&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=15090424&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Introducing App Engine Firewall (googleblog.com)&lt;/a&gt; : Google App Engine推出的新功能，支持配置一个服务的防火墙，这样可以避免代码上面做改动&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://cppcon2017.sched.com/event/Bgsj/time-travel-debugging-root-causing-bugs-in-commercial-scale-software&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Time Travel Debugging: Root Causing Bugs in Commercial Scale Software&lt;/a&gt; : 微软开发支持了基于&lt;code&gt;Time Travel Debugging&lt;/code&gt;的机制，不过具体这个机制还不是很了解，先mark，等到时候具体talk出来再深究&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170820</title>
-    <link href="http://shevacjs.com/2017/08/22/20170820/"/>
-    <id>http://shevacjs.com/2017/08/22/20170820/</id>
-    <published>2017-08-22T03:28:45.000Z</published>
-    <updated>2017-08-22T03:31:41.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><a href="https://news.ycombinator.com/item?id=15012882" target="_blank" rel="external">64-bit Firefox is the new default on 64-bit Windows</a> : FireFox在windows系统的默认版本将会是64位的程序，Hacker News很有意义，主要讨论了两个点: 1) 迁移64位的困难之处: 主要是扩展(比如Flash)的兼容; 2)迁移64位对crash的影响，由于用于更多的虚拟内存，已经可以更好的分配连续比较大的地址空间, 对JIT之类更为友好</p>
-</li>
-<li><p><a href="https://github.com/GoogleChrome/puppeteer" target="_blank" rel="external">Puppeteer</a> : “Puppeteer is a Node library which provides a high-level API to control headless Chrome over the DevTools Protocol. It can also be configured to use full (non-headless) Chrome”, 个人觉得对一些浏览器上面的自动化工作(比如抓取, 性能分析)都是有非常大的裨益</p>
-</li>
-<li><p><a href="https://research.googleblog.com/2017/08/making-visible-watermarks-more-effective.html" target="_blank" rel="external">Making Visible Watermarks More Effective</a> : 还是Google的研究成果，通过对聚类水印图片的学习，可以更高效的去除图片里面的水印，具体如何实现可以进一步了解, 先mark</p>
-</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><a href="http://www.infoq.com/cn/news/2017/08/Memsniff-Memcached" target="_blank" rel="external">Memsniff：一个健壮的Memcached流量分析工具</a> : 思路是通过分析网络包(tcpdump产出等)，来对memcached进行相关的分析, 有时候应该有用</li>
-</ul>
-<a id="more"></a>
-<ul>
-<li><p><a href="http://h14s.p5r.org/2012/09/0x5f3759df.html" target="_blank" rel="external">0x5f3759df</a> : “This post is about the magic constant 0x5f3759df and an extremely neat hack, fast inverse square root, which is where the constant comes from.”, mark</p>
-</li>
-<li><p><a href="http://io.upyun.com/2017/08/19/nginx-signals/" target="_blank" rel="external">谈谈 nginx 信号集</a> : 关于nginx信号的一些细节，梳理的很清楚，可以加深理解</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="http://www.infoq.com/cn/news/2017/08/Spark-on-Angel-swift" target="_blank" rel="external">Spark on Angel：Spark机器学习的核心加速器</a> : 本文具体介绍了腾讯<a href="https://github.com/Tencent/angel" target="_blank" rel="external">Angle</a> 参数服务器如何和spark有效结合的策略, 对于机器学习工程架构有兴趣的可以好好看下</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://medium.com/@ageitgey/machine-learning-is-fun-80ea3ec3c471" target="_blank" rel="external">Machine Learning is Fun!</a> : “The world’s easiest introduction to Machine Learning”，也有<a href="https://zhuanlan.zhihu.com/p/24339995" target="_blank" rel="external">中文版</a>, 先mark</p>
-</li>
-<li><p><a href="http://www.infoq.com/cn/minibooks/profile-in-practice?utm_campaign=rightbar_v2&amp;utm_source=infoq&amp;utm_medium=minibooks_link&amp;utm_content=link_text" target="_blank" rel="external">架构师特刊：用户画像实践</a> : Infoq<a href="http://www.infoq.com/cn/minibooks?utm_source=infoq&amp;utm_medium=breadcrumbs_feature&amp;utm_campaign=breadcrumbs" target="_blank" rel="external">架构师特刊</a>里面的系列专刊，专门介绍用户画像的实践，有不少干货</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=15012882&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;64-bit Firefox is the new default on 64-bit Windows&lt;/a&gt; : FireFox在windows系统的默认版本将会是64位的程序，Hacker News很有意义，主要讨论了两个点: 1) 迁移64位的困难之处: 主要是扩展(比如Flash)的兼容; 2)迁移64位对crash的影响，由于用于更多的虚拟内存，已经可以更好的分配连续比较大的地址空间, 对JIT之类更为友好&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/GoogleChrome/puppeteer&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Puppeteer&lt;/a&gt; : “Puppeteer is a Node library which provides a high-level API to control headless Chrome over the DevTools Protocol. It can also be configured to use full (non-headless) Chrome”, 个人觉得对一些浏览器上面的自动化工作(比如抓取, 性能分析)都是有非常大的裨益&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://research.googleblog.com/2017/08/making-visible-watermarks-more-effective.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Making Visible Watermarks More Effective&lt;/a&gt; : 还是Google的研究成果，通过对聚类水印图片的学习，可以更高效的去除图片里面的水印，具体如何实现可以进一步了解, 先mark&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://www.infoq.com/cn/news/2017/08/Memsniff-Memcached&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Memsniff：一个健壮的Memcached流量分析工具&lt;/a&gt; : 思路是通过分析网络包(tcpdump产出等)，来对memcached进行相关的分析, 有时候应该有用&lt;/li&gt;
 &lt;/ul&gt;
     
     </summary>
