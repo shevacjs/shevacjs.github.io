@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2018-02-11T03:34:45.000Z</updated>
+  <updated>2018-02-19T16:22:48.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,67 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20180218</title>
+    <link href="http://shevacjs.com/2018/02/20/20180218/"/>
+    <id>http://shevacjs.com/2018/02/20/20180218/</id>
+    <published>2018-02-19T16:09:45.000Z</published>
+    <updated>2018-02-19T16:22:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/Austria2.jpg" alt="日本-富士山"></p>
+<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://scotthelme.co.uk/enforcing-the-use-of-sri/" target="_blank" rel="external">Enforcing the use of SRI</a> : SRI策略是CSP新引入的一个策略, 通过<code>SRI</code>可以保障外链的资源(包括js/css), 要和代码里面的签名哈希一致, 避免受到这个方面的攻击影响, 可以同时参考作者的另外一篇文章<a href="https://scotthelme.co.uk/subresource-integrity/" target="_blank" rel="external">Subresource Integrity: Securing CDN loaded assets</a></p>
+</li>
+<li><p><a href="https://github.com/inspector-repl/inspector" target="_blank" rel="external">Inspector: A drop-anywhere C++ REPL</a> : <code>REPL</code>(Read–Eval–Print Loop), also known as an interactive toplevel or language shell, 他支持对C++代码做交互式的处理，类似于GDB里面的debug状态，可以参看<a href="https://news.ycombinator.com/item?id=16360738" target="_blank" rel="external">Hacker News</a>上面的讨论</p>
+</li>
+<li><p><a href="https://latency.apex.sh/" target="_blank" rel="external">LATENCY</a> : Global latency testing tool, 可以测试不同域名在全球不同区域的响应速度</p>
+</li>
+<li><p><a href="http://jmespath.org/" target="_blank" rel="external">JMESPath</a> : JMESPath is a query language for JSON,  类似于<a href="https://stedolan.github.io/jq/" target="_blank" rel="external">JQ</a>，不过语法上面好像更复杂</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://zwischenzugs.com/2011/08/29/my-favourite-secret-weapon-strace/" target="_blank" rel="external">My Favourite Secret Weapon – strace</a> : 文章系统介绍<code>strace</code>的用法以及作用, 不过从这篇文章来看<a href="http://www.brendangregg.com/blog/2014-05-11/strace-wow-much-syscall.html" target="_blank" rel="external">strace Wow Much Syscall</a>, <code>strace</code>在机制原理上面存在性能瓶颈(通过ptrace的方法，没遇到系统调用就暂停源进程，其后分析数据), 故建议使用类似于<a href="http://www.brendangregg.com/perf.html#More" target="_blank" rel="external">perf trace</a>, <code>sysdig</code>之类的工具</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16365413" target="_blank" rel="external">Nginx HTTP/2 server push support</a> : Nginx也要支持Http 2的server push机制, 原文是具体的代码实现，后者的hacker news上面的讨论，其实对http2的完整支持，nginx相对而言还是比较落后的，但是一旦支持之后，个人决定对于产品的生态链的收敛还是非常有意义的</p>
+</li>
+<li><p><a href="http://lefred.be/content/top-10-mysql-8-0-features-for-dbas-ops/" target="_blank" rel="external">TOP 10 MySQL 8.0 features for DBAs &amp; OPS</a> : MySQL 8的一些新特性, 个人觉得可以关注的特性包括<code>Removing Query Cache</code>, <code>Faster &amp; More Complete Performance Schema (Histograms, Indexes, …) and Information Schema</code>, <code>Persistent Global Variables</code> etc</p>
+</li>
+<li><p><a href="https://code.facebook.com/posts/166966743929963/how-production-engineers-support-global-events-on-facebook/" target="_blank" rel="external">How production engineers support global events on Facebook</a> : <code>Facebook Live On</code>产品介绍其如何应对预期流量高峰(比如圣诞，新年)的方法和手段，包括常规的流量预估，压测，方法论上面没有太多新意</p>
+</li>
+</ul>
+<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://timkadlec.com/remembers/2018-02-14-the-two-faces-of-amp/" target="_blank" rel="external">The Two Faces of AMP</a> : 本文讨论AMP的两面性，一方面，从技术方面，其提供的能力让web mobile端的体验有了质的提升，另外一方面，Google也说明会提升基于AMP网站的rank排序，对此多少web开发者持反对态度，这种捆绑销售与开放互联网的精神相悖</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16385440" target="_blank" rel="external">A BRIEF GLANCE AT HOW VARIOUS TEXT EDITORS MANAGE THEIR TEXTUAL DATA</a>: 对于场景编辑器的buffer机制的概要说明, 类似于之前同样推荐的文章，建议大家重点关注<a href="https://en.wikipedia.org/wiki/Gap_buffer" target="_blank" rel="external">Gap buffer</a></p>
+</li>
+</ul>
+<ul>
+<li><p><a href="https://news.ycombinator.com/item?id=16375938" target="_blank" rel="external">DTRACE FOR LINUX; ORACLE DOES THE RIGHT THING</a> : Oracle将<code>Dtrace</code>的许可协议改为<code>GPL</code>, 普遍认为这个会对于dtrace在Linux生态的发展起到推进作用，另外一个方面，现在Linux生态其实有了不少可以trace/probe的工具，包括<code>eBPF</code>，<code>systemtap</code>, 后面这些工具如何发展还得看各自生态的建设情况</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/2j6mpmsd_vb1gCHcjosODg" target="_blank" rel="external">聊聊微软刚发布的区块链去中心化身份识别系统DID</a> : 关注. 文末有不少区块链的参考信息，有更多兴趣可以阅读下</p>
+</li>
+<li><p><a href="https://github.com/danielgtaylor/jpeg-archive" target="_blank" rel="external">JPEG Archive</a> : Utilities for archiving photos for saving to long term storage or serving over the web</p>
+</li>
+<li><p><a href="https://github.com/pxgm/awesome-markdown-alternatives" target="_blank" rel="external">Awesome Markdown Alternatives</a> : 还可以参考另外一篇文档<a href="https://blog.jez.io/reach-for-markdown/" target="_blank" rel="external">Reach for Markdown, not LaTeX</a>，介绍基于<code>Markdown</code>, <code>Pandoc</code> 和<code>LaTex</code>组合的工具链</p>
+</li>
+<li><p><a href="https://blog.sourcerer.io/ascii-art-dead-or-alive-cc237391e5d8" target="_blank" rel="external">ASCII art — dead or alive</a> : 关于ASCII Art的概述，个人决定有时候ASCII的图表在可迁移性和可观性还是不错的, 文章里面的几个工具大家可以参考，包括<a href="https://github.com/dhobsd/asciitosvg" target="_blank" rel="external">asciitosvg</a>, <a href="http://asciiflow.com/" target="_blank" rel="external">asciiflow</a>，<a href="https://en.wikipedia.org/wiki/Cowsay" target="_blank" rel="external">cowsay</a></p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/Austria2.jpg&quot; alt=&quot;日本-富士山&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20180211</title>
@@ -1198,65 +1259,6 @@
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://www.infoq.com/cn/news/2017/09/Angel-lda-vldb-windows-lightlda&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;基于腾讯Angel的LDA*入选VLDB，超越微软LightLDA&lt;/a&gt; : 不错，可惜今年的VLDB会议没有去参加&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170903</title>
-    <link href="http://shevacjs.com/2017/09/04/20170903/"/>
-    <id>http://shevacjs.com/2017/09/04/20170903/</id>
-    <published>2017-09-04T07:27:45.000Z</published>
-    <updated>2017-09-04T07:27:50.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="http://www.jianshu.com/p/072587b47515" target="_blank" rel="external">一篇文章，教你学会Git</a> : 对Git的概念和核心用法介绍的还是比较清晰的，可以学习下</p>
-</li>
-<li><p><a href="http://linuxperf.com/?p=184" target="_blank" rel="external">如何诊断SLUB问题</a> : 可以了解linux的内核内存分配的Slab机制</p>
-</li>
-</ul>
-<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><ul>
-<li><a href="https://blog.acolyer.org/2017/08/28/using-chatbots-against-voicespam-analyzing-lennys-effectiveness/" target="_blank" rel="external">Using chatbots against voicespam: analyzing Lenny’s effectiveness</a> :  这篇paper介绍了一种应对电话骚扰的简单而又有效的办法: 通过构建一个对话机器人，该机器人无需进行复杂的语音识别等，只需要通过固定的句式和轮回对话，就能大大拖累攻击者的会话时间，使其攻击成本成倍提升</li>
-</ul>
-<a id="more"></a>
-<ul>
-<li><a href="https://blog.acolyer.org/2017/08/24/a-cloud-based-content-gathering-network/" target="_blank" rel="external">A cloud-based content gathering network</a> : 该paper介绍了<br>一个新的概念<code>CGN</code>节点, 有点类似于现在常见的正向代理, 其让用户的访问模式变为<code>Client --(1 RTT)--&gt; CGN --(N RTT)--&gt; Web Service</code>,  同时让CGN节点和web service尽快靠近，这会使得即便有N次RTT，其整体响应时间也会很快; 有点类似于动态的CDN，其实现在很多CDN服务商都在往这个方面走了</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://blog.apnic.net/2016/08/22/ipv6-performance-revisited/" target="_blank" rel="external">IPv6 Performance – Revisited</a> : 作者对比了IPv6和IPv4的性能差异, 总体的结论是 整体上看以RTT为例, IPv6和IPv4差异不是很大, 细化下来，在欧洲北美Ipv6的性能会稍好一些; 但是从连通率来看, Ipv4的连通率是好于IpV6(0.2%失败率 vs 1.6%)</p>
-</li>
-<li><p><a href="http://brianknapp.me/coding-secrets-that-are-only-learnt-by-experience/" target="_blank" rel="external">Do programmers have some coding secrets that are only learnt by experience?</a> : “There are absolutely 100% for sure coding secrets that are only learned by experience. In fact, and perhaps I shouldn’t tell you this, even if I tell you the secrets you won’t believe them until you experience them.”，需要不断的积累自己的经验, 换个工作环境, 亲自写码, 掌握基础知识，以及注重一些非技术体系方面的知识(管理，领域相关)</p>
-</li>
-<li><p><a href="http://insights.thoughtworks.cn/build-security-in-pii/" target="_blank" rel="external">Build Security In PII</a> : <code>PII</code>(Personal Identifiable Information)是可以用来标识个体的信息, 考虑到以后个人隐私的重要性, 本文论述了如何系统化的建设PII保护体系, 包括意识的强化, 相关研发流程解决方案的建立等</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://github.com/nikitavoloboev/my-mac-os/" target="_blank" rel="external">My wonderful world of macOS</a> : 列出了一系列MacOS非常有用的工具，可以mark, 个人感觉比较不错的命令行工具包括<a href="https://github.com/tldr-pages/tldr" target="_blank" rel="external">tldr</a>, <a href="https://github.com/asciinema/asciinema" target="_blank" rel="external">asciinema</a>, <a href="https://github.com/rgcr/m-cli" target="_blank" rel="external">m-cli</a></p>
-</li>
-<li><p><a href="https://qgraph.io/blog/deep-learning-surprises/" target="_blank" rel="external">Why Deep Learning Surprises me</a> : 作者认为, Deep Learning打破了他之前”Understanding is something more than computation. Since computers are computation machines, they can never understand anything”的认知</p>
-</li>
-<li><p><a href="https://github.com/abell123456/AST-/blob/master/README.md?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io" target="_blank" rel="external">AST业界实现收集整理</a> : 一些AST的实现, 先收藏，应该会有用到的地方</p>
-</li>
-<li><p><a href="https://zhuanlan.zhihu.com/p/29004697" target="_blank" rel="external">在工作中学习</a> : 这个思路自己一直很认同，但是文中提到的一些技巧觉得还可以掌握: “阅读每个pull request”, “不要学习工作之外的编程语言/框架”</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://www.jianshu.com/p/072587b47515&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;一篇文章，教你学会Git&lt;/a&gt; : 对Git的概念和核心用法介绍的还是比较清晰的，可以学习下&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://linuxperf.com/?p=184&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;如何诊断SLUB问题&lt;/a&gt; : 可以了解linux的内核内存分配的Slab机制&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;每周paper&quot;&gt;&lt;a href=&quot;#每周paper&quot; class=&quot;headerlink&quot; title=&quot;每周paper&quot;&gt;&lt;/a&gt;每周paper&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/08/28/using-chatbots-against-voicespam-analyzing-lennys-effectiveness/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Using chatbots against voicespam: analyzing Lenny’s effectiveness&lt;/a&gt; :  这篇paper介绍了一种应对电话骚扰的简单而又有效的办法: 通过构建一个对话机器人，该机器人无需进行复杂的语音识别等，只需要通过固定的句式和轮回对话，就能大大拖累攻击者的会话时间，使其攻击成本成倍提升&lt;/li&gt;
 &lt;/ul&gt;
     
     </summary>

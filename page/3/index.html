@@ -57,6 +57,65 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-20170903" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/04/20170903/">weekly of 20170903</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/09/04/20170903/" class="article-date">
+  <time datetime="2017-09-04T07:27:45.000Z" itemprop="datePublished">2017-09-04</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="http://www.jianshu.com/p/072587b47515" target="_blank" rel="external">一篇文章，教你学会Git</a> : 对Git的概念和核心用法介绍的还是比较清晰的，可以学习下</p>
+</li>
+<li><p><a href="http://linuxperf.com/?p=184" target="_blank" rel="external">如何诊断SLUB问题</a> : 可以了解linux的内核内存分配的Slab机制</p>
+</li>
+</ul>
+<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><ul>
+<li><a href="https://blog.acolyer.org/2017/08/28/using-chatbots-against-voicespam-analyzing-lennys-effectiveness/" target="_blank" rel="external">Using chatbots against voicespam: analyzing Lenny’s effectiveness</a> :  这篇paper介绍了一种应对电话骚扰的简单而又有效的办法: 通过构建一个对话机器人，该机器人无需进行复杂的语音识别等，只需要通过固定的句式和轮回对话，就能大大拖累攻击者的会话时间，使其攻击成本成倍提升</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2017/09/04/20170903/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20170827" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -634,102 +693,6 @@
 
 
     
-      <article id="post-ctr" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/21/ctr/">关于CTR预估的算法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/07/21/ctr/" class="article-date">
-  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>偏实践应用, by chenjiansen</p>
-<p><code>WARN</code>, 个人理解, 应该是多有谬误</p>
-</blockquote>
-<h3 id="关于CTR预估"><a href="#关于CTR预估" class="headerlink" title="关于CTR预估"></a>关于CTR预估</h3><p>在很多推荐系统里面，rank是一个关键的环节；从不同召回源获取到的数据, 按照哪种排序方式推荐给用户是一个关键的问题; 所谓的<code>CTR预估</code>就是希望我们能对输出的list 做一个合适的点击预估; 抽象起来其实就是算一个item被点击的概率或者可能性；</p>
-<p>这个问题映射为机器学习里面的算法，现在常见的，使用广泛的主要有如下几个算法: </p>
-<h3 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h3><p>映射为LR算法，可以理解为，就是要预测一个算法被判为正例(‘click’)的概率；由于LR算法的输出是一个概率值, 所以可以直接用来sort;</p>
-<p>同时LR由于具有比较好的实现和调试；是早期大家使用较为广泛的Rank算法;</p>
-<h2 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h2><h2 id="FM"><a href="#FM" class="headerlink" title="FM"></a>FM</h2><p>考虑到我们这特征输入的时候，可能有如下几个问题: </p>
-<ul>
-<li>数据稀疏</li>
-<li>特征之间存在一些关联性</li>
-</ul>
-<p>传统的LR算法的$h_\theta(x) = \theta^Tx$，显然可能不适合此类数据，一个简单是思路是引入二次项，包含关联关系的预估, 如下 : </p>
-<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n w_{ij}x_ix_j$$</p>
-<p>这个表达共有$\frac{n(n-1)}{2}$个模型参数,  我们需要训练这么多参数，但是该表达式存在如下问题: </p>
-<ul>
-<li>由于每个$w_{ij}$ 都需要大量$x_i$和$x_j$非零的情况下进行预估，但是样本数据本来就比较稀疏，这将导致整个样本训练的难度非常大</li>
-</ul>
-<p>一个思路是: “所有二次项参数$w_{ij}$可以组成一个对称阵 $W$，那么这个矩阵就可以分解为 $W=V^TV=VV^T$，$V$ 的第 $j$ 列便是第 $j$维特征的隐向量。换句话说，每个参数 $w_{ij}=<v_i,v_j>$” ，所以上面可以转化为 : </v_i,v_j></p>
-<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j$$</v_i,></p>
-<p>其中: </p>
-<ul>
-<li>$v_i$ : 是一个k阶的隐向量$(k &lt;&lt; n)$</li>
-<li>$&lt; , &gt; $代表点积</li>
-</ul>
-<p>为了求上面式子的优化解，我们继续拆分有: </p>
-<p>$$\sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j = \frac{1}{2} \sum_{f=1}^k( (\sum_{i=1}^n v_{i,f} x_i)^2 - \sum_{i=1}^nv_{i,f}^2x_i^2)$$</v_i,></p>
-<p>可以证明FM参数的训练模型是$0(kn)$</p>
-<h3 id="FFM"><a href="#FFM" class="headerlink" title="FFM"></a>FFM</h3><p>基于FM，我们再分析他模型可能存在的问题:  </p>
-<p>在FM模型里面，我们为每个特征定义一个隐向量$\overrightarrow{v_i}$ , $\overrightarrow{v_i}$ 的估计是基于和其他参数的$\overrightarrow{v_j}$的相关性计算而成；这里面就有一个假设，就是任何其他特征对改特征的影响是一致的；但有时候，这个假设不一定合适；所以，我们引入所谓的<code>Field-aware Factorization Machine</code></p>
-<p>在FFM模型里面，每个特征都属于某个field; 所以隐向量不仅和特征有关，也和field有关; 假设样本的 n 个特征属于 f个field，那么FFM的二次项有 nf 个隐向量。而在FM模型中，每一维特征的隐向量只有一个。FM可以看作FFM的特例，是把所有特征都归属到一个field时的FFM模型。其方程可以表达为: </p>
-<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_{i,f_j}, v_{j,f_i}="">x_ix_j$$</v_{i,f_j},></p>
-<p>其中: </p>
-<ul>
-<li>$f_j$是第$j$个特征所属的<code>field</code></li>
-<li>$v_{i,j}$ 表明特征$i$,和 $j$ ，对应的隐向量，其中 $ j \in {  1, 2, 3, … , f }$</li>
-</ul>
-<p>可以看到FFM模型，共有<code>nfk</code>个待学习参数, 其预测复杂度是 $O(kn^2)$</p>
-<p>关于FM和FFM，本质上，都是希望寻找一个模型，能够表征不同特征直接的关联关系；<code>FFM</code>可以理解是在具体应用上面的一个折衷；具有较好的可适应性</p>
-<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><h4 id="FFM-如何落地应用"><a href="#FFM-如何落地应用" class="headerlink" title="FFM 如何落地应用"></a>FFM 如何落地应用</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><p><a href="https://www.zhihu.com/question/26154847" target="_blank" rel="external">广告ctr预估有什么值得推荐的论文？</a> : 好多资料</p>
-</li>
-<li><p><a href="http://tech.meituan.com/deep-understanding-of-ffm-principles-and-practices.html" target="_blank" rel="external">深入FFM原理与实践</a> : 关于<code>FM</code>和<code>FFM</code>的介绍，说的挺清楚的，主要是参考他理解的</p>
-</li>
-<li><p><a href="http://www.jianshu.com/p/005a4e6ac775" target="_blank" rel="external">GBDT：梯度提升决策树</a> : </p>
-</li>
-<li><p><a href="https://www.csie.ntu.edu.tw/~cjlin/libffm/" target="_blank" rel="external">LIBFFM: A Library for Field-aware Factorization Machines</a> : 关于FFM</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/4/">下一页 &raquo;</a>
       </nav>
@@ -765,23 +728,6 @@
 
 
 <script src="/js/script.js"></script>
-  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
