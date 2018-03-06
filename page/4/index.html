@@ -57,7 +57,7 @@
   </div>
 </header>
     <section id="main" class="outer">
-      <article id="post-bayes" class="article article-type-post" itemscope itemprop="blogPost">
+      <article id="post-20170730" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -65,51 +65,52 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/21/bayes/">关于贝叶斯分类</a>
+      <a class="article-title" href="/2017/07/31/20170730/">weekly of 20170730</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2017/07/21/bayes/" class="article-date">
-  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
+      <a href="/2017/07/31/20170730/" class="article-date">
+  <time datetime="2017-07-31T12:43:11.000Z" itemprop="datePublished">2017-07-31</time>
 </a>
       
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>by chenjiansen</p>
-</blockquote>
-<h3 id="判定模型与生成模型"><a href="#判定模型与生成模型" class="headerlink" title="判定模型与生成模型"></a>判定模型与生成模型</h3><p>判定模型的理论基础 :</p>
-<p>$$ y = p(y | x : \theta) $$</p>
-<p>生成模型</p>
-<p>$$ y = p( y | x) = p(x,y) / p(x) = p(x|y) p(y) / p(x) $$</p>
-<p>此时我们会考虑使用$p(x|y)p(y)$ 来评估$p(y|x)$ ，是一个联合概率的考虑</p>
-<h3 id="Native-Bayes"><a href="#Native-Bayes" class="headerlink" title="Native Bayes"></a>Native Bayes</h3><p>考虑判断一个邮件是否是垃圾邮件；我们设定如下的模型: </p>
-<ul>
-<li>$x$ 为输入向量；其中$x_i^{(j)}$ 表示第$i$个样本的第$j$维的特征值,  任何一个邮件可以用如下的形式表示 : </li>
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><p><a href="https://github.com/memcached/memcached/wiki/ReleaseNotes150" target="_blank" rel="external">Memcached 1.5.0 Release Notes</a> : 支持更丰富强大的LRU策略</p>
+</li>
+<li><p><a href="https://blogs.windows.com/windowsexperience/2017/07/24/ms-paint-stay/#7aOF1Y7VUckzCI8i.97" target="_blank" rel="external">MS Paint is here to stay</a> : <code>画图</code>软件，先说可能被win10放弃，后来不少用户表示遗憾；现在调整为在windows store可以下载</p>
+</li>
 </ul>
-<p>$$x=\left[ \begin{array}{cc} 0 &amp; a_0\\ 1 &amp; a_1 \\ 1 &amp; a_2\\ 0  &amp; a_3 \\ 1 &amp; a_4 \\ .. &amp; .. \end{array} \right]$$</p>
-<p>其中第$i$行代表着单词$a_i$是否出现在这个邮件里面；$|A|$ 表示着词汇量的个数，也是也是输入特征$x$的维度</p>
-<ul>
-<li>$y$为输入结果,  这里面设定 $y=1$为垃圾邮件，否则$y=0$</li>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://hacks.mozilla.org/2017/07/the-next-generation-of-web-gaming/" target="_blank" rel="external">The Next Generation of Web Gaming</a> : Mozilla的官方blog论述近几年浏览器对web game的支持情况，包括<code>webassembly</code>, <code>SIMD</code>指令支持, <code>SharedArrayBuffer</code>等</p>
+</li>
+<li><p><a href="https://blogs.technet.microsoft.com/machinelearning/2017/07/25/lessons-learned-benchmarking-fast-machine-learning-algorithms/" target="_blank" rel="external">Lessons Learned From Benchmarking Fast Machine Learning Algorithms</a> : This blog shows the Microsoft’s efforts on <code>boosted decision trees</code> algrothim – LightGBM, which is think to be faster than XGBBoost; We can have a try later. </p>
+</li>
+<li><p><a href="http://codefine.co/2918.html" target="_blank" rel="external">Linux TCP Backlog机制分析</a> : 主要介绍了当半连接队列打满时候，客户端和服务端的行为, <code>tcp_abort_on_overflow</code> 可以控制不同的行为</p>
+</li>
+<li><p><a href="https://zhuanlan.zhihu.com/p/28197440" target="_blank" rel="external">《攻击者说企业安全》之终端安全建议</a> : 先mark里面的建议: <code>强烈推荐习惯 GPG，官网 http://gnupg.org，超强公私钥加密体系，其实习惯后，使用成本很低的，而且免费，以后一些重要文件需要传播，用 GPG 绝对是第一选择，顺便建议学学 gpg 命令</code></p>
+</li>
 </ul>
-<p>这里，我们准备使用<code>朴素贝叶斯</code>的方法解决分类问题，如上面生成模型的说明, 我们的求解问题转化为:</p>
-<p>$ p(y|x) = p(x|y) p(y) / p(x) $</p>
-<p>我们约定如下: </p>
-<p>$$\phi_{i|y=1} = p(x_i = 1 | y = 1)$$<br>$$\phi_{i|y=0} = p(x_i = 1 | y = 0)$$<br>$$\phi_y = p(y = 1) $$</p>
-<p>则有 : </p>
-<p>$$ \phi_{i|y=1} = \frac{\sum_{i=0}^{m} 1 {x_j^{(i)} = 1 \ and \  y^{(i)} = 1}}{\sum_{i=0}^{m} 1 { y^{(i)} = 1}}$$</p>
-<p>其他的$\phi_{i|y=0} , \phi_y$ 同理易得</p>
-<p>则在样本输入${x^{(i)}, y^{(i)}}, i = 0, 1, 2 …$ 的情况下；对于上面的分类问题，我们可以先求解:</p>
-<p>$$ P(y=1\ |x) = P(x|y=1) P(y=1) / P(x) \\ = \frac{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) P(y=1)}{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) + (\prod_{i=0}^{m}P(x_i\ |y = 0))}$$</p>
-<p>上面的$\prod$ 展开是依赖于所谓的<code>贝叶斯假设</code>， 也就是对于给定的结果$y$, 事件$x_i$相对于$y$是独立分布的, 也就是有: </p>
-<p>$$P(x_1,x_2,…,x_n\ |\ y) = p(x_1|y)p(x_2|y,x_1)….p(x_n|y,x_1,x_2, …) \\ = p(x_1|y)p(x_2|y) … p(x_n|y) \\ = \prod_{i=1}^{n} p(x_i|y)$$</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://guangchun.wordpress.com/2011/10/13/ml-bayes-map/" target="_blank" rel="external">参数估计：最大似然、贝叶斯与最大后验</a> </li>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="http://www.52cs.org/?p=1851&amp;from=timeline&amp;isappinstalled=1" target="_blank" rel="external">点击率预估综述</a> :  对rank的排序算法有个非常系统和完整的介绍，理解了一部分，mark后继续</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/1y5WD_vRfoSmGPbJ2-e86Q" target="_blank" rel="external">如何直观解释卷积神经网络的工作原理？</a> : </p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="http://codebay.cn/post/3964.html" target="_blank" rel="external">调查显示：近半程序员认为上级技术水平不如自己</a> : 有点标题党，不过里面的其他一些信息还是有指导意义, 包括”程序员在未来三个月内想要学习的顶尖工具：Docker，Python，Angular，Ansible和Jenkins”</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=14842276" target="_blank" rel="external">Ask HN: What programming blogs do you follow?</a> : 有很多非常好的blog推荐, 先mark，后续看看怎么放到RSS上面</p>
+</li>
+<li><p><a href="http://ruder.io/deep-learning-nlp-best-practices/" target="_blank" rel="external">Deep Learning for NLP Best Practices</a> : 先mark</p>
+</li>
+<li><p><a href="https://medium.com/towards-data-science/symspell-vs-bk-tree-100x-faster-fuzzy-string-search-spell-checking-c4f10d80a078" target="_blank" rel="external">SymSpell vs. BK-tree: 100x faster fuzzy string search &amp; spell checking</a> : 也是只能先mark</p>
+</li>
 </ul>
 
       
@@ -118,7 +119,7 @@
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
 
       </footer>
     
@@ -134,7 +135,7 @@
 
 
     
-      <article id="post-svm" class="article article-type-post" itemscope itemprop="blogPost">
+      <article id="post-20170723" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -142,14 +143,77 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/21/svm/">About SVM</a>
+      <a class="article-title" href="/2017/07/23/20170723/">weekly of 20170723</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2017/07/21/svm/" class="article-date">
+      <a href="/2017/07/23/20170723/" class="article-date">
+  <time datetime="2017-07-23T06:15:31.000Z" itemprop="datePublished">2017-07-23</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><a href="https://stackoverflow.com/channels" target="_blank" rel="external">Stack Overflow Channels</a> : Stack Overflow Channel是SO新退出的产品功能, 用于支持一些组织或者机构内部的问题交流&amp;沉淀, 感觉对于一些中小企业还是有帮助的</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="http://coolshell.cn/articles/17998.html" target="_blank" rel="external">LINUX PID 1 和 SYSTEMD</a> :  关于linux启动的systemd和<code>init 1</code>的恩恩怨怨</p>
+</li>
+<li><p><a href="https://jvns.ca/blog/2017/07/05/linux-tracing-systems/" target="_blank" rel="external">Linux tracing systems &amp; how they fit together</a> : 对Linux系统的trace工具有个系统性的介绍和分类，可以加深我们对这些分类工具和系统的理解</p>
+</li>
+<li><p><a href="https://techcrunch.com/2017/07/18/yandex-open-sources-catboost-a-gradient-boosting-machine-learning-librar/" target="_blank" rel="external">Yandex open sources CatBoost, a gradient boosting machine learning library</a> :  一个新的梯度学习算法库，可以了解参考下</p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><a href="http://wetest.qq.com/lab/view/320.html" target="_blank" rel="external">性能百万/s：腾讯轻量级全局流控方案详解</a> : 可以看到比较具体的实现，<code>租赁</code>机制是个不错的创新，可以在性能和功能上面有个合适的折衷</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><a href="http://road.ruanyifeng.com/2007/2007-12-12-joel-spolsky.html" target="_blank" rel="external">Joel Spolsky 在耶鲁大学的演讲</a> : 生活是自己的，好好工作，好好生活</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-ctr" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/21/ctr/">关于CTR预估的算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/07/21/ctr/" class="article-date">
   <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
 </a>
       
@@ -157,55 +221,54 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务;</p>
-<p>一个直观的理解是: 我们构造的平面, 其距离样本的点距离越远越好;</p>
-<p>而对于线性不可分的情况，我们则可以通过构造映射函数，将其映射到高维空间, 变成一个线性可分的模型</p>
-<p>下面具体介绍这些思路的数学演绎过程</p>
-<h2 id="数学演绎"><a href="#数学演绎" class="headerlink" title="数学演绎"></a>数学演绎</h2><p>设我们的<code>输入样本</code>为: </p>
-<p>$$ { (x_1,y_1), … , (x_N, y_N)}$$</p>
+        <blockquote>
+<p>偏实践应用, by chenjiansen</p>
+<p><code>WARN</code>, 个人理解, 应该是多有谬误</p>
+</blockquote>
+<h3 id="关于CTR预估"><a href="#关于CTR预估" class="headerlink" title="关于CTR预估"></a>关于CTR预估</h3><p>在很多推荐系统里面，rank是一个关键的环节；从不同召回源获取到的数据, 按照哪种排序方式推荐给用户是一个关键的问题; 所谓的<code>CTR预估</code>就是希望我们能对输出的list 做一个合适的点击预估; 抽象起来其实就是算一个item被点击的概率或者可能性；</p>
+<p>这个问题映射为机器学习里面的算法，现在常见的，使用广泛的主要有如下几个算法: </p>
+<h3 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h3><p>映射为LR算法，可以理解为，就是要预测一个算法被判为正例(‘click’)的概率；由于LR算法的输出是一个概率值, 所以可以直接用来sort;</p>
+<p>同时LR由于具有比较好的实现和调试；是早期大家使用较为广泛的Rank算法;</p>
+<h2 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h2><h2 id="FM"><a href="#FM" class="headerlink" title="FM"></a>FM</h2><p>考虑到我们这特征输入的时候，可能有如下几个问题: </p>
+<ul>
+<li>数据稀疏</li>
+<li>特征之间存在一些关联性</li>
+</ul>
+<p>传统的LR算法的$h_\theta(x) = \theta^Tx$，显然可能不适合此类数据，一个简单是思路是引入二次项，包含关联关系的预估, 如下 : </p>
+<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n w_{ij}x_ix_j$$</p>
+<p>这个表达共有$\frac{n(n-1)}{2}$个模型参数,  我们需要训练这么多参数，但是该表达式存在如下问题: </p>
+<ul>
+<li>由于每个$w_{ij}$ 都需要大量$x_i$和$x_j$非零的情况下进行预估，但是样本数据本来就比较稀疏，这将导致整个样本训练的难度非常大</li>
+</ul>
+<p>一个思路是: “所有二次项参数$w_{ij}$可以组成一个对称阵 $W$，那么这个矩阵就可以分解为 $W=V^TV=VV^T$，$V$ 的第 $j$ 列便是第 $j$维特征的隐向量。换句话说，每个参数 $w_{ij}=<v_i,v_j>$” ，所以上面可以转化为 : </v_i,v_j></p>
+<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j$$</v_i,></p>
 <p>其中: </p>
 <ul>
-<li>$x_i \in R^n $</li>
-<li>$y_i \in { -1, 1 }$</li>
+<li>$v_i$ : 是一个k阶的隐向量$(k &lt;&lt; n)$</li>
+<li>$&lt; , &gt; $代表点积</li>
 </ul>
-<p>首先考虑<code>线性可分</code>的情况;  此时设我们要求解的超平面为: </p>
-<p>$$\textbf{w}^T\textbf{x} + b = 0 $$</p>
-<p>则有: </p>
-<h3 id="间隔定义"><a href="#间隔定义" class="headerlink" title="间隔定义"></a>间隔定义</h3><p>我们定义函数间隔如下: </p>
-<p>$$\widehat{\gamma}_i = y_i (w \centerdot x + b )$$</p>
-<p>定义几何间隔如下 :<br>$$\gamma_i = y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|})$$</p>
-<p>可以看到几何间隔就是在$|w| = 1$ 时候的函数间隔，也是代表这个点到平面的实际几何距离；也有如下关系: </p>
-<p>$$ \gamma = \frac{\widehat {\gamma}}{| w |}$$</p>
-<h3 id="最优值定义"><a href="#最优值定义" class="headerlink" title="最优值定义"></a>最优值定义</h3><p>我们可以理解需要获取一个最大几何间隔的分离超平面(<code>为什么</code> ? ), 表针为: </p>
-<p>$$ \max \limits_{w,b} \gamma  \\ s.t. \ \ \  y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|}) \geqslant  \gamma $$</p>
-<p>用函数间隔替换如下: </p>
-<p>$$ \max \limits_{w,b} \frac{\widehat {\gamma}}{| w |}   \\ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  \widehat{\gamma} $$</p>
-<p>可以令 $\widehat{\gamma} = 1$,  则有: </p>
-<p>$$ \max \limits_{w,b} \frac{1}{| w |}   \\ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  1 $$</p>
-<p>也就是: </p>
-<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2   \\ s.t. \ \ \quad  y_i (w \centerdot x + b ) \geqslant  1 \quad i \in { 1, 2, … , N }$$</p>
-<p><code>也就是可以理解为</code> :  我们需要寻找合适的$w, b$，对应着一个超平面，使得所有的样本点到其的函数间隔都大于1；同时使得$|w|$最小</p>
-<p>上述方程的一个优化方法是:  通过对偶方法构造原来不等式的等价最优解（也就是拉格朗日对偶函数，具体太复杂了，就(也不懂)不展开了) ，总之如上的约束条件的等价对偶问题为:</p>
-<p>$$ \min \limits_{\alpha} \frac{1}{2} \sum_{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy_j - \sum_{i=1}^N\alpha_i \\ s.t. \quad \sum_{i=1}^{N} \alpha_iy_i = 0 \\ a_i (y_i(w*x_i + b) - 1) =0 \\ \\ w = \sum_{i=1}^{N} \alpha_i x_i y_i \\ a_i \geqslant 0 \quad i \in { 1, 2, … , N } $$<br>(可以忽略$\alpha_i$ 为什么会出现)</p>
-<p>这里我们称令$a_i &gt; 0$ 成立的样本点为<code>支持向量</code>, 依照上面的定义，当$a_i &gt; 0 $时，则有: </p>
-<p>$$ y_i(w*x_i + b) - 1 =0$$</p>
-<p>也就是$x_i$ 一定是在间隔的边界</p>
-<h3 id="线性不可分情况"><a href="#线性不可分情况" class="headerlink" title="线性不可分情况"></a>线性不可分情况</h3><p>考虑到现实生活中，存在一些异常或者脏数据，此时我们可以每个样本点引入一个松弛变量$\xi_i$,  则约束条件可以变为 : </p>
-<p>$$ y_i (w \centerdot x_i + b ) \geqslant  1-\xi_i \quad i \in { 1, 2, … , N } $$</p>
-<p>同时目标函数可以变成: </p>
-<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2 + C \sum_{i=1}^{N} \xi_i$$</p>
-<p>其中 : C代表着惩罚系数，需要视具体的业务场景而定 ；C值越大，表明对误差的惩罚增大，反之则减小；</p>
-<p>忽略一些很复杂的计算，可以得到对偶问题如下: </p>
-<p>$$ \min \limits_{\alpha} \frac{1}{2} \sum_{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy_j - \sum_{i=1}^N\alpha_i \\ s.t. \quad \sum_{i=1}^{N} \alpha_iy_i = 0 \\  0 \leqslant a_i \leqslant C \quad i \in { 1, 2, … , N } $$</p>
-<p>从上面可以分析出: </p>
+<p>为了求上面式子的优化解，我们继续拆分有: </p>
+<p>$$\sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j = \frac{1}{2} \sum_{f=1}^k( (\sum_{i=1}^n v_{i,f} x_i)^2 - \sum_{i=1}^nv_{i,f}^2x_i^2)$$</v_i,></p>
+<p>可以证明FM参数的训练模型是$0(kn)$</p>
+<h3 id="FFM"><a href="#FFM" class="headerlink" title="FFM"></a>FFM</h3><p>基于FM，我们再分析他模型可能存在的问题:  </p>
+<p>在FM模型里面，我们为每个特征定义一个隐向量$\overrightarrow{v_i}$ , $\overrightarrow{v_i}$ 的估计是基于和其他参数的$\overrightarrow{v_j}$的相关性计算而成；这里面就有一个假设，就是任何其他特征对改特征的影响是一致的；但有时候，这个假设不一定合适；所以，我们引入所谓的<code>Field-aware Factorization Machine</code></p>
+<p>在FFM模型里面，每个特征都属于某个field; 所以隐向量不仅和特征有关，也和field有关; 假设样本的 n 个特征属于 f个field，那么FFM的二次项有 nf 个隐向量。而在FM模型中，每一维特征的隐向量只有一个。FM可以看作FFM的特例，是把所有特征都归属到一个field时的FFM模型。其方程可以表达为: </p>
+<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_{i,f_j}, v_{j,f_i}="">x_ix_j$$</v_{i,f_j},></p>
+<p>其中: </p>
 <ul>
-<li>$w$是确定且唯一的</li>
-<li>$b$的解并不唯一</li>
+<li>$f_j$是第$j$个特征所属的<code>field</code></li>
+<li>$v_{i,j}$ 表明特征$i$,和 $j$ ，对应的隐向量，其中 $ j \in {  1, 2, 3, … , f }$</li>
 </ul>
-<h3 id="核函数及其应用"><a href="#核函数及其应用" class="headerlink" title="核函数及其应用"></a>核函数及其应用</h3><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><p><a href="https://zh.wikipedia.org/wiki/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA" target="_blank" rel="external">支持向量机</a></p>
+<p>可以看到FFM模型，共有<code>nfk</code>个待学习参数, 其预测复杂度是 $O(kn^2)$</p>
+<p>关于FM和FFM，本质上，都是希望寻找一个模型，能够表征不同特征直接的关联关系；<code>FFM</code>可以理解是在具体应用上面的一个折衷；具有较好的可适应性</p>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><h4 id="FFM-如何落地应用"><a href="#FFM-如何落地应用" class="headerlink" title="FFM 如何落地应用"></a>FFM 如何落地应用</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><p><a href="https://www.zhihu.com/question/26154847" target="_blank" rel="external">广告ctr预估有什么值得推荐的论文？</a> : 好多资料</p>
 </li>
-<li><p><a href="https://en.wikipedia.org/wiki/Support_vector_machine" target="_blank" rel="external">Support vector machine</a> </p>
+<li><p><a href="http://tech.meituan.com/deep-understanding-of-ffm-principles-and-practices.html" target="_blank" rel="external">深入FFM原理与实践</a> : 关于<code>FM</code>和<code>FFM</code>的介绍，说的挺清楚的，主要是参考他理解的</p>
+</li>
+<li><p><a href="http://www.jianshu.com/p/005a4e6ac775" target="_blank" rel="external">GBDT：梯度提升决策树</a> : </p>
+</li>
+<li><p><a href="https://www.csie.ntu.edu.tw/~cjlin/libffm/" target="_blank" rel="external">LIBFFM: A Library for Field-aware Factorization Machines</a> : 关于FFM</p>
 </li>
 </ul>
 
@@ -341,7 +404,7 @@
 
 
     
-      <article id="post-ctr" class="article article-type-post" itemscope itemprop="blogPost">
+      <article id="post-svm" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -349,14 +412,111 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/21/ctr/">关于CTR预估的算法</a>
+      <a class="article-title" href="/2017/07/21/svm/">About SVM</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2017/07/21/ctr/" class="article-date">
+      <a href="/2017/07/21/svm/" class="article-date">
+  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>SVM的核心思想是，通过构造一个超平面将空间中的数据进行划分，可以用于分类，回归或者其他任务;</p>
+<p>一个直观的理解是: 我们构造的平面, 其距离样本的点距离越远越好;</p>
+<p>而对于线性不可分的情况，我们则可以通过构造映射函数，将其映射到高维空间, 变成一个线性可分的模型</p>
+<p>下面具体介绍这些思路的数学演绎过程</p>
+<h2 id="数学演绎"><a href="#数学演绎" class="headerlink" title="数学演绎"></a>数学演绎</h2><p>设我们的<code>输入样本</code>为: </p>
+<p>$$ { (x_1,y_1), … , (x_N, y_N)}$$</p>
+<p>其中: </p>
+<ul>
+<li>$x_i \in R^n $</li>
+<li>$y_i \in { -1, 1 }$</li>
+</ul>
+<p>首先考虑<code>线性可分</code>的情况;  此时设我们要求解的超平面为: </p>
+<p>$$\textbf{w}^T\textbf{x} + b = 0 $$</p>
+<p>则有: </p>
+<h3 id="间隔定义"><a href="#间隔定义" class="headerlink" title="间隔定义"></a>间隔定义</h3><p>我们定义函数间隔如下: </p>
+<p>$$\widehat{\gamma}_i = y_i (w \centerdot x + b )$$</p>
+<p>定义几何间隔如下 :<br>$$\gamma_i = y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|})$$</p>
+<p>可以看到几何间隔就是在$|w| = 1$ 时候的函数间隔，也是代表这个点到平面的实际几何距离；也有如下关系: </p>
+<p>$$ \gamma = \frac{\widehat {\gamma}}{| w |}$$</p>
+<h3 id="最优值定义"><a href="#最优值定义" class="headerlink" title="最优值定义"></a>最优值定义</h3><p>我们可以理解需要获取一个最大几何间隔的分离超平面(<code>为什么</code> ? ), 表针为: </p>
+<p>$$ \max \limits_{w,b} \gamma  \\ s.t. \ \ \  y_i (\frac{w}{|w|} \centerdot x + \frac{b}{|w|}) \geqslant  \gamma $$</p>
+<p>用函数间隔替换如下: </p>
+<p>$$ \max \limits_{w,b} \frac{\widehat {\gamma}}{| w |}   \\ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  \widehat{\gamma} $$</p>
+<p>可以令 $\widehat{\gamma} = 1$,  则有: </p>
+<p>$$ \max \limits_{w,b} \frac{1}{| w |}   \\ s.t. \ \ \  y_i (w \centerdot x + b ) \geqslant  1 $$</p>
+<p>也就是: </p>
+<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2   \\ s.t. \ \ \quad  y_i (w \centerdot x + b ) \geqslant  1 \quad i \in { 1, 2, … , N }$$</p>
+<p><code>也就是可以理解为</code> :  我们需要寻找合适的$w, b$，对应着一个超平面，使得所有的样本点到其的函数间隔都大于1；同时使得$|w|$最小</p>
+<p>上述方程的一个优化方法是:  通过对偶方法构造原来不等式的等价最优解（也就是拉格朗日对偶函数，具体太复杂了，就(也不懂)不展开了) ，总之如上的约束条件的等价对偶问题为:</p>
+<p>$$ \min \limits_{\alpha} \frac{1}{2} \sum_{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy_j - \sum_{i=1}^N\alpha_i \\ s.t. \quad \sum_{i=1}^{N} \alpha_iy_i = 0 \\ a_i (y_i(w*x_i + b) - 1) =0 \\ \\ w = \sum_{i=1}^{N} \alpha_i x_i y_i \\ a_i \geqslant 0 \quad i \in { 1, 2, … , N } $$<br>(可以忽略$\alpha_i$ 为什么会出现)</p>
+<p>这里我们称令$a_i &gt; 0$ 成立的样本点为<code>支持向量</code>, 依照上面的定义，当$a_i &gt; 0 $时，则有: </p>
+<p>$$ y_i(w*x_i + b) - 1 =0$$</p>
+<p>也就是$x_i$ 一定是在间隔的边界</p>
+<h3 id="线性不可分情况"><a href="#线性不可分情况" class="headerlink" title="线性不可分情况"></a>线性不可分情况</h3><p>考虑到现实生活中，存在一些异常或者脏数据，此时我们可以每个样本点引入一个松弛变量$\xi_i$,  则约束条件可以变为 : </p>
+<p>$$ y_i (w \centerdot x_i + b ) \geqslant  1-\xi_i \quad i \in { 1, 2, … , N } $$</p>
+<p>同时目标函数可以变成: </p>
+<p>$$ \min \limits_{w,b} \frac{1}{2}{| w |}^2 + C \sum_{i=1}^{N} \xi_i$$</p>
+<p>其中 : C代表着惩罚系数，需要视具体的业务场景而定 ；C值越大，表明对误差的惩罚增大，反之则减小；</p>
+<p>忽略一些很复杂的计算，可以得到对偶问题如下: </p>
+<p>$$ \min \limits_{\alpha} \frac{1}{2} \sum_{i=1}^{N}\sum_{i=1}^{N} \alpha_i \alpha_j y_iy_j - \sum_{i=1}^N\alpha_i \\ s.t. \quad \sum_{i=1}^{N} \alpha_iy_i = 0 \\  0 \leqslant a_i \leqslant C \quad i \in { 1, 2, … , N } $$</p>
+<p>从上面可以分析出: </p>
+<ul>
+<li>$w$是确定且唯一的</li>
+<li>$b$的解并不唯一</li>
+</ul>
+<h3 id="核函数及其应用"><a href="#核函数及其应用" class="headerlink" title="核函数及其应用"></a>核函数及其应用</h3><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><p><a href="https://zh.wikipedia.org/wiki/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA" target="_blank" rel="external">支持向量机</a></p>
+</li>
+<li><p><a href="https://en.wikipedia.org/wiki/Support_vector_machine" target="_blank" rel="external">Support vector machine</a> </p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-bayes" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/21/bayes/">关于贝叶斯分类</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/07/21/bayes/" class="article-date">
   <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
 </a>
       
@@ -365,54 +525,35 @@
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>偏实践应用, by chenjiansen</p>
-<p><code>WARN</code>, 个人理解, 应该是多有谬误</p>
+<p>by chenjiansen</p>
 </blockquote>
-<h3 id="关于CTR预估"><a href="#关于CTR预估" class="headerlink" title="关于CTR预估"></a>关于CTR预估</h3><p>在很多推荐系统里面，rank是一个关键的环节；从不同召回源获取到的数据, 按照哪种排序方式推荐给用户是一个关键的问题; 所谓的<code>CTR预估</code>就是希望我们能对输出的list 做一个合适的点击预估; 抽象起来其实就是算一个item被点击的概率或者可能性；</p>
-<p>这个问题映射为机器学习里面的算法，现在常见的，使用广泛的主要有如下几个算法: </p>
-<h3 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h3><p>映射为LR算法，可以理解为，就是要预测一个算法被判为正例(‘click’)的概率；由于LR算法的输出是一个概率值, 所以可以直接用来sort;</p>
-<p>同时LR由于具有比较好的实现和调试；是早期大家使用较为广泛的Rank算法;</p>
-<h2 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h2><h2 id="FM"><a href="#FM" class="headerlink" title="FM"></a>FM</h2><p>考虑到我们这特征输入的时候，可能有如下几个问题: </p>
+<h3 id="判定模型与生成模型"><a href="#判定模型与生成模型" class="headerlink" title="判定模型与生成模型"></a>判定模型与生成模型</h3><p>判定模型的理论基础 :</p>
+<p>$$ y = p(y | x : \theta) $$</p>
+<p>生成模型</p>
+<p>$$ y = p( y | x) = p(x,y) / p(x) = p(x|y) p(y) / p(x) $$</p>
+<p>此时我们会考虑使用$p(x|y)p(y)$ 来评估$p(y|x)$ ，是一个联合概率的考虑</p>
+<h3 id="Native-Bayes"><a href="#Native-Bayes" class="headerlink" title="Native Bayes"></a>Native Bayes</h3><p>考虑判断一个邮件是否是垃圾邮件；我们设定如下的模型: </p>
 <ul>
-<li>数据稀疏</li>
-<li>特征之间存在一些关联性</li>
+<li>$x$ 为输入向量；其中$x_i^{(j)}$ 表示第$i$个样本的第$j$维的特征值,  任何一个邮件可以用如下的形式表示 : </li>
 </ul>
-<p>传统的LR算法的$h_\theta(x) = \theta^Tx$，显然可能不适合此类数据，一个简单是思路是引入二次项，包含关联关系的预估, 如下 : </p>
-<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n w_{ij}x_ix_j$$</p>
-<p>这个表达共有$\frac{n(n-1)}{2}$个模型参数,  我们需要训练这么多参数，但是该表达式存在如下问题: </p>
+<p>$$x=\left[ \begin{array}{cc} 0 &amp; a_0\\ 1 &amp; a_1 \\ 1 &amp; a_2\\ 0  &amp; a_3 \\ 1 &amp; a_4 \\ .. &amp; .. \end{array} \right]$$</p>
+<p>其中第$i$行代表着单词$a_i$是否出现在这个邮件里面；$|A|$ 表示着词汇量的个数，也是也是输入特征$x$的维度</p>
 <ul>
-<li>由于每个$w_{ij}$ 都需要大量$x_i$和$x_j$非零的情况下进行预估，但是样本数据本来就比较稀疏，这将导致整个样本训练的难度非常大</li>
+<li>$y$为输入结果,  这里面设定 $y=1$为垃圾邮件，否则$y=0$</li>
 </ul>
-<p>一个思路是: “所有二次项参数$w_{ij}$可以组成一个对称阵 $W$，那么这个矩阵就可以分解为 $W=V^TV=VV^T$，$V$ 的第 $j$ 列便是第 $j$维特征的隐向量。换句话说，每个参数 $w_{ij}=<v_i,v_j>$” ，所以上面可以转化为 : </v_i,v_j></p>
-<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j$$</v_i,></p>
-<p>其中: </p>
-<ul>
-<li>$v_i$ : 是一个k阶的隐向量$(k &lt;&lt; n)$</li>
-<li>$&lt; , &gt; $代表点积</li>
-</ul>
-<p>为了求上面式子的优化解，我们继续拆分有: </p>
-<p>$$\sum_{i=1}^n \sum_{j=i+1}^n <v_i, v_j="">x_ix_j = \frac{1}{2} \sum_{f=1}^k( (\sum_{i=1}^n v_{i,f} x_i)^2 - \sum_{i=1}^nv_{i,f}^2x_i^2)$$</v_i,></p>
-<p>可以证明FM参数的训练模型是$0(kn)$</p>
-<h3 id="FFM"><a href="#FFM" class="headerlink" title="FFM"></a>FFM</h3><p>基于FM，我们再分析他模型可能存在的问题:  </p>
-<p>在FM模型里面，我们为每个特征定义一个隐向量$\overrightarrow{v_i}$ , $\overrightarrow{v_i}$ 的估计是基于和其他参数的$\overrightarrow{v_j}$的相关性计算而成；这里面就有一个假设，就是任何其他特征对改特征的影响是一致的；但有时候，这个假设不一定合适；所以，我们引入所谓的<code>Field-aware Factorization Machine</code></p>
-<p>在FFM模型里面，每个特征都属于某个field; 所以隐向量不仅和特征有关，也和field有关; 假设样本的 n 个特征属于 f个field，那么FFM的二次项有 nf 个隐向量。而在FM模型中，每一维特征的隐向量只有一个。FM可以看作FFM的特例，是把所有特征都归属到一个field时的FFM模型。其方程可以表达为: </p>
-<p>$$y(x) = w_0 + \sum_{i=1}^nw_ix_i  + \sum_{i=1}^n \sum_{j=i+1}^n <v_{i,f_j}, v_{j,f_i}="">x_ix_j$$</v_{i,f_j},></p>
-<p>其中: </p>
-<ul>
-<li>$f_j$是第$j$个特征所属的<code>field</code></li>
-<li>$v_{i,j}$ 表明特征$i$,和 $j$ ，对应的隐向量，其中 $ j \in {  1, 2, 3, … , f }$</li>
-</ul>
-<p>可以看到FFM模型，共有<code>nfk</code>个待学习参数, 其预测复杂度是 $O(kn^2)$</p>
-<p>关于FM和FFM，本质上，都是希望寻找一个模型，能够表征不同特征直接的关联关系；<code>FFM</code>可以理解是在具体应用上面的一个折衷；具有较好的可适应性</p>
-<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><h4 id="FFM-如何落地应用"><a href="#FFM-如何落地应用" class="headerlink" title="FFM 如何落地应用"></a>FFM 如何落地应用</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><p><a href="https://www.zhihu.com/question/26154847" target="_blank" rel="external">广告ctr预估有什么值得推荐的论文？</a> : 好多资料</p>
-</li>
-<li><p><a href="http://tech.meituan.com/deep-understanding-of-ffm-principles-and-practices.html" target="_blank" rel="external">深入FFM原理与实践</a> : 关于<code>FM</code>和<code>FFM</code>的介绍，说的挺清楚的，主要是参考他理解的</p>
-</li>
-<li><p><a href="http://www.jianshu.com/p/005a4e6ac775" target="_blank" rel="external">GBDT：梯度提升决策树</a> : </p>
-</li>
-<li><p><a href="https://www.csie.ntu.edu.tw/~cjlin/libffm/" target="_blank" rel="external">LIBFFM: A Library for Field-aware Factorization Machines</a> : 关于FFM</p>
-</li>
+<p>这里，我们准备使用<code>朴素贝叶斯</code>的方法解决分类问题，如上面生成模型的说明, 我们的求解问题转化为:</p>
+<p>$ p(y|x) = p(x|y) p(y) / p(x) $</p>
+<p>我们约定如下: </p>
+<p>$$\phi_{i|y=1} = p(x_i = 1 | y = 1)$$<br>$$\phi_{i|y=0} = p(x_i = 1 | y = 0)$$<br>$$\phi_y = p(y = 1) $$</p>
+<p>则有 : </p>
+<p>$$ \phi_{i|y=1} = \frac{\sum_{i=0}^{m} 1 {x_j^{(i)} = 1 \ and \  y^{(i)} = 1}}{\sum_{i=0}^{m} 1 { y^{(i)} = 1}}$$</p>
+<p>其他的$\phi_{i|y=0} , \phi_y$ 同理易得</p>
+<p>则在样本输入${x^{(i)}, y^{(i)}}, i = 0, 1, 2 …$ 的情况下；对于上面的分类问题，我们可以先求解:</p>
+<p>$$ P(y=1\ |x) = P(x|y=1) P(y=1) / P(x) \\ = \frac{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) P(y=1)}{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) + (\prod_{i=0}^{m}P(x_i\ |y = 0))}$$</p>
+<p>上面的$\prod$ 展开是依赖于所谓的<code>贝叶斯假设</code>， 也就是对于给定的结果$y$, 事件$x_i$相对于$y$是独立分布的, 也就是有: </p>
+<p>$$P(x_1,x_2,…,x_n\ |\ y) = p(x_1|y)p(x_2|y,x_1)….p(x_n|y,x_1,x_2, …) \\ = p(x_1|y)p(x_2|y) … p(x_n|y) \\ = \prod_{i=1}^{n} p(x_i|y)$$</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://guangchun.wordpress.com/2011/10/13/ml-bayes-map/" target="_blank" rel="external">参数估计：最大似然、贝叶斯与最大后验</a> </li>
 </ul>
 
       
@@ -710,131 +851,6 @@
 </li>
 </ul>
 
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20170625" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/25/20170625/">weekly of 20170625</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/06/25/20170625/" class="article-date">
-  <time datetime="2017-06-25T06:15:29.000Z" itemprop="datePublished">2017-06-25</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://monkeylearn.com/blog/introduction-to-support-vector-machines-svm/" target="_blank" rel="external">An introduction to Support Vector Machines (SVM)</a> :  对SVM的概要介绍</p>
-</li>
-<li><p><a href="https://monkey.org/~marius/unix-tools-hints.html" target="_blank" rel="external">HINTS FOR WRITING UNIX TOOLS</a> : 写unix tool的一些建议和技巧，包括<code>Consume input from stdin, produce output to stdout</code>, <code>Output should be simple to parse and compose</code> 等</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="http://geek.csdn.net/news/detail/203834" target="_blank" rel="external">基于Spark的大规模机器学习在微博的应用</a> : 微博的machine learning在saprk方面的实践, 感觉微博的确在技术深度和公司还是有不少差距，但是其方案相对开源，也更符合业务大部分公司的需求, mark</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="http://liblb.com/index.html" target="_blank" rel="external">An Empirical Study of Load Balancing Algorithms</a> : 对于几个常见但是有用的负载均衡算法的介绍, 包括<code>Round-Robin</code>, <a href="http://liblb.com/p2c.html" target="_blank" rel="external">Two Random Choices</a>, <a href="http://liblb.com/consistent.html" target="_blank" rel="external">Consistent Hashing</a>, <a href="http://liblb.com/bounded.html" target="_blank" rel="external">Bounded Consistent Hashing</a> 感觉还是很有用的，可以收藏先</p>
-</li>
-<li><p><a href="https://github.com/RedisLabsModules/redis-ml" target="_blank" rel="external">Machine Learning Model Server on Redis</a> : Redis的机器学习扩展, “Redis-ML is a Redis module that implements several machine learning models as Redis data types”, 可以见中文介绍 <a href="https://mp.weixin.qq.com/s/P2XXF9Y7gEJwsFHiHIAVpw" target="_blank" rel="external">用Redis-ML模块实现实时机器学习!</a></p>
-</li>
-<li><p><a href="https://conferences.oreilly.com/velocity/vl-ca/public/schedule/proceedings" target="_blank" rel="external">O’Reilly Velocity Conferences Sliders</a> : 一些PPT材料，先mark，后续抽时间统一看下</p>
-</li>
-<li><p><a href="http://binarypuzzle.com/index.php" target="_blank" rel="external">Binary Puzzle</a> : 类似于数独的游戏</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20170618" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/18/20170618/">weekly of 20170618</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/06/18/20170618/" class="article-date">
-  <time datetime="2017-06-18T12:30:54.000Z" itemprop="datePublished">2017-06-18</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/IMG_1918.JPG" alt=""></p>
-<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><a href="http://jm.taobao.org/2017/06/01/20170601/" target="_blank" rel="external">就是要你懂 TCP | 最经典的TCP性能问题</a> : 阿里中间件的blog，关于TCP的几个问题说明的还是很清楚的</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="https://mp.weixin.qq.com/s/CkDzLZCXOF6zzrn6_dd6Jw" target="_blank" rel="external">独家 | 一文读懂特征工程</a> : 关于特征工程的多方面建设，个人觉得还是非常有参考价值的</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MjM5ODIzNDQ3Mw==&amp;mid=2649967097&amp;idx=1&amp;sn=5836cc78f3d03e06975a94976ab1e102&amp;chksm=beca39ff89bdb0e91eba2f94af53e5af16b78fdd527cba3a08d1da0d8a9a47cb5b52ea9c3307#rd" target="_blank" rel="external">做大数据，需要知道的数据流算法集锦</a> : 一些实时流的数值统计算法, 个人感觉整体的思路是</li>
-</ul>
-        
-          <p class="article-more-link">
-            <a href="/2017/06/18/20170618/#more">Read More</a>
-          </p>
-        
       
     </div>
     
