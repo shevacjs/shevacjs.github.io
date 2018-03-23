@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>weekly of 20180311 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="工具技巧 IEEE 754 Floating Point Representation : 本文非常精炼的介绍了IEEE 754浮点数的标准规范, 对于IEEE 754想有进一步了解，可以参考一个浮点数跨平台产生的问题, 浮点数的二进制表示, 以及推荐的可视化工具Floating Point Converter, File:IEEE754 精度图说明, 新出的LibBF Library  TLS1">
+<meta name="keywords" content="weekly">
+<meta property="og:type" content="article">
+<meta property="og:title" content="weekly of 20180311">
+<meta property="og:url" content="http://shevacjs.com/2018/03/23/20180311/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="工具技巧 IEEE 754 Floating Point Representation : 本文非常精炼的介绍了IEEE 754浮点数的标准规范, 对于IEEE 754想有进一步了解，可以参考一个浮点数跨平台产生的问题, 浮点数的二进制表示, 以及推荐的可视化工具Floating Point Converter, File:IEEE754 精度图说明, 新出的LibBF Library  TLS1">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-23T03:03:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="weekly of 20180311">
+<meta name="twitter:description" content="工具技巧 IEEE 754 Floating Point Representation : 本文非常精炼的介绍了IEEE 754浮点数的标准规范, 对于IEEE 754想有进一步了解，可以参考一个浮点数跨平台产生的问题, 浮点数的二进制表示, 以及推荐的可视化工具Floating Point Converter, File:IEEE754 精度图说明, 新出的LibBF Library  TLS1">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-20180311" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      weekly of 20180311
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/03/23/20180311/" class="article-date">
+  <time datetime="2018-03-23T03:03:45.000Z" itemprop="datePublished">2018-03-23</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="http://cs.boisestate.edu/~alark/cs354/lectures/ieee754.pdf" target="_blank" rel="external">IEEE 754 Floating Point Representation</a> : 本文非常精炼的介绍了<a href="https://en.wikipedia.org/wiki/IEEE_754" target="_blank" rel="external">IEEE 754</a>浮点数的标准规范, 对于<code>IEEE 754</code>想有进一步了解，可以参考<a href="https://coolshell.cn/articles/11235.html" target="_blank" rel="external">一个浮点数跨平台产生的问题</a>, <a href="http://www.ruanyifeng.com/blog/2010/06/ieee_floating-point_representation.html" target="_blank" rel="external">浮点数的二进制表示</a>, 以及推荐的可视化工具<a href="https://www.h-schmidt.net/FloatConverter/IEEE754.html" target="_blank" rel="external">Floating Point Converter</a>, <a href="https://en.wikipedia.org/wiki/File:IEEE754.png" target="_blank" rel="external">File:IEEE754 精度图说明</a>, 新出的<a href="https://bellard.org/libbf/" target="_blank" rel="external">LibBF Library</a></p>
+</li>
+<li><p><a href="https://liudanking.com/network/tls1-3-quic-%E6%98%AF%E6%80%8E%E6%A0%B7%E5%81%9A%E5%88%B0-0-rtt-%E7%9A%84/" target="_blank" rel="external">TLS1.3/QUIC 是怎样做到 0-RTT 的</a> ： 对于常见的协议TLS1.2/TLS1.3/QUIC/HTTP 2等初始化数据交互的所需RTT，有详细的分析和介绍, 作者blog的文章和排版都很好看，也值得关注</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404214118084135438" target="_blank" rel="external">以太坊 Vitalik Buterin：“去中文化”的含义</a> : 三把衡量“去中心化”程度的尺子，三个独立的判断标准：架构层、政治层、逻辑层。其可以保证容错性、抗攻击性、抗勾结性。对”中心化”有深刻的理解和说明</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/LVmSFtU_UEDIRS8OLgM0DQ" target="_blank" rel="external">除了虚拟货币，区块链到底能用在哪些领域和场景下？</a> : 抛砖引玉，个觉得写的内容还是有点浅，对于区块链如何真正应用，和业务结合，形成业务场景说的不够清楚, 可以参考<a href="http://tech.sina.com.cn/i/2018-01-30/doc-ifyqyuhy7705954.shtml" target="_blank" rel="external">高盛区块链79页完整报告：从理论到实践</a></p>
+</li>
+<li><p><a href="https://www.qubole.com/blog/advantage-decoupling/" target="_blank" rel="external">The Cloud Advantage: Decoupling Storage and Compute</a> : 传统的基于Hadoop模型，将系统的能力核心拆分为计算和存储，但是现在的计算机架构将这两个耦合在一起, 文章认为在系统设计和架构方面，都需要进一步将「计算」和『存储』能力解耦，这样能提供更大的灵活性和系统性能</p>
+</li>
+<li><p><a href="https://code.facebook.com/posts/286893341840510/under-the-hood-suicide-prevention-tools-powered-by-ai/" target="_blank" rel="external">Under the hood: Suicide prevention tools powered by AI</a> : Facebook的又一个AI场景应用，通过对博文内容以及相关场景的识别，判读一个人是否有自杀倾向，并给予帮助。虽然是一个很小的点，但是特别有人文关怀信息, mark</p>
+</li>
+</ul>
+<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://news.ycombinator.com/item?id=16535358" target="_blank" rel="external">Convert screenshots of equations to LaTeX</a> : 将数学公司转换成<code>LaTex</code>公式；属于个人觉得非常有用的一个功能，希望某天有空自己去实现一个简单版本的;</p>
+</li>
+<li><p><a href="http://netsmell.com/post/how-elon-musk-learns-faster-and-better-than-everyone-else.html" target="_blank" rel="external">马斯克：如何做到常人阅读量的60倍？</a> : </p>
+</li>
+</ul>
+<ul>
+<li><p><a href="https://mp.weixin.qq.com/s/2Rk7bhRb8cPhGHbYzdtt3w" target="_blank" rel="external">读懂这台Google量子计算机，你才明白它的意义远超“量子霸权”</a> : 本文对量子计算机有深入浅出的介绍，一个关键点说明就是”学界普遍认为当量子计算机的量子比特超过 50，量子优势就实现”</p>
+</li>
+<li><p><a href="https://weibo.com/1560906700/G6JupkTq7?type=comment" target="_blank" rel="external">论P2P的这几年发展</a> : 关于P2P网络这几年的发展，中心化的趋势而是越来越明显, </p>
+</li>
+<li><p><a href="https://github.com/alevchuk/vim-clutch" target="_blank" rel="external">vim-clutch: A hardware pedal for improved text editing in Vim</a> : VIM离合器类似于汽车的脚踏板, 一旦踩下，会出发vim进入插入模式, 继续踩下则是退出编辑, 感觉这样编码起来非常像一个缝纫机</p>
+</li>
+<li><p><a href="https://snips-nlu.readthedocs.io" target="_blank" rel="external">Snips: Python library to extract meaning from text</a> : Snips NLU (Natural Language Understanding) is a Python library that allows to parse sentences written in natural language and extracts structured information. </p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/Hjl8pRlVKkahxsWwhUXAmA" target="_blank" rel="external">开源社区，终于找到了公平的商业模式</a> : 文章的一些前后逻辑并不完全赞同, 但是几个最后关于区块链的应用说的很清楚, 可以关注，包括<code>IPFS</code>的<code>FileCoin</code>, <code>Steemit</code>, <code>Aptoide</code></p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247489065&amp;idx=1&amp;sn=cd6f7f0abd7c52faf33ddabf3429480e" target="_blank" rel="external">JeffDean又用深度学习搞事情：这次要颠覆整个计算机系统结构设计</a> : 通过引入ML的技术来提升内存分支预测的准确率，进一步提升整体计算机的性能，个人可能认识有点肤浅，但是整体觉得方案有点重</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/23/nginx_1_13_10/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">nginx 1.13.10 版本说明&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  var disqus_url = 'http://shevacjs.com/2018/03/23/20180311/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

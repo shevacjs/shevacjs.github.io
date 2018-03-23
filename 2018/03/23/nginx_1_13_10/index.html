@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>nginx 1.13.10 版本说明 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Feature List 对SSI模块增强，支持set指令，允许插入任何变量   Feature: the “set” parameter of the “include” SSI directive now allows writing arbitrary responses to a variable; the “subrequest_output_buffer_size” directive">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx 1.13.10 版本说明">
+<meta property="og:url" content="http://shevacjs.com/2018/03/23/nginx_1_13_10/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="Feature List 对SSI模块增强，支持set指令，允许插入任何变量   Feature: the “set” parameter of the “include” SSI directive now allows writing arbitrary responses to a variable; the “subrequest_output_buffer_size” directive">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-23T03:04:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx 1.13.10 版本说明">
+<meta name="twitter:description" content="Feature List 对SSI模块增强，支持set指令，允许插入任何变量   Feature: the “set” parameter of the “include” SSI directive now allows writing arbitrary responses to a variable; the “subrequest_output_buffer_size” directive">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-nginx_1_13_10" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      nginx 1.13.10 版本说明
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/03/23/nginx_1_13_10/" class="article-date">
+  <time datetime="2018-03-23T03:02:29.000Z" itemprop="datePublished">2018-03-23</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Feature-List"><a href="#Feature-List" class="headerlink" title="Feature List"></a>Feature List</h2><blockquote>
+<p>对SSI模块增强，支持set指令，允许插入任何变量</p>
+</blockquote>
+<ul>
+<li>Feature: the “set” parameter of the “include” SSI directive now allows writing arbitrary responses to a variable; the “subrequest_output_buffer_size” directive defines maximum responsesize.</li>
+</ul>
+<blockquote>
+<p>通过 CLOCK_MONOTONIC方式获取时间, 避免时间回转</p>
+</blockquote>
+<ul>
+<li>Feature: now nginx uses clock_gettime( CLOCK_MONOTONIC ) if available, to avoid timeouts being incorrectly triggered on system time changes.</li>
+</ul>
+<blockquote>
+<p>支持日志输出时不做字符转义</p>
+</blockquote>
+<ul>
+<li>Feature: the “escape=none” parameter of the “log_format” directive.</li>
+</ul>
+<blockquote>
+<p>支持打印<code>ALPN</code>变量情况</p>
+</blockquote>
+<ul>
+<li>Feature: the $ssl_preread_alpn_protocols variable in the ngx_stream_ssl_preread_module.</li>
+</ul>
+<blockquote>
+<p>引入gRpc支持</p>
+</blockquote>
+<ul>
+<li>Feature: the ngx_http_grpc_module.</li>
+</ul>
+<h2 id="快速说明"><a href="#快速说明" class="headerlink" title="快速说明"></a>快速说明</h2><ul>
+<li>CLOCK_MONOTONIC方式获取时间 : 正常系统提供两个类型的时间<ul>
+<li>time-of-day : 俗称墙上时间，但是墙上时间会通过类似于<code>NTP</code>的协议同步时钟，这个有可能导致时间回退，</li>
+<li>CLOCK_MONOTONIC时间 : 理论上对和time-of-day一致，其主要特点是, 基本同步时钟后发现自己时间过快，也不会回退，而是按照一定的算法自己缓慢增加，慢慢保持一致, 也就是能保障这个时间总是<code>单调</code>(MONOTONIC)的</li>
+<li>这个问题是分布式系统经常会碰到的，可以深入了解</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>“escape=none”支持:<ul>
+<li>简单来说, 之前nginx默认对输入的日志变量会进行转义，转义的字符主要是<code>Nginx</code>认为不可见的那部分, 这部分代码实现很精巧，如下:</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> uintptr_t</span></div><div class="line"><span class="title">ngx_http_log_escape</span><span class="params">(u_char *dst, u_char *src, <span class="keyword">size_t</span> size)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">ngx_uint_t</span>      n;</div><div class="line">    <span class="keyword">static</span> u_char   hex[] = <span class="string">"0123456789ABCDEF"</span>;</div><div class="line"></div><div class="line">    <span class="comment">//建立`escape`的bitmask数组, 一个有 32 * 8 = 256个bit</span></div><div class="line">    <span class="comment">//如果对于bit被mask为1，表明需要转义</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">uint32_t</span>   escape[] = &#123;</div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line"></div><div class="line">                    <span class="comment">/* ?&gt;=&lt; ;:98 7654 3210  /.-, +*)( '&amp;%$ #"!  */</span></div><div class="line">        <span class="number">0x00000004</span>, <span class="comment">/* 0000 0000 0000 0000  0000 0000 0000 0100 */</span></div><div class="line"></div><div class="line">                    <span class="comment">/* _^]\ [ZYX WVUT SRQP  ONML KJIH GFED CBA@ */</span></div><div class="line">        <span class="number">0x10000000</span>, <span class="comment">/* 0001 0000 0000 0000  0000 0000 0000 0000 */</span></div><div class="line"></div><div class="line">                    <span class="comment">/*  ~&#125;| &#123;zyx wvut srqp  onml kjih gfed cba` */</span></div><div class="line">        <span class="number">0x80000000</span>, <span class="comment">/* 1000 0000 0000 0000  0000 0000 0000 0000 */</span></div><div class="line"></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (size) &#123;</div><div class="line">        <span class="comment">// 判断其mask位是否为1</span></div><div class="line">        <span class="comment">// *src &gt;&gt; 5 为去其高3位，用于获取数组的便宜量</span></div><div class="line">        <span class="comment">// 1U &lt;&lt; (*src &amp; 0x0f) 为获取具体在数据bit mask的位置</span></div><div class="line">        <span class="keyword">if</span> (escape[*src &gt;&gt; <span class="number">5</span>] &amp; (<span class="number">1U</span> &lt;&lt; (*src &amp; <span class="number">0x1f</span>))) &#123;</div><div class="line">            *dst++ = <span class="string">'\\'</span>;</div><div class="line">            *dst++ = <span class="string">'x'</span>;</div><div class="line">            *dst++ = hex[*src &gt;&gt; <span class="number">4</span>];</div><div class="line">            *dst++ = hex[*src &amp; <span class="number">0xf</span>];</div><div class="line">            src++;</div><div class="line"></div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            *dst++ = *src++;</div><div class="line">        &#125;</div><div class="line">        size--;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> (<span class="keyword">uintptr_t</span>) dst;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>ssl_preread_alpn_protocols变量 :<ul>
+<li>这里面大家可以关注<code>ALPN</code>协议，他和<code>NPN</code>都是用于在TLS交互的时候进行协议的协商, 可以关注之前的文章<a href="https://imququ.com/post/enable-alpn-asap.html" target="_blank" rel="external">为什么我们应该尽快支持 ALPN？</a><br>，大概区别如下: <ul>
+<li>NPN 是服务端发送所支持的 HTTP 协议列表，由客户端选择；而 ALPN 是客户端发送所支持的 HTTP 协议列表，由服务端选择；</li>
+<li>NPN 的协商结果是在 Change Cipher Spec 之后加密发送给服务端；而 ALPN 的协商结果是通过 Server Hello 明文发给客户端；</li>
+</ul>
+</li>
+<li>可以总结为ALPN是趋势，也是未来的标准，但是短期内各方厂商的支持情况并不理想</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/03/23/20180311/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          weekly of 20180311
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/03/06/20180304/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20180304&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  var disqus_url = 'http://shevacjs.com/2018/03/23/nginx_1_13_10/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

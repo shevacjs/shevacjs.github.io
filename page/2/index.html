@@ -57,6 +57,160 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-20171126" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/05/20171126/">weekly of 20171126</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/12/05/20171126/" class="article-date">
+  <time datetime="2017-12-05T03:39:45.000Z" itemprop="datePublished">2017-12-05</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/shanghai01.jpg" alt="上海外滩"></p>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://aws.amazon.com/cn/blogs/opensource/better-random-number-generation-for-openssl-libc-and-linux-mainline/" target="_blank" rel="external">Better Random Number Generation for OpenSSL, libc, and Linux Mainline</a> : AWS构建了自己的ssl库(<a href="https://aws.amazon.com/cn/blogs/security/introducing-s2n-a-new-open-source-tls-implementation/" target="_blank" rel="external">s2c</a>), 其在随机数生成里面考虑了具体在linux系统下面实线的一个问题，比如fork子进程的时候会完全拷贝内存，导致信息泄露, 引入了在madvise的新的option(<code>MADV_DONTFORK</code>)；还是非常佩服这些公司，能够持续的在这些基础技术上面做投入</p>
+</li>
+<li><p><a href="https://draveness.me/docker" target="_blank" rel="external">Docker 核心技术与实现原理</a> :  非常不错的docker技术的普及和介绍</p>
+</li>
+<li><p><a href="https://www.opengarden.com/meshkit.html" target="_blank" rel="external">MeshKit: Mesh networking made easy</a> : 可以支持各设备以<code>P2P</code>的方式交互, 类似于PC上面的P2P，个人觉得随着视频等富媒体的增长，此方向是一个不错的技术选择，但是需要考虑和权衡对用户体验/隐私等方面的保护</p>
+</li>
+<li><p><a href="https://zhuanlan.zhihu.com/p/31630417" target="_blank" rel="external">拒绝超大coredump - 用backtrace和addr2line搞定异常函数栈</a> : 思路可以总结为自己捕捉段错误的信息, 然后通过<code>backtrace</code>和<code>addr2line</code>打印相应的堆栈信息</p>
+</li>
+<li><p><a href="http://www.commandlinefu.com/commands/browse/sort-by-votes" target="_blank" rel="external">Commandlinefu</a> : 不少命令还挺有用的，关注<code>curl ifconfig.me</code>, <code>dig +short txt &lt;keyword&gt;.wp.dg.cx</code></p>
+</li>
+<li><p><a href="https://hackernoon.com/how-ive-captured-all-passwords-trying-to-ssh-into-my-server-d26a2a6263ec" target="_blank" rel="external">How I’ve captured all passwords trying to ssh into my server!</a> : 挺有意思的一个研究, 作者通过重编译<code>openssh</code>使得其可以打印出来登录的用户名和密码, 再基于这些数据做研究，可以发现很多攻击者和登陆者的特征</p>
+</li>
+</ul>
+<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="https://code.facebook.com/posts/190251048047090/myrocks-a-space-and-write-optimized-mysql-database/" target="_blank" rel="external">MyRocks: A space- and write-optimized MySQL database</a> : <code>MyRocks</code>是基于<code>RocksDB</code>封装的mysql存储引擎,  对存储空间和写优化上面做了大幅的提升, 可以了解下，另外也可以参看<a href="https://code.facebook.com/posts/1478526992216557/migrating-a-database-from-innodb-to-myrocks/" target="_blank" rel="external">Migrating a database from InnoDB to MyRocks</a> 了解他们迁移到Innodb的具体过程</p>
+</li>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404179898175459305" target="_blank" rel="external">企业大规模部署机器学习模型的困境</a> : 通过类似于<code>FAAS</code>的方式，提供人工智能相关的服务，可以让其他更多专注于策略的迭代和开发</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://developers.googleblog.com/2017/09/introducing-tensorflow-datasets.html" target="_blank" rel="external">Introduction to TensorFlow Datasets and Estimators</a> : 关于tensorflow的教程，先收藏mark</p>
+</li>
+<li><p><a href="https://leastauthority.com/blog/mixnet-intro/" target="_blank" rel="external">Introduction to Mix Networks and Anonymous Communication Networks</a> : 对于混杂网络和匿名通信的系统性介绍, 简单扫了一眼，感觉是非常系统性的文章，先收藏mark</p>
+</li>
+<li><p><a href="https://cs007.blog/" target="_blank" rel="external">Stanford CS007: Personal Finance For Engineers</a> : 斯坦福的教程，一些对于工程师财务管理的建议和指导，现在的材料多为PPT, 先mark收藏</p>
+</li>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404179321597125139" target="_blank" rel="external">【深度长文】为什么微博不像微信一样设计得简洁？</a> : 对产品的思考和分析</p>
+</li>
+<li><p><a href="https://rafalcieslak.wordpress.com/2013/04/02/dynamic-linker-tricks-using-ld_preload-to-cheat-inject-features-and-investigate-programs/" target="_blank" rel="external">Dynamic linker tricks: Using LD_PRELOAD to cheat, inject features and investigate programs</a> : 我们知道系统在搜索动态链接库的时候会优先加载<code>LD_PRELOAD</code>里面的so, 通过着特性，如果我们构造合适威胁的so，可能对程序的行为有着重大影响，比如随机数生成等</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-20171119" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/24/20171119/">weekly of 20171119</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/11/24/20171119/" class="article-date">
+  <time datetime="2017-11-24T08:47:45.000Z" itemprop="datePublished">2017-11-24</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/austria02.jpg" alt="奥地利一景"></p>
+<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><a href="https://github.com/blog/2470-introducing-security-alerts-on-github" target="_blank" rel="external">Introducing security alerts on GitHub</a> : Github支持对于Js或者ruby项目的依赖的安全问题进行警告, 值得关注的是，github通过<code>gemfile</code>和<code>package.json</code>自动解析<a href="https://help.github.com/articles/listing-the-packages-that-a-repository-depends-on/" target="_blank" rel="external">分析依赖</a>, 其次通过<a href="https://cve.mitre.org/" target="_blank" rel="external">CVE IDs</a>对于具体的安全问题进行分析，深入分析这个里面技术/规范需要投入较大的支持, 但是对社区其实是非常好的帮助</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://tomassetti.me/guide-natural-language-processing/" target="_blank" rel="external">What can you use Natural Language Processing for?</a> : 非常好的NLP工具的入门和大量的材料，先mark</p>
+</li>
+<li><p><a href="http://abau.org/hannah" target="_blank" rel="external">Hannah – a DSL for parsing and generating files and network traces</a> : 挺好玩的一个工具，通过<code>DSL</code>的方式来定义如何解析和生成数据</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/U0311_AiGkIEtyuO9Uh1Rw" target="_blank" rel="external">HTTP/2之服务器推送(Server Push)最佳实践</a> : 具体介绍了如何在合适的业务场景采用server push, 还是比较接地气的</p>
+</li>
+</ul>
+<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><a href="http://shevacjs.com/2017/11/21/simple_rank_algo/">简单排序算法概述</a> : 关于hacker news和reddit的简单排序算法的介绍, 可以了解下</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://github.com/laoqiren/mlhelper" target="_blank" rel="external">mlhelper: Algorithms and utils for Machine Learning in JavaScript</a> : 一个基于Js的机器学习lib, 可以放在前端做一些简单的机器学习支持，但是google已经开发了一些基于端的机器学习能力组件, 比如<a href="https://deeplearnjs.org/" target="_blank" rel="external">deeplearnjs</a></p>
+</li>
+<li><p><a href="https://github.com/jacobdufault/cquery/#cquery" target="_blank" rel="external">jacobdufault/cquery</a> : “Low-latency vscode language server for large C++ code-bases, powered by libclang”, cquery implements almost the entire <a href="https://github.com/Microsoft/language-server-protocol" target="_blank" rel="external">language server protocol</a> and provides some extra features to boost; 也有VS的扩展, 可以关注；不过没有其他语言的支持, 先mark</p>
+</li>
+<li><p><a href="https://time.geekbang.org/column/article/961" target="_blank" rel="external">GitHub上的五大开源机器学习项目</a> : 包括<code>tensorflow</code>, <code>scikit-learn</code>, <code>PredictionIO</code>, <code>Swift AI</code> 和 <code>GoLearn</code>, 后三者分别是<code>scala</code>, <code>swift</code>和<code>go</code>语言的学习库</p>
+</li>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404173389983009423" target="_blank" rel="external">细思极恐的YouTube可跳过广告</a> : 文章具体分析了<code>Youtube</code>可跳过广告背后的产品逻辑和商业化策略, 个人还是比较认同的；任何产品都需要找个一个用户体验和商业化的一个折衷点</p>
+</li>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404177368133588050" target="_blank" rel="external">10家将机器学习玩出新花样的公司</a> : 具体介绍不用公司在AI在业务线的落地, 个人感觉可以关注<code>Yelp</code>, <code>Pinterest</code>等</p>
+</li>
+<li><p><a href="https://lagunita.stanford.edu/courses/Engineering/Compilers/Fall2014/about" target="_blank" rel="external">Stanford: Compliers</a> : 斯坦福的关于编译器的课程，想学编译原理的同学可以看看，每个人程序员心中应该都有写一个自己的编译器的一个梦想</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-simple_rank_algo" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -597,121 +751,8 @@
 
 
     
-      <article id="post-20170923" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/28/20170923/">weekly of 20170923</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/09/28/20170923/" class="article-date">
-  <time datetime="2017-09-28T07:35:45.000Z" itemprop="datePublished">2017-09-28</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/chifeng01.jpg" alt="赤峰阿旗风光"></p>
-<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="https://mp.weixin.qq.com/s/8bn83425XZWLmRJocSXOUw" target="_blank" rel="external">Apache Struts2 再爆严重安全漏洞</a> : “近日，各大网站都报道了黑客从征信企业 Equifax 窃取了 1.43 亿美国人的详细个人信息，事件相关报导表明 Apache Struts 框架存在安全漏洞”, 应用框架的漏洞，无论是何种语言，对企业的安全都是巨大风险，想到之前的ImageMagick</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/WebAssembly/C_to_wasm" target="_blank" rel="external">Compiling from C/C++ to WebAssembly</a> : 本文具体介绍了mozilla开放的<code>Emscripten</code> 工具，用于支持将C++编译成webassembly代码，对webassembly感兴趣的可以用这个尝尝鲜</li>
-</ul>
-<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><ul>
-<li><a href="https://blog.acolyer.org/2017/09/18/bringing-the-web-up-to-speed-with-webassembly/" target="_blank" rel="external">Bringing the web up to speed with WebAssembly</a> : 本文相对比较学术的介绍了<code>WebAssembly</code>的理念，设计以及实践上面的诸多考虑的点; 作者提了一些有趣的点，包括”linear memory model”, “not to support jumps” 等, 其实很多虚拟机的设计理念是如何保证<code>safe, fast, and portable semantic</code>, 还是非常值得学习的</li>
-</ul>
-        
-          <p class="article-more-link">
-            <a href="/2017/09/28/20170923/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-nginx_and_http2_apply" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/21/nginx_and_http2_apply/">Nginx and Http2 应用篇</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/09/21/nginx_and_http2_apply/" class="article-date">
-  <time datetime="2017-09-21T11:39:07.000Z" itemprop="datePublished">2017-09-21</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/gubeishuizhan.jpg" alt="古北水镇"></p>
-<p><a href="https://tools.ietf.org/html/rfc7540" target="_blank" rel="external">http2协议</a> 一直被认为是这几年对互联网有着重要影响的新协议，业内对其的支持也是非常迅速和快捷的; 作为一个快速迭代的开源软件nginx，也是保持住对http2的快速支持，从最早的spdy到现在的http2，nginx都是<code>刚为天下先</code>的; 随着相关协议和实现的不断落地，不少大的互联网公司都已经支持http2的访问模式, 比如过google, cloudflare, facebook, 国内的腾讯,天猫也支持了(可以安装<a href="https://chrome.google.com/webstore/detail/http2-and-spdy-indicator/mpbpobfflnpcgagjijhmgnchggcjblin?hl=en" target="_blank" rel="external">HTTP/2 and SPDY indicator</a>这个chrome插件显示)</p>
-<p>这里，要从两个方面的实践去了解https，包括应用篇，具体而已就是通过自己构造client/server, 去了解应用https服务的方方面面；其次是实践篇，重点去分析nginx的代码。 本篇文章主要介绍应用篇的内容</p>
-        
-          <p class="article-more-link">
-            <a href="/2017/09/21/nginx_and_http2_apply/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx-http2/">nginx, http2</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
+        <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
       </nav>
     </section>
     <footer id="footer">

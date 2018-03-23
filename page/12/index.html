@@ -57,6 +57,341 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-waf" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/12/waf/">业务防攻击与WAF调研</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/05/12/waf/" class="article-date">
+  <time datetime="2015-05-12T09:00:37.000Z" itemprop="datePublished">2015-05-12</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>by <a href="mailto:chenjiansen@baidu.com" target="_blank" rel="external">chenjiansen@baidu.com</a> </p>
+</blockquote>
+<h2 id="0x00-现有防攻击支持"><a href="#0x00-现有防攻击支持" class="headerlink" title="0x00 现有防攻击支持"></a>0x00 现有防攻击支持</h2><p>对具体的流量进行分析的话，流量攻击主要包括如下两个点:</p>
+<ul>
+<li>量 : 就是通过构造大量的请求，来影响服务器的服务质量</li>
+<li>质 : 就是伪造特定的请求，这类请求量不需要很大，但可能对系统的安全和稳定性有较大影响</li>
+</ul>
+<p><code>量</code>上面的攻击其实一直是大多数接入系统会重点关注和防御的，以百度而言，大致的接入防攻击有如下:</p>
+<ul>
+<li>BGW : 4层四层防攻击, 支持tcp代理，清洗</li>
+<li>911/BCS : 旁路式的流量检测和清洗，7层防攻击</li>
+<li>BFE : 主要提供了BDS, 同样是一个全局、旁路的七层防攻击体系</li>
+</ul>
+<p>可以看到主要是网络层的防御；虽然他们都会支持七层的防攻击，但由于理业务线有点远，导致效果一直不是很理想</p>
+<p>而<code>质</code>上面主要是只针对一些恶意伪造的请求，主要是针对系统的安全性漏洞,比如XSS攻击，SQL注入等,  这方面依我现在的了解，我们并没有做太多的事情</p>
+<p>总得而言，对我们来说，不大需要关注网络层的ddos攻击，更多的是需要<code>业务的防攻击支持以及安全性保障</code></p>
+<h2 id="0x01-业务防攻击现状"><a href="#0x01-业务防攻击现状" class="headerlink" title="0x01 业务防攻击现状"></a>0x01 业务防攻击现状</h2><p>现有的业务防攻击是通过nginx的扩展在接入层实现的，主要支持如下几个功能:</p>
+<ul>
+<li>IP黑白名单</li>
+<li>HTTP 请求过滤</li>
+<li>单机的分布式(ip, refer, url)支持</li>
+</ul>
+<blockquote>
+<p>几个规则可以通过and/or运算组合成一个更强大的策略</p>
+</blockquote>
+<p>可以理解是拥有初步的功能支持</p>
+<p>而现在防攻击主要面临的问题有:</p>
+<ul>
+<li>功能有限 : 包括:<ul>
+<li>数据都是单机的，对于分布式的攻击，效果有限</li>
+<li>action定义有限，只能简单返回异常码</li>
+</ul>
+</li>
+<li>可用性/友好性较差 : 现在的配置都是用XML描述的，用户难以理解其规则；添加规则的学习成本之类的也很高</li>
+<li>运维复杂<ul>
+<li>比如iplist更新之类的需要重启nginx</li>
+</ul>
+</li>
+<li>系统性 : 现在防攻击主要侧重在攻击上面，但其实没有建立<code>异常捕获+生产策略+线上应用</code> 的闭环，导致策略容易失效，对用户也会造成一定的误伤</li>
+</ul>
+<h2 id="0x02-WAF和业务防攻击"><a href="#0x02-WAF和业务防攻击" class="headerlink" title="0x02 WAF和业务防攻击"></a>0x02 WAF和业务防攻击</h2><p><a href="http://en.wikipedia.org/wiki/Application_firewall" target="_blank" rel="external">WAF</a>是业界对应用层防护的一个主要手段,这里我们主要关注软件waf，其中<a href="https://www.modsecurity.org/" target="_blank" rel="external">mod security</a>可以认为是一个事实的waf标准</p>
+<p>大多数软件的WAF都会支持如下功能:</p>
+<ul>
+<li>HTTP Protection （HTTP防御）: HTTP协议和本地定义使用的detectsviolations策略。 </li>
+<li>Real-time Blacklist Lookups（实时黑名单查询） : 利用第三方IP信誉。 </li>
+<li>HTTP Denial of Service Protections（HTTP的拒绝服务保护）: 防御HTTP的洪水攻击和HTTP Dos 攻击。  </li>
+<li>Common Web Attacks Protection（常见的Web攻击防护） : 检测常见的Web应用程序的安全攻击。  </li>
+<li>Automation Detection（自动化检测） : 检测机器人，爬虫，扫描仪和其他表面恶意活动。  </li>
+<li>Integration with AV Scanning for File Uploads（文件上传防病毒扫描） : 检测通过Web应用程序上传的恶意文件。  </li>
+<li>Tracking Sensitive Data（跟踪敏感数据） : 信用卡通道的使用，并阻止泄漏。  </li>
+<li>SQL注入检测/XSS攻击检测 </li>
+</ul>
+<p>实现层面的话，主要是通过规则的描述, 比较强依赖正则表达式, 比如如下是一个SQL注入的配置规则:</p>
+<blockquote>
+<p>FreeWAF源码</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&#123;</div><div class="line">	id = 41010,</div><div class="line">	action = "SCORE",</div><div class="line">	description = "SQL Injection attempt",</div><div class="line">	opts = &#123; score = 4, transform = 'uri_decode' &#125;,</div><div class="line">	var = &#123;</div><div class="line">		operator = "REGEX",</div><div class="line">		pattern = [=[(?i:\bor\b ?(?:\d&#123;1,10&#125;|[\'\"][^=]&#123;1,10&#125;[\'\"]) ?[=&lt;&gt;]+|(?i:'\s+x?or\s+.&#123;1,20&#125;[+\-!&lt;&gt;=])|\b(?i:x?or)\b\s+(\d&#123;1,10&#125;|'[^=]&#123;1,10&#125;')|\b(?i:x?or)\b\s+(\d&#123;1,10&#125;|'[^=]&#123;1,10&#125;')\s*?[=&lt;&gt;])]=],</div><div class="line">		type = "REQUEST_ARGS",</div><div class="line">		opts = &#123; key = "all" &#125;,</div><div class="line">	&#125;,</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>如上的规则大致会将请求arg里面含有<code>or 1</code>等请求标记为危险请求(比如加上危险的权重), 一些好的waf的实现，还具有请求打分等控制, 可以实现非常复杂的逻辑控制</p>
+<p><a href="http://www.scalescale.com/scaling-cloudflares-massive-waf/" target="_blank" rel="external">CloudFlare</a>多次在其blog介绍其waf的实现，但没有开放源代码。<a href="">FreeWAF</a>是我个人觉得写的相对不错的开源waf，功能强大，基本上涵盖了OWASP的CRS</p>
+<p>事实上，WAF本身是非常复杂的的(有机会可以拿出来单独讨论)，尤其是其SQLi, XSS防御之类的规则学习成本也是比较高的，需要对web安全有一定的了解。但是通用的WAF都提供了一个非常不错的策略描述，执行框架。对于贴吧和业务的业务防攻击需求，其完全是可以复用的，只不过在具体的策略的关注点和侧重点有所不同</p>
+<h2 id="0x03-我们的业务防攻击系统"><a href="#0x03-我们的业务防攻击系统" class="headerlink" title="0x03 我们的业务防攻击系统"></a>0x03 我们的业务防攻击系统</h2><p>需要实现的核心功能如下:</p>
+<ul>
+<li>支持热加载的ip黑白名单</li>
+<li>支持全局存储的分布式防攻击策略</li>
+<li>支持自定义的action处理</li>
+</ul>
+<p>其他可以考虑的功能包括(优先级较低):</p>
+<ul>
+<li>简单的SQL注入防御</li>
+<li>XSS防护</li>
+</ul>
+<blockquote>
+<p>安全相关的内容涉及东西较深，优先级也先降低</p>
+</blockquote>
+<p>大致的系统架构:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">                              ┌───────────┐</div><div class="line">┌──────────────────┐          │           │</div><div class="line">│                  │          │           │</div><div class="line">│    platform      │──notice─▶│           │</div><div class="line">│                  │          │           │</div><div class="line">└───▲─────────┬────┘          │           │</div><div class="line">    │         │               │ router    │</div><div class="line">┌───┴─────────▼────┐          │           │</div><div class="line">│                  │          │           │</div><div class="line">│ strategy analysis│◀───log───│           │</div><div class="line">│                  │          │           │</div><div class="line">└──────────────────┘          │           │</div><div class="line">                              └───────────┘</div></pre></td></tr></table></figure>
+<p>主要包括三个组件:</p>
+<ul>
+<li>router上面的waf扩展 : 负责waf的具体实现，nginx/lua的扩展耦合到router </li>
+<li>策略控制平台 : 负责策略的生产，推送到线上的控制等</li>
+<li>策略分析平台 : 负责对在线策略效果的分析, 反馈给策略控制平台</li>
+</ul>
+<h2 id="0x04-实现和风险考虑"><a href="#0x04-实现和风险考虑" class="headerlink" title="0x04 实现和风险考虑"></a>0x04 实现和风险考虑</h2><p>实现层面的话，希望用nginx/lua重写现有的防攻击策略,同时对现在的功能的不足进行加强, 带来的问题主要有:</p>
+<ul>
+<li>稳定性 : 采用一个分布式存储存取分布式数据(比如redis)，这样下游存储的稳定性直接影响请求的质量</li>
+<li>性能/延迟影响 : 主要对每个请求的延迟和系统总体cpu的影响，大概预估如下:<ul>
+<li>性能cpu占用 : 待评估</li>
+<li>延迟 : 如果依赖分布式存储，得看分布式存储的性能；本身的cpu耗时控制在1ms以内</li>
+</ul>
+</li>
+<li>迁移成本 : 由于整个策略的实现是重写的，因此我们需要保证一些老的规则能够顺利迁移到新的策略上面，可能需要提供一些脚本之类的自动生产</li>
+<li>实现成本 : 规则策略的定义和实现，需要考虑性能，灵活性, nginx/lua如何方便简洁支持多产品等，不过参考了一些开源的waf实现，相信会有帮助</li>
+</ul>
+<blockquote>
+<p>nginx/lua性能相关的配置设施会逐步完善和加强的, 相信有助于相关的性能优化</p>
+</blockquote>
+<p>同时我们还需要提供配套的平台来自动上层相关配置(以后策略不需要人工编辑)</p>
+<h2 id="0x05-参考文档"><a href="#0x05-参考文档" class="headerlink" title="0x05 参考文档"></a>0x05 参考文档</h2><ul>
+<li>公司内部的:<ul>
+<li><a href="http://wiki.babel.baidu.com/twiki/pub/Ps/OP/%E9%9D%99%E6%80%81%E9%9B%86%E7%BE%A4%E6%8E%A5%E5%85%A5bfe/%E6%B5%85%E8%B0%88http%E9%98%B2%E6%94%BB%E5%87%BB%E5%8F%8A%E8%AE%BE%E8%AE%A1_-_%E5%A4%A7%E5%92%96%E7%A7%80.pptx" target="_blank" rel="external">浅谈http防攻击及设计</a></li>
+<li><a href="http://wiki.babel.baidu.com/twiki/bin/view/Ps/OP/BDS" target="_blank" rel="external">Baidu Defense Server（BDS）官方主页</a> : BFE做的旁路防攻击支持</li>
+</ul>
+</li>
+<li><p>WAF科普</p>
+<ul>
+<li><a href="http://www.freebuf.com/articles/web/18084.html" target="_blank" rel="external">走进科学之WAF(Web Appllication Firewall)篇</a></li>
+<li><a href="http://drops.wooyun.org/tips/968" target="_blank" rel="external">深入了解SQL注入绕过waf和过滤机制</a></li>
+<li><a href="http://hebaodan.org/index.php/ModSecurity/SqlModule.html" target="_blank" rel="external">ModSecurity进阶篇-SQL注入模块分析</a> : 以及这个blog主人的文章</li>
+<li><a href="http://www.freebuf.com/tools/54221.html" target="_blank" rel="external">如何打造一款可靠的WAF（Web应用防火墙）</a></li>
+</ul>
+</li>
+<li><p>WAF实践</p>
+<ul>
+<li><a href="http://www.scalescale.com/scaling-cloudflares-massive-waf/" target="_blank" rel="external">Scaling CloudFlare’s Massive WAF</a></li>
+<li><a href="https://www.cryptobells.com/freewaf-a-high-performance-scalable-open-web-firewall/" target="_blank" rel="external">FreeWAF: A High-Performance, Scalable, Open Web Firewall</a></li>
+<li><a href="https://github.com/p0pr0ck5/FreeWAF" target="_blank" rel="external">FreeWAF: github链接</a></li>
+<li><a href="https://www.52os.net/articles/nginx-install-lua-and-lua-based-waf.html" target="_blank" rel="external">nginx配置lua模块和基于lua的waf</a></li>
+<li><a href="https://www.52os.net/articles/nginx-use-modsecurity-module-as-waf.html" target="_blank" rel="external">nginx配合modsecurity实现WAF功能</a></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-hotcode_analysis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/10/hotcode_analysis/">nginx扩展/lua的性能剖析支持</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/05/10/hotcode_analysis/" class="article-date">
+  <time datetime="2015-05-09T18:27:32.000Z" itemprop="datePublished">2015-05-10</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>by <a href="mailto:chenjiansen@baidu.com" target="_blank" rel="external">chenjiansen@baidu.com</a></p>
+</blockquote>
+<h2 id="0x00-背景"><a href="#0x00-背景" class="headerlink" title="0x00 背景"></a>0x00 背景</h2><p>nginx的扩展和nginx lua在贴吧有了越来越多的应用，但是对于整个nginx相关组件的性能测试一直没有完善的支持。除了常规的流量压测，cpu利用率的分析等。我们还需要对nginx的具体性能瓶颈进一步分析，<code>发现具体的代码热点</code>，以便进一步的性能优化。</p>
+<p>简而言之，我们需要达到如下目标:</p>
+<ul>
+<li>对于C扩展，我们能够明确其代码热点</li>
+<li>对于nginx lua代码，我们同样也能明确其lua代码热点</li>
+</ul>
+<p>这里主要介绍nginx扩展/lua的性能剖析的现状支持，以及贴吧短期内的落地实践规划</p>
+<h2 id="0x01-性能剖析工具"><a href="#0x01-性能剖析工具" class="headerlink" title="0x01 性能剖析工具"></a>0x01 性能剖析工具</h2><h3 id="C-C-程序的热点分析"><a href="#C-C-程序的热点分析" class="headerlink" title="C/C++ 程序的热点分析"></a>C/C++ 程序的热点分析</h3><p>首先简单看下现在linux工具链对代码热点发现的支持</p>
+<p><a href="http://zh.wikipedia.org/wiki/%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90" target="_blank" rel="external">维基百科</a>上面对性能剖析工具有个简单的介绍, 由于是需要做热代码的发现，因此很少有静态代码分析的办法，一般都是运行时的剖析，具体可以分为:</p>
+<ul>
+<li>逻辑注入的性能分析：一把是指在编译链接的时候，链上相关的lib(其实也有运行时的代码注入，暂不考虑)，这些lib会在函数执行的时候自动做一些统计和分析，比较典型的是<a href="https://sourceware.org/binutils/docs/gprof/" target="_blank" rel="external">gprof</a></li>
+<li>非逻辑注入的性能分析：此类分析一般没有对具体的应用程序进行修改，更多是一种旁路异步的观察方式，而根据数据获取方式的不同一般区分为:<ul>
+<li>基于事件的性能分析: 是指为特定事件增加回调,记录事件发生次数</li>
+<li>基于采样的性能分析: 构造以一定周期重复的触发器用来采样<br>现在的一般性能剖析工具都是这两则的结合，比如说perf, perf的sampling的机制是基于对事件的统计（比如1000个cpu周期(事件)采样一次)，故其实没太大的区分，最为常见的工具包括<a href="">perf</a>, <a href="https://sourceware.org/systemtap/wiki" target="_blank" rel="external">systemtap</a>,<br>其中perf和systemtap下面会进一步介绍</li>
+</ul>
+</li>
+</ul>
+<h3 id="解释型语言的热点分析"><a href="#解释型语言的热点分析" class="headerlink" title="解释型语言的热点分析"></a>解释型语言的热点分析</h3><p>上面剖析出来的更多是C/C++代码层面的函数热点，但如果是一个解释型的脚本语言，要找出脚本的代码热点，上面的方法并不靠谱，还需要进一步的支持。其主要原因是一般解释型语言的实现大概如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">vm_execute</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="comment">//fetch code</span></div><div class="line">        <span class="keyword">switch</span>(op) &#123;</div><div class="line">            <span class="keyword">case</span> BYTECODE_A: <span class="comment">//do somthing a</span></div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> BTYECODE_B: <span class="comment">//do something b</span></div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样在执行的时候会发现大部分热点是在<code>vm_execute</code>里面，我们看不到代码级别的热点，故没有太多参考意义。</p>
+<p>java，php, nodejs, lua等都面临此类问题，那他们是如何解决的，大致如下:</p>
+<ul>
+<li><p>语言/扩展层面提供具体的解决方案 : 比如php的xprofile，其<a href="http://blog.csdn.net/yzongyu/article/details/8457209" target="_blank" rel="external">机制</a>大体类似</p>
+</li>
+<li><p>语言层面提供部分支持，再通过外部工具进行剖析 : 也是语言层面的支持，但和上述不同的是，并不是提供具体是profile的支持，而是一些机制的支持,再和一些外部工具结合(比如perf record)，产生性能剖析的结果，比较常见的包括:</p>
+<ul>
+<li>JVM的JVMTI机制，提供提供给性能分析器的hook，可以抓到像函数调用、类加载、卸载、线程的进入及离开等事件, 具体可以见<a href="http://www.ibm.com/developerworks/cn/java/j-lo-jpda2/" target="_blank" rel="external">深入 Java 调试体系，第 2 部分: JVMTI 和 Agent 实现</a></li>
+<li>luajit的<code>LUAJIT_USE_PERFTOOLS</code> option，具体可以看下文 </li>
+</ul>
+</li>
+<li><p>语言层面不提供任何支持 : 比如lua，此时只能依赖外部工具了，现在比较常见的是systemtap，下面会详细介绍systemtap如何进行lua源码级别的性能剖析</p>
+</li>
+</ul>
+<h2 id="0x02-lua源码的性能剖析"><a href="#0x02-lua源码的性能剖析" class="headerlink" title="0x02 lua源码的性能剖析"></a>0x02 lua源码的性能剖析</h2><p>联系到我们的具体需求，我们主要是考虑现有的工具如果快速支持nginx/lua的性能剖析，从两个最为常见的工具入手: systemtap和perf tools，看下他们对这个的支持情况</p>
+<h3 id="基于systemtap的性能分析"><a href="#基于systemtap的性能分析" class="headerlink" title="基于systemtap的性能分析"></a>基于systemtap的性能分析</h3><p><a href="https://github.com/agentzh" target="_blank" rel="external">agentzh</a>在git的<a href="https://github.com/openresty/nginx-systemtap-toolkit" target="_blank" rel="external">openresty/nginx-systemtap-toolkit</a>就已经提供了对lua/luajit的源码级别的热点发现，那他是如何实现的呢？</p>
+<p>简单介绍下systemtap一些核心特性,包括:</p>
+<ul>
+<li>systemtap支持多样的probe, 包括kernel/user space function调用，离开等事件</li>
+<li>systemtap支持读取特定进程的内存信息，同时支持加载特定的符号信息</li>
+<li>systamtap支持类C语法的指针操作</li>
+</ul>
+<p>依照如上特性，systemtap对lua源码的栈帧的采集策略大概如下:</p>
+<blockquote>
+<p>perl脚本，来自ngx-sample-lua-bt : <a href="https://github.com/openresty/nginx-systemtap-toolkit/blob/master/ngx-sample-lua-bt" target="_blank" rel="external">https://github.com/openresty/nginx-systemtap-toolkit/blob/master/ngx-sample-lua-bt</a></p>
+</blockquote>
+<ol>
+<li>通过probe, 获取VM的指针</li>
+</ol>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// 监测lua_pcall函数，存储VM的指针</div><div class="line">probe process(<span class="string">"$lua_path"</span>).function(<span class="string">"lua_resume"</span>),</div><div class="line">      process(<span class="string">"$lua_path"</span>).function(<span class="string">"lua_pcall"</span>)</div><div class="line">&#123;</div><div class="line">    my_pid = pid()</div><div class="line">    <span class="keyword">if</span> ($condition) &#123;</div><div class="line">        lua_states[my_pid] = \$L</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>通过VM的指针，依照语言特性，获取栈帧</li>
+</ol>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// 依照语言特性, 获取栈帧 --&gt; 强语言依赖</div><div class="line">function lua_getstack(L, level) &#123;</div><div class="line">    <span class="regexp">/* code from function lj_debug_frame in LuaJIT 2.0 */</span></div><div class="line">    /* TValue *frame, *nextframe, *bot; *<span class="regexp">/</span></div><div class="line">    bot = tvref(\&amp;$L-&gt;stack)  /<span class="regexp">/ TValue *</span></div><div class="line">    found_frame = 0</div><div class="line">    for (nextframe = frame = $L-&gt;base - $sizeof_TValue; frame &gt; bot; ) &#123;</div><div class="line">        /* Traverse frames backwards *<span class="regexp">/</span></div><div class="line">        if (frame_gc(frame) == L) &#123;</div><div class="line">            /<span class="regexp">/dd("Skip dummy frames. See lj_meta_call")</span></div><div class="line">            level++</div><div class="line">        &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+<ol>
+<li>通过<code>timer probe</code>进行频繁的采样和存储</li>
+</ol>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">probe timer.profile &#123;</div><div class="line">    my_pid = pid()</div><div class="line">    <span class="keyword">if</span> ($condition) &#123;</div><div class="line">        L = lua_states[my_pid]</div><div class="line">        // 采样 &amp;&amp; 存储</div></pre></td></tr></table></figure>
+<p>大概的原理就是通过systemtap定时器和进程侵入的特性，直接读取nginx进程的地址空间内容，又依照对nginx lua/luajit的内存布局理解(通过review lua/luajit的源码)，直接打印出栈布局。 这要求systemtap脚本对lua/luajit的代码非常熟悉，而且一旦程序有相关升级之类的，可能就有兼容性问题 </p>
+<p>总结下来，如下:</p>
+<ul>
+<li>优点: 功能强大，同时支持lua/luajit</li>
+<li>缺点: systemtap在线上安装成本颇高，后续维护也是问题</li>
+</ul>
+<h3 id="基于perf-record的性能分析"><a href="#基于perf-record的性能分析" class="headerlink" title="基于perf record的性能分析"></a>基于perf record的性能分析</h3><p>考虑到systemtap落地和维护的成本，我们在考虑能不能用<code>perf record</code>做一个简单的支持。答案是肯定的!</p>
+<p>在2009年，perf events增加了对<a href="https://lkml.org/lkml/2009/6/8/499" target="_blank" rel="external">jit symbol的支持</a>, 总的来说一个JIT的VM只要做如下的支持就可以了:</p>
+<ul>
+<li>应用程序需要导出<code>/tmp/perf-PID.map</code>的文件, 文件以文本格式存储内存地址，大小以及符号名称 </li>
+</ul>
+<p>其中<a href="http://www.brendangregg.com/blog/2014-06-12/java-flame-graphs.html" target="_blank" rel="external">jave</a>和<a href="http://www.brendangregg.com/blog/2014-09-17/node-flame-graphs-on-linux.html" target="_blank" rel="external">nodejs</a>先后依据此特性增加了对perf tool的支持</p>
+<p>那luajit呢？是否有这个方面的支持？查阅了luajit的官网上面的文档，并没有涉及此方面的讨论，连Makefile里面的feature也没有提及到这一点。不过直接grep源码，还是有惊喜的，如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[chenjiansen@cq01-rdqa-dev028.cq01.baidu.com LuaJIT-2.0.3]$ grep <span class="string">"perftool"</span> * -r -i -n</div><div class="line">src/lj_trace.c:85:<span class="comment">#ifdef LUAJIT_USE_PERFTOOLS</span></div><div class="line">src/lj_trace.c:96:static void perftools_addtrace(GCtrace *T)<span class="string">""</span></div></pre></td></tr></table></figure>
+<p>简单的说，主要开启<code>LUAJIT_USE_PERFTOOLS</code>宏，应该就能自动导出<code>/tmp/perf-{PDI}</code>文件</p>
+<p>重新编译luajit，执行nginx/lua，可以看到的确有相关文件导出，如下:</p>
+<blockquote>
+<p>luajit在每次jit的时候，会导出此符号文件，但这些不一定的应用程序的热点, 只是lua vm的热点</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[forum@db-forum-phpfr01.db01.baidu.com ~]$ cat /tmp/perf-23998.map </div><div class="line">bffff55 a4 TRACE_1::/home/work/nginx_inner/lua/tieba/lua_script/service_status/setServiceStatus.lua:89</div><div class="line">bffff2a 24 TRACE_2::/home/work/nginx_inner/lua/tieba/lua_script/service_status/setServiceStatus.lua:90</div><div class="line">bfffe96 8d TRACE_3::/home/work/nginx_inner/lua/tieba/lua_script/util/http_instruct_util.lua:47</div><div class="line">bfffd40 14f TRACE_4::/home/work/nginx_inner/lua/tieba/lua_script/rewrite/ngx_rewrite_server_degradation.lua:1</div></pre></td></tr></table></figure>
+<p>用<code>perf report</code>就可以看到如下的结果:</p>
+<p><img src="perf_report_sample.png" alt="perf_report_demo"></p>
+<p>总结下来，如下:</p>
+<ul>
+<li>优点: 使用起来简单方便，无需太多的额外操作</li>
+<li>缺点: 灵活性有限，仅支持luajit</li>
+</ul>
+<h3 id="火焰图"><a href="#火焰图" class="headerlink" title="火焰图"></a>火焰图</h3><p>如上采样统计分析的结果，一般就是各种栈帧的采集，需要一些工具做进一步的分析总结，比如说用<code>perf report</code>进行分析</p>
+<p>而<a href="http://www.brendangregg.com/blog/index.html" target="_blank" rel="external">Brendan Gregg</a>的<a href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html" target="_blank" rel="external">火焰图</a> 则给这些数据做一个可视化的展现，通过简单的<a href="https://github.com/brendangregg/FlameGraph" target="_blank" rel="external">脚本</a>能快速生成相应的<code>.svg</code> 文件，通过浏览器可以清晰的看到具体的热点</p>
+<p>如下是一个火焰图的<a href="http://db-forum-phpfr01.db01.baidu.com:8200/svg//nginx_runtime_jit.svg" target="_blank" rel="external">demo</a>:</p>
+<p><img src="http://db-forum-phpfr01.db01.baidu.com:8200/svg//nginx_runtime_jit.svg" alt="flame_demo"></p>
+<p>可以清楚的看到热点在<code>test.lua:7</code>这个地方</p>
+<h2 id="0x03-后续计划"><a href="#0x03-后续计划" class="headerlink" title="0x03 后续计划"></a>0x03 后续计划</h2><blockquote>
+<p>短期内的贴吧落地实践</p>
+</blockquote>
+<p>主要采用<code>perf record + luajit</code>的机制, 为了满足此需求，现实的nginx会调整如下:</p>
+<ul>
+<li>nginx lua全部迁移nginx luajit : 之前有些case问题，这方面会重新review，争取全部迁移过去</li>
+<li>所有线下的luajit编译时候开启<code>LUAJIT_USE_PERFTOOLS</code>选项(由于不会自动删除过期文件，且reload的时候会重新生成/temp/perf-*文件，线上暂不开启)</li>
+<li>在上线流程的时候，性能测试报告，必须附上火焰图的链接</li>
+</ul>
+<p>如下两个图的router和inrouter的性能分析图(可以看到inrouter的的DNA扩展占用了3%的无效cpu)</p>
+<blockquote>
+<p>使用http_load 压测（可以沟通不同的URL), runtime nginx用nginx lua简单mock了</p>
+</blockquote>
+<ul>
+<li>router的火焰图(<a href="http://db-forum-phpfr01.db01.baidu.com:8200/svg//router_jit.svg" target="_blank" rel="external">点此</a>新窗口打开)</li>
+</ul>
+<p><img src="http://db-forum-phpfr01.db01.baidu.com:8200/svg//router_jit.svg" alt="router_flame"></p>
+<ul>
+<li>inrouter的火焰图(<a href="http://db-forum-phpfr01.db01.baidu.com:8200/svg//inner_jit.svg" target="_blank" rel="external">点此</a>新窗口打开)<br><img src="http://db-forum-phpfr01.db01.baidu.com:8200/svg//inner_jit.svg" alt="inrouter_flame"></li>
+</ul>
+<h2 id="0x04-参考"><a href="#0x04-参考" class="headerlink" title="0x04 参考"></a>0x04 参考</h2><p>上面讨论略去一些无关的细节，比如说<code>perf</code>在后续的版本也支持了<a href="https://gnu.wildebeest.org/blog/mjw/2012/05/24/pull-user-space-probe-instrumentation/" target="_blank" rel="external">function probe</a>的功能, 一些结论也是猜测，可能有比较多的错误之处，欢迎指出</p>
+<p>最后附上一些参考资料: </p>
+<ul>
+<li>perf的一些资料<ul>
+<li><a href="http://www.brendangregg.com/perf.html#FlameGraphs" target="_blank" rel="external">perf Examples</a> : 具体介绍了perf record的优缺点以及具体的解决方案</li>
+<li><a href="https://perf.wiki.kernel.org/index.php/Tutorial" target="_blank" rel="external">Perf Tutorial</a> : perf的非常不错入门介绍，介绍简单的使用和内部机制</li>
+<li><a href="http://files.cnblogs.com/files/jiayy/Perf%E5%9C%A8Linux%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_v3.pdf" target="_blank" rel="external">Perf在Linux性能评估中的应用</a> : 淘宝承刚的perf PDF，入门也是不错的</li>
+</ul>
+</li>
+<li><p>systemtap的资料</p>
+<ul>
+<li><a href="https://sourceware.org/systemtap/wiki" target="_blank" rel="external">systemtap wiki主页</a></li>
+<li><a href="http://blog.yufeng.info/archives/tag/systemtap" target="_blank" rel="external">系统技术非业余研究: systemtap的专题</a></li>
+</ul>
+</li>
+<li><p><a href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html" target="_blank" rel="external">CPU Flame Graphs</a> : CPU火焰图说明</p>
+</li>
+<li><a href="http://www.brendangregg.com/blog/2014-09-17/node-flame-graphs-on-linux.html" target="_blank" rel="external">node.js Flame Graphs on Linux</a> : nodejs的火焰图</li>
+<li><a href="http://www.slideshare.net/chaoslawful/cc-14971110" target="_blank" rel="external">C/C++调试、跟踪及性能分析工具综述</a></li>
+<li><a href="http://www.slideshare.net/brendangregg/linux-performance-analysis-new-tools-and-old-secrets" target="_blank" rel="external">Linux Performance Analysis: New Tools and Old Secrets</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-nginx_https_proxy" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -712,197 +1047,8 @@ $ gzip access.log.0    # do something with access.log.0
 
 
     
-      <article id="post-linux_kernel_lock" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/02/06/linux_kernel_lock/">由linux锁机制想起来的</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/02/06/linux_kernel_lock/" class="article-date">
-  <time datetime="2015-02-06T08:26:33.000Z" itemprop="datePublished">2015-02-06</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="由linux锁机制想起来的"><a href="#由linux锁机制想起来的" class="headerlink" title="由linux锁机制想起来的"></a>由linux锁机制想起来的</h1><h2 id="为什么需要锁"><a href="#为什么需要锁" class="headerlink" title="为什么需要锁"></a>为什么需要锁</h2><p>根本的目标是要实现同步机制，数据不会被打乱。</p>
-<p>而在哪些情况需要同步机制呢？</p>
-<ul>
-<li>多处理器的情况：</li>
-<li>抢占式系统 :</li>
-<li>其他：</li>
-</ul>
-<h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><p>一般是指令自己触发的，处理也是比较简单的，主要有两种：</p>
-<ul>
-<li>页错误： 应该是唯一会出现的内核异常，此时会进行一些换页操作</li>
-<li>其他（比如除以0，int 3）等：一般的流程是，cpu触发异常—&gt; 内核异常流程处理 —&gt; 发送信号给用户进程 –&gt; 如果用户进程不处理，就kill进程 </li>
-</ul>
-<h2 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h2><p>先简单分类:</p>
-<ul>
-<li>I/O 中断:</li>
-<li>时钟中断:</li>
-<li>多处理器中断:</li>
-</ul>
-<p>按照处理的策略一般分为：硬中断和软中断（或者是所谓的下半部)</p>
-<p>硬中断：一般是非常简单的处理逻辑<br>软中断：会拆分很多，包括softirq, tasklist, work queue, kernel thread, 具体见：<a href="https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;uact=8&amp;ved=0CDQQFjAE&amp;url=http%3A%2F%2Fwww.cs.columbia.edu%2F~nahum%2Fw6998%2Flectures%2Finterrupts.ppt&amp;ei=XeyCVOLRJYbbmAXk4oLQBw&amp;usg=AFQjCNFzeobtg_hltZtuHHKYJqQgl_eZ7w&amp;sig2=C2Lz_RP3Fyp48kXC4hygSA&amp;bvm=bv.80642063,d.dGY" target="_blank" rel="external">https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;uact=8&amp;ved=0CDQQFjAE&amp;url=http%3A%2F%2Fwww.cs.columbia.edu%2F~nahum%2Fw6998%2Flectures%2Finterrupts.ppt&amp;ei=XeyCVOLRJYbbmAXk4oLQBw&amp;usg=AFQjCNFzeobtg_hltZtuHHKYJqQgl_eZ7w&amp;sig2=C2Lz_RP3Fyp48kXC4hygSA&amp;bvm=bv.80642063,d.dGY</a></p>
-<h2 id="关于抢占式内核"><a href="#关于抢占式内核" class="headerlink" title="关于抢占式内核"></a>关于抢占式内核</h2><ul>
-<li><p>中断和抢占的区别</p>
-<ul>
-<li>中断总是存在的，响应硬件的事件</li>
-<li>抢占主要是指是否执行的代码是否能被其他进程抢占</li>
-</ul>
-</li>
-<li><p>用户态抢占和内核抢占</p>
-<ul>
-<li>根据被抢占的时机区分用户台态和内核态抢占</li>
-<li>用户态抢占: 用户台的抢占一般比较容易，在系统调用或者中断处理完成之后返回用户态的时候判断就可以了，另外由于此时用户态的上下文保存的较为完成，直接切换到其他的进程，至少感觉实现成本不是很高</li>
-<li>内核态抢占: 简单的说，如果一段代码执行在内核态，能否也被抢占，个人感觉如果支持的话，其主要成本对整个内核的一些同步机制和代码等造成的影响，下面是copy的说明</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">如果内核是不可抢占的（比如说2.4的内核），一旦切进内核态，只要代码不是主动释放CPU它就可以一直占着CPU。例外，虽不可抢占，但若此时发生中断，代码还是要交出CPU，但是中断返回之后，代码又能霸占CPU了，此为可中断但不可抢占。</div><div class="line"></div><div class="line">如果内核是可抢占的（比如2.6或之后的内核），上述情况就不会发生了。内核抢占发生在以下3种情况：</div><div class="line"></div><div class="line">1. 从中断返回内核态时，若此时可抢占，则会强制调用schedule（），尝试抢占，被中断的内核代码不一定能继续霸着CPU。</div><div class="line"></div><div class="line">2.内核变成可抢占状态，此时也会尝试抢占。</div><div class="line"></div><div class="line">3.内核代码主动调用schedule（）。</div><div class="line"></div><div class="line">虽然2.6的内核提供内核抢占，但是也提供关闭的手段。是否可抢占是由preemt_count变量控制（per-cpu），有锁这个计数就+1，释放锁就-1.为0才是可抢占。每当释放锁的时候都会检查是否为0，为0则尝试抢占。</div></pre></td></tr></table></figure>
-<h2 id="关于进程上下文和中断上下文"><a href="#关于进程上下文和中断上下文" class="headerlink" title="关于进程上下文和中断上下文"></a>关于进程上下文和中断上下文</h2><p>个人感觉进程，两个上下文主要有两个含义，一个代表具体上下文关联的环境，比如寄存器之类的；另一个是一段内核代码运行的环境。而后者是更为常见和需要关注的。</p>
-<p>断上下文是引申出来的概念，其主要的目标是明确一个内核代码是否能执行某些操作。比如一个内核代码能否睡眠？ 因为在中断上下文的情况下，是不允许睡眠的。。。</p>
-<p>而更具体实际的差别在于，进程上下文是指一段代码代表一个进程在执行，主要有两种情况:</p>
-<ul>
-<li>一个系统调用导致陷入内核后的代码执行；</li>
-<li>异常出发导致的异常执行</li>
-</ul>
-<p>而中断上下文是但一个中断发生时，其内核代码管理的环境；</p>
-<p>中断上下文的要求是比较多的，包括:</p>
-<ul>
-<li>睡觉或者放弃cpu</li>
-<li>尝试获取信号量</li>
-<li>执行耗时任务</li>
-<li>访问用户空间的虚拟地址 : </li>
-</ul>
-<p>中断处理流程中不能睡眠，具体可以见: <a href="http://www.oschina.net/question/565065_57618" target="_blank" rel="external">http://www.oschina.net/question/565065_57618</a><br>这个上面的讨论</p>
-<p>具体可以见: <a href="http://www.embedu.org/Column/Column240.htm" target="_blank" rel="external">http://www.embedu.org/Column/Column240.htm</a></p>
-<h2 id="各种链接哈"><a href="#各种链接哈" class="headerlink" title="各种链接哈"></a>各种链接哈</h2><ul>
-<li><a href="http://hacklu.com/blog/%E5%86%85%E6%A0%B8%E6%8A%A2%E5%8D%A0%E5%92%8C%E4%B8%AD%E6%96%AD-75/" target="_blank" rel="external">内核抢占和中断</a></li>
-<li><a href="http://wenx05124561.blog.163.com/blog/static/1240008052011717113840215/" target="_blank" rel="external">http://wenx05124561.blog.163.com/blog/static/1240008052011717113840215/</a></li>
-<li><a href="http://guojing.me" target="_blank" rel="external">http://guojing.me</a></li>
-<li><a href="http://blog.sina.com.cn/s/blog_502c8cc401012pxj.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_502c8cc401012pxj.html</a></li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-tcp_close" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/02/01/tcp_close/">tcp的关闭处理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/02/01/tcp_close/" class="article-date">
-  <time datetime="2015-02-01T15:41:49.000Z" itemprop="datePublished">2015-02-01</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>tcp的系列文章，不深究源码，偏于理解&amp;应用</p>
-</blockquote>
-<h2 id="状态图迁移"><a href="#状态图迁移" class="headerlink" title="状态图迁移"></a>状态图迁移</h2><p>一般tcp的关闭称为四次挥手，要求client/server端都关闭该通道的连接，他们的状态迁移图如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">#这里暂不考虑同时关闭的情况</span></div><div class="line"></div><div class="line">主动关闭方                  被动关闭方</div><div class="line"></div><div class="line">ESTABLISTED                 ESTABLISED</div><div class="line">    |                           |</div><div class="line">  (send fin)                (get fin</div><div class="line">    |                       /snd ack)</div><div class="line">    |                           |</div><div class="line">    v                           v</div><div class="line">FIN_WAIT_1                  CLOSE_WAIT</div><div class="line">    |                           |</div><div class="line">  (get ack)                     |</div><div class="line">    |                           |</div><div class="line">    v                       (send fin)</div><div class="line">FIN_WAIT_2                      |</div><div class="line">    |                           v</div><div class="line"> (getfin                    LAST_ACK</div><div class="line"> /send ack)                     |</div><div class="line">    |                           |</div><div class="line">    v                       (get ack )</div><div class="line">TIME_WAIT                       |</div><div class="line">    |                           |</div><div class="line">  (2* MSL)                      v</div><div class="line">    |                        CLOSED</div><div class="line">    v</div><div class="line">CLOSED</div></pre></td></tr></table></figure>
-<h2 id="API关系"><a href="#API关系" class="headerlink" title="API关系"></a>API关系</h2><p>关闭的函数主要有两个，如下:</p>
-<ul>
-<li>close : close主要是减少句柄的引用计数，如果为0，在发送fin信号，关闭这一端的连接;</li>
-<li>shutdown : shutdown则是直接发送FIN信号，不考虑引用计数的问题，可以导致一些正在连接的socket直接无效了</li>
-</ul>
-<p>而在具体使用上面，还有一些细节，包括:</p>
-<ul>
-<li><p>close一般情况下是非阻塞的，但我们可以通过设置SO_LINGER的socket选项对close的行为做一些控制,使之变成非阻塞，具体包括:</p>
-</li>
-<li><p>shutdown可以控制关闭读或者关闭写</p>
-</li>
-</ul>
-<p>这里面的一个经典问题的<code>客户端关闭时，如何让服务端尽量的收到数据?</code>，这个后续再详述。</p>
-<h2 id="常见问题-amp-配置"><a href="#常见问题-amp-配置" class="headerlink" title="常见问题&amp;配置"></a>常见问题&amp;配置</h2><p>回到tcp的状态迁移本身，这里面说明下常见的问题：</p>
-<ul>
-<li>A和B交互，如果A send data后，直接close，会有上面影响？</li>
-</ul>
-<p>首先，我们必须非常明确&amp;理解，socket close的作用，如上，一般的就是减少引用计数，如果为0的话，就发送fin，故我们可以推测如下情况:</p>
-<ol>
-<li><p>A发送成功fin也接收到了ack，此时A的状态迁移到了fin_time_2; 同样可以考虑两个场景:<br> 1.1 B那边也close了socket，此时B的socekt发送ack过来，则A走正常的关闭流程，从fin_wait_2 –&gt; time_wait-&gt;close<br> 1.2 B那边由于长短链接或者协议约定的不一致，B并不关闭socket，此时B的socket已经变成了close wait; 而A只能继续处在fin_time_2的状态</p>
-<p> 问题1.2属于不正常的，一般怎么处理呢?</p>
-<ul>
-<li>为了保证A不浪费太多时间在FIN_WAIT_2，对于FIN_WAIT_2有个(TCP_FIN_TIMEOUT，默认60s)的限制，也就是说如果A 60s后还没有接收到对方的fin，则自己会自动切到关闭(<code>or time wait:待明确</code>)状态</li>
-<li>上面的FIN_WAIT_2状态超时有个细节需要关注，那就是此时的socket必须是属于孤儿状态，也就说没有任何句柄和他们关联，如果有句柄和他关联的话，就就会一直处在FIN_WAIT_2状态。之所以强调这点，是因为tcp本身是允许半关闭的，也就是说肯定有socket是持久的处在FIN_WAIT_2状态的，因为tcp需要提供一个机制来保证该状态的存在，其中最关键的一点就是要先判断一个socket是否是孤儿socket。代码demo如下:</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// 假设对方不关闭close fd，分析本端的行为</span></div><div class="line"><span class="comment">//关闭句柄，假设引用计数会变成0</span></div><div class="line">close(fd);</div><div class="line"><span class="comment">// 此时，发送FIN信号，本地的socket状态变成FIN_WAIT_2</span></div><div class="line"><span class="comment">// 由于没有句柄关联，60s后，改socket将关闭 </span></div><div class="line"></div><div class="line"><span class="comment">// 同样是发送FIN信号，本地socket状态变成FIN_WAIT_2</span></div><div class="line"><span class="comment">// 但是由于有句柄关联，改状态会一直持续</span></div><div class="line">shutdown(fd, SHUT_WR);</div><div class="line"></div><div class="line"><span class="comment">//shutdow 还有SHUT_RD(关闭读,不发送信号)，SHUT_RDWR(关闭读写，类似close)</span></div></pre></td></tr></table></figure>
-<pre><code>* B那边由于被动关闭，而自己也不处理，socket会处于CLOSE WAIT状态，`奇怪的是，系统并没有给close wait一个超时的时间`, 因此我们需要自己想办法清理，`一般close相关的程序就OK了`
-</code></pre><h3 id="FIN-WAIT-1的超时问题"><a href="#FIN-WAIT-1的超时问题" class="headerlink" title="FIN_WAIT_1的超时问题"></a>FIN_WAIT_1的超时问题</h3><p>首先明确，如果一个socket进入FIN_WAIT_1，很大可能性是已经没有句柄关联了(shutdown？)</p>
-<p>如果此时发送失败的话，会受到<code>tcp_orphan_retries</code>参数的控制（重试次数）</p>
-<p>同时为了保证系统的资源有限，<code>tcp_max_orphans</code> 这个参数控制了系统可以存在的最多孤儿socket的个数</p>
-<h3 id="TIME-WAIT的存在必要性问题"><a href="#TIME-WAIT的存在必要性问题" class="headerlink" title="TIME_WAIT的存在必要性问题"></a>TIME_WAIT的存在必要性问题</h3><h3 id="LAST-ACK"><a href="#LAST-ACK" class="headerlink" title="LAST ACK"></a>LAST ACK</h3><h2 id="存在即合理"><a href="#存在即合理" class="headerlink" title="存在即合理"></a>存在即合理</h2><ul>
-<li><p>TCP里面有些状态有超时，有些没有，个人理解其根本原则在于：<code>资源能否被控制住</code>，如果你的资源属于一个进程，那么就不会去限制你的超时，因为进程存在，控制进程就可以了，进程死了你也就死了；如果你已久脱离了进程的管辖，比如说孤儿状态下的FIN_WAIT_2，我们就不能让他活的太持久</p>
-</li>
-<li><p>可以理解对于一个状态要有超时，</p>
-</li>
-<li>对于孤儿的socket</li>
-</ul>
-
-      
-    </div>
-    
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/11/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/13/">下一页 &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/11/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/13/">下一页 &raquo;</a>
       </nav>
     </section>
     <footer id="footer">

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2018-03-06T04:28:10.000Z</updated>
+  <updated>2018-03-23T03:03:09.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,140 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20180311</title>
+    <link href="http://shevacjs.com/2018/03/23/20180311/"/>
+    <id>http://shevacjs.com/2018/03/23/20180311/</id>
+    <published>2018-03-23T03:03:45.000Z</published>
+    <updated>2018-03-23T03:03:09.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="http://cs.boisestate.edu/~alark/cs354/lectures/ieee754.pdf" target="_blank" rel="external">IEEE 754 Floating Point Representation</a> : 本文非常精炼的介绍了<a href="https://en.wikipedia.org/wiki/IEEE_754" target="_blank" rel="external">IEEE 754</a>浮点数的标准规范, 对于<code>IEEE 754</code>想有进一步了解，可以参考<a href="https://coolshell.cn/articles/11235.html" target="_blank" rel="external">一个浮点数跨平台产生的问题</a>, <a href="http://www.ruanyifeng.com/blog/2010/06/ieee_floating-point_representation.html" target="_blank" rel="external">浮点数的二进制表示</a>, 以及推荐的可视化工具<a href="https://www.h-schmidt.net/FloatConverter/IEEE754.html" target="_blank" rel="external">Floating Point Converter</a>, <a href="https://en.wikipedia.org/wiki/File:IEEE754.png" target="_blank" rel="external">File:IEEE754 精度图说明</a>, 新出的<a href="https://bellard.org/libbf/" target="_blank" rel="external">LibBF Library</a></p>
+</li>
+<li><p><a href="https://liudanking.com/network/tls1-3-quic-%E6%98%AF%E6%80%8E%E6%A0%B7%E5%81%9A%E5%88%B0-0-rtt-%E7%9A%84/" target="_blank" rel="external">TLS1.3/QUIC 是怎样做到 0-RTT 的</a> ： 对于常见的协议TLS1.2/TLS1.3/QUIC/HTTP 2等初始化数据交互的所需RTT，有详细的分析和介绍, 作者blog的文章和排版都很好看，也值得关注</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404214118084135438" target="_blank" rel="external">以太坊 Vitalik Buterin：“去中文化”的含义</a> : 三把衡量“去中心化”程度的尺子，三个独立的判断标准：架构层、政治层、逻辑层。其可以保证容错性、抗攻击性、抗勾结性。对”中心化”有深刻的理解和说明</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/LVmSFtU_UEDIRS8OLgM0DQ" target="_blank" rel="external">除了虚拟货币，区块链到底能用在哪些领域和场景下？</a> : 抛砖引玉，个觉得写的内容还是有点浅，对于区块链如何真正应用，和业务结合，形成业务场景说的不够清楚, 可以参考<a href="http://tech.sina.com.cn/i/2018-01-30/doc-ifyqyuhy7705954.shtml" target="_blank" rel="external">高盛区块链79页完整报告：从理论到实践</a></p>
+</li>
+<li><p><a href="https://www.qubole.com/blog/advantage-decoupling/" target="_blank" rel="external">The Cloud Advantage: Decoupling Storage and Compute</a> : 传统的基于Hadoop模型，将系统的能力核心拆分为计算和存储，但是现在的计算机架构将这两个耦合在一起, 文章认为在系统设计和架构方面，都需要进一步将「计算」和『存储』能力解耦，这样能提供更大的灵活性和系统性能</p>
+</li>
+<li><p><a href="https://code.facebook.com/posts/286893341840510/under-the-hood-suicide-prevention-tools-powered-by-ai/" target="_blank" rel="external">Under the hood: Suicide prevention tools powered by AI</a> : Facebook的又一个AI场景应用，通过对博文内容以及相关场景的识别，判读一个人是否有自杀倾向，并给予帮助。虽然是一个很小的点，但是特别有人文关怀信息, mark</p>
+</li>
+</ul>
+<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://news.ycombinator.com/item?id=16535358" target="_blank" rel="external">Convert screenshots of equations to LaTeX</a> : 将数学公司转换成<code>LaTex</code>公式；属于个人觉得非常有用的一个功能，希望某天有空自己去实现一个简单版本的;</p>
+</li>
+<li><p><a href="http://netsmell.com/post/how-elon-musk-learns-faster-and-better-than-everyone-else.html" target="_blank" rel="external">马斯克：如何做到常人阅读量的60倍？</a> : </p>
+</li>
+</ul>
+<ul>
+<li><p><a href="https://mp.weixin.qq.com/s/2Rk7bhRb8cPhGHbYzdtt3w" target="_blank" rel="external">读懂这台Google量子计算机，你才明白它的意义远超“量子霸权”</a> : 本文对量子计算机有深入浅出的介绍，一个关键点说明就是”学界普遍认为当量子计算机的量子比特超过 50，量子优势就实现”</p>
+</li>
+<li><p><a href="https://weibo.com/1560906700/G6JupkTq7?type=comment" target="_blank" rel="external">论P2P的这几年发展</a> : 关于P2P网络这几年的发展，中心化的趋势而是越来越明显, </p>
+</li>
+<li><p><a href="https://github.com/alevchuk/vim-clutch" target="_blank" rel="external">vim-clutch: A hardware pedal for improved text editing in Vim</a> : VIM离合器类似于汽车的脚踏板, 一旦踩下，会出发vim进入插入模式, 继续踩下则是退出编辑, 感觉这样编码起来非常像一个缝纫机</p>
+</li>
+<li><p><a href="https://snips-nlu.readthedocs.io" target="_blank" rel="external">Snips: Python library to extract meaning from text</a> : Snips NLU (Natural Language Understanding) is a Python library that allows to parse sentences written in natural language and extracts structured information. </p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/Hjl8pRlVKkahxsWwhUXAmA" target="_blank" rel="external">开源社区，终于找到了公平的商业模式</a> : 文章的一些前后逻辑并不完全赞同, 但是几个最后关于区块链的应用说的很清楚, 可以关注，包括<code>IPFS</code>的<code>FileCoin</code>, <code>Steemit</code>, <code>Aptoide</code></p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247489065&amp;idx=1&amp;sn=cd6f7f0abd7c52faf33ddabf3429480e" target="_blank" rel="external">JeffDean又用深度学习搞事情：这次要颠覆整个计算机系统结构设计</a> : 通过引入ML的技术来提升内存分支预测的准确率，进一步提升整体计算机的性能，个人可能认识有点肤浅，但是整体觉得方案有点重</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://cs.boisestate.edu/~alark/cs354/lectur
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>nginx 1.13.10 版本说明</title>
+    <link href="http://shevacjs.com/2018/03/23/nginx_1_13_10/"/>
+    <id>http://shevacjs.com/2018/03/23/nginx_1_13_10/</id>
+    <published>2018-03-23T03:02:29.000Z</published>
+    <updated>2018-03-23T03:04:11.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Feature-List"><a href="#Feature-List" class="headerlink" title="Feature List"></a>Feature List</h2><blockquote>
+<p>对SSI模块增强，支持set指令，允许插入任何变量</p>
+</blockquote>
+<ul>
+<li>Feature: the “set” parameter of the “include” SSI directive now allows writing arbitrary responses to a variable; the “subrequest_output_buffer_size” directive defines maximum responsesize.</li>
+</ul>
+<blockquote>
+<p>通过 CLOCK_MONOTONIC方式获取时间, 避免时间回转</p>
+</blockquote>
+<ul>
+<li>Feature: now nginx uses clock_gettime( CLOCK_MONOTONIC ) if available, to avoid timeouts being incorrectly triggered on system time changes.</li>
+</ul>
+<blockquote>
+<p>支持日志输出时不做字符转义</p>
+</blockquote>
+<ul>
+<li>Feature: the “escape=none” parameter of the “log_format” directive.</li>
+</ul>
+<blockquote>
+<p>支持打印<code>ALPN</code>变量情况</p>
+</blockquote>
+<ul>
+<li>Feature: the $ssl_preread_alpn_protocols variable in the ngx_stream_ssl_preread_module.</li>
+</ul>
+<blockquote>
+<p>引入gRpc支持</p>
+</blockquote>
+<ul>
+<li>Feature: the ngx_http_grpc_module.</li>
+</ul>
+<h2 id="快速说明"><a href="#快速说明" class="headerlink" title="快速说明"></a>快速说明</h2><ul>
+<li>CLOCK_MONOTONIC方式获取时间 : 正常系统提供两个类型的时间<ul>
+<li>time-of-day : 俗称墙上时间，但是墙上时间会通过类似于<code>NTP</code>的协议同步时钟，这个有可能导致时间回退，</li>
+<li>CLOCK_MONOTONIC时间 : 理论上对和time-of-day一致，其主要特点是, 基本同步时钟后发现自己时间过快，也不会回退，而是按照一定的算法自己缓慢增加，慢慢保持一致, 也就是能保障这个时间总是<code>单调</code>(MONOTONIC)的</li>
+<li>这个问题是分布式系统经常会碰到的，可以深入了解</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>“escape=none”支持:<ul>
+<li>简单来说, 之前nginx默认对输入的日志变量会进行转义，转义的字符主要是<code>Nginx</code>认为不可见的那部分, 这部分代码实现很精巧，如下:</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> uintptr_t</span></div><div class="line"><span class="title">ngx_http_log_escape</span><span class="params">(u_char *dst, u_char *src, <span class="keyword">size_t</span> size)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">ngx_uint_t</span>      n;</div><div class="line">    <span class="keyword">static</span> u_char   hex[] = <span class="string">"0123456789ABCDEF"</span>;</div><div class="line"></div><div class="line">    <span class="comment">//建立`escape`的bitmask数组, 一个有 32 * 8 = 256个bit</span></div><div class="line">    <span class="comment">//如果对于bit被mask为1，表明需要转义</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">uint32_t</span>   escape[] = &#123;</div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line"></div><div class="line">                    <span class="comment">/* ?&gt;=&lt; ;:98 7654 3210  /.-, +*)( '&amp;%$ #"!  */</span></div><div class="line">        <span class="number">0x00000004</span>, <span class="comment">/* 0000 0000 0000 0000  0000 0000 0000 0100 */</span></div><div class="line"></div><div class="line">                    <span class="comment">/* _^]\ [ZYX WVUT SRQP  ONML KJIH GFED CBA@ */</span></div><div class="line">        <span class="number">0x10000000</span>, <span class="comment">/* 0001 0000 0000 0000  0000 0000 0000 0000 */</span></div><div class="line"></div><div class="line">                    <span class="comment">/*  ~&#125;| &#123;zyx wvut srqp  onml kjih gfed cba` */</span></div><div class="line">        <span class="number">0x80000000</span>, <span class="comment">/* 1000 0000 0000 0000  0000 0000 0000 0000 */</span></div><div class="line"></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (size) &#123;</div><div class="line">        <span class="comment">// 判断其mask位是否为1</span></div><div class="line">        <span class="comment">// *src &gt;&gt; 5 为去其高3位，用于获取数组的便宜量</span></div><div class="line">        <span class="comment">// 1U &lt;&lt; (*src &amp; 0x0f) 为获取具体在数据bit mask的位置</span></div><div class="line">        <span class="keyword">if</span> (escape[*src &gt;&gt; <span class="number">5</span>] &amp; (<span class="number">1U</span> &lt;&lt; (*src &amp; <span class="number">0x1f</span>))) &#123;</div><div class="line">            *dst++ = <span class="string">'\\'</span>;</div><div class="line">            *dst++ = <span class="string">'x'</span>;</div><div class="line">            *dst++ = hex[*src &gt;&gt; <span class="number">4</span>];</div><div class="line">            *dst++ = hex[*src &amp; <span class="number">0xf</span>];</div><div class="line">            src++;</div><div class="line"></div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            *dst++ = *src++;</div><div class="line">        &#125;</div><div class="line">        size--;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> (<span class="keyword">uintptr_t</span>) dst;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>ssl_preread_alpn_protocols变量 :<ul>
+<li>这里面大家可以关注<code>ALPN</code>协议，他和<code>NPN</code>都是用于在TLS交互的时候进行协议的协商, 可以关注之前的文章<a href="https://imququ.com/post/enable-alpn-asap.html" target="_blank" rel="external">为什么我们应该尽快支持 ALPN？</a><br>，大概区别如下: <ul>
+<li>NPN 是服务端发送所支持的 HTTP 协议列表，由客户端选择；而 ALPN 是客户端发送所支持的 HTTP 协议列表，由服务端选择；</li>
+<li>NPN 的协商结果是在 Change Cipher Spec 之后加密发送给服务端；而 ALPN 的协商结果是通过 Server Hello 明文发给客户端；</li>
+</ul>
+</li>
+<li>可以总结为ALPN是趋势，也是未来的标准，但是短期内各方厂商的支持情况并不理想</li>
+</ul>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Feature-List&quot;&gt;&lt;a href=&quot;#Feature-List&quot; class=&quot;headerlink&quot; title=&quot;Feature List&quot;&gt;&lt;/a&gt;Feature List&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;对SSI模块增强，支持set指令，
+    
+    </summary>
+    
+    
+      <category term="nginx" scheme="http://shevacjs.com/tags/nginx/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20180304</title>
@@ -1121,155 +1255,6 @@
     
     
       <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170923</title>
-    <link href="http://shevacjs.com/2017/09/28/20170923/"/>
-    <id>http://shevacjs.com/2017/09/28/20170923/</id>
-    <published>2017-09-28T07:35:45.000Z</published>
-    <updated>2017-09-28T07:46:54.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/images/chifeng01.jpg" alt="赤峰阿旗风光"></p>
-<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="https://mp.weixin.qq.com/s/8bn83425XZWLmRJocSXOUw" target="_blank" rel="external">Apache Struts2 再爆严重安全漏洞</a> : “近日，各大网站都报道了黑客从征信企业 Equifax 窃取了 1.43 亿美国人的详细个人信息，事件相关报导表明 Apache Struts 框架存在安全漏洞”, 应用框架的漏洞，无论是何种语言，对企业的安全都是巨大风险，想到之前的ImageMagick</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/WebAssembly/C_to_wasm" target="_blank" rel="external">Compiling from C/C++ to WebAssembly</a> : 本文具体介绍了mozilla开放的<code>Emscripten</code> 工具，用于支持将C++编译成webassembly代码，对webassembly感兴趣的可以用这个尝尝鲜</li>
-</ul>
-<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><ul>
-<li><a href="https://blog.acolyer.org/2017/09/18/bringing-the-web-up-to-speed-with-webassembly/" target="_blank" rel="external">Bringing the web up to speed with WebAssembly</a> : 本文相对比较学术的介绍了<code>WebAssembly</code>的理念，设计以及实践上面的诸多考虑的点; 作者提了一些有趣的点，包括”linear memory model”, “not to support jumps” 等, 其实很多虚拟机的设计理念是如何保证<code>safe, fast, and portable semantic</code>, 还是非常值得学习的</li>
-</ul>
-<a id="more"></a>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="https://mozillagfx.wordpress.com/2017/09/21/introduction-to-webrender-part-1-browsers-today/" target="_blank" rel="external">Introduction to WebRender – Part 1 – Browsers today</a> : 又是Mozilla的文章，本文简单介绍了浏览器渲染的原理和核心机制, 后续应该还有更深入的文章, 继续mark关注</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="http://martin.zinkevich.org/rules_of_ml/rules_of_ml.pdf" target="_blank" rel="external">Rules of Machine Learning: Best Practices for ML Engineering</a> : 很早的文档，再次mark, </p>
-</li>
-<li><p><a href="https://medium.com/genymobile/if-appimage-flatpak-and-snap-dont-cut-it-you-can-roll-your-own-6175177d6eef" target="_blank" rel="external">If AppImage, Flatpak and Snap don’t cut it, you can roll your own</a> : 作者自己开发了一个软件安装包, 类似的解决方案还有<a href="http://flatpak.org/" target="_blank" rel="external">flatpak</a>, 后者设计理念比较新颖，可以关注review，评估是否可以作为一个新的分发工具</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/9pxQkGB79XHNC146so1Ebw" target="_blank" rel="external">腾讯主要创办人张志东(Tony)：谈谈互联网产品的老化</a> : 感觉上面都是大道理，但细读起来又感同身受, 业内变化日新月异，我们凡人不进则退</p>
-</li>
-<li><p><a href="https://qotoqot.com/blog/improving-focus/" target="_blank" rel="external">How I got to 200 productive hours a month</a> : 如果按照20个工作日算的话，一天需要保障10个小时有效工作时间，还是非常难的，方法大家都是知道，里面的一些tool/资料建议大家关注尝试，包括: <a href="https://qotoqot.com/qbserve/" target="_blank" rel="external">Qbserve</a>(收费), <a href="https://chrome.google.com/webstore/detail/stayfocusd/laankejkbhbdhmipfmgcngdelahlfoji" target="_blank" rel="external">StayFocusd</a>, <a href="https://www.headspace.com/" target="_blank" rel="external">Headspace</a></p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;/images/chifeng01.jpg&quot; alt=&quot;赤峰阿旗风光&quot;&gt;&lt;/p&gt;
-&lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/8bn83425XZWLmRJocSXOUw&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Apache Struts2 再爆严重安全漏洞&lt;/a&gt; : “近日，各大网站都报道了黑客从征信企业 Equifax 窃取了 1.43 亿美国人的详细个人信息，事件相关报导表明 Apache Struts 框架存在安全漏洞”, 应用框架的漏洞，无论是何种语言，对企业的安全都是巨大风险，想到之前的ImageMagick&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/WebAssembly/C_to_wasm&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Compiling from C/C++ to WebAssembly&lt;/a&gt; : 本文具体介绍了mozilla开放的&lt;code&gt;Emscripten&lt;/code&gt; 工具，用于支持将C++编译成webassembly代码，对webassembly感兴趣的可以用这个尝尝鲜&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;每周paper&quot;&gt;&lt;a href=&quot;#每周paper&quot; class=&quot;headerlink&quot; title=&quot;每周paper&quot;&gt;&lt;/a&gt;每周paper&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/09/18/bringing-the-web-up-to-speed-with-webassembly/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Bringing the web up to speed with WebAssembly&lt;/a&gt; : 本文相对比较学术的介绍了&lt;code&gt;WebAssembly&lt;/code&gt;的理念，设计以及实践上面的诸多考虑的点; 作者提了一些有趣的点，包括”linear memory model”, “not to support jumps” 等, 其实很多虚拟机的设计理念是如何保证&lt;code&gt;safe, fast, and portable semantic&lt;/code&gt;, 还是非常值得学习的&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Nginx and Http2 应用篇</title>
-    <link href="http://shevacjs.com/2017/09/21/nginx_and_http2_apply/"/>
-    <id>http://shevacjs.com/2017/09/21/nginx_and_http2_apply/</id>
-    <published>2017-09-21T11:39:07.000Z</published>
-    <updated>2017-09-21T11:51:14.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/images/gubeishuizhan.jpg" alt="古北水镇"></p>
-<p><a href="https://tools.ietf.org/html/rfc7540" target="_blank" rel="external">http2协议</a> 一直被认为是这几年对互联网有着重要影响的新协议，业内对其的支持也是非常迅速和快捷的; 作为一个快速迭代的开源软件nginx，也是保持住对http2的快速支持，从最早的spdy到现在的http2，nginx都是<code>刚为天下先</code>的; 随着相关协议和实现的不断落地，不少大的互联网公司都已经支持http2的访问模式, 比如过google, cloudflare, facebook, 国内的腾讯,天猫也支持了(可以安装<a href="https://chrome.google.com/webstore/detail/http2-and-spdy-indicator/mpbpobfflnpcgagjijhmgnchggcjblin?hl=en" target="_blank" rel="external">HTTP/2 and SPDY indicator</a>这个chrome插件显示)</p>
-<p>这里，要从两个方面的实践去了解https，包括应用篇，具体而已就是通过自己构造client/server, 去了解应用https服务的方方面面；其次是实践篇，重点去分析nginx的代码。 本篇文章主要介绍应用篇的内容</p>
-<a id="more"></a>
-<h3 id="整体思路"><a href="#整体思路" class="headerlink" title="整体思路"></a>整体思路</h3><p>我们知道http2协议本身并没有要求底层是否要基于TLS(可选)，但是从实践方面来看，几乎所有的浏览器都只支持基于TLS的http2交互，而nginx相对比友好，两个模式都是<a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#listen" target="_blank" rel="external">可以支持</a>的, 所以我们可以分别去验证着两种模式，前者我们可以采用curl命令发送，后者我们直接基于浏览器, server都用nginx服务。 具体而已，拆成如下两个交互场景: </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">  client                      server(nginx)</div><div class="line"></div><div class="line">+---------+    http2        +------------+</div><div class="line">| curl    +---------------&gt; | without TLS|</div><div class="line">+---------+                 +------------+</div><div class="line"></div><div class="line"></div><div class="line">+---------+    http2        +-------------+</div><div class="line">| Chrome  +----------------&gt;+ With TLS    |</div><div class="line">+---------+                 +-------------+</div></pre></td></tr></table></figure>
-<h3 id="用curl发送http2请求"><a href="#用curl发送http2请求" class="headerlink" title="用curl发送http2请求"></a>用curl发送http2请求</h3><p>这个环节server端配置非常方便，不再赘述，具体如下:</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">## nginx非TLS的http2接入配置demo</span></div><div class="line">   <span class="section">server</span> &#123;</div><div class="line"></div><div class="line">      <span class="attribute">listen</span> <span class="number">8086</span> http2; </div><div class="line">       <span class="attribute">location</span> / &#123;</div><div class="line">           <span class="attribute">content_by_lua</span> <span class="string">'</span></div><div class="line">               ngx.say("I am location in http2")';</div><div class="line">       &#125;</div><div class="line"></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>而curl这边，则就有点小问题，因为大部分的机器默认安装的curl版本都偏低(7.33.0支持带tls的http2/7.49.0支持降级的http2), 可以参照文末的参考文档进行更新, 剩余的问题就是如何发送一个不带TLS的客户端请求, 通过<code>man curl</code> 加上<code>grep http2</code>, 有如下几个说明:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">--http2-prior-knowledge</div><div class="line">	  (HTTP)  Tells  curl  to issue its non-TLS HTTP requests using HTTP/2 without HTTP/1.1 Upgrade. It requires prior</div><div class="line">	  knowledge that the server supports HTTP/2 straight away. HTTPS requests will still do HTTP/2  the  standard  way</div><div class="line">	  with negotiated protocol version in the TLS handshake.</div><div class="line"></div><div class="line">--http2</div><div class="line">	  (HTTP) Tells curl to use HTTP version 2.</div><div class="line"></div><div class="line">	  See also --no-alpn. --http2 requires that the underlying libcurl was built to support HTTP/2. This option  over-</div><div class="line">	  rides --http1.1 and -0, --http1.0 and --http2-prior-knowledge. Added in 7.33.0.</div></pre></td></tr></table></figure>
-<p> 上面的文档可以概述如下:</p>
-<ul>
-<li>curl可以通过<code>--http2</code>或者<code>--http2-prior-knowledge</code>来发送基于TLS的http2或者明文http2</li>
-<li><code>--http2-prior-knowledge</code>说明，curl和nginx交互可以不走<code>HTTP/1.1</code>的<code>Upgrade</code>机制, 这个里面涉及到一个问题，就是一个客户端如何和服务器通过http2开始交互(还是老的端口)，理解上面，需要引入一个协商机制(negotiate), 从<a href="https://en.wikipedia.org/wiki/HTTP/1.1_Upgrade_header" target="_blank" rel="external">wiki</a>里面介绍的是:<ul>
-<li>如果是h2c, 可以急于http/1.1的upgrade机制</li>
-<li>如果是h2(tls), 是基于<code>ALPN</code>或者<code>NLN</code>(快废弃)</li>
-</ul>
-</li>
-</ul>
-<p>这个里面碰到的问题是，配置的nginx好像不能很好的支持<code>http/1.1 upgrade</code>的协商机制，后续通过源码在分析。如上，最简单的构造http/2协议的方式如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">]$ curl --http2-prior-knowledge  &quot;127.0.0.1:8086&quot; -i                                              16:42:29</div><div class="line">HTTP/2 200</div><div class="line">server: openresty/1.11.2.5</div><div class="line">date: Thu, 21 Sep 2017 08:42:45 GMT</div><div class="line">content-type: application/octet-stream</div><div class="line"></div><div class="line">I am location in http2</div></pre></td></tr></table></figure>
-<h3 id="利用Chrome发送Http-2请求"><a href="#利用Chrome发送Http-2请求" class="headerlink" title="利用Chrome发送Http/2请求"></a>利用Chrome发送Http/2请求</h3><p>如上所述，由于浏览器只支持安全的http2，所以要验证这个demo，我们需要让我们的站点有相应的证书才可以, 所以这个环境主要关注如下几个topic:</p>
-<ul>
-<li>本地证书的生成步骤</li>
-<li>本地nginx的配置</li>
-<li>chrome请求的发送以及验证</li>
-</ul>
-<p>分别如下:</p>
-<h4 id="关于测试证书"><a href="#关于测试证书" class="headerlink" title="关于测试证书"></a>关于测试证书</h4><p>虽然<code>Let&#39;s Encrypt</code>给了我们一个免费生成域名证书的机会，但是灵活性/时效性欠缺, 所以在特定的网络情况下(比如内网, 自己测试使用), 更建议自己生成简单的域名证书, 这样也方便接下来的测试, 因此这里简单介绍下如何通过<code>openssl</code>生成自己的域名证书</p>
-<p>先介绍整体的逻辑, 要对生成一个域名证书，从<code>PKI</code>的体系来看，主要需要如下三个步骤(假设要生成<code>example.org</code>的域名证书):</p>
-<ol>
-<li>网站拥有者先生成自己网站的公钥私钥对(私钥对自己可见) :</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl rsa -in example.org.key -noout -text</div></pre></td></tr></table></figure>
-<ol>
-<li>构造一个<code>Certificate Signing Request (CSR)</code>, 可以理解为你需要描述好你的需求(给那个域名加证书/用什么算法等), 这样后续CA才能依照此颁发证书, 具体如下:</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">### 如上，由于这个是描述需求的，所以这个步骤关于最后证书的能力</div><div class="line">### 配置过程中会有不少可选性</div><div class="line">openssl req -new -key example.org.key -out example.org.csr</div></pre></td></tr></table></figure>
-<ol>
-<li><p>现在我们需要的是用CA对<code>CSR</code>请求进行授权，但是我们还缺少CA，所以这个步骤是生成自己的CA证书，大家可以理解这个是一次性的(后续给其他的域名颁发证书，不需要重复执行这一步), 具体如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">### 生成密钥</div><div class="line">openssl genrsa -out ca.key 2048</div><div class="line">### 生成自签名的CA证书</div><div class="line">openssl req -new -x509 -key ca.key -out ca.crt</div></pre></td></tr></table></figure>
-</li>
-<li><p>有了如上CA证书, 最后一步就是用CA给CSR进行签名，具体如下:</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl x509 -req -in example.org.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out example.org.crt</div></pre></td></tr></table></figure>
-<p>主要参考文档如下:</p>
-<ul>
-<li><p><a href="https://gist.github.com/Soarez/9688998" target="_blank" rel="external">How to setup your own CA with OpenSSL</a> : 上面的demo都是来自于这个文档，说的比较详细，包括背后的思路和具体的实践步骤，主要推荐</p>
-</li>
-<li><p><a href="https://jamielinux.com/docs/openssl-certificate-authority/index.html" target="_blank" rel="external">OpenSSL Certificate Authority</a> : 内容更细一些，但是也是非常系统的介绍, 里面还介绍了<code>intermediate CA</code>的操作方式，有此类需求的可以了解</p>
-</li>
-<li><p><a href="http://www.cnblogs.com/liyulong1982/p/6106129.html" target="_blank" rel="external">HTTPS证书生成原理和部署细节</a> : 中文文档</p>
-</li>
-</ul>
-<h4 id="nginx配置以及chrome发送"><a href="#nginx配置以及chrome发送" class="headerlink" title="nginx配置以及chrome发送"></a>nginx配置以及chrome发送</h4><p>nginx配置比较简单，完整起见，具体配置贴出如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen       8443 ssl http2;</div><div class="line">    server_name  www.shevacjs.com;</div><div class="line"></div><div class="line">    ### 证书</div><div class="line">    ssl_certificate      /xxxx/shevacjs.com.crt;</div><div class="line">    ### 私钥</div><div class="line">    ssl_certificate_key  /xxxx/shevacjs.com.key;</div><div class="line"></div><div class="line">    ssl_session_cache    shared:SSL:1m;</div><div class="line">    ssl_session_timeout  5m;</div><div class="line"></div><div class="line">    ssl_ciphers  HIGH:!aNULL:!MD5;</div><div class="line">    ssl_prefer_server_ciphers  on;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">        root   html;</div><div class="line">        index  index.html index.htm;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>用Chrome发送，选择信任此证书, 即可;如下是一个简单的截图:</p>
-<p><img src="/images/http2_demo.png" alt="http2_demo"></p>
-<p>对比如果使用非http2网络交互情况如下:</p>
-<p><img src="/images/http1_demo.png" alt="http1_demo"></p>
-<h3 id="一些细节"><a href="#一些细节" class="headerlink" title="一些细节"></a>一些细节</h3><ul>
-<li><p>用wireshark抓包的时候, 如果协议不是走标准的端口(比如TLS走8443而不是443), 需要手动去配置,告诉wireshark 8443端口上面的应用协议是TLS(一直以为能自动识别), 具体可以参看<a href="https://ask.wireshark.org/questions/34075/why-wireshark-cannot-display-tlsssl" target="_blank" rel="external">Why wireshark cannot display TLS/SSL</a></p>
-</li>
-<li><p>Chrome下面<code>DevTools</code>会显示所谓的<code>Connection Id</code>, 可以看到在http2情况下，同一个域名的连接id是一致的, chrome是复用链接的, 同时可以通过<code>chrome://net-internals/#http2</code> 来查看HTTP2的交互情况</p>
-</li>
-</ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><p><a href="https://simonecarletti.com/blog/2016/01/http2-curl-macosx/" target="_blank" rel="external">Using cURL with HTTP/2 on Mac OS X</a> : 介绍了在macOS下面如何让<code>curl</code>支持发送<code>http2</code>请求, 不过有点坑，如果改方法不行，建议自己手动编译<a href="https://nghttp2.org/blog/2017/08/18/nghttp2-v1-25-0/" target="_blank" rel="external">nghttp2</a>和<a href="https://curl.haxx.se/download.html" target="_blank" rel="external">curl</a></p>
-</li>
-<li><p><a href="https://imququ.com/post/protocol-negotiation-in-http2.html" target="_blank" rel="external">谈谈HTTP/2的协议协商机制</a> 和 <a href="https://imququ.com/post/enable-alpn-asap.html" target="_blank" rel="external">为什么我们应该尽快支持ALPN</a> : 关于Http协议协商(包括Upgrade, NPN, ALPN)的非常好的介绍和说明</p>
-</li>
-</ul>
-<p>以上，有错漏之处后续再补充</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;/images/gubeishuizhan.jpg&quot; alt=&quot;古北水镇&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://tools.ietf.org/html/rfc7540&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http2协议&lt;/a&gt; 一直被认为是这几年对互联网有着重要影响的新协议，业内对其的支持也是非常迅速和快捷的; 作为一个快速迭代的开源软件nginx，也是保持住对http2的快速支持，从最早的spdy到现在的http2，nginx都是&lt;code&gt;刚为天下先&lt;/code&gt;的; 随着相关协议和实现的不断落地，不少大的互联网公司都已经支持http2的访问模式, 比如过google, cloudflare, facebook, 国内的腾讯,天猫也支持了(可以安装&lt;a href=&quot;https://chrome.google.com/webstore/detail/http2-and-spdy-indicator/mpbpobfflnpcgagjijhmgnchggcjblin?hl=en&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;HTTP/2 and SPDY indicator&lt;/a&gt;这个chrome插件显示)&lt;/p&gt;
-&lt;p&gt;这里，要从两个方面的实践去了解https，包括应用篇，具体而已就是通过自己构造client/server, 去了解应用https服务的方方面面；其次是实践篇，重点去分析nginx的代码。 本篇文章主要介绍应用篇的内容&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="nginx, http2" scheme="http://shevacjs.com/tags/nginx-http2/"/>
     
   </entry>
   
