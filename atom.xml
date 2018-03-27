@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2018-03-23T03:03:09.000Z</updated>
+  <updated>2018-03-27T02:57:35.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,58 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20180318</title>
+    <link href="http://shevacjs.com/2018/03/27/20180318/"/>
+    <id>http://shevacjs.com/2018/03/27/20180318/</id>
+    <published>2018-03-27T02:57:45.000Z</published>
+    <updated>2018-03-27T02:57:35.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://www.nginx.com/blog/nginx-1-13-10-grpc/" target="_blank" rel="external">Announcing gRPC Support in NGINX</a> : Nginx支持Grpc方式的服务代理，和服务转发, 下来写文章重点关注</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16609429" target="_blank" rel="external">RedisGraph: A High Performance In-Memory Graph Database as a Redis Module</a> : 作者基于Redis的扩展机制，写了一个基于<code>openCypher</code>接口，底层存储以<a href="Hexastore">Hexastore</a>为主的图数据库; 之前对于图数据库理解一般, 可以持续关注</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16651426" target="_blank" rel="external">TCP Tracepoints</a> : Linux 4.15版本即将支持<code>TCP tracepoint</code>, 也就是说，后续通过eBPF工具，我们可以非常方便的探测<code>tcp socket</code>的变化情况，对于我们分析网络拥塞，tcp协议细节等都有较大帮助</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16666057" target="_blank" rel="external">TLS 1.3 approved</a> : TLS 1.3的规范正式确定, 链接里面主要讨论了<code>0-RTT</code>情况下潜在的攻击和风险</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://webkit.org/blog/8146/protecting-against-hsts-abuse/" target="_blank" rel="external">Protecting Against HSTS Abuse</a> : 本文介绍了<code>HSTS</code>的另外一个缺点, 除了传统的设置<code>HSTS</code>不合理，可能导致源站不能访问之外。文章指出: 每为一个域名设置一个HSTS, 其实就相当于给这个域名种下永久cookie。基于次, 我们可以通过N个不同的域名(比如a/b/c/d/e)，并且以类似于0/1组合的方式设置HSTS, 这样的话，我们就可以唯一标识一个具体的用户。基于次，在用户信息收集，广告追踪等方面，都可以发挥一定效果。<code>webkit</code>同时也给出了他们的解决方案，比如控制相同域名请求等, 感觉治标不治本。其实进一步，可以分析和感觉，网络攻击的自由和灵活性。</p>
+</li>
+<li><p><a href="https://dendibakh.github.io/blog/2018/03/21/port-contention" target="_blank" rel="external">Understanding CPU port contention.</a> : mark，作者是做编译器设计的，blog里面有不少文章介绍<code>performance optimizations and analysis in C/C++</code></p>
+</li>
+</ul>
+<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><ul>
+<li><a href="https://stackoverflow.com/questions/19413494/does-grep-work-differently-on-osx" target="_blank" rel="external">Does grep work differently on OSX</a> : 大家知道MacOS是基于FreeBSD的，所以其内置的<code>grep</code>命令，也是不支持<code>Perl regex</code>语法，一个解决方案是用<code>homebrew</code>去安装, 会生成<code>ggrep</code>的新的支持GNU Grep规则的命令</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="http://codebay.cn/post/8161.html" target="_blank" rel="external">推荐10款流行的密码破解工具</a> : 关注下, 后续找地方实践</p>
+</li>
+<li><p><a href="http://www.ifanr.com/553590" target="_blank" rel="external">霍金用的那套语音合成软件，现在你也可以尝鲜了</a> : </p>
+</li>
+<li><p><a href="http://photo.weibo.com/1963193953/wbphotos/large/mid/4219964099264239/pid/7503f661gy1fpk97cer8tj21ay2an1ky" target="_blank" rel="external">信息安全书单推荐</a> : 可以重点关注<code>安全技术</code>分类下面的那些书，虽然感觉看了一半，但是缺乏实践，所得一般</p>
+</li>
+<li><p><a href="https://aws.amazon.com/cn/public-datasets/" target="_blank" rel="external">AWS 公用数据集</a> : 有兴趣的可以关注下, 建议可以关注<code>Amazon Bin Image Dataset</code>, <code>GDELT on AWS</code>(Global Database of Events, Language and Tone)等</p>
+</li>
+<li><p><a href="https://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux" target="_blank" rel="external">Coping with the TCP TIME-WAIT state on busy Linux servers</a> : 14年的一篇老文章，今天才看到，个人感觉是对Linux <code>TIME_WAIT</code>等问题和解决方案介绍的比较系统的文章。简而言之，<code>TIME_WAIT</code>状态, 一则可以避免网络中丢失包的错误ACK，同时也能解决<code>FIN-&gt;ACK</code>时ACK丢失的问题。但是正常情况下, <code>TIME_WAIT</code>状态要保留2MSL(差不多60s), 这个对于固定的四元组(src ip, src port ,dest ip, dest port)来说, port资源会不足，从而导致性能上面会有影响。而一旦使用<code>tcp_tw_recycle</code> flag，就会存在较大的副作用, 比较建议的是<code>tcp_tw_reuse</code>, 但是其要求开启tcp timestamp flag, 在NAT网络下兼容性较差。同时也推荐下作者的blog，有不少非常靠谱的文章。</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://www.nginx.com/blog/nginx-1-13-10-grp
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20180311</title>
@@ -1194,61 +1246,6 @@
 &lt;/ul&gt;
 &lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/billfeller/billfeller.github.io/issues/121&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Using Wireshark to decode packets on HTTP/2 over TLS in Chrome on Window/Mac OS X&lt;/a&gt; : 本文介绍了一个如何用&lt;code&gt;Wireshark&lt;/code&gt;分析TLS包的技巧，整体是思路是由于具体tls沟通的时候肯定是通过对称加密算法沟通的，因此把这个对称密钥打印到日志里面，wireshark就有可能对其包体进行分析&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20170930</title>
-    <link href="http://shevacjs.com/2017/10/02/20170930/"/>
-    <id>http://shevacjs.com/2017/10/02/20170930/</id>
-    <published>2017-10-01T16:17:45.000Z</published>
-    <updated>2017-10-02T16:17:50.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/images/chifeng02.jpg" alt="赤峰阿旗风光2"></p>
-<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="https://opensource.googleblog.com/2017/09/introducing-abseil-new-common-libraries.html" target="_blank" rel="external">Introducing Abseil, a new common libraries project</a> : Google新开源的C++的基础库, 一些feature包括<code>Efficient support for handling time</code>, <code>primary synchronization type</code>，可以先观望下</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://blogs.windows.com/buildingapps/2017/09/27/time-travel-debugging-now-available-windbg-preview/#KBvp1SzF3Jp8HJqm.97" target="_blank" rel="external">Time Travel Debugging is now available in WinDbg Preview</a> :  WinDbg开发支持了<code>TTD</code>功能，所谓的<code>TTD</code>可以理解为”Time Travel Debugging (TTD) is a reverse debugging solution that allows you to record the execution of an app or process, replay it both forwards and backwards and use queries to search through the entire trace.”</p>
-</li>
-<li><p><a href="https://tomassetti.me/guide-parsing-algorithms-terminology/" target="_blank" rel="external">A Guide to Parsing: Algorithms and Terminology</a> : 对于词法和语法分析，有非常系统的说明和介绍，如果对此不感兴趣，可以主要关注作者推荐的几个工具，包括: <a href="https://tomassetti.me/antlr-mega-tutorial/" target="_blank" rel="external">ANTLR</a>(LL), yacc/bison(LR)</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5NzkxMzg1Nw==&amp;mid=2653163252&amp;idx=1&amp;sn=0ec4442ecbed6ed20daaf97909e58f7a" target="_blank" rel="external">搜索基础算法重大突破：20行代码解决20年瓶颈问题</a> : minhash算法的优化，可以大大提升性能，不过对其paper没有进一步分析, 先了解吧</p>
-</li>
-</ul>
-<a id="more"></a>
-<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://machinelearning.apple.com/2017/09/12/handwriting.html" target="_blank" rel="external">Real-Time Recognition of Handwritten Chinese Characters Spanning a Large Inventory of 30,000 Characters</a> : 苹果的关于中文字符的识别优化实践, 没有深看</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5NzkxMzg1Nw==&amp;mid=2653163244&amp;idx=2&amp;sn=897ff95d521fdb45fd2609e292a922f1&amp;chksm=8b493382bc3eba9449a768278410234b62a6b60778a0d5e1c58a3f3c5f45b10af534739da5dd&amp;scene=0&amp;key=81c0e1f7847266b3ef8f602bf662fae19fafd48d0090c4032e9b5d77acafbd845378df8ec6f32e40fa69176778fadaca3b52d7d9544177727ab932357a74831cb8c486a02036396d9a852c52fe696682&amp;ascene=0&amp;uin=MTQ2Nzg2MzcyMg%3D%3D" target="_blank" rel="external">LinkedIn计划开源Query Analyzer：不增加开销的MySQL查询分析工具</a> : 设计很小巧，精细，通过增加代理，记录每个SQL的执行时间和负载，用于进一步分析系统的问题；感觉可以直接异步日志抓取分析</p>
-</li>
-<li><p><a href="http://x-algo.cn/index.php/2016/12/15/ee-problem-and-bandit-algorithm-for-recommender-systems/" target="_blank" rel="external">推荐系统的EE问题及Bandit算法</a> : 关于冷启动/多臂赌博机问题的一个策略–<code>bandit算法</code>, 还可以参考这篇文章<a href="https://zhuanlan.zhihu.com/p/21388070" target="_blank" rel="external">专治选择困难症——bandit算法</a>, 以及<a href="https://zhuanlan.zhihu.com/p/21404922" target="_blank" rel="external">UCB算法升职记——LinUCB算法</a>, 同时Amazon也发表了一篇paper，关于利用这个思路进行多变量选择<a href="https://blog.acolyer.org/2017/09/27/an-efficient-bandit-algorithm-for-real-time-multivariate-optimization/" target="_blank" rel="external">An efficient bandit algorithm for real-time multivariate optimization</a></p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><a href="https://www.hanselman.com/blog/TheBookOfTheRuntimeTheInternalsOfTheNETRuntimeThatYouWontFindInTheDocumentation.aspx" target="_blank" rel="external">The Book of the Runtime - The internals of the .NET Runtime that you won’t find in the documentation</a> : 关于<code>.Net internal</code>的介绍和说明, 先mark，如果可以想利用其jit的机制，迁移lua的相关代码</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;/images/chifeng02.jpg&quot; alt=&quot;赤峰阿旗风光2&quot;&gt;&lt;/p&gt;
-&lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://opensource.googleblog.com/2017/09/introducing-abseil-new-common-libraries.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Introducing Abseil, a new common libraries project&lt;/a&gt; : Google新开源的C++的基础库, 一些feature包括&lt;code&gt;Efficient support for handling time&lt;/code&gt;, &lt;code&gt;primary synchronization type&lt;/code&gt;，可以先观望下&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://blogs.windows.com/buildingapps/2017/09/27/time-travel-debugging-now-available-windbg-preview/#KBvp1SzF3Jp8HJqm.97&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Time Travel Debugging is now available in WinDbg Preview&lt;/a&gt; :  WinDbg开发支持了&lt;code&gt;TTD&lt;/code&gt;功能，所谓的&lt;code&gt;TTD&lt;/code&gt;可以理解为”Time Travel Debugging (TTD) is a reverse debugging solution that allows you to record the execution of an app or process, replay it both forwards and backwards and use queries to search through the entire trace.”&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://tomassetti.me/guide-parsing-algorithms-terminology/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;A Guide to Parsing: Algorithms and Terminology&lt;/a&gt; : 对于词法和语法分析，有非常系统的说明和介绍，如果对此不感兴趣，可以主要关注作者推荐的几个工具，包括: &lt;a href=&quot;https://tomassetti.me/antlr-mega-tutorial/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ANTLR&lt;/a&gt;(LL), yacc/bison(LR)&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s?__biz=MzA5NzkxMzg1Nw==&amp;amp;mid=2653163252&amp;amp;idx=1&amp;amp;sn=0ec4442ecbed6ed20daaf97909e58f7a&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;搜索基础算法重大突破：20行代码解决20年瓶颈问题&lt;/a&gt; : minhash算法的优化，可以大大提升性能，不过对其paper没有进一步分析, 先了解吧&lt;/p&gt;
-&lt;/li&gt;
 &lt;/ul&gt;
     
     </summary>

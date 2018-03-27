@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>weekly of 20180318 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="工具技巧 Announcing gRPC Support in NGINX : Nginx支持Grpc方式的服务代理，和服务转发, 下来写文章重点关注  RedisGraph: A High Performance In-Memory Graph Database as a Redis Module : 作者基于Redis的扩展机制，写了一个基于openCypher接口，底层存储以Hexastor">
+<meta name="keywords" content="weekly">
+<meta property="og:type" content="article">
+<meta property="og:title" content="weekly of 20180318">
+<meta property="og:url" content="http://shevacjs.com/2018/03/27/20180318/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="工具技巧 Announcing gRPC Support in NGINX : Nginx支持Grpc方式的服务代理，和服务转发, 下来写文章重点关注  RedisGraph: A High Performance In-Memory Graph Database as a Redis Module : 作者基于Redis的扩展机制，写了一个基于openCypher接口，底层存储以Hexastor">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-27T02:57:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="weekly of 20180318">
+<meta name="twitter:description" content="工具技巧 Announcing gRPC Support in NGINX : Nginx支持Grpc方式的服务代理，和服务转发, 下来写文章重点关注  RedisGraph: A High Performance In-Memory Graph Database as a Redis Module : 作者基于Redis的扩展机制，写了一个基于openCypher接口，底层存储以Hexastor">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-20180318" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      weekly of 20180318
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/03/27/20180318/" class="article-date">
+  <time datetime="2018-03-27T02:57:45.000Z" itemprop="datePublished">2018-03-27</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://www.nginx.com/blog/nginx-1-13-10-grpc/" target="_blank" rel="external">Announcing gRPC Support in NGINX</a> : Nginx支持Grpc方式的服务代理，和服务转发, 下来写文章重点关注</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16609429" target="_blank" rel="external">RedisGraph: A High Performance In-Memory Graph Database as a Redis Module</a> : 作者基于Redis的扩展机制，写了一个基于<code>openCypher</code>接口，底层存储以<a href="Hexastore">Hexastore</a>为主的图数据库; 之前对于图数据库理解一般, 可以持续关注</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16651426" target="_blank" rel="external">TCP Tracepoints</a> : Linux 4.15版本即将支持<code>TCP tracepoint</code>, 也就是说，后续通过eBPF工具，我们可以非常方便的探测<code>tcp socket</code>的变化情况，对于我们分析网络拥塞，tcp协议细节等都有较大帮助</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16666057" target="_blank" rel="external">TLS 1.3 approved</a> : TLS 1.3的规范正式确定, 链接里面主要讨论了<code>0-RTT</code>情况下潜在的攻击和风险</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://webkit.org/blog/8146/protecting-against-hsts-abuse/" target="_blank" rel="external">Protecting Against HSTS Abuse</a> : 本文介绍了<code>HSTS</code>的另外一个缺点, 除了传统的设置<code>HSTS</code>不合理，可能导致源站不能访问之外。文章指出: 每为一个域名设置一个HSTS, 其实就相当于给这个域名种下永久cookie。基于次, 我们可以通过N个不同的域名(比如a/b/c/d/e)，并且以类似于0/1组合的方式设置HSTS, 这样的话，我们就可以唯一标识一个具体的用户。基于次，在用户信息收集，广告追踪等方面，都可以发挥一定效果。<code>webkit</code>同时也给出了他们的解决方案，比如控制相同域名请求等, 感觉治标不治本。其实进一步，可以分析和感觉，网络攻击的自由和灵活性。</p>
+</li>
+<li><p><a href="https://dendibakh.github.io/blog/2018/03/21/port-contention" target="_blank" rel="external">Understanding CPU port contention.</a> : mark，作者是做编译器设计的，blog里面有不少文章介绍<code>performance optimizations and analysis in C/C++</code></p>
+</li>
+</ul>
+<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><ul>
+<li><a href="https://stackoverflow.com/questions/19413494/does-grep-work-differently-on-osx" target="_blank" rel="external">Does grep work differently on OSX</a> : 大家知道MacOS是基于FreeBSD的，所以其内置的<code>grep</code>命令，也是不支持<code>Perl regex</code>语法，一个解决方案是用<code>homebrew</code>去安装, 会生成<code>ggrep</code>的新的支持GNU Grep规则的命令</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="http://codebay.cn/post/8161.html" target="_blank" rel="external">推荐10款流行的密码破解工具</a> : 关注下, 后续找地方实践</p>
+</li>
+<li><p><a href="http://www.ifanr.com/553590" target="_blank" rel="external">霍金用的那套语音合成软件，现在你也可以尝鲜了</a> : </p>
+</li>
+<li><p><a href="http://photo.weibo.com/1963193953/wbphotos/large/mid/4219964099264239/pid/7503f661gy1fpk97cer8tj21ay2an1ky" target="_blank" rel="external">信息安全书单推荐</a> : 可以重点关注<code>安全技术</code>分类下面的那些书，虽然感觉看了一半，但是缺乏实践，所得一般</p>
+</li>
+<li><p><a href="https://aws.amazon.com/cn/public-datasets/" target="_blank" rel="external">AWS 公用数据集</a> : 有兴趣的可以关注下, 建议可以关注<code>Amazon Bin Image Dataset</code>, <code>GDELT on AWS</code>(Global Database of Events, Language and Tone)等</p>
+</li>
+<li><p><a href="https://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux" target="_blank" rel="external">Coping with the TCP TIME-WAIT state on busy Linux servers</a> : 14年的一篇老文章，今天才看到，个人感觉是对Linux <code>TIME_WAIT</code>等问题和解决方案介绍的比较系统的文章。简而言之，<code>TIME_WAIT</code>状态, 一则可以避免网络中丢失包的错误ACK，同时也能解决<code>FIN-&gt;ACK</code>时ACK丢失的问题。但是正常情况下, <code>TIME_WAIT</code>状态要保留2MSL(差不多60s), 这个对于固定的四元组(src ip, src port ,dest ip, dest port)来说, port资源会不足，从而导致性能上面会有影响。而一旦使用<code>tcp_tw_recycle</code> flag，就会存在较大的副作用, 比较建议的是<code>tcp_tw_reuse</code>, 但是其要求开启tcp timestamp flag, 在NAT网络下兼容性较差。同时也推荐下作者的blog，有不少非常靠谱的文章。</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/23/20180311/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20180311&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  var disqus_url = 'http://shevacjs.com/2018/03/27/20180318/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

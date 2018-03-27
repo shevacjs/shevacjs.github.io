@@ -57,6 +57,87 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-20171210" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/12/20171210/">weekly of 20171210</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/12/12/20171210/" class="article-date">
+  <time datetime="2017-12-12T07:17:45.000Z" itemprop="datePublished">2017-12-12</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/seu.jpg" alt="SEU四牌楼-冬日清晨"></p>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://www.haproxy.com/blog/dynamic-configuration-haproxy-runtime-api/" target="_blank" rel="external">Dynamic Configuration with the HAProxy Runtime API</a> : 介绍了<code>HAProxy</code>的动态configure功能，其可以通过一个<code>socat</code>的命令行工具进行交互, 感觉这个设计对于nginx也很有借鉴意义，先mark</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=15845114" target="_blank" rel="external">Evolution of <img>: Gif without the GIF</a> : 先mark</p>
+</li>
+<li><p><a href="https://github.com/Microsoft/ProcDump-for-Linux" target="_blank" rel="external">Microsoft/ProcDump-for-Linux</a> : “ProcDump provides a convenient way for Linux developers to create core dumps of their application based on performance triggers”</p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/arm-takes-wing/" target="_blank" rel="external">ARM Takes Wing: Qualcomm vs. Intel CPU comparison</a> : 本文具体对比了intel和高通的CPU在服务器市场的性能情况，文章具体分析了在<code>openssl</code>, <code>zlib</code>, <code>go</code>语言, <code>nginx</code>等，在以C语言为基础的组件里面intel的cpu在单核上面优势都比较明显，但是整体的性能(28核vs48核)会弱一些，而go语言arm的处理器没有太多优势; 整体来看, arm后续的服务器的处理器还是很有竞争力的</p>
+</li>
+</ul>
+<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><ul>
+<li><p><a href="https://machinelearning.apple.com/docs/learning-with-privacy-at-scale/appledifferentialprivacysystem.pdf" target="_blank" rel="external">Learning with Privacy at Scale</a> : 苹果介绍了其差分隐私(Differential Privacy)的实践和经验，略长，先mark</p>
+</li>
+<li><p><a href="https://blog.acolyer.org/2017/11/28/popularity-predictions-of-facebook-videos-for-higher-quality-streaming/" target="_blank" rel="external">Popularity predictions of Facebook videos for higher quality streaming</a> : 预判一些内容的流行度/热点有时候非常有用，比如说视频转H265对CPU等成本非常高, 所以我们如果能够正确预估哪些视频会是热点，并且提前压缩，对带宽和cpu等资源的利用率会有质的提升，具体的预估算法不是特别理解，反正是又引入了一个简单的神经网络模型进行训练，下来可以细看下</p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="https://blog.cloudflare.com/make-ssl-boring-again/" target="_blank" rel="external">Make SSL boring again</a> : CloudFlare的分享文章，介绍其引入google的开源<a href="https://boringssl.googlesource.com/boringssl/" target="_blank" rel="external">BoringSSL</a>的历程以及收获, 除了对TLS1.3更好的支持以外，还包括<code>private key callback</code>, <code>equal-preference cipher grouping</code>等特性，对于大规模的SSL部署，非常有裨益</p>
+</li>
+<li><p><a href="https://www.nginx.com/blog/optimizing-web-servers-for-high-throughput-and-low-latency/" target="_blank" rel="external">Optimizing Web Servers for High Throughput and Low Latency</a> : 对于实现一个高性能web server的建议, 从硬件CPU的选择到上层lib库和nginx配置的控制, 讲得非常细，非常系统, 对里面一些优化的理解可以加深对nginx/linux系统的理解，建议多多review</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/sDRftJL1xNBR6tQB7S4SIA" target="_blank" rel="external">Aurora Serveless的红与黑</a> : <code>Aurora Serveless</code>是AWS新推出的无服务,类似于mysql的存储解决方案，现在还不大清楚里面的一些实现细节，但是其设计抽象理念值得关注</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://www.gatesnotes.com/About-Bill-Gates/Best-Books-2017" target="_blank" rel="external">5 amazing books I read this year</a> :  Bill Gates推荐2017的几本书，包括<code>The Rise of ISIS by</code>, <code>Turtles All the Way Down</code>, <code>The Color of Law</code> 等, 以上几本书亚马逊基本都有售，可以考虑入手</p>
+</li>
+<li><p><a href="http://www.visualcapitalist.com/histomap/" target="_blank" rel="external">Histomap: Visualizing the 4,000 Year History of Global Power</a> : 通过可视化的方式展现近4000年历史上各个权利的迭代更替</p>
+</li>
+<li><p><a href="https://www.feistyduck.com/books/openssl-cookbook/" target="_blank" rel="external">OpenSSL Cookbook</a> : 非常好的关于openssl的工具和实践书籍，对此有兴趣的可以深入看看</p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/randomness-101-lavarand-in-production/" target="_blank" rel="external">Randomness 101: LavaRand in Production</a> : CloudFlare通过摄像头采集<code>LavaRand</code>的信息，来作为加密随机数的输入变量</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20171126" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -665,68 +746,6 @@
         
           <p class="article-more-link">
             <a href="/2017/10/09/20171008/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20170930" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/02/20170930/">weekly of 20170930</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/10/02/20170930/" class="article-date">
-  <time datetime="2017-10-01T16:17:45.000Z" itemprop="datePublished">2017-10-02</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/chifeng02.jpg" alt="赤峰阿旗风光2"></p>
-<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="https://opensource.googleblog.com/2017/09/introducing-abseil-new-common-libraries.html" target="_blank" rel="external">Introducing Abseil, a new common libraries project</a> : Google新开源的C++的基础库, 一些feature包括<code>Efficient support for handling time</code>, <code>primary synchronization type</code>，可以先观望下</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://blogs.windows.com/buildingapps/2017/09/27/time-travel-debugging-now-available-windbg-preview/#KBvp1SzF3Jp8HJqm.97" target="_blank" rel="external">Time Travel Debugging is now available in WinDbg Preview</a> :  WinDbg开发支持了<code>TTD</code>功能，所谓的<code>TTD</code>可以理解为”Time Travel Debugging (TTD) is a reverse debugging solution that allows you to record the execution of an app or process, replay it both forwards and backwards and use queries to search through the entire trace.”</p>
-</li>
-<li><p><a href="https://tomassetti.me/guide-parsing-algorithms-terminology/" target="_blank" rel="external">A Guide to Parsing: Algorithms and Terminology</a> : 对于词法和语法分析，有非常系统的说明和介绍，如果对此不感兴趣，可以主要关注作者推荐的几个工具，包括: <a href="https://tomassetti.me/antlr-mega-tutorial/" target="_blank" rel="external">ANTLR</a>(LL), yacc/bison(LR)</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5NzkxMzg1Nw==&amp;mid=2653163252&amp;idx=1&amp;sn=0ec4442ecbed6ed20daaf97909e58f7a" target="_blank" rel="external">搜索基础算法重大突破：20行代码解决20年瓶颈问题</a> : minhash算法的优化，可以大大提升性能，不过对其paper没有进一步分析, 先了解吧</p>
-</li>
-</ul>
-        
-          <p class="article-more-link">
-            <a href="/2017/10/02/20170930/#more">Read More</a>
           </p>
         
       
