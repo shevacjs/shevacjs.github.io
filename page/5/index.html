@@ -167,6 +167,83 @@
 
 
     
+      <article id="post-bayes" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/21/bayes/">关于贝叶斯分类</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/07/21/bayes/" class="article-date">
+  <time datetime="2017-07-20T16:25:11.000Z" itemprop="datePublished">2017-07-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>by chenjiansen</p>
+</blockquote>
+<h3 id="判定模型与生成模型"><a href="#判定模型与生成模型" class="headerlink" title="判定模型与生成模型"></a>判定模型与生成模型</h3><p>判定模型的理论基础 :</p>
+<p>$$ y = p(y | x : \theta) $$</p>
+<p>生成模型</p>
+<p>$$ y = p( y | x) = p(x,y) / p(x) = p(x|y) p(y) / p(x) $$</p>
+<p>此时我们会考虑使用$p(x|y)p(y)$ 来评估$p(y|x)$ ，是一个联合概率的考虑</p>
+<h3 id="Native-Bayes"><a href="#Native-Bayes" class="headerlink" title="Native Bayes"></a>Native Bayes</h3><p>考虑判断一个邮件是否是垃圾邮件；我们设定如下的模型: </p>
+<ul>
+<li>$x$ 为输入向量；其中$x_i^{(j)}$ 表示第$i$个样本的第$j$维的特征值,  任何一个邮件可以用如下的形式表示 : </li>
+</ul>
+<p>$$x=\left[ \begin{array}{cc} 0 &amp; a_0\\ 1 &amp; a_1 \\ 1 &amp; a_2\\ 0  &amp; a_3 \\ 1 &amp; a_4 \\ .. &amp; .. \end{array} \right]$$</p>
+<p>其中第$i$行代表着单词$a_i$是否出现在这个邮件里面；$|A|$ 表示着词汇量的个数，也是也是输入特征$x$的维度</p>
+<ul>
+<li>$y$为输入结果,  这里面设定 $y=1$为垃圾邮件，否则$y=0$</li>
+</ul>
+<p>这里，我们准备使用<code>朴素贝叶斯</code>的方法解决分类问题，如上面生成模型的说明, 我们的求解问题转化为:</p>
+<p>$ p(y|x) = p(x|y) p(y) / p(x) $</p>
+<p>我们约定如下: </p>
+<p>$$\phi_{i|y=1} = p(x_i = 1 | y = 1)$$<br>$$\phi_{i|y=0} = p(x_i = 1 | y = 0)$$<br>$$\phi_y = p(y = 1) $$</p>
+<p>则有 : </p>
+<p>$$ \phi_{i|y=1} = \frac{\sum_{i=0}^{m} 1 {x_j^{(i)} = 1 \ and \  y^{(i)} = 1}}{\sum_{i=0}^{m} 1 { y^{(i)} = 1}}$$</p>
+<p>其他的$\phi_{i|y=0} , \phi_y$ 同理易得</p>
+<p>则在样本输入${x^{(i)}, y^{(i)}}, i = 0, 1, 2 …$ 的情况下；对于上面的分类问题，我们可以先求解:</p>
+<p>$$ P(y=1\ |x) = P(x|y=1) P(y=1) / P(x) \\ = \frac{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) P(y=1)}{ (\prod_{i=0}^{m}P(x_i\ |y = 1)) + (\prod_{i=0}^{m}P(x_i\ |y = 0))}$$</p>
+<p>上面的$\prod$ 展开是依赖于所谓的<code>贝叶斯假设</code>， 也就是对于给定的结果$y$, 事件$x_i$相对于$y$是独立分布的, 也就是有: </p>
+<p>$$P(x_1,x_2,…,x_n\ |\ y) = p(x_1|y)p(x_2|y,x_1)….p(x_n|y,x_1,x_2, …) \\ = p(x_1|y)p(x_2|y) … p(x_n|y) \\ = \prod_{i=1}^{n} p(x_i|y)$$</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://guangchun.wordpress.com/2011/10/13/ml-bayes-map/" target="_blank" rel="external">参数估计：最大似然、贝叶斯与最大后验</a> </li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20170716" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -675,84 +752,6 @@
 </ul>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
 <li><a href="https://mp.weixin.qq.com/s/AIZQ5-F5AngdIESNCXngWw" target="_blank" rel="external">阿里下一代数据库技术：把数据库装入容器不再是神话</a> : 先mark</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20170521" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/21/20170521/">weekly of 20170521</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/05/21/20170521/" class="article-date">
-  <time datetime="2017-05-21T12:30:52.000Z" itemprop="datePublished">2017-05-21</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://blog.appcanary.com/2017/http-security-headers.html" target="_blank" rel="external">Everything you need to know about HTTP security headers</a> : 对Http的安全相关的头部有非常清楚的介绍&amp;说明, 可以了解下</p>
-</li>
-<li><p><a href="https://littlemaninmyhead.wordpress.com/2015/09/28/so-you-want-to-learn-to-break-ciphers/" target="_blank" rel="external">SO, YOU WANT TO LEARN TO BREAK CIPHERS</a> : i没介绍了几个常见的密码破译的方法，非常巧妙，mark下，可以好好学习</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://blog.cloudflare.com/argo/" target="_blank" rel="external">Introducing Argo — A faster, more reliable, more secure Internet for everyone</a> : 智能的路由调度和层次cache</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=14364516" target="_blank" rel="external">Real-Time Adaptive Image Compression</a> : 一个新的图片压缩算法, 思路是通过机器学习来明确优化&amp;转码的方向, 不过代码相关的好像没有开放出来</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=14367311" target="_blank" rel="external">PostgreSQL 10 Beta 1 Released (postgresql.org)</a> : PostgreSQL感觉越来越强大，感觉在社区的影响力也越来越大</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5Nzc4OTA1Mw==&amp;mid=2659599256&amp;idx=1&amp;sn=69388fb9efeb5931a9d37507e530e20b&amp;chksm=8be9968abc9e1f9c8eb843c70a232ca753f180c5e2e73f3a14ad7198dffc9f18cdc4b39e7009#rd" target="_blank" rel="external">聊聊云计算架构的几个设计原则</a> : 混合云是趋势, 需要考虑公有云如何和业务结合, 提出了一些需要去关注的东西</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MjM5ODI5Njc2MA==&amp;mid=2655809341&amp;idx=1&amp;sn=6ce58a1f1f83cee2bfb80fa77707e451&amp;chksm=bd7422ea8a03abfce3f003510566e23aa9f2ec2c25e97643b2773f9f85764d86056c3cb5a077#rd" target="_blank" rel="external">用户时代，小米数据工场如何做技术架构与数据处理</a> : 感觉一些细节的介绍很有用，比如说<code>数据管理</code>, <code>HDFS 目录管理</code>等</p>
-</li>
-<li><p><a href="https://hacks.mozilla.org/2017/02/a-crash-course-in-just-in-time-jit-compilers/" target="_blank" rel="external">A crash course in just-in-time (JIT) compilers</a> : 对JIT的机制介绍通俗易懂</p>
-</li>
-<li><p><a href="http://pythonforengineers.com/python-for-scientists-and-engineers/" target="_blank" rel="external">Python for Scientists and Engineers</a> : 看起来是不错的python入门书籍，可以mark下</p>
-</li>
-<li><p><a href="https://www.microsoft.com/en-us/research/project/transform-data-by-example/" target="_blank" rel="external">Transform Data by Example</a> : Excel提供的新的插件功能，可以支持你输入一些item的demo结果，自动补全其他item的结果，思路&amp;功能都是非常巧妙的</p>
-</li>
-<li><p><a href="http://rr-project.org/" target="_blank" rel="external">Mozilla: rr</a> : 之前有听过，但没有细了解，今天看了他的说明文档，感觉还是很给力的: “rr aspires to be your primary debugging tool, replacing — well, enhancing — gdb. You record a failure once, then debug the recording, deterministically, as many times as you want. The same execution is replayed every time. “</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=14366070" target="_blank" rel="external">Ask HN: For those programming 10+ years, what do you wish you knew 4 years in?</a> : 最近挺喜欢看Hacker News上面的Ask, 干货感觉非常多, 不过看起来比较冗长，要有耐心</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/6OxDE-alfzWOz1DbmP2mPw" target="_blank" rel="external">来自Facebook的一些MySQL运维经验</a> : 都是干货, 可以采纳</p>
-</li>
 </ul>
 
       

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2018-03-28T08:13:50.000Z</updated>
+  <updated>2018-04-06T13:14:55.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,61 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20180401</title>
+    <link href="http://shevacjs.com/2018/04/06/20180401/"/>
+    <id>http://shevacjs.com/2018/04/06/20180401/</id>
+    <published>2018-04-06T13:15:45.000Z</published>
+    <updated>2018-04-06T13:14:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://github.com/Microsoft/vscode-tips-and-tricks" target="_blank" rel="external">VS Code Tips and Tricks</a> : 关于VS的tips，简单看了一些，感觉干货还是很多的。之前个人习惯所有的编辑任务都是依赖于命令行的<code>vim</code></p>
+</li>
+<li><p><a href="https://www.charlesproxy.com/documentation/ios/" target="_blank" rel="external">Charles for iOS</a> : Charles支持在IOS系统的请求包分析和捕获,体验还是很不错的。</p>
+</li>
+<li><p><a href="https://bdupras.github.io/filter-tutorial/" target="_blank" rel="external">Probabilistic Filters By Example</a> : 本文简要介绍了<a href="https://brilliant.org/wiki/cuckoo-filter/#cuckoo-vs-bloom-filters" target="_blank" rel="external">Cuckoo Filter</a> 和<a href="https://en.wikipedia.org/wiki/Bloom_filter" target="_blank" rel="external">Blomm Filter</a>各自的特点以及区别, 并具体给出了不用应用场景下面如何选择两者的建议。(PS: 发现网上并没有很多的Cuckoo Filter的入门介绍文章，后续可以补充一个)</p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/dns-resolver-1-1-1-1/" target="_blank" rel="external">Announcing 1.1.1.1: the fastest, privacy-first consumer DNS service</a> : Cloudflare在4月1号发布了号称速度最快的DNS服务器<code>1.1.1.1</code>, 可以参看<a href="https://blog.cloudflare.com/dns-resolver-1-1-1-1/" target="_blank" rel="external">Introducing DNS Resolver, 1.1.1.1 (not a joke)</a>对其技术细节进行深入了解，包括对DNS查询的隐私保护，速度优化方面的策略，对DNS服务有兴趣的可以深入了解下, 正好也可以关注文章<a href="http://blog.jobbole.com/113809/" target="_blank" rel="external">DNS 解析器性能比较：CloudFlare vs Google vs Quad9</a>, 里面具体对比了几个大型DNS服务商的响应时间，cloudflare的确遥遥领先</p>
+</li>
+<li><p><a href="https://medium.com/@NetflixTechBlog/netflix-flamescope-a57ca19d47bb" target="_blank" rel="external">Netflix FlameScope</a> : Netflix开放了另外一个关于<code>flame graph</code>的工具，其主要特点是通过热力图的形式，以<code>100ms</code>为粒度，记录不同时刻的时间情况，并支持基于此粒度进行钻取。同时还可以关注二进制数据的可视化方法，<a href="https://github.com/cortesi/scurve" target="_blank" rel="external">lib库</a>和<a href="https://binvis.io/#/" target="_blank" rel="external">demo</a></p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://medium.com/@NetflixTechBlog/performance-under-load-3e6fa9a60581" target="_blank" rel="external">Performance Under Load</a> : Netflix关于如何做过载保护的文章，其实这个topic，个人感觉也研究了一段时间，包括排队论等都做了一些分析。文章的核心思路是复用TCP拥塞控制的算法, 开始以较低流量去尝试，在流量逐渐增大的过程中，通过一些参数指标评估服务是否达到瓶颈，如果是，则流量回退(类似于拥塞窗口减少)($newLimit = currentLimit × gradient + queueSize$)。同时也直接开放了相关的<a href="https://github.com/Netflix/concurrency-limits" target="_blank" rel="external">lib库</a>, 支持Java/Grpc等，可以关注。</p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/introducing-cloudflare-workers/" target="_blank" rel="external">Introducing Cloudflare Workers: Run JavaScript Service Workers at the Edge</a> :  CloudFlare的<code>Service Worker</code>概述，赋予了业务在Edge Node(类似于CDN)执行代码的能力，后端的同学可以通过这篇文章<a href="https://lzw.me/a/pwa-service-worker.html#1%20%E4%BB%80%E4%B9%88%E6%98%AF%20Service%20Worker" target="_blank" rel="external">Service Worker 应用详解</a>了解浏览器service worker的大概机制；整体而言，个人感觉思路和创新都是有的，不过对于应用场景还需要深入和进一步的思考</p>
+</li>
+<li><p><a href="https://medium.com/netflix-techblog/using-machine-learning-to-improve-streaming-quality-at-netflix-9651263ef09f" target="_blank" rel="external">Using Machine Learning to Improve Streaming Quality at Netflix</a> : 通过ML的方法，来预估网络的质量和延迟情况，先mark</p>
+</li>
+</ul>
+<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="http://cstaecker.fairfield.edu/~cstaecker/machines/longimeter.html" target="_blank" rel="external">Steinhaus Longimeter</a> : mark，一个测量曲线长度的办法，非常精巧，先mark</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/moyoJd1EnNziRPQgHbNXRw" target="_blank" rel="external">从抄书到开源之巅：章亦春的程序人生</a> : 非常敬佩的工程师, 每个成功故事的历程都有所不一样，但是持续努力奋斗是永恒的主题；</p>
+</li>
+<li><p><a href="https://www.dongqiudi.com/archive/596265.html" target="_blank" rel="external">西甲风云21：铁血军团，马德里竞技</a> : “催人泪下的卡尔德隆，这是我的家。它教会我怎样成长，怎样忍耐，怎样生活，怎样面对困境。不管贫富，我们永远是第一！Forza Atleti!”, 有点跑题的文章，不过写得很好，也mark</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw==&amp;mid=2247487637&amp;idx=1&amp;sn=d76a3e92036c0487c6f3e16b6afd3df8" target="_blank" rel="external">聊聊Chaos Engineering的历史、原则和最佳实践</a> : 我的理解<code>Chaos Engineering</code>应该属于SRE的一部分，其采用特殊的方法，去验证系统的容灾能力，评估系统的可用性。随着分布式系统的日趋复杂，这样的需求也会愈加强烈。</p>
+</li>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404225376346895947" target="_blank" rel="external">既练轻功也练内功——面对风口的正确姿势</a> : 每个人都会面临各种选择和权衡，如何合适的机会和风口，让自己的职业生涯有进一步提升，是个需要深思的问题, 作者建议的三个原则，学会预测，需找开鱼刀，练轻功之前先修炼好内功, 可以采纳</p>
+</li>
+<li><p><a href="http://www.quickcode.co/engineer-blogs" target="_blank" rel="external">Engineering Blogs</a> : 一些公司的技术blog的list，感觉可以通过收藏夹或者其他的可以序列话的方式提供。</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/Microsoft/vscode-tips-and
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>Crypto101读书笔记</title>
@@ -1305,70 +1360,6 @@
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/RaRe-Technologies/bounter&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;RaRe-Technologies/bounter&lt;/a&gt; : “Efficient Counter that uses a limited (bounded) amount of memory regardless of data size.”, 内部通过&lt;code&gt;HLL&lt;/code&gt;，&lt;a href=&quot;https://en.wikipedia.org/wiki/Count%E2%80%93min_sketch&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Count-min Sketch algorithm&lt;/a&gt;做近似统计.&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20171015</title>
-    <link href="http://shevacjs.com/2017/10/17/20171015/"/>
-    <id>http://shevacjs.com/2017/10/17/20171015/</id>
-    <published>2017-10-17T11:44:45.000Z</published>
-    <updated>2017-10-17T11:44:45.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/images/football1.jpg" alt="周五一球"></p>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://www.bearssl.org/constanttime.html" target="_blank" rel="external">Why Constant-Time Crypto?</a> : 本文具体讨论了<code>BearSSL</code>对于<code>constant-time</code>算法的考虑。由于其可以避免被一些旁路监听策略攻击，所以是一个更为安全和理想的加密策略。其后介绍了<code>constant-time</code>的主要方法，一个是<code>masking</code>，就是在代码实现里面加入一些随机因子可以让算法的执行时间不可控，不过这对算法的实现有一些具体的要求，不具有普适性。另外一种办法是让代码实现起来不泄露任何和密钥相关的信息，要保障这点，可以参看<a href="https://cryptocoding.net/index.php/Cryptography_Coding_Standard" target="_blank" rel="external">Cryptography Coding Standard</a>, 其中一个有效的办法是<a href="https://en.wikipedia.org/wiki/Bit_slicing" target="_blank" rel="external">Bit Slicing</a> 其能保障运行时间和具体的信息无关。</p>
-</li>
-<li><p><a href="http://blog.wesleyac.com/posts/elliptic-curves" target="_blank" rel="external">Elliptic Curve Cryptography for Beginners</a> : 关于椭圆曲线密钥的介绍，可以初步了解其精妙和强大的地方，如果对密码学想要有个直观和系统的认识，个人推荐<a href="https://www.amazon.cn/dp/B01HI4WMEC/" target="_blank" rel="external">图解密码技术</a>(日本人写的)，可以当做通识读本，还是很有意义的</p>
-</li>
-<li><p><a href="http://litten.me/2017/07/09/prevent-spiders/" target="_blank" rel="external">反击爬虫，前端工程师的脑洞可以有多大？</a> : 各种trick的逻辑去抵御抓取的策略, 从这个里面发现微信公众号也是有部分抓取策略的</p>
-</li>
-</ul>
-<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><ul>
-<li><a href="https://blog.acolyer.org/2017/10/10/pretzel-email-encryption-and-provider-supplied-functions-are-compatible/" target="_blank" rel="external">Pretzel: email encryption and provider-supplied functions are compatible</a> : 本文具体介绍了一个在<code>e2e</code>模式下面，如果做邮件的anti-spam和topic提取，流程上面比较简单，具体的核心是通过一些同态计算的方式，作者具体引用了姚期智的基本概念<a href="https://blog.acolyer.org/2014/12/01/protocols-for-secure-computations/" target="_blank" rel="external">Protocols for Secure Computations</a> 以及更实践的方法<a href="http://win.ua.ac.be/~adrem/bibrem/pubs/goethals.3.pdf" target="_blank" rel="external">GLLM</a>，前者简单看了能理解流程，后者需要进一步分析</li>
-</ul>
-<a id="more"></a>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="http://ieeexplore.ieee.org/document/8048116/?part=1" target="_blank" rel="external">The Random Forest Based Detection of Shadowsock’s Traffic</a> : 一个paper，介绍基于随机森林去识别SS流量的方案，从摘要来看，准确率可以达到85%以上</p>
-</li>
-<li><p><a href="https://hackernoon.com/spotifys-discover-weekly-how-machine-learning-finds-your-new-music-19a41ab76efe" target="_blank" rel="external">Spotify’s Discover Weekly: How machine learning finds your new music</a> : Spofity分享了其做推荐系统的经验，采用协同，NLP和对音乐的内容分享等三个混合办法生产</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA4Nzg5Nzc5OA==&amp;mid=2651668536&amp;idx=1&amp;sn=3f25593310e45c19ed6fa1673413418b" target="_blank" rel="external">微信月活9亿的高效运维之路</a> : 个人觉得是干货比较多的一个介绍, 虽然都是很多细节点，但是可以感觉到是有过经历和验证的</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="http://dustintran.com/blog/a-research-to-engineering-workflow" target="_blank" rel="external">A Research to Engineering Workflow</a> : 个人觉得非常有干货的文章，作者作为一个Ph.D，主要分享了自己作为一个研究者在寻找研究点，paper管理, 项目组织，代码落地等多个阶段和节奏的实践经验，推荐不少工具包括<a href="http://papersapp.com/" target="_blank" rel="external">Papers App</a>,  <a href="http://edwardlib.org/" target="_blank" rel="external">Edward</a>, <a href="https://www.tensorflow.org/get_started/summaries_and_tensorboard" target="_blank" rel="external">Tensorboard</a></p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=15454352" target="_blank" rel="external">A Little Story About the <code>yes</code> Unix Command</a> : <code>yes</code>命令被认为是linux下面最为简单的几个命令之一，其一个核心重要是<code>yes | sh boring_installation.sh</code> (之前竟然不知道)，在<code>hack news</code>上面更多人讨论的是如何实现高效的yes输出 </p>
-</li>
-<li><p><a href="https://dzone.com/articles/jvm-architecture-explained?oid=18544920" target="_blank" rel="external">The JVM Architecture Explained</a> : 本文大概介绍了JVM架构的核心组件，以及每个组件的大概作用，感觉图画的非常清晰，对JVM有兴趣的同学可以细看</p>
-</li>
-<li><p><a href="http://gfzeng.github.io/blog/2016/11/30/mac-%E8%BE%93%E5%85%A5%E6%B3%95%E5%88%87%E6%8D%A2-bug/" target="_blank" rel="external">Mac 输入法切换 Bug</a> : 最近两周遇到的困扰已久的问题，文中的方法感觉可以解决，推荐下</p>
-</li>
-<li><p><a href="http://blog.mbrt.it/2017-10-01-demystifying-container-networking/" target="_blank" rel="external">Demystifying container networking</a> : 介绍docker的网络隔离的机制和原理</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;/images/football1.jpg&quot; alt=&quot;周五一球&quot;&gt;&lt;/p&gt;
-&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://www.bearssl.org/constanttime.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Why Constant-Time Crypto?&lt;/a&gt; : 本文具体讨论了&lt;code&gt;BearSSL&lt;/code&gt;对于&lt;code&gt;constant-time&lt;/code&gt;算法的考虑。由于其可以避免被一些旁路监听策略攻击，所以是一个更为安全和理想的加密策略。其后介绍了&lt;code&gt;constant-time&lt;/code&gt;的主要方法，一个是&lt;code&gt;masking&lt;/code&gt;，就是在代码实现里面加入一些随机因子可以让算法的执行时间不可控，不过这对算法的实现有一些具体的要求，不具有普适性。另外一种办法是让代码实现起来不泄露任何和密钥相关的信息，要保障这点，可以参看&lt;a href=&quot;https://cryptocoding.net/index.php/Cryptography_Coding_Standard&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Cryptography Coding Standard&lt;/a&gt;, 其中一个有效的办法是&lt;a href=&quot;https://en.wikipedia.org/wiki/Bit_slicing&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Bit Slicing&lt;/a&gt; 其能保障运行时间和具体的信息无关。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://blog.wesleyac.com/posts/elliptic-curves&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Elliptic Curve Cryptography for Beginners&lt;/a&gt; : 关于椭圆曲线密钥的介绍，可以初步了解其精妙和强大的地方，如果对密码学想要有个直观和系统的认识，个人推荐&lt;a href=&quot;https://www.amazon.cn/dp/B01HI4WMEC/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;图解密码技术&lt;/a&gt;(日本人写的)，可以当做通识读本，还是很有意义的&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://litten.me/2017/07/09/prevent-spiders/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;反击爬虫，前端工程师的脑洞可以有多大？&lt;/a&gt; : 各种trick的逻辑去抵御抓取的策略, 从这个里面发现微信公众号也是有部分抓取策略的&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;每周paper&quot;&gt;&lt;a href=&quot;#每周paper&quot; class=&quot;headerlink&quot; title=&quot;每周paper&quot;&gt;&lt;/a&gt;每周paper&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/10/10/pretzel-email-encryption-and-provider-supplied-functions-are-compatible/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Pretzel: email encryption and provider-supplied functions are compatible&lt;/a&gt; : 本文具体介绍了一个在&lt;code&gt;e2e&lt;/code&gt;模式下面，如果做邮件的anti-spam和topic提取，流程上面比较简单，具体的核心是通过一些同态计算的方式，作者具体引用了姚期智的基本概念&lt;a href=&quot;https://blog.acolyer.org/2014/12/01/protocols-for-secure-computations/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Protocols for Secure Computations&lt;/a&gt; 以及更实践的方法&lt;a href=&quot;http://win.ua.ac.be/~adrem/bibrem/pubs/goethals.3.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GLLM&lt;/a&gt;，前者简单看了能理解流程，后者需要进一步分析&lt;/li&gt;
 &lt;/ul&gt;
     
     </summary>

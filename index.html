@@ -57,6 +57,86 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-20180401" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/06/20180401/">weekly of 20180401</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/04/06/20180401/" class="article-date">
+  <time datetime="2018-04-06T13:15:45.000Z" itemprop="datePublished">2018-04-06</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://github.com/Microsoft/vscode-tips-and-tricks" target="_blank" rel="external">VS Code Tips and Tricks</a> : 关于VS的tips，简单看了一些，感觉干货还是很多的。之前个人习惯所有的编辑任务都是依赖于命令行的<code>vim</code></p>
+</li>
+<li><p><a href="https://www.charlesproxy.com/documentation/ios/" target="_blank" rel="external">Charles for iOS</a> : Charles支持在IOS系统的请求包分析和捕获,体验还是很不错的。</p>
+</li>
+<li><p><a href="https://bdupras.github.io/filter-tutorial/" target="_blank" rel="external">Probabilistic Filters By Example</a> : 本文简要介绍了<a href="https://brilliant.org/wiki/cuckoo-filter/#cuckoo-vs-bloom-filters" target="_blank" rel="external">Cuckoo Filter</a> 和<a href="https://en.wikipedia.org/wiki/Bloom_filter" target="_blank" rel="external">Blomm Filter</a>各自的特点以及区别, 并具体给出了不用应用场景下面如何选择两者的建议。(PS: 发现网上并没有很多的Cuckoo Filter的入门介绍文章，后续可以补充一个)</p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/dns-resolver-1-1-1-1/" target="_blank" rel="external">Announcing 1.1.1.1: the fastest, privacy-first consumer DNS service</a> : Cloudflare在4月1号发布了号称速度最快的DNS服务器<code>1.1.1.1</code>, 可以参看<a href="https://blog.cloudflare.com/dns-resolver-1-1-1-1/" target="_blank" rel="external">Introducing DNS Resolver, 1.1.1.1 (not a joke)</a>对其技术细节进行深入了解，包括对DNS查询的隐私保护，速度优化方面的策略，对DNS服务有兴趣的可以深入了解下, 正好也可以关注文章<a href="http://blog.jobbole.com/113809/" target="_blank" rel="external">DNS 解析器性能比较：CloudFlare vs Google vs Quad9</a>, 里面具体对比了几个大型DNS服务商的响应时间，cloudflare的确遥遥领先</p>
+</li>
+<li><p><a href="https://medium.com/@NetflixTechBlog/netflix-flamescope-a57ca19d47bb" target="_blank" rel="external">Netflix FlameScope</a> : Netflix开放了另外一个关于<code>flame graph</code>的工具，其主要特点是通过热力图的形式，以<code>100ms</code>为粒度，记录不同时刻的时间情况，并支持基于此粒度进行钻取。同时还可以关注二进制数据的可视化方法，<a href="https://github.com/cortesi/scurve" target="_blank" rel="external">lib库</a>和<a href="https://binvis.io/#/" target="_blank" rel="external">demo</a></p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://medium.com/@NetflixTechBlog/performance-under-load-3e6fa9a60581" target="_blank" rel="external">Performance Under Load</a> : Netflix关于如何做过载保护的文章，其实这个topic，个人感觉也研究了一段时间，包括排队论等都做了一些分析。文章的核心思路是复用TCP拥塞控制的算法, 开始以较低流量去尝试，在流量逐渐增大的过程中，通过一些参数指标评估服务是否达到瓶颈，如果是，则流量回退(类似于拥塞窗口减少)($newLimit = currentLimit × gradient + queueSize$)。同时也直接开放了相关的<a href="https://github.com/Netflix/concurrency-limits" target="_blank" rel="external">lib库</a>, 支持Java/Grpc等，可以关注。</p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/introducing-cloudflare-workers/" target="_blank" rel="external">Introducing Cloudflare Workers: Run JavaScript Service Workers at the Edge</a> :  CloudFlare的<code>Service Worker</code>概述，赋予了业务在Edge Node(类似于CDN)执行代码的能力，后端的同学可以通过这篇文章<a href="https://lzw.me/a/pwa-service-worker.html#1%20%E4%BB%80%E4%B9%88%E6%98%AF%20Service%20Worker" target="_blank" rel="external">Service Worker 应用详解</a>了解浏览器service worker的大概机制；整体而言，个人感觉思路和创新都是有的，不过对于应用场景还需要深入和进一步的思考</p>
+</li>
+<li><p><a href="https://medium.com/netflix-techblog/using-machine-learning-to-improve-streaming-quality-at-netflix-9651263ef09f" target="_blank" rel="external">Using Machine Learning to Improve Streaming Quality at Netflix</a> : 通过ML的方法，来预估网络的质量和延迟情况，先mark</p>
+</li>
+</ul>
+<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="http://cstaecker.fairfield.edu/~cstaecker/machines/longimeter.html" target="_blank" rel="external">Steinhaus Longimeter</a> : mark，一个测量曲线长度的办法，非常精巧，先mark</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/moyoJd1EnNziRPQgHbNXRw" target="_blank" rel="external">从抄书到开源之巅：章亦春的程序人生</a> : 非常敬佩的工程师, 每个成功故事的历程都有所不一样，但是持续努力奋斗是永恒的主题；</p>
+</li>
+<li><p><a href="https://www.dongqiudi.com/archive/596265.html" target="_blank" rel="external">西甲风云21：铁血军团，马德里竞技</a> : “催人泪下的卡尔德隆，这是我的家。它教会我怎样成长，怎样忍耐，怎样生活，怎样面对困境。不管贫富，我们永远是第一！Forza Atleti!”, 有点跑题的文章，不过写得很好，也mark</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw==&amp;mid=2247487637&amp;idx=1&amp;sn=d76a3e92036c0487c6f3e16b6afd3df8" target="_blank" rel="external">聊聊Chaos Engineering的历史、原则和最佳实践</a> : 我的理解<code>Chaos Engineering</code>应该属于SRE的一部分，其采用特殊的方法，去验证系统的容灾能力，评估系统的可用性。随着分布式系统的日趋复杂，这样的需求也会愈加强烈。</p>
+</li>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404225376346895947" target="_blank" rel="external">既练轻功也练内功——面对风口的正确姿势</a> : 每个人都会面临各种选择和权衡，如何合适的机会和风口，让自己的职业生涯有进一步提升，是个需要深思的问题, 作者建议的三个原则，学会预测，需找开鱼刀，练轻功之前先修炼好内功, 可以采纳</p>
+</li>
+<li><p><a href="http://www.quickcode.co/engineer-blogs" target="_blank" rel="external">Engineering Blogs</a> : 一些公司的技术blog的list，感觉可以通过收藏夹或者其他的可以序列话的方式提供。</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-note_about_crypto101" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -919,90 +999,6 @@
 <li><p><a href="http://zulko.github.io/moviepy/getting_started/getting_started.html" target="_blank" rel="external">MoviePy: Video editing with Python</a> : 一个Python的视频编辑库, 可以让你快速做一些视频Gif抽取等工作, 但并不擅长”You only need to do frame-by-frame video analysis “, “You only want to convert a video file, or turn a series of image files into a movie”, 可以先mark关注</p>
 </li>
 <li><p><a href="https://mp.weixin.qq.com/s/Law7FpS53TjrDrzSMCtcVg" target="_blank" rel="external">低调现身北京的吴恩达，刚刚给人工智能公司下了个定义</a> : 关于传统公司，互联网公司和人工智能公司的定义和理解；其一直强调人工智能技术会想电能等成为企业和产业改造的源动力, 里面的关键在于数据驱动思想的注入以及和行业的深度结合</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20180114" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/15/20180114/">weekly of 20180114</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2018/01/15/20180114/" class="article-date">
-  <time datetime="2018-01-15T10:28:45.000Z" itemprop="datePublished">2018-01-15</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/Barcelona_Seaside.jpg" alt="巴塞罗那-海边"></p>
-<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
-<li><p><a href="https://www.netguru.co/codestories/nginx-tutorial-performance" target="_blank" rel="external">Nginx Tutorial #2: Performance</a> : 关于nginx的介绍文章，这篇重点介绍nginx在性能优化方向做的事情，详细说明了<code>TCP_NODEALY</code>, <code>sendfile</code>等特性, 非常值得学习 </p>
-</li>
-<li><p><a href="http://servercoder.com/2018/01/10/protobuf-usages/" target="_blank" rel="external">你真的用对protobuf了吗?</a> : Protobuf使用的一些tips</p>
-</li>
-<li><p><a href="https://zoumiaojiang.com/article/common-web-security/" target="_blank" rel="external">常见 Web 安全攻防总结</a> : 概述的还是非常全面的，包括<code>XSS</code>, <code>CSRF</code>, <code>SQL注入</code></p>
-</li>
-<li><p><a href="http://facebook.github.io/zstd/" target="_blank" rel="external">Zstandard</a> : “Zstandard is a real-time compression algorithm, providing high compression ratios, It also offers a special mode for small data, called dictionary compression, and can create dictionaries from any sample set”; 后面的特性值得关注</p>
-</li>
-</ul>
-<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
-<li><p><a href="https://buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/" target="_blank" rel="external">What’s a service mesh? And why do I need one?</a> : 关于Service Mesh的初步介绍, 去年中旬到现在，是微服务框架的一个很多的概念, 其他可以参考的文章包括<a href="https://istio.io/docs/" target="_blank" rel="external">Istio Document</a>, <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650998746&amp;idx=1&amp;sn=5ef8234abc6855482db64b581e4e9a9a" target="_blank" rel="external">Service Mesh：下一代微服务？</a>, <a href="https://mp.weixin.qq.com/s?__biz=MzU0MTMyMDg1NQ==&amp;mid=2247483697&amp;idx=1&amp;sn=b5fdd3af4ae352942820cec9280257c3" target="_blank" rel="external">演讲实录 | Service Mesh 时代的选边与站队</a>, <a href="http://dockone.io/article/3022" target="_blank" rel="external">使用Istio治理微服务入门</a>, 感觉和自己之前琐碎梳理的想法很一致, 需要进一步提升对问题和解决方案的归纳总结能力</p>
-</li>
-<li><p><a href="http://blog.cnbang.net/tech/3531/" target="_blank" rel="external">移动 APP 网络优化概述</a> : 概括性的介绍了移动APP的网络优化思路，包括在弱网情况下的优化策略</p>
-</li>
-<li><p><a href="https://www.bbsmax.com/A/kmzLLLolzG/" target="_blank" rel="external">TLS协议分析 与 现代加密通信协议设计</a> : 对TLS和密码技术的非常全面的介绍，是之前个人比较想写的一类文章，非常赞，先mark</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/6V-zQYwvWuvu3bwtkpaM7w" target="_blank" rel="external">Jeff Dean晒谷歌大脑成绩单，TPU、AutoML、TensorFlow等重大突破</a> : 真心佩服这些无论在高屋建瓴还是技术细节方面，都能考虑周全，推进落地的人员,  其整体战略目标是非常清楚的</p>
-</li>
-</ul>
-<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><ul>
-<li><a href="https://www.gnu.org/software/gawk/manual/html_node/Reference-to-Elements.html" target="_blank" rel="external">AWK: Referring to an Array Element</a> : 在AWK里面直接使用<code>array[index-expression]</code>是有副作用的，awk内部会自动为此index生成一个emtpy value, 所以判断一个arry的某个index是否存在，最合理的办法是<code>if inx in array</code>，而不是<code>array[index] == &quot;&quot;</code>, 也可以参看<a href="https://www.gnu.org/software/gawk/manual/html_node/Array-Intro.html#Array-Intro" target="_blank" rel="external">AWK:Introduction to Arrays</a></li>
-</ul>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247487608&amp;idx=3&amp;sn=a6392d5028f0f33bfeebf89baf9e2975" target="_blank" rel="external">Facebook开源端到端自动语音识别系统wav2letter</a> : 其是由Facebook AI 研究团队开源的一款简单而高效的端到端自动语音识别系统, 简单看了文档，感觉安装之类的还是很复杂的</p>
-</li>
-<li><p><a href="https://www.jiqizhixin.com/articles/2018-01-12-5/" target="_blank" rel="external">前端慌不慌？用深度学习自动生成HTML代码</a> : “如何用前端页面原型生成对应的代码一直是我们关注的问题，本文作者根据 pix2code 等论文构建了一个强大的前端代码生成模型，并详细解释了如何利用 LSTM 与 CNN 将设计原型编写为 HTML 和 CSS 网站”</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/Zaqj421ASh0kWGnR2ksHJA" target="_blank" rel="external">由全民吃鸡引发的网游加速学习总结</a> : 关于游戏网络速度优化的说明，可以了解国内的网络拓扑的大概情况</p>
-</li>
-<li><p><a href="https://www.toutiao.com/a6509770828173804045/" target="_blank" rel="external">10张图，看懂今日头条核心算法技术</a> : 初步介绍今日头条的算法策略, 后续应该还会有更详细的说明</p>
-</li>
-<li><p><a href="https://www.jianshu.com/p/56acbd66d525" target="_blank" rel="external">天天写业务代码很焦虑，怎么破?</a> : 关于业务和技术开发的常规讨论, “每一层技术实现，都服务于上一层，都以上一层的需求为业务”, 里面对于业务和技术的感受的区分点个人还是很认可的</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=16140418" target="_blank" rel="external">iOS 11 Security[pdf]</a> : 苹果的官方文档，关于IOS系统安全性的白皮书, 文档写的非常系统，排版也非常漂亮，值得mark学习</p>
 </li>
 </ul>
 

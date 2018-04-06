@@ -57,6 +57,90 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-20180114" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/15/20180114/">weekly of 20180114</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/01/15/20180114/" class="article-date">
+  <time datetime="2018-01-15T10:28:45.000Z" itemprop="datePublished">2018-01-15</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/Barcelona_Seaside.jpg" alt="巴塞罗那-海边"></p>
+<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://www.netguru.co/codestories/nginx-tutorial-performance" target="_blank" rel="external">Nginx Tutorial #2: Performance</a> : 关于nginx的介绍文章，这篇重点介绍nginx在性能优化方向做的事情，详细说明了<code>TCP_NODEALY</code>, <code>sendfile</code>等特性, 非常值得学习 </p>
+</li>
+<li><p><a href="http://servercoder.com/2018/01/10/protobuf-usages/" target="_blank" rel="external">你真的用对protobuf了吗?</a> : Protobuf使用的一些tips</p>
+</li>
+<li><p><a href="https://zoumiaojiang.com/article/common-web-security/" target="_blank" rel="external">常见 Web 安全攻防总结</a> : 概述的还是非常全面的，包括<code>XSS</code>, <code>CSRF</code>, <code>SQL注入</code></p>
+</li>
+<li><p><a href="http://facebook.github.io/zstd/" target="_blank" rel="external">Zstandard</a> : “Zstandard is a real-time compression algorithm, providing high compression ratios, It also offers a special mode for small data, called dictionary compression, and can create dictionaries from any sample set”; 后面的特性值得关注</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/" target="_blank" rel="external">What’s a service mesh? And why do I need one?</a> : 关于Service Mesh的初步介绍, 去年中旬到现在，是微服务框架的一个很多的概念, 其他可以参考的文章包括<a href="https://istio.io/docs/" target="_blank" rel="external">Istio Document</a>, <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650998746&amp;idx=1&amp;sn=5ef8234abc6855482db64b581e4e9a9a" target="_blank" rel="external">Service Mesh：下一代微服务？</a>, <a href="https://mp.weixin.qq.com/s?__biz=MzU0MTMyMDg1NQ==&amp;mid=2247483697&amp;idx=1&amp;sn=b5fdd3af4ae352942820cec9280257c3" target="_blank" rel="external">演讲实录 | Service Mesh 时代的选边与站队</a>, <a href="http://dockone.io/article/3022" target="_blank" rel="external">使用Istio治理微服务入门</a>, 感觉和自己之前琐碎梳理的想法很一致, 需要进一步提升对问题和解决方案的归纳总结能力</p>
+</li>
+<li><p><a href="http://blog.cnbang.net/tech/3531/" target="_blank" rel="external">移动 APP 网络优化概述</a> : 概括性的介绍了移动APP的网络优化思路，包括在弱网情况下的优化策略</p>
+</li>
+<li><p><a href="https://www.bbsmax.com/A/kmzLLLolzG/" target="_blank" rel="external">TLS协议分析 与 现代加密通信协议设计</a> : 对TLS和密码技术的非常全面的介绍，是之前个人比较想写的一类文章，非常赞，先mark</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/6V-zQYwvWuvu3bwtkpaM7w" target="_blank" rel="external">Jeff Dean晒谷歌大脑成绩单，TPU、AutoML、TensorFlow等重大突破</a> : 真心佩服这些无论在高屋建瓴还是技术细节方面，都能考虑周全，推进落地的人员,  其整体战略目标是非常清楚的</p>
+</li>
+</ul>
+<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><ul>
+<li><a href="https://www.gnu.org/software/gawk/manual/html_node/Reference-to-Elements.html" target="_blank" rel="external">AWK: Referring to an Array Element</a> : 在AWK里面直接使用<code>array[index-expression]</code>是有副作用的，awk内部会自动为此index生成一个emtpy value, 所以判断一个arry的某个index是否存在，最合理的办法是<code>if inx in array</code>，而不是<code>array[index] == &quot;&quot;</code>, 也可以参看<a href="https://www.gnu.org/software/gawk/manual/html_node/Array-Intro.html#Array-Intro" target="_blank" rel="external">AWK:Introduction to Arrays</a></li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247487608&amp;idx=3&amp;sn=a6392d5028f0f33bfeebf89baf9e2975" target="_blank" rel="external">Facebook开源端到端自动语音识别系统wav2letter</a> : 其是由Facebook AI 研究团队开源的一款简单而高效的端到端自动语音识别系统, 简单看了文档，感觉安装之类的还是很复杂的</p>
+</li>
+<li><p><a href="https://www.jiqizhixin.com/articles/2018-01-12-5/" target="_blank" rel="external">前端慌不慌？用深度学习自动生成HTML代码</a> : “如何用前端页面原型生成对应的代码一直是我们关注的问题，本文作者根据 pix2code 等论文构建了一个强大的前端代码生成模型，并详细解释了如何利用 LSTM 与 CNN 将设计原型编写为 HTML 和 CSS 网站”</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/Zaqj421ASh0kWGnR2ksHJA" target="_blank" rel="external">由全民吃鸡引发的网游加速学习总结</a> : 关于游戏网络速度优化的说明，可以了解国内的网络拓扑的大概情况</p>
+</li>
+<li><p><a href="https://www.toutiao.com/a6509770828173804045/" target="_blank" rel="external">10张图，看懂今日头条核心算法技术</a> : 初步介绍今日头条的算法策略, 后续应该还会有更详细的说明</p>
+</li>
+<li><p><a href="https://www.jianshu.com/p/56acbd66d525" target="_blank" rel="external">天天写业务代码很焦虑，怎么破?</a> : 关于业务和技术开发的常规讨论, “每一层技术实现，都服务于上一层，都以上一层的需求为业务”, 里面对于业务和技术的感受的区分点个人还是很认可的</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16140418" target="_blank" rel="external">iOS 11 Security[pdf]</a> : 苹果的官方文档，关于IOS系统安全性的白皮书, 文档写的非常系统，排版也非常漂亮，值得mark学习</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-nginx_1_13_8" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -720,68 +804,6 @@
         
           <p class="article-more-link">
             <a href="/2017/10/25/20171022/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20171015" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/17/20171015/">weekly of 20171015</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/10/17/20171015/" class="article-date">
-  <time datetime="2017-10-17T11:44:45.000Z" itemprop="datePublished">2017-10-17</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/football1.jpg" alt="周五一球"></p>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://www.bearssl.org/constanttime.html" target="_blank" rel="external">Why Constant-Time Crypto?</a> : 本文具体讨论了<code>BearSSL</code>对于<code>constant-time</code>算法的考虑。由于其可以避免被一些旁路监听策略攻击，所以是一个更为安全和理想的加密策略。其后介绍了<code>constant-time</code>的主要方法，一个是<code>masking</code>，就是在代码实现里面加入一些随机因子可以让算法的执行时间不可控，不过这对算法的实现有一些具体的要求，不具有普适性。另外一种办法是让代码实现起来不泄露任何和密钥相关的信息，要保障这点，可以参看<a href="https://cryptocoding.net/index.php/Cryptography_Coding_Standard" target="_blank" rel="external">Cryptography Coding Standard</a>, 其中一个有效的办法是<a href="https://en.wikipedia.org/wiki/Bit_slicing" target="_blank" rel="external">Bit Slicing</a> 其能保障运行时间和具体的信息无关。</p>
-</li>
-<li><p><a href="http://blog.wesleyac.com/posts/elliptic-curves" target="_blank" rel="external">Elliptic Curve Cryptography for Beginners</a> : 关于椭圆曲线密钥的介绍，可以初步了解其精妙和强大的地方，如果对密码学想要有个直观和系统的认识，个人推荐<a href="https://www.amazon.cn/dp/B01HI4WMEC/" target="_blank" rel="external">图解密码技术</a>(日本人写的)，可以当做通识读本，还是很有意义的</p>
-</li>
-<li><p><a href="http://litten.me/2017/07/09/prevent-spiders/" target="_blank" rel="external">反击爬虫，前端工程师的脑洞可以有多大？</a> : 各种trick的逻辑去抵御抓取的策略, 从这个里面发现微信公众号也是有部分抓取策略的</p>
-</li>
-</ul>
-<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><ul>
-<li><a href="https://blog.acolyer.org/2017/10/10/pretzel-email-encryption-and-provider-supplied-functions-are-compatible/" target="_blank" rel="external">Pretzel: email encryption and provider-supplied functions are compatible</a> : 本文具体介绍了一个在<code>e2e</code>模式下面，如果做邮件的anti-spam和topic提取，流程上面比较简单，具体的核心是通过一些同态计算的方式，作者具体引用了姚期智的基本概念<a href="https://blog.acolyer.org/2014/12/01/protocols-for-secure-computations/" target="_blank" rel="external">Protocols for Secure Computations</a> 以及更实践的方法<a href="http://win.ua.ac.be/~adrem/bibrem/pubs/goethals.3.pdf" target="_blank" rel="external">GLLM</a>，前者简单看了能理解流程，后者需要进一步分析</li>
-</ul>
-        
-          <p class="article-more-link">
-            <a href="/2017/10/17/20171015/#more">Read More</a>
           </p>
         
       
