@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://shevacjs.com/2018/04/18/20180415/</loc>
+    
+    <lastmod>2018-04-18T04:31:25.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://shevacjs.com/2018/04/17/20180408/</loc>
+    
+    <lastmod>2018-04-17T14:21:57.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://shevacjs.com/2018/04/06/20180401/</loc>
     
     <lastmod>2018-04-06T13:14:55.000Z</lastmod>
@@ -303,7 +317,35 @@
   </url>
   
   <url>
+    <loc>http://shevacjs.com/2015/12/19/nginx_1_9_9/</loc>
+    
+    <lastmod>2017-07-21T06:46:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://shevacjs.com/2016/03/30/nginx_1_9_13/</loc>
+    
+    <lastmod>2017-07-21T06:46:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://shevacjs.com/2016/01/30/nginx_1_9_10/</loc>
+    
+    <lastmod>2017-07-21T06:46:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://shevacjs.com/2017/07/02/20170702/</loc>
+    
+    <lastmod>2017-07-21T06:46:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://shevacjs.com/2015/04/05/io_in_linux_and_nginx/</loc>
     
     <lastmod>2017-07-21T06:46:00.000Z</lastmod>
     
@@ -317,6 +359,20 @@
   </url>
   
   <url>
+    <loc>http://shevacjs.com/2017/07/16/20170716/</loc>
+    
+    <lastmod>2017-07-21T06:46:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://shevacjs.com/2015/12/19/ngx_variable_flag/</loc>
+    
+    <lastmod>2017-07-21T06:46:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://shevacjs.com/2017/07/09/20170709/</loc>
     
     <lastmod>2017-07-21T06:46:00.000Z</lastmod>
@@ -324,14 +380,7 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2015/12/19/nginx_1_9_9/</loc>
-    
-    <lastmod>2017-07-21T06:46:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://shevacjs.com/2016/03/30/nginx_1_9_13/</loc>
+    <loc>http://shevacjs.com/2017/06/25/20170625/</loc>
     
     <lastmod>2017-07-21T06:46:00.000Z</lastmod>
     
@@ -352,58 +401,9 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2017/07/02/20170702/</loc>
-    
-    <lastmod>2017-07-21T06:46:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://shevacjs.com/2015/12/19/ngx_variable_flag/</loc>
-    
-    <lastmod>2017-07-21T06:46:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://shevacjs.com/2017/06/25/20170625/</loc>
-    
-    <lastmod>2017-07-21T06:46:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://shevacjs.com/2015/04/05/io_in_linux_and_nginx/</loc>
-    
-    <lastmod>2017-07-21T06:46:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://shevacjs.com/2017/07/16/20170716/</loc>
-    
-    <lastmod>2017-07-21T06:46:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://shevacjs.com/2017/06/18/20170618/</loc>
     
     <lastmod>2017-07-21T05:42:36.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://shevacjs.com/2016/07/10/0710/</loc>
-    
-    <lastmod>2017-07-21T04:21:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://shevacjs.com/2016/07/17/0717/</loc>
-    
-    <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
   </url>
   
@@ -422,14 +422,14 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2016/08/21/0821/</loc>
+    <loc>http://shevacjs.com/2016/08/14/0814/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2016/08/14/0814/</loc>
+    <loc>http://shevacjs.com/2016/08/21/0821/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
@@ -443,14 +443,14 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2016/09/11/0911/</loc>
+    <loc>http://shevacjs.com/2016/09/04/0904/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2016/09/04/0904/</loc>
+    <loc>http://shevacjs.com/2016/09/11/0911/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
@@ -471,14 +471,14 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2016/06/15/0612/</loc>
+    <loc>http://shevacjs.com/2016/10/02/1002/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2016/10/02/1002/</loc>
+    <loc>http://shevacjs.com/2016/06/15/0612/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
@@ -562,14 +562,14 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2014/12/27/1226_bitch_about/</loc>
+    <loc>http://shevacjs.com/2016/12/18/20161218/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2016/12/18/20161218/</loc>
+    <loc>http://shevacjs.com/2014/12/27/1226_bitch_about/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
@@ -583,14 +583,14 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2017/01/01/20170101/</loc>
+    <loc>http://shevacjs.com/2017/01/08/20170108/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2017/01/08/20170108/</loc>
+    <loc>http://shevacjs.com/2017/01/01/20170101/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
@@ -611,7 +611,14 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2015/03/06/about_https/</loc>
+    <loc>http://shevacjs.com/2017/01/29/20170129/</loc>
+    
+    <lastmod>2017-07-21T04:21:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://shevacjs.com/2017/02/05/20170205/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
@@ -625,14 +632,14 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2017/01/29/20170129/</loc>
+    <loc>http://shevacjs.com/2017/02/26/20170226/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2016/10/16/about_wiki/</loc>
+    <loc>http://shevacjs.com/2015/03/06/about_https/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
@@ -646,6 +653,13 @@
   </url>
   
   <url>
+    <loc>http://shevacjs.com/2016/10/16/about_wiki/</loc>
+    
+    <lastmod>2017-07-21T04:21:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://shevacjs.com/2014/12/23/an_problem_about_so_copy/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
@@ -653,14 +667,14 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2015/04/05/anti_censorship/</loc>
+    <loc>http://shevacjs.com/2017/03/05/20170305/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2017/02/26/20170226/</loc>
+    <loc>http://shevacjs.com/2015/04/05/anti_censorship/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
@@ -681,14 +695,14 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2017/02/05/20170205/</loc>
+    <loc>http://shevacjs.com/2015/01/10/distribute_store_system/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2015/01/10/distribute_store_system/</loc>
+    <loc>http://shevacjs.com/2017/03/12/20170312/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
@@ -702,14 +716,14 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2015/05/10/hotcode_analysis/</loc>
+    <loc>http://shevacjs.com/2017/03/26/20170326/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2017/03/05/20170305/</loc>
+    <loc>http://shevacjs.com/2015/05/10/hotcode_analysis/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
@@ -737,7 +751,7 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2015/03/06/mixed_content_control/</loc>
+    <loc>http://shevacjs.com/2017/04/02/20170402/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
@@ -751,7 +765,7 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2017/03/12/20170312/</loc>
+    <loc>http://shevacjs.com/2015/03/06/mixed_content_control/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
@@ -766,20 +780,6 @@
   
   <url>
     <loc>http://shevacjs.com/2017/03/19/20170319/</loc>
-    
-    <lastmod>2017-07-21T04:21:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://shevacjs.com/2017/03/26/20170326/</loc>
-    
-    <lastmod>2017-07-21T04:21:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://shevacjs.com/2017/04/02/20170402/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
@@ -828,14 +828,14 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2017/05/28/20170528/</loc>
+    <loc>http://shevacjs.com/2017/05/21/20170521/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2017/05/21/20170521/</loc>
+    <loc>http://shevacjs.com/2017/05/28/20170528/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
@@ -849,28 +849,7 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2017/05/06/pca/</loc>
-    
-    <lastmod>2017-07-21T04:21:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://shevacjs.com/2014/12/30/rsync_bitch_about/</loc>
-    
-    <lastmod>2017-07-21T04:21:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://shevacjs.com/2017/06/11/20170611/</loc>
-    
-    <lastmod>2017-07-21T04:21:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://shevacjs.com/2017/05/06/svd/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
@@ -891,7 +870,21 @@
   </url>
   
   <url>
-    <loc>http://shevacjs.com/2016/06/26/0626/</loc>
+    <loc>http://shevacjs.com/2017/05/06/pca/</loc>
+    
+    <lastmod>2017-07-21T04:21:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://shevacjs.com/2014/12/30/rsync_bitch_about/</loc>
+    
+    <lastmod>2017-07-21T04:21:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://shevacjs.com/2017/05/06/svd/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     
@@ -905,7 +898,28 @@
   </url>
   
   <url>
+    <loc>http://shevacjs.com/2016/06/26/0626/</loc>
+    
+    <lastmod>2017-07-21T04:21:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://shevacjs.com/2016/07/10/0710/</loc>
+    
+    <lastmod>2017-07-21T04:21:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://shevacjs.com/2015/05/12/waf/</loc>
+    
+    <lastmod>2017-07-21T04:21:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://shevacjs.com/2016/07/17/0717/</loc>
     
     <lastmod>2017-07-21T04:21:08.000Z</lastmod>
     

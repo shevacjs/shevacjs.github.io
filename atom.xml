@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2018-04-06T13:14:55.000Z</updated>
+  <updated>2018-04-18T04:31:25.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,128 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20180415</title>
+    <link href="http://shevacjs.com/2018/04/18/20180415/"/>
+    <id>http://shevacjs.com/2018/04/18/20180415/</id>
+    <published>2018-04-18T04:26:45.000Z</published>
+    <updated>2018-04-18T04:31:25.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/yanqing.jpg" alt="延庆一景"></p>
+<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://ultralig.ht/" target="_blank" rel="external">Lightweight, Pure-GPU HTML Renderer</a> : 一个纯GPU执行的HTML渲染器，对于游戏类的业务场景会有比较好的支持</p>
+</li>
+<li><p><a href="http://0x80.pl/notesen/2018-04-11-simd-is-sorted.html" target="_blank" rel="external">Is sorted using SIMD instructions</a> : 判断一个数组是否有序的最简单算法，就是遍历数组，依次比较; 但是如果处理器本身支持<code>SIMD</code>之类，会有怎么样的优化算法呢?文章具体说明了如何将上面操作<code>vectorization</code>，以提升判断的速度，结果表明在<code>AVX2</code>的指令集下面性能有<code>100%</code>以上的提升, 对SIMD指令感兴趣的话，可以参看<a href="https://software.intel.com/sites/landingpage/IntrinsicsGuide/" target="_blank" rel="external">Intrinsics Guide</a>这个指令手册</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://blog.cloudflare.com/neon-is-the-new-black/" target="_blank" rel="external">NEON is the new black: fast JPEG optimization on ARM server</a> : CloudFlare的技术博客，介绍其对<code>libjpg</code>在ARM平台的优化，主要是讲将在Intel下面优化的SIMD指令在ARM系统上面重写, 总结值得思考: “It is evident that the Qualcomm Centriq is a powerful processor, that definitely provides a good bang for a buck. However, years of Intel leadership in the server and desktop space mean that a lot of software is better optimized for Intel processors.”</p>
+</li>
+<li><p><a href="https://snr.stanford.edu/salsify/" target="_blank" rel="external">Salsify</a> : Salsify是斯坦福大学的一个项目，其核心思路是通过对视频编码速率和网络速率的协同控制，来提升<code>real time video</code>的性能和体验，直接感觉意义一般，但是其性能数据体现”reduced delay (at the 95th percentile) by 4.6×, while also improving SSIM by about 60% (2.1 dB)”，先mark，后续有空关注</p>
+</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><blockquote>
+<p>本周关注GPU编程</p>
+</blockquote>
+<ul>
+<li><p><a href="http://courses.cms.caltech.edu/cs179/" target="_blank" rel="external">课程: GPU Programming CS179</a> : 比较综合的介绍GPU的概念基础，以及和CUDA的实践, 可以关注<a href="https://news.ycombinator.com/item?id=11902172" target="_blank" rel="external">Hacer News</a>上面对其评价</p>
+</li>
+<li><p><a href="https://cn.udacity.com/course/intro-to-parallel-programming--cs344" target="_blank" rel="external">课程: 并行编程入门 by Nvidia</a> : 中文版的课程</p>
+</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://weibo.com/1705822647/GbThVDxKJ?type=comment" target="_blank" rel="external">关于百度区块链应用的思考</a> : 用区块链进行图片和内容版权保护的问题，作者的存疑和我个人的思考分析一致，mark下关注网友的讨论</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16827817" target="_blank" rel="external">Quantum mechanics used for better random numbers</a> : 量子计算机可以产生真正的随机数，但是评论上面认为，其实现在的不少硬件，比如说<code>Johnson–Nyquist</code>已经具备这类能力了</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16817234" target="_blank" rel="external">Quantum Algorithm Implementations for Beginners</a> : </p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/yanqing.jpg&quot; alt=&quot;延庆一景&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a 
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>weekly of 20180408</title>
+    <link href="http://shevacjs.com/2018/04/17/20180408/"/>
+    <id>http://shevacjs.com/2018/04/17/20180408/</id>
+    <published>2018-04-17T14:21:45.000Z</published>
+    <updated>2018-04-17T14:21:57.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><a href="https://blog.cryptographyengineering.com/2018/04/07/hash-based-signatures-an-illustrated-primer/" target="_blank" rel="external">Hash-based Signatures: An illustrated Primer</a> : 文章和作者的blog多深度推荐</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzIzOTU0NTQ0MA==&amp;mid=2247487203&amp;idx=1&amp;sn=a1510a4d29a7bdb9cc60d58c13161db9" target="_blank" rel="external">当数据库遇见FPGA：X-DB异构计算如何实现百万级TPS？</a> : 阿里数据库方向的又一个创新，核心问题是, 在基于LSM存储引擎构建的数据库，需要耗费大量的计算量在做<code>SSTable</code>的merge, 这类的<code>compaction</code>计算量大且计算模式相对一致，基于此，其构建了一个传统CPU架构+<code>FPGA</code>的协同计算模式, 对于写密集型的业务场景有着较大效率提升。</p>
+</li>
+<li><p><a href="https://blog.codingnow.com/2018/04/lua_54_nil_in_table.html" target="_blank" rel="external">Lua 5.4 的改进及 Lua 的版本演进</a> : 先Mark，没有深看，但是非常佩服云风对技术的持续投入和研究~</p>
+</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><blockquote>
+<p>本周关注simd</p>
+</blockquote>
+<ul>
+<li><p><a href="https://en.wikipedia.org/wiki/SIMD" target="_blank" rel="external">Wikipedia: SIMD</a> : 对SIMD的概念性介绍, 其是一类并行技术的概称”单指令流多数据流”。在具体应用方面，CPU多以<code>SSE(Intel)</code>或者<code>3D Now!(AMD)</code>等提供支持，而GPU则是本身就拥有类似的能力。</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=8533350" target="_blank" rel="external">Introducing SIMD.js</a> : Mozilla发布的<code>SIMD</code>支持的Js Library, 主要是基于CPU的<code>SSE</code>或者<code>NEON</code>提供<code>SIMD</code>能力，希望在<code>games, video and audio manipulation, scientific simulations</code>提升其相关能力。</p>
+</li>
+<li><p><a href="http://sci.tuomastonteri.fi/programming/sse" target="_blank" rel="external">A practical guide to SSE SIMD with C++</a> : 关于SSE SIMD的实践教程，感觉有点冗长，另外也可以参看<a href="http://www.cs.uu.nl/docs/vakken/magr/2017-2018/files/SIMD%20Tutorial.pdf" target="_blank" rel="external">Practical SIMD Programming(pdf)</a></p>
+</li>
+</ul>
+<blockquote>
+<p>关于<a href="https://en.wikipedia.org/wiki/Tor_(anonymity_network" target="_blank" rel="external">TOR</a>)的一些文章</p>
+</blockquote>
+<ul>
+<li><p><a href="https://jordan-wright.com/blog/2015/02/28/how-tor-works-part-one/" target="_blank" rel="external">How Tor Works(Part1/2/3)</a> : 从较为宏观的角度介绍Tor的执行机制和核心设计理念，是理解TOR的比较好的入门文档, 另外作者本身的blog主要关注安全因素相关，有不少文章值得细看</p>
+</li>
+<li><p><a href="https://www.digitaltrends.com/computing/a-beginners-guide-to-tor-how-to-navigate-through-the-underground-internet/" target="_blank" rel="external">A beginner’s guide to Tor: How to navigate through the underground Internet</a> : 也是一个入门的文章</p>
+</li>
+<li><p><a href="http://www.cs.umd.edu/class/fall2017/cmsc818O/papers/understanding-tor.pdf" target="_blank" rel="external">Shining Light in Dark Places: Understanding the Tor Network(pdf)</a> : </p>
+</li>
+<li><p><a href="https://www.freehaven.net/anonbib/cache/draft-tor-design-2004.pdf" target="_blank" rel="external">Tor: The Second-Generation Onion Router(pdf)</a> : 类似于Tor的白皮书，系统性介绍如何设计相关系统，可以深入了解</p>
+</li>
+<li><p><a href="https://www.torproject.org/docs/onion-services.html.en" target="_blank" rel="external">Tor: Onion Service Protocol</a> : 我们知道Tor不仅能提供匿名访问，也通用支持匿名提供<code>online service</code>; 其核心机制是依赖<a href="https://gitweb.torproject.org/torspec.git/tree/rend-spec.txt" target="_blank" rel="external">rendezvous specification</a>，也就是依赖”约会协商”出一个中转<code>Relay</code>, 再基于此节点双方进行通信</p>
+</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="http://redbeardlab.tech/rediSQL/" target="_blank" rel="external">RedisSQL</a> : RediSQL is a Redis module that embeds a fully functional SQLite database. 也就是说，基于<code>SQLit</code>做存储引擎，通过<code>Redis Module</code>做接口扩展，对于<code>partition</code>和<code>replication</code>的问题，应该不大好解决，但文章也没有特多涉及，需要细究。</p>
+</li>
+<li><p><a href="https://weibo.com/2126427211/GavUQjfLa?type=comment#_rnd1523244261713" target="_blank" rel="external">Deep learning的发展历程</a> : 比较系统，概括性的介绍了，深度学习的发展历程</p>
+</li>
+<li><p><a href="https://weibo.com/1907380525/Gbg8LzxEI?type=comment#_rnd1523274106579" target="_blank" rel="external">What are the ten most cited sources on Wikipedia? Let’s ask the data</a> : 关于Wikipeida资料引用的有趣分析, 文末付<a href="https://medium.com/freely-sharing-the-sum-of-all-knowledge/what-are-the-ten-most-cited-sources-on-wikipedia-lets-ask-the-data-34071478785a" target="_blank" rel="external">英文链接</a></p>
+</li>
+<li><p><a href="https://github.com/hongfanqie/discussion/issues/1" target="_blank" rel="external">技术文章翻译规范</a> : mark</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16806976" target="_blank" rel="external">AV1 beats x264 and libvpx-vp9 in practical use case</a> : “Our testing shows AV1 surpasses its stated goal of 30% better compression than VP9, and achieves gains of 50.3%, 46.2% and 34.0%, compared to x264 main profile, x264 high profile and libvpx-vp9, respectively.However, AV1 saw increases in encoding computational complexity compared with x264 main, x264 high and libvpx-vp9 for ABR mode. Encoding run time was 9226.4x, 8139.2x and 667.1x greater, respectively…”</p>
+</li>
+<li><p><a href="https://docs.microsoft.com/en-us/teamblog/docs-extension" target="_blank" rel="external">Announcing the Docs Markdown Extension for Visual Studio Code</a> : 基于<a href="https://dotnet.github.io/docfx/spec/docfx_flavored_markdown.html?tabs=tabid-2%2Ctabid-b" target="_blank" rel="external">DFX</a>语法的VS CODE扩展，个人感觉其语法赋予了不少新奇的能力，可以关注</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.cryptographyengineering.com/2018/0
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20180401</title>
@@ -1227,138 +1349,6 @@
 &lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://www.igvita.com/2012/12/18/deploying-new-image-formats-on-the-web/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Deploying WebP via Accept Content Negotiation&lt;/a&gt; : 是一篇2013年的文章, 作者(&lt;a href=&quot;https://hpbn.co/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;High Performance Browser Networking&lt;/a&gt;书籍的作者) 很详细的介绍了如果通过client/server等多方的联动，可以透明，相对低成本的接入webp格式的图片; 对后续我们要引入新的资源类型有比较好的参考意义, 也可以参考作者另外一篇文章&lt;a href=&quot;https://www.igvita.com/2012/12/18/deploying-new-image-formats-on-the-web/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Deploying New Image Formats on the Web&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://blog.lizzie.io/linux-containers-in-500-loc.html#sec-1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Linux containers in 500 lines of code&lt;/a&gt; : 本文用一个最小的集合实现vm, 可以加深对linux下面虚拟机机制的理解&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20171029</title>
-    <link href="http://shevacjs.com/2017/11/02/20171029/"/>
-    <id>http://shevacjs.com/2017/11/02/20171029/</id>
-    <published>2017-11-02T06:31:45.000Z</published>
-    <updated>2017-11-02T06:35:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/images/danshui.jpg" alt="台湾-淡水渔人码头"></p>
-<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://mp.weixin.qq.com/s/VZMhbha3sjxxNFTcIGYESw" target="_blank" rel="external">No.22 漫谈数据质量监控</a> : 非常有干货的一篇文章, 可以加深</p>
-</li>
-<li><p><a href="https://github.com/Tencent/tsf" target="_blank" rel="external">Tencent Server Framework</a> : “Tencent Server Framework is a coroutine and Swoole based server framework for fast server deployment which developed by Tencent engineers.”, 先关注下, 看下是否做进一步的落地</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/uzvzF2owmw_g5vP-Np7x5w" target="_blank" rel="external">MixPanel －Android 端埋点技术研究</a> : <code>MixPanel</code>是不多数的开源的可视化埋点的NA框架, 可以关注</p>
-</li>
-</ul>
-<a id="more"></a>
-<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://news.ycombinator.com/item?id=15543596" target="_blank" rel="external">Hadoop on IPFS</a> : 一个新的思路，将分布式分析的文件存在一个非中心化的存储系统，比如<a href="https://ipfs.io/" target="_blank" rel="external">IPFS</a>, 其性能会怎么样？这篇paper做了简要的分析，不过对IPFS理解不深，不好做评价，周末研究下</p>
-</li>
-<li><p><a href="https://www.nginx.com/blog/nginx-product-roadmap-2017/" target="_blank" rel="external">NGINX Product Roadmap 2017</a> : 谈论了nginx的过去现在, 以及未来的规划，介绍了三个比较大的topic，包括<a href="https://github.com/nginmesh/nginmesh" target="_blank" rel="external">nginmesh/nginmesh</a>(构建自动化的微服务管理平台), <a href="https://www.nginx.com/blog/introducing-nginx-kubernetes-ingress-controller/" target="_blank" rel="external">Ingress controller for Nginx</a>, 以及<a href="https://www.nginx.com/blog/introducing-nginx-unit/" target="_blank" rel="external">Nginx Unit</a></p>
-</li>
-<li><p><a href="http://www.infoq.com/cn/news/2017/10/qzone-quic-practise" target="_blank" rel="external">QQ空间已在生产环境中使用QUIC协议</a> : 主要介绍了QUIC在QQ空间的落地情况, server端的QUIC实践是通过腾讯云的CLB应用，故没有介绍太多细节，主要介绍QUCI的优势(相比于TCP协议)，以及PC/NA端落地的一些坑，比如端口限制, 丢包等异常情况的策略，这个方面是有不少学习的地方的</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5NzkxMzg1Nw==&amp;mid=2653163552&amp;idx=1&amp;sn=5557b261c38fe68bff821a3cc0e7030e" target="_blank" rel="external">Reddit爆款讨论：那些做机器学习的，平时除了数据清洗还干些啥？</a> : 先mark</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/sJBGJ88_-N-LdA8EHywfAA" target="_blank" rel="external">OpenSSL开发学习总结</a> : 内容很丰富翔实，但感觉系统性和条理性方面可以更优化下;</p>
-</li>
-<li><p><a href="https://sspai.com/post/41477" target="_blank" rel="external">macOS 上都有哪些既免费、又实用的工具？</a> : 一些工具可以关注下, 比如<a href="https://lhc70000.github.io/iina/zh-cn/" target="_blank" rel="external">IINA</a>, <a href="https://github.com/yangshun1029/aria2gui.git" target="_blank" rel="external">Aria2GUI</a>, <a href="https://www.mediaatelier.com/CheatSheet/" target="_blank" rel="external">CheatSheet</a> 等</p>
-</li>
-<li><p><a href="http://insights.thoughtworks.cn/eight-security-problems-in-front-end/" target="_blank" rel="external">8大前端安全问题</a> : 对<code>iframe防御</code>, <code>点击劫持</code>, <code>内容推断</code>等的防御做了一些建议，可以关注包括<code>X-Content-Type-Options</code>, <code>X-Frame-Options</code>等header</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;/images/danshui.jpg&quot; alt=&quot;台湾-淡水渔人码头&quot;&gt;&lt;/p&gt;
-&lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/VZMhbha3sjxxNFTcIGYESw&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;No.22 漫谈数据质量监控&lt;/a&gt; : 非常有干货的一篇文章, 可以加深&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/Tencent/tsf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Tencent Server Framework&lt;/a&gt; : “Tencent Server Framework is a coroutine and Swoole based server framework for fast server deployment which developed by Tencent engineers.”, 先关注下, 看下是否做进一步的落地&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/uzvzF2owmw_g5vP-Np7x5w&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;MixPanel －Android 端埋点技术研究&lt;/a&gt; : &lt;code&gt;MixPanel&lt;/code&gt;是不多数的开源的可视化埋点的NA框架, 可以关注&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20171022</title>
-    <link href="http://shevacjs.com/2017/10/25/20171022/"/>
-    <id>http://shevacjs.com/2017/10/25/20171022/</id>
-    <published>2017-10-25T02:38:45.000Z</published>
-    <updated>2017-11-02T06:35:21.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/images/xihu.jpg" alt="西湖一景"></p>
-<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><a href="https://blogs.windows.com/msedgedev/2017/10/18/documenting-web-together-mdn-web-docs/#akYR4ff8rcL8TY9Q.97" target="_blank" rel="external">Documenting the Web together</a> : 微软宣布把W3C的文档都收敛到MDN, 完成web文档的大一统，个人觉得MDN的文档真心不错，有空可以帮忙上去做一些翻译</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/3OeVknv8H60OdTPQBKFjaA" target="_blank" rel="external">密钥重载攻击：强制WPA2重用Nonce</a> : 先mark</p>
-</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://news.ycombinator.com/item?id=15491553" target="_blank" rel="external">VIM AFTER 15 YEARS</a> : 作者使用vim整整15年，介绍了一些不错的plugin, 建议包括<a href="https://github.com/junegunn/fzf" target="_blank" rel="external">fzf</a>(命令行形式的finder) 等 </p>
-</li>
-<li><p><a href="https://meribold.github.io/2017/10/20/survey-of-cpu-caches/#listing-1" target="_blank" rel="external">A Survey of CPU Caches</a> : 对Cpu Cache很形象的解释和图形化的说明</p>
-</li>
-<li><p><a href="https://github.com/RaRe-Technologies/bounter" target="_blank" rel="external">RaRe-Technologies/bounter</a> : “Efficient Counter that uses a limited (bounded) amount of memory regardless of data size.”, 内部通过<code>HLL</code>，<a href="https://en.wikipedia.org/wiki/Count%E2%80%93min_sketch" target="_blank" rel="external">Count-min Sketch algorithm</a>做近似统计.</p>
-</li>
-</ul>
-<a id="more"></a>
-<ul>
-<li><p><a href="http://www.vidarholen.net/contents/blog/?p=691" target="_blank" rel="external">An ode to pack: gzip’s forgotten decompressor</a> : 介绍了linux下面压缩命令的历史，包括<code>xz</code>, <code>bzip2</code>, <code>zip</code>, <code>compress</code>, <code>pack</code>等, 文末很简单了介绍了哈夫曼编码的机制和原理,</p>
-</li>
-<li><p><a href="https://magicly.me/fe-hpc/gpujs" target="_blank" rel="external">前端高性能计算之四：GPU加速计算</a> : 非常好的科普文，作者的其他几个文章也不错, </p>
-</li>
-</ul>
-<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://elliotec.com/how-to-get-100-google-page-speed-score/" target="_blank" rel="external">How to Get 100/100 Google Page Speed Score with Middleman and Nginx</a> : </p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=15539730" target="_blank" rel="external">Why does one NGINX worker take all the load?</a> : 文章介绍了为什么很多情况下，部分nginx进程的负载会比其他都高，几个作者自己总结的结论”a) epoll() seem to have LIFO behavior which can result in uneven load balancing across workers (in case of accept()ing from a shared socket); b) using REUSEPORT can worsen latency in a high-load case; c)…”</p>
-</li>
-<li><p><a href="https://taravancil.com/blog/how-merkle-trees-enable-decentralized-web/" target="_blank" rel="external">How Merkle trees enable the decentralized Web</a> : 作者的大概想法1) 通过对内容算hash值，作为其地址  2) 通过p2p网络构建内容的存储; 为了保障每个分布式节点内容的有效性和合法性，不同节点的内容构建起一个<code>Merkle tree</code>, 但总感觉</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://github.com/alibaba/ApsaraCache" target="_blank" rel="external">ApsaraCache: a Redis branch originated from Alibaba Group</a> : 阿里基于Redis 4.0发布的同时支持Cache/Redis协议的可持久化存储的系统</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=15507141" target="_blank" rel="external">A VIEW OF MATHEMATICS</a> : 关于现在数学的概述, 在Hack News上面也有不少推荐的文章, mark，对于数学相关的基础需要不断沉淀</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=15514805" target="_blank" rel="external">Show HN: I made an RSS News Reader that prioritizes topics you care about</a> : 作者介绍了其开发的<a href="https://www.zuperlist.com/" target="_blank" rel="external">Zuperlist</a>, “An RSS News Reader that prioritizes the topics you care about”, 个人还是非常喜欢这个模式的，比纯粹的Rss阅读器好，但又不知道头条/feed那样太娱乐化, 可以参考这篇文章的一些观点<a href="https://mp.weixin.qq.com/s/UauBrCpyMTRETs_3Wr0uRQ" target="_blank" rel="external">推荐系统意义一点思考</a></p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=15540042" target="_blank" rel="external">Ask HN: Are there drawing tool plugins to be used within forums?</a> : <a href="https://www.circuitlab.com/" target="_blank" rel="external">Circuit Lab</a> 感觉还不错，可以试试</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=15538744" target="_blank" rel="external">SSH Escape Sequences</a> : SSH的一些小技巧，可以通过类似于<code>~.</code>, <code>~~.</code>, <code>~#</code>做一些链接断开/展现类的需求</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;/images/xihu.jpg&quot; alt=&quot;西湖一景&quot;&gt;&lt;/p&gt;
-&lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://blogs.windows.com/msedgedev/2017/10/18/documenting-web-together-mdn-web-docs/#akYR4ff8rcL8TY9Q.97&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Documenting the Web together&lt;/a&gt; : 微软宣布把W3C的文档都收敛到MDN, 完成web文档的大一统，个人觉得MDN的文档真心不错，有空可以帮忙上去做一些翻译&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/3OeVknv8H60OdTPQBKFjaA&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;密钥重载攻击：强制WPA2重用Nonce&lt;/a&gt; : 先mark&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=15491553&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;VIM AFTER 15 YEARS&lt;/a&gt; : 作者使用vim整整15年，介绍了一些不错的plugin, 建议包括&lt;a href=&quot;https://github.com/junegunn/fzf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;fzf&lt;/a&gt;(命令行形式的finder) 等 &lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://meribold.github.io/2017/10/20/survey-of-cpu-caches/#listing-1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;A Survey of CPU Caches&lt;/a&gt; : 对Cpu Cache很形象的解释和图形化的说明&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/RaRe-Technologies/bounter&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;RaRe-Technologies/bounter&lt;/a&gt; : “Efficient Counter that uses a limited (bounded) amount of memory regardless of data size.”, 内部通过&lt;code&gt;HLL&lt;/code&gt;，&lt;a href=&quot;https://en.wikipedia.org/wiki/Count%E2%80%93min_sketch&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Count-min Sketch algorithm&lt;/a&gt;做近似统计.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
     
