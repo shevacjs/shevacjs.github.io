@@ -57,6 +57,91 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-0710" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/10/0710/">weekly of 20160710</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/07/10/0710/" class="article-date">
+  <time datetime="2016-07-10T02:34:36.000Z" itemprop="datePublished">2016-07-10</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><a href="https://www.infoq.com/news/2016/07/apple-lzfse-lossless-opensource" target="_blank" rel="external">Apple Open-Sources its New Compression Algorithm LZFSE</a> : 苹果开源了其在去年介绍的 LZFSE算法，相比于我们最常用的ZLib，其可以保证相同的压缩比下面, 速度有2x-3x的提升</li>
+</ul>
+<h2 id="应用实践"><a href="#应用实践" class="headerlink" title="应用实践"></a>应用实践</h2><ul>
+<li><p><a href="https://blog.cloudflare.com/why-we-use-the-linux-kernels-tcp-stack/" target="_blank" rel="external">Why we use the Linux kernel s TCP stack</a> : 关于<a href="http://jvns.ca/blog/2016/06/30/why-do-we-use-the-linux-kernels-tcp-stack/" target="_blank" rel="external">Why do we use the Linux kernel s TCP stack?</a> 的CloudFlare的blog的一个说明, 具体说明了内核栈的详情, 以及在CloudFlare的应用情况, 可以看看<a href="https://news.ycombinator.com/item?id=12021195" target="_blank" rel="external">Hacker News</a>上面的讨论</p>
+</li>
+<li><p><a href="https://openresty.gitbooks.io/programming-openresty/content/testing/test-modes.html" target="_blank" rel="external">Nginx Test Modes</a> : 本文还是章亦春主写的关于nginx测试工具的介绍，本文具体说明了nginx支持不同的测试模式</p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAwMDU1MTE1OQ==&amp;mid=2653547384&amp;idx=1&amp;sn=c2a667af2077eddfa9b1a06b67c0f33c" target="_blank" rel="external">微博众筹的架构设计</a> : 围绕在互联网金融过程中碰到核心技术架构、系统安全、数据一致性、业务开发模式等与业界进行分享及交流</p>
+</li>
+<li><p><a href="http://www.csdn.net/article/2013-04-16/2814902-how-pinterest-scaling-0-to-billions-pv" target="_blank" rel="external">Pinterest谈实战经验：如何在两年内实现零到数百亿的月访问</a> : 讲述了Pinterest如何在两年内实现零到数百亿的月访问。文中不乏决策的选择，以及每个阶段Pinterest的状况。</p>
+</li>
+<li><p><a href="http://www.jiagoushuo.com/article/1000382.html" target="_blank" rel="external">图片服务器架构演进</a> : 有给阿里云图片服务做广告的嫌疑, 但分析很全面.</p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAwMDU1MTE1OQ==&amp;mid=2653547431&amp;idx=1&amp;sn=744a42639e7c362a05aacbfbed6a988c&amp;scene=21#wechat_redirect" target="_blank" rel="external">大促系统全流量压测及稳定性保证 - 京东交易架构分享</a> : 对于应对突发的峰值访问，每个技术团队都有自己的经验及方法，但是这些方法远没有得到体系化的讨论。本文是杨超介绍京东交易系统如何应对高压的实践。</p>
+</li>
+<li><p><a href="http://www.infoq.com/cn/news/2016/06/middleware-operations" target="_blank" rel="external">专访阿里云高级专家赵林：从0到1，中间件的研发运维之路</a> : 为什么阿里云把中间件作为进入企业级市场的重要武器？</p>
+</li>
+<li><p><a href="http://brizer.github.io/2016/07/08/%E6%B5%85%E8%B0%88web%E6%9E%B6%E6%9E%84%E4%B9%8B%E6%BC%94%E5%8C%96%E8%BF%87%E7%A8%8B/?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">浅谈web架构之演化过程</a> : 本文只是简单的说了下书中所讲到的网站发展过程的基本流程。但是笔者观望下自己所处的环境，发现既然全部都有用到。说明实用性确实很强。</p>
+</li>
+<li><p><a href="http://tech.meituan.com/mq-design.html" target="_blank" rel="external">消息队列设计精要</a> : 设计消息队列的整体思路是先 build 一个整体的数据流,例如 producer 发送给 broker, broker 发送给 consumer, consumer 回复消费确认，broker 删除/备份消息等</p>
+</li>
+<li><p><a href="http://dockone.io/article/1517?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">代码与基础设施：我们的持续交付之路</a> : 如你所见，我们将常见的和手工的任务转换成了Jenkins任务，不过重要的是要知道，这个方法着重于给我们的团队和客户分发更好的服务。我们尽量不强制已投入使用的系统应用这类变更或为其增加更多复杂度。我们的规则是为过程增加自动化、可见性及秩序，但同时保持简单。</p>
+</li>
+<li><p><a href="http://geek.csdn.net/news/detail/85333" target="_blank" rel="external">关于反爬虫，看这一篇就够了</a> : 很全面的讲了关于爬虫相关的知识点</p>
+</li>
+</ul>
+<h2 id="资料工具"><a href="#资料工具" class="headerlink" title="资料工具"></a>资料工具</h2><ul>
+<li><p><a href="http://static.googleusercontent.com/media/research.google.com/zh-TW//pubs/archive/44686.pdf" target="_blank" rel="external">High-Availability at Massive Scale: Building Google’s Data Infrastructure for Ads</a> : 比较老的文章，但是是关于稳定性的很好的说明；虽然做的事情差不多，但是站在的角度和抽象的能力的确值得学习</p>
+</li>
+<li><p><a href="http://www.slideshare.net/SreenivasMakam/docker-security-overview?from_action=save" target="_blank" rel="external">Docker Security Overview</a> : 关于docker的安全机制的介绍；其实就是对docker的特性以及Linux提供的特性的系统性说明，包括namespace, cgroup, Seccomp 等介绍</p>
+</li>
+<li><p><a href="http://ued.qq.com/2016/05/27/yqmylyzcdsjdsslm/" target="_blank" rel="external">一切没有理论支撑的设计行为都是耍流氓</a> : 我们制图的时候可以考虑色彩的搭配，最后一句可以记住, “主色占60%，剩余两色分别为30%和10%”</p>
+</li>
+<li><p><a href="https://github.com/yjhjstz/deep-into-node" target="_blank" rel="external">深入理解Node.js：核心思想与源码分析</a> : 本书通过分析 node 核心模块的实现，向读者阐述 node 异步 IO，事件循环的核心思想。帮助开发者更好的使用 Node.js。通过追溯 node 社区开发issue, 探讨 node 的变迁和演进，学习 node.js 的设计哲学</p>
+</li>
+<li><p><a href="http://dockone.io/article/1519?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">微服务实战：从架构到部署</a> : 涵盖微服务架构（MSA）的核心架构概念，以及如何在实践中使用这些架构理论。</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-0626" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -667,67 +752,6 @@
       <footer class="article-footer">
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-nginx_1_9_13" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/30/nginx_1_9_13/">nginx 1.9.13 特性说明</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2016/03/30/nginx_1_9_13/" class="article-date">
-  <time datetime="2016-03-30T06:17:29.000Z" itemprop="datePublished">2016-03-30</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">*) Change: non-idempotent requests (POST, LOCK, PATCH) are no longer</div><div class="line">passed to the next server by default if a request has been sent to a</div><div class="line">backend; the &quot;non_idempotent&quot; parameter of the &quot;proxy_next_upstream&quot;</div><div class="line">directive explicitly allows retrying such requests.</div><div class="line"></div><div class="line">*) Feature: the ngx_http_perl_module can be built dynamically.</div><div class="line"></div><div class="line">*) Feature: UDP support in the stream module.</div><div class="line"></div><div class="line">*) Feature: the &quot;aio_write&quot; directive.</div><div class="line"></div><div class="line">*) Feature: now cache manager monitors number of elements in caches and</div><div class="line">tries to avoid cache keys zone overflows.</div><div class="line"></div><div class="line">*) Bugfix: &quot;task already active&quot; and &quot;second aio post&quot; alerts might</div><div class="line">appear in logs when using the &quot;sendfile&quot; and &quot;aio&quot; directives with</div><div class="line">subrequests.</div><div class="line"></div><div class="line">*) Bugfix: &quot;zero size buf in output&quot; alerts might appear in logs if</div><div class="line">caching was used and a client closed a connection prematurely.</div><div class="line"></div><div class="line">*) Bugfix: connections with clients might be closed needlessly if</div><div class="line">caching was used.</div><div class="line">Thanks to Justin Li.</div><div class="line"></div><div class="line">*) Bugfix: nginx might hog CPU if the &quot;sendfile&quot; directive was used on</div><div class="line">Linux or Solaris and a file being sent was changed during sending.</div><div class="line"></div><div class="line">*) Bugfix: connections might hang when using the &quot;sendfile&quot; and &quot;aio</div><div class="line">threads&quot; directives.</div><div class="line"></div><div class="line">*) Bugfix: in the &quot;proxy_pass&quot;, &quot;fastcgi_pass&quot;, &quot;scgi_pass&quot;, and</div><div class="line">&quot;uwsgi_pass&quot; directives when using variables.</div><div class="line">Thanks to Piotr Sikora.</div><div class="line"></div><div class="line">*) Bugfix: in the ngx_http_sub_filter_module.</div><div class="line"></div><div class="line">*) Bugfix: if an error occurred in a cached backend connection, the</div><div class="line">request was passed to the next server regardless of the</div><div class="line">proxy_next_upstream directive.</div><div class="line"></div><div class="line">*) Bugfix: &quot;CreateFile() failed&quot; errors when creating temporary files on</div><div class="line">Windows.</div></pre></td></tr></table></figure>
-<p>这一期的feature和功能还是很多的，下面重点说明几个: </p>
-<h2 id="upstream-重试策略"><a href="#upstream-重试策略" class="headerlink" title="upstream 重试策略"></a>upstream 重试策略</h2><p>这个问题的背景初现于<a href="https://trac.nginx.org/nginx/ticket/488#comment:4" target="_blank" rel="external">proxy_next_upstream_action to distinguish different network actions</a>, 整体意思是: 默认情况下，nginx对于upstream的重试，是不加以区别的，尤其对于一些非幂等操作的请求(PUT, LOCK, PATCH)也是如此，这样的策略对业务可能存在一定的风险, 所以需要加以控制，如下是新的<code>proxy_next_upstream</code>的说明 :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">* non_idempotent</div><div class="line">normally, requests with a non-idempotent method (POST, LOCK, PATCH) are not passed to the next server if a request has been sent to an upstream server (1.9.13); enabling this option explicitly allows retrying such requests</div></pre></td></tr></table></figure>
-<p>也就是从<code>1.9.13</code> 版本开始，nginx默认不会重试一个已经发出去的POST请求, 需要通过<code>non_idempotent</code> 进行控制</p>
-<blockquote>
-<p>!!! : 这个和贴吧现有的策略不一致，迁移的时候需要注意</p>
-</blockquote>
-<h2 id="aio-write"><a href="#aio-write" class="headerlink" title="aio_write"></a>aio_write</h2><p>这个指令允许，我们在写文件的时候，也是一个异步的过程，之前的<code>aio</code>主要是允许读操作进行异步，具体<a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#aio_write" target="_blank" rel="external">官方解释</a>如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">If aio is enabled, specifies whether it is used for writing files. Currently, this only works when using aio threads and is limited to writing temporary files with data received from proxied servers</div></pre></td></tr></table></figure>
-<p>注意 : 现在异步写只是在接收proxy的返回包体使用的，其他地方并未开启</p>
-<p>关于nginx的异步文件IO机制，具体可以见之前的一篇文章 : <a href="http://nginx.baidu.com/book/nginx_dev_manual/internal/io_in_linux_and_nginx.html" target="_blank" rel="external">linux和nginx下的异步文件IO管理</a></p>
-<h2 id="UDP-Proxy支持"><a href="#UDP-Proxy支持" class="headerlink" title="UDP Proxy支持"></a>UDP Proxy支持</h2><p>这个版本开始，同样开始支持UDP代理了, 整个UDP代理其实和做一个TCP代理，至少理解上面不会查很多，如下是一个具体UDP代理的配置</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="section">server</span> &#123;</div><div class="line">    <span class="attribute">listen</span> <span class="number">53</span> udp;</div><div class="line">    <span class="attribute">proxy_responses</span> <span class="number">1</span>;</div><div class="line">    <span class="attribute">proxy_timeout</span> <span class="number">20s</span>;</div><div class="line">    <span class="attribute">proxy_pass</span> dns.example.com:<span class="number">53</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这里面可以去思考的一个问题是:   </p>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
 
       </footer>
     

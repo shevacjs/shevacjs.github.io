@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>PAC文件 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="概述PAC文件(Proxy Auto-Config)可以约定浏览器如何去访问一个特定的网站。其应该是最为常见的代理技术之一，以其方便，简洁，灵活性被大部分主流系统(无论是安卓还是IOS)和浏览器所支持。正好最近处理了一个PAC的问题，所以这里具体介绍PAC相关的技术，包括PAC的文件编写和PAC的代理技术。 PAC文件编写如上，PAC是一个用来约定浏览器如何访问网站的配置描述。其组织方式如下: 1">
+<meta name="keywords" content="nginx, proxy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PAC文件">
+<meta property="og:url" content="http://shevacjs.com/2018/04/21/about_pac/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="概述PAC文件(Proxy Auto-Config)可以约定浏览器如何去访问一个特定的网站。其应该是最为常见的代理技术之一，以其方便，简洁，灵活性被大部分主流系统(无论是安卓还是IOS)和浏览器所支持。正好最近处理了一个PAC的问题，所以这里具体介绍PAC相关的技术，包括PAC的文件编写和PAC的代理技术。 PAC文件编写如上，PAC是一个用来约定浏览器如何访问网站的配置描述。其组织方式如下: 1">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://shevacjs.com/images/http_tunnel_demo.png">
+<meta property="og:updated_time" content="2018-04-21T11:25:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PAC文件">
+<meta name="twitter:description" content="概述PAC文件(Proxy Auto-Config)可以约定浏览器如何去访问一个特定的网站。其应该是最为常见的代理技术之一，以其方便，简洁，灵活性被大部分主流系统(无论是安卓还是IOS)和浏览器所支持。正好最近处理了一个PAC的问题，所以这里具体介绍PAC相关的技术，包括PAC的文件编写和PAC的代理技术。 PAC文件编写如上，PAC是一个用来约定浏览器如何访问网站的配置描述。其组织方式如下: 1">
+<meta name="twitter:image" content="http://shevacjs.com/images/http_tunnel_demo.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-about_pac" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      PAC文件
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/04/21/about_pac/" class="article-date">
+  <time datetime="2018-04-21T11:18:29.000Z" itemprop="datePublished">2018-04-21</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><a href="https://en.wikipedia.org/wiki/Proxy_auto-config" target="_blank" rel="external">PAC文件</a>(Proxy Auto-Config)可以约定浏览器如何去访问一个特定的网站。其应该是最为常见的代理技术之一，以其方便，简洁，灵活性被大部分主流系统(无论是安卓还是IOS)和浏览器所支持。正好最近处理了一个PAC的问题，所以这里具体介绍PAC相关的技术，包括PAC的文件编写和PAC的代理技术。</p>
+<h2 id="PAC文件编写"><a href="#PAC文件编写" class="headerlink" title="PAC文件编写"></a>PAC文件编写</h2><p>如上，PAC是一个用来约定浏览器如何访问网站的配置描述。其组织方式如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//code demo from: https://en.wikipedia.org/wiki/Proxy_auto-config</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">FindProxyForURL</span>(<span class="params">url, host</span>) </span>&#123;</div><div class="line">	<span class="comment">// our local URLs from the domains below example.com don't need a proxy:</span></div><div class="line">	<span class="keyword">if</span> (shExpMatch(host, <span class="string">"*.example.com"</span>))</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> <span class="string">"DIRECT"</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// URLs within this network are accessed through</span></div><div class="line">	<span class="comment">// port 8080 on fastproxy.example.com:</span></div><div class="line">	<span class="keyword">if</span> (isInNet(host, <span class="string">"10.0.0.0"</span>, <span class="string">"255.255.248.0"</span>))</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> <span class="string">"PROXY fastproxy.example.com:8080"</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// All other requests go through port 8080 of proxy.example.com.</span></div><div class="line">	<span class="comment">// should that fail to respond, go directly to the WWW:</span></div><div class="line">	<span class="keyword">return</span> <span class="string">"PROXY proxy.example.com:8080; DIRECT"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其核心是暴露一个<code>FindProxyForURL</code>的接口，每次有请求时候触发这个函数的回调，用于判断具体走哪种方式。 具体编写应用时，有如下几点可以注意: </p>
+<ul>
+<li><p>url/host信息 : 如果请求是<code>https</code>协议，则回调的url里面并不会包含完整路径信息, 也就是说如果原始的url是<code>https://xyz.com/abc</code>回调给<code>FindProxyForURL</code>的参数也只是<code>https://xyz.com</code>, 这就意味着对于https协议，我们做不了url粒度的代理控制。具体可以参考<a href="https://github.com/FelisCatus/SwitchyOmega/issues/845" target="_blank" rel="external">Full URLs for HTTPS are no longer provided to PAC scripts</a></p>
+</li>
+<li><p>调试问题: PAC的调试和普通js的调试有点不一样，其是浏览器自动触发请求的，所以方法也有些区别。在Chrome环境下，可以去<code>chrome://net-internals/#proxy</code>用于重新加载代理脚本, 同时在<code>chrome://net-internals/#events</code>去追踪日志，详细可以参考<a href="http://artica-proxy.com/how-to-debug-proxy-pac-with-google-chrome/" target="_blank" rel="external">How to debug proxy.pac with Google Chrome</a></p>
+</li>
+<li><p>代理问题 : 无论是怎么样的代理策略，最终我们函数需要返回的是一个代理服务器, 现在主流的浏览器主要支持如下三种访问方式:</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>指令类型</th>
+<th>方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DIRECT</td>
+<td>直接访问</td>
+</tr>
+<tr>
+<td>PROXY name:port</td>
+<td>通过走特定地址的http代理访问</td>
+</tr>
+<tr>
+<td>SOCKS name:port</td>
+<td>通过走特定地址的socks代理访问</td>
+</tr>
+</tbody>
+</table>
+<p>具体实现的时候也可以通过不同协议的组合或者冗余，来提供更高质量的代理服务。</p>
+<p>这里我们重点关注<code>PROXY name:port</code>的方式，其提供的是一个HTTP代理访问的能力支持, 我们现在主流有http/https两个访问协议，其又具体如何去实现代理的呢？</p>
+<h2 id="HTTP代理"><a href="#HTTP代理" class="headerlink" title="HTTP代理"></a>HTTP代理</h2><p>如上，我们希望通过一个http/https服务来提供对<code>http/https</code>访问的代理。如果是仅仅代理<code>HTTP</code>访问, 其实算比较简单。由于是纯文本，也无需任何鉴权之类的逻辑(TLS)，只有正常转发请求即可，普通的Nginx就能实现该功能，可以参考<a href="http://shevacjs.com/2015/04/25/nginx_https_proxy/">nginx与https:正向代理支持</a>(原文有些地方有错误之处)。但是如何基于http/https的服务做<code>https</code>的代理呢? 因为对服务器的验证等不可能是代理服务器自己实现的，故而需要代理服务器，根本上面支持<code>TLS</code>或者更底层的服务代理。</p>
+<p>这里需要用到<a href="https://en.wikipedia.org/wiki/HTTP_tunnel" target="_blank" rel="external">HTTP tunnel</a>技术, 其主要包括两个步骤:</p>
+<ol>
+<li>协商阶段: 这个时候Client发送一个<code>CONNECT</code>指令，连接代理服务器，同时告诉代理服务器具体要访问的地址, 具体如下: </li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">## Client发送CONNECT指令</div><div class="line">CONNECT example.host.com:22 HTTP/1.1</div><div class="line">Proxy-Authorization: Basic encoded-credentials</div><div class="line"></div><div class="line">## 服务器返回OK，这这次协商完成，允许代理</div><div class="line">HTTP/1.1 200 OK</div></pre></td></tr></table></figure>
+<p>如上其实是一个正常标准的HTTP交互流程</p>
+<ol>
+<li>代理阶段 : 一旦协商OK，代理服务器这个时候有点类似于要转变成<code>TCP代理</code>，只做透明的client和server之间的数据转发</li>
+</ol>
+<p>可以通过一个<code>wireshark</code>的请求包，来进一步了解给过程: </p>
+<p><img src="/images/http_tunnel_demo.png" alt="HTTP tunnel"></p>
+<h2 id="HTTP代理实现"><a href="#HTTP代理实现" class="headerlink" title="HTTP代理实现"></a>HTTP代理实现</h2><p>从HTTP代理的协议我们可以知道，如果一个服务器要实现HTTP tunnel代理既要支持HTTP的CONNECT指令，也得支持<code>TLS</code>或者<code>TCP</code>的代理。这个要求对于之前的nginx是很难实现的，所以大部分的解决方案都是基于<code>squid</code>，当然我们知道通过<a href="https://github.com/chobits/ngx_http_proxy_connect_module" target="_blank" rel="external">ngx_http_proxy_connect_module</a>也能实现，但是需要打上patch包，维护成本相对较高。</p>
+<p>那有没有可能用更便捷的方式，让Nginx实现HTTP tunnel代理呢？答案是肯定的！</p>
+<p>我们知道Nginx已经通过<code>ngx_stream_core_module</code>, <code>ngx_stream_proxy_module</code>等模块这次了TCP/UDP的代理，加上<a href="https://github.com/openresty/stream-lua-nginx-module" target="_blank" rel="external">openresty/stream-lua-nginx-module</a>的支持，我们可以很方便的去实现上面的代理协议。整体思路如下:</p>
+<ol>
+<li>应用nginx的stream能力，做TCP的透明代理</li>
+<li>对于初次建立链接的请求，做一些包体的分析，如果是CONNECT方式，则以HTTP方式返回数据，构建协商协议</li>
+<li>协商之后，则以TCP代理方式提供服务即可</li>
+</ol>
+<p>整体代码配置如下:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="section">stream</span> &#123;</div><div class="line">	<span class="attribute">log_format</span> basic <span class="string">'<span class="variable">$remote_addr</span> [<span class="variable">$time_local</span>] '</span></div><div class="line">					 <span class="string">'<span class="variable">$protocol</span> <span class="variable">$status</span> <span class="variable">$bytes_sent</span> <span class="variable">$bytes_received</span> '</span></div><div class="line">					 <span class="string">'<span class="variable">$session_time</span>'</span>;</div><div class="line"></div><div class="line">    <span class="comment">## 需要声明一个变量，注意该指令在stream-lua-nginx-module-0.0.4版本以上才有</span></div><div class="line">    <span class="attribute">lua_add_variable</span> <span class="variable">$py_upstream</span>;</div><div class="line"></div><div class="line">    <span class="section">server</span> &#123;</div><div class="line">        <span class="attribute">listen</span> <span class="number">7070</span>;</div><div class="line"></div><div class="line">		<span class="attribute">access_log</span> logs/stream.log basic;</div><div class="line"></div><div class="line">        <span class="comment">## 指定dns解析代理服务器</span></div><div class="line">        <span class="attribute">resolver</span> <span class="number">8.8.8.8</span>;</div><div class="line"></div><div class="line">        <span class="comment">## preread_by_lua是在每次连接建立(TCP)或者数据包(UDP)过来被触发调用</span></div><div class="line">        <span class="comment">## 代码无太多容错性，仅用于描述功能</span></div><div class="line">        <span class="section">preread_by_lua_block</span> &#123;</div><div class="line">            <span class="attribute">local</span> sock = assert(ngx.req.socket(<span class="literal">true</span>))</div><div class="line">            <span class="comment">## 获取数据</span></div><div class="line">            local data = sock:receive()</div><div class="line">            local len = string.len(data)</div><div class="line">            local connect = string.sub(data,<span class="number">1</span>, <span class="number">7</span>)</div><div class="line"></div><div class="line">            <span class="comment">## ngx.log(ngx.ERR, "data is: ", data)</span></div><div class="line">            <span class="comment">## 判断前缀是不是"CONNECT"</span></div><div class="line">            if connect ~= <span class="string">"CONNECT"</span> then</div><div class="line">                ngx.log(ngx.ERR, <span class="string">"prefix scheme is connect, is: "</span>, connect)</div><div class="line">                ngx.exit()</div><div class="line">            end</div><div class="line"></div><div class="line">            <span class="comment">## 获取要发送的域名端口信息</span></div><div class="line">            local end_start,end_pos = string.find(data,<span class="string">" "</span>, <span class="number">9</span>)</div><div class="line">            local hostname = string.sub(data,<span class="number">9</span>, end_start - <span class="number">1</span>)</div><div class="line">            ngx.log(ngx.ERR, <span class="string">"hostname is: "</span>, hostname)</div><div class="line"></div><div class="line">            <span class="comment">## 回填到py_upstream变量，以便proxy_pass调用</span></div><div class="line">            ngx.var.py_upstream = hostname</div><div class="line"></div><div class="line">            <span class="comment">## 以正常HTTP方式返回，完成协商</span></div><div class="line">            ngx.say(<span class="string">"HTTP/1.1 200 OK\r\n"</span>)</div><div class="line">            ngx.flush()</div><div class="line">            ngx.eof()</div><div class="line">        &#125;</div><div class="line">        <span class="comment">## 正向代理</span></div><div class="line">        proxy_pass <span class="variable">$py_upstream</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如上，就能完成一个<code>http tunnel</code>协议的功能。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><p><a href="http://jdebp.eu./FGA/web-browser-auto-proxy-configuration.html" target="_blank" rel="external">Automatic proxy HTTP server configuration in web browsers</a> : 对PAC协议，实现，规则有详细的描述</p>
+</li>
+<li><p><a href="https://en.wikipedia.org/wiki/HTTP_tunnel" target="_blank" rel="external">HTTP tunnel</a> : 具体介绍<code>HTTP tunnel</code>的机制, 也就是http proxy代理https请求的常规方法</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT" target="_blank" rel="external">MDN HTTP: CONNECT</a> : HTTP CONNECT方法</p>
+</li>
+<li><p><a href="https://github.com/chobits/ngx_http_proxy_connect_module" target="_blank" rel="external">A forward proxy module for CONNECT request handling</a> : 一个Nginx patch/扩展, 可以支持HTTP tunnel的<code>CONNECT</code>请求， 支持<code>Forward Proxy</code></p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx-proxy/">nginx, proxy</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/18/20180415/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20180415&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  var disqus_url = 'http://shevacjs.com/2018/04/21/about_pac/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

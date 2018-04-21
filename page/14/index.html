@@ -57,6 +57,70 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-distribute_store_system" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/10/distribute_store_system/">分布式存储系统总结</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/01/10/distribute_store_system/" class="article-date">
+  <time datetime="2015-01-10T08:20:03.000Z" itemprop="datePublished">2015-01-10</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="核心问题"><a href="#核心问题" class="headerlink" title="核心问题"></a>核心问题</h2><p>分布式存储系统VS单机存储: 存储在多个机器!!!</p>
+<p>引发的问题:</p>
+<p>原来:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client --&gt; store system</div></pre></td></tr></table></figure>
+<p>变成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">client ___&gt; st1</div><div class="line">        \_&gt; st2</div><div class="line">        \_&gt; st3</div></pre></td></tr></table></figure>
+<ol>
+<li>存储的分布式: 哪种策略做分布式(client-&gt;st的策略)：负载均衡，支持扩展性;</li>
+<li>容错性: st1,st2…容易出现异常，系统需要具有容错的能力;</li>
+<li>事务性的支持: 传统单机的事务保证如果在分布式系统给予支持;</li>
+</ol>
+<h2 id="设计考虑"><a href="#设计考虑" class="headerlink" title="设计考虑"></a>设计考虑</h2><p>根据具体的存储数据模式，对整个系统的设计也相差很大，下面是一个简单的划分:</p>
+<ol>
+<li>分布式文件系统:</li>
+<li>分布式键值系统：</li>
+<li>分布式表格系统:</li>
+<li>分布式数据库:</li>
+</ol>
+<p>个人理解，上面四个系统的功能逐渐复杂，系统设计也是依次复杂;</p>
+<h2 id="核心协议"><a href="#核心协议" class="headerlink" title="核心协议"></a>核心协议</h2><blockquote>
+<p>个人理解</p>
+</blockquote>
+<p>核心协议拥有抽象分布式系统常见的问题，并且提供一个通用的解决方案，这里面主要说到两个比较重要的协议</p>
+<p>### </p>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-rsync_bitch_about" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
