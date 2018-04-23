@@ -57,6 +57,84 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-20180225" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/06/20180225/">weekly of 20180225</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/03/06/20180225/" class="article-date">
+  <time datetime="2018-03-06T04:27:45.000Z" itemprop="datePublished">2018-03-06</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://instantdomainsearch.com/" target="_blank" rel="external">Use streaming JSON to speed up your website</a> : 作者提出了，通过http的chunk机制以及Json的<a href="https://github.com/eBay/jsonpipe" target="_blank" rel="external">jsonpipe library</a>来断点, 分片传输结果数据, 可以参考下</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw==&amp;mid=2247487440&amp;idx=1&amp;sn=230462b054753c6d0a0a155f82ed9993&amp;chksm=96c9b9b0a1be30a624890e1f529058a9ca5b6206bfc9179ecd05843cc78b563599ade9967758#rd" target="_blank" rel="external">LLVM：Swift、Rust等语言背后那个默默付出的女人</a> : 有点标题党，不错这篇文章对LLVM的功能，应用场景，以及不足之处都有简单的介绍，可以了解LLVM的优缺点</p>
+</li>
+<li><p><a href="http://nginx.org/en/CHANGES" target="_blank" rel="external">Nginx: 1.13.9</a> : Nginx的最新版本, 支持<code>HTTP/2 server push support; the &quot;http2_push&quot; and &quot;http2_push_preload&quot; directives.</code>, 详细的用法和机制可以参考Nginx官方博客的<a href="https://www.nginx.com/blog/nginx-1-13-9-http2-server-push/" target="_blank" rel="external">Introducing HTTP/2 Server Push with NGINX 1.13.9</a> 这篇文章</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://muratbuffalo.blogspot.com/2018/02/paper-review-ipfs-content-addressed.html" target="_blank" rel="external">Paper review. IPFS: Content addressed, versioned, P2P file system</a> : IPFS最近被普遍认为会是一个改变下一步互联网的技术，其非中心化的特性以及基于内容hash的索引使得我们在内容安全，查找等多方面都有进一步的优势，作者肯定其思路和创意，同时也提出了一些对IPFS的看法，比如说P2P的网络如何和移动设备关联推广起来, P2P的内容管理对现在中心化的产品以及交互的改变(比如Googl如何索引内容)等, 可以加深对整个IPFS的理解和认识</p>
+</li>
+<li><p><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.62.7953&amp;rep=rep1&amp;type=pdf" target="_blank" rel="external">Scalable Bloom Filters(PDF)</a> : 作者介绍了一个可扩展的布隆过滤器方法, 核心思路是通过增加新的slot来构建一定数量和准确率要求下的过滤器</p>
+</li>
+</ul>
+<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://github.com/Submanifold/latex-mimosis" target="_blank" rel="external">latex-mimosis: A minimal &amp; modern template for your thesis</a> : 一个论文/Paper的LaTex的模板, 个人感觉还是很优雅的，这几天有空完全熟悉下</p>
+</li>
+<li><p><a href="https://www.checkbot.io/" target="_blank" rel="external">Checkbot: Test your site follows 50+ SEO, speed &amp; security best practices</a> : 一个检验特定网站是否满足一些SEO规则的Chrome扩展，可以检测包括死链，是否页面/标题重复等特性</p>
+</li>
+<li><p><a href="https://hackernoon.com/securing-your-linux-web-server-2be683c223eb" target="_blank" rel="external">Securing your Linux web server</a> : 介绍了如何防护个人的web server，从帐号保护，运行时进程行为监控等多方面进行；不过介绍的太过琐碎，感觉此类问题最好能够交付出成套的解决方案</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2651001305&amp;idx=1&amp;sn=1593b0a727a2f62de331165096274ff7" target="_blank" rel="external">春节假期技术圈都发生了哪些大新闻？</a> : 可以简单了解下</p>
+</li>
+<li><p><a href="https://wx4.sinaimg.cn/mw690/006lALW6ly1fop7cqcl9wj30sy2lsq9w.jpg" target="_blank" rel="external">Google内部的一些核心技术，以及外部对应的开源项目整理</a> : 可以关注下<code>Dremel UI</code>, <code>Blaze</code>, <code>styleguide</code>, 其中<code>Dremel UI</code>对应着<a href="https://redash.io/" target="_blank" rel="external">redash</a></p>
+</li>
+<li><p><a href="Industrial-Strength Natural Language Processing">spaCy</a> : 一个这次多语言的NLP工具，不过现在并不支持中文，看Demo感觉入门应该挺方便的</p>
+</li>
+<li><p><a href="http://cockpit-project.org/" target="_blank" rel="external">Cockpit</a> : Cockpit is a server manager that makes it easy to administer your GNU/Linux servers via a web browser</p>
+</li>
+<li><p><a href="https://github.com/google/pprof" target="_blank" rel="external">Google: Pprof</a> : pprof is a tool for visualization and analysis of profiling data, 一个可视化pprof数据的工具, 可惜没有示意图</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20180218" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -798,72 +876,6 @@
       <footer class="article-footer">
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/misc/">misc</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20171112" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/20/20171112/">weekly of 20171112</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/11/20/20171112/" class="article-date">
-  <time datetime="2017-11-20T08:31:45.000Z" itemprop="datePublished">2017-11-20</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>最近略忙, 大部分weekly都延迟了</p>
-</blockquote>
-<p><img src="/images/milan_church.jpg" alt="米兰大教堂"></p>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="http://ialloc.org/posts/2017/11/03/ngx-notes-prerequisite/#id2" target="_blank" rel="external">Nginx 源代码笔记 - Prerequisite</a> : 之前推荐过这个博主的文章, 这篇是比较新的介绍nginx核心处理流程, 对于filter等执行顺序也有比较深入的介绍</p>
-</li>
-<li><p><a href="https://www.ibm.com/developerworks/cn/linux/l-lo-eBPF-history/index.html" target="_blank" rel="external">eBPF 简史</a> : “高屋建瓴深入浅出”, 非常好的<code>eBPF</code>系统性介绍, 对这方面有认识的，可以深入了解下</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://brandur.org/redis-streams" target="_blank" rel="external">Redis Streams and the Unified Log</a> : 本文主要介绍了redis新的将要支持的<code>streams</code>机制, 其设计功能类似于<code>kafaka</code>, 用于全局统一的日志/事件记录, 作者任务redis对于精细简单任务更为适合，也更容易上手;</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzI0MjczMjM2NA==&amp;mid=2247483872&amp;idx=1&amp;sn=db0fbb2bec0d4e68593f1b9bfc20a8b5" target="_blank" rel="external">爱奇艺个性化推荐排序实践</a> : 具体介绍了爱奇艺的推荐架构里面排序层的实践，从最原始的<code>LR</code>, 到现在的多层<code>DNN+GBDT+FM</code>, 如果理解是对技术的不断机制追求的探索</p>
-</li>
-</ul>
-        
-          <p class="article-more-link">
-            <a href="/2017/11/20/20171112/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
 
       </footer>
     

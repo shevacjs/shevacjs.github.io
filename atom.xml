@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2018-04-21T11:25:48.000Z</updated>
+  <updated>2018-04-23T03:09:19.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,61 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20180422</title>
+    <link href="http://shevacjs.com/2018/04/23/20180422/"/>
+    <id>http://shevacjs.com/2018/04/23/20180422/</id>
+    <published>2018-04-23T03:03:45.000Z</published>
+    <updated>2018-04-23T03:09:19.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/football_stadium.jpg" alt="中超现场"></p>
+<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://news.ycombinator.com/item?id=16862925" target="_blank" rel="external">Facebook Container for Firefox</a> : Firefox发布了一个支持自动隔离facebook的扩展, 其实现在的feed机制也一直在窃取各种个人信息，mark后续研究下，在国内互联网，这类的数据是如何传播传递的，同时又如何可以避免~</p>
+</li>
+<li><p><a href="http://www.graalvm.org/" target="_blank" rel="external">GraalVM</a> : “GraalVM is a universal virtual machine for running applications written in JavaScript, Python, Ruby, R, JVM-based languages like Java, Scala, Kotlin, and LLVM-based languages such as C and C++”, Oracle出品的，意在构建一个统一的VM，看其文档，应该包括对整个编译链的支持(比如支持定制化构建自己的语言)，先mark关注</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16888605" target="_blank" rel="external">FFmpeg 4.0 released</a> : 最新版的FFmpeg好像有不少新的功能</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16889181" target="_blank" rel="external">Mermaid: Markdown-like generation of diagrams and flowcharts from text</a> : 有点类似于<code>Dot</code>语言的规则模式，不过其在生成图片的配色方面更好看一些，不过整体图片的布局还是需要进一步的优化,其也被gitlab所<a href="https://docs.gitlab.com/ee/user/markdown.html#mermaid" target="_blank" rel="external">支持</a></p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://blog.benjojo.co.uk/post/scan-ping-the-internet-hilbert-curve" target="_blank" rel="external">Mapping the whole internet with Hilbert curves</a> : 作者通过对全部IPV4的扫描, 并以可视化的方式(Hilbert曲线)展示全球IP的活跃情况</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/mYuEt2jFRcO1rbWEe9qL-g" target="_blank" rel="external">谷歌前员工因建言YouTube被炒鱿鱼，开源揭秘其算法</a> : 推荐算法越来越多影响着我们的生活, 但是其对人的影响却很难量化去描述, 本文讲述了Google前员工对于透明推荐算法运动的推进。个人认为，让用户可以透明的了解自己的推荐策略和算法，或者可以让用户自己去定制这方面的算法，Maybe也是一个不错的产品选择。</p>
+</li>
+<li><p><a href="https://eng.uber.com/rethinking-gps/" target="_blank" rel="external">Rethinking GPS: Engineering Next-Gen Location at Uber</a> : </p>
+</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://medium.com/@anildash/the-missing-building-blocks-of-the-web-3fa490ae5cbc" target="_blank" rel="external">The Missing Building Blocks of the Web</a> :  现在互联网的一切好像都是理所当然的，比如中心化的服务交付，基于js/css等技术组合的web页面, 作者的这个系列从不忘初心开始, 讨论早期互联网技术的设计偏好，以及研究其在发展历程中间的演变，最后分析以后互联网技术发展的方向，同时可以关注的文章还有<a href="https://www.oreilly.com/ideas/its-time-to-rebuild-the-web" target="_blank" rel="external">It’s time to rebuild the web</a>和<a href="http://anildash.com/2012/12/13/the_web_we_lost/" target="_blank" rel="external">The Web We Lost</a></p>
+</li>
+<li><p><a href="https://betanalpha.github.io/assets/case_studies/probability_theory.html" target="_blank" rel="external">Probability Theory (For Scientists and Engineers)</a> : mark</p>
+</li>
+<li><p><a href="https://medium.com/@buckhx/unwinding-uber-s-most-efficient-service-406413c5871d" target="_blank" rel="external">Unwinding Uber’s Most Efficient Service</a> : mark</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247489926&amp;idx=1&amp;sn=e26ee3315236e646a5e6e78bcebfe705" target="_blank" rel="external">机器学习宗师迈克尔·乔丹：AI革命尚未发生</a> : 作者认为，技术变更的本质是『在保证安全的前提下，为人们带来新的资源和能力』，所以我们系统更系统宏观的考虑现实世界的问题，AI(或者文中所说的IA)，会是我们构建更理想目标世界(<code>II</code>(Intelligent Infrastruction))的一个强有力的工具手段，但是不会是全部，而且也很难奢望通过AI等就能自动学习构建更理想的社会。另一方面，从II的视角去考虑问题，可能会更快的触达本质。以自动驾驶为例，我们现在的从IA(AI)的角度，核心的注意力在于让汽车去拥有人的判断力；但是从II的角度，去构建一个更高效的交通体系，其会自动化控制所有汽车，通过大规模的物联网，机器学习算法去做调度控制，可能是一个更好的选择(这段纯属自己臆想)。</p>
+</li>
+<li><p><a href="https://zhuanlan.zhihu.com/p/35925589" target="_blank" rel="external">InnoDB 存储引擎原理解析</a> : 关于Innodb的介绍，不过是纯PPT版本，有些内容只看图片并不直观</p>
+</li>
+<li><p><a href="https://weibo.com/1560906700/GcZescpzI" target="_blank" rel="external">关于Pornhub的一些产品细节和道德节操</a> : 挺有意思的一个说明, Maybe只有压力没那么大的一些产品，对于用户体验和产品细节才会如此用心</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/football_stadium.jpg&quot; alt=&quot;中超现场&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
+&lt;
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>PAC文件</title>
@@ -1318,67 +1373,6 @@
     
     
       <category term="misc" scheme="http://shevacjs.com/tags/misc/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20171112</title>
-    <link href="http://shevacjs.com/2017/11/20/20171112/"/>
-    <id>http://shevacjs.com/2017/11/20/20171112/</id>
-    <published>2017-11-20T08:31:45.000Z</published>
-    <updated>2017-11-21T12:03:14.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>最近略忙, 大部分weekly都延迟了</p>
-</blockquote>
-<p><img src="/images/milan_church.jpg" alt="米兰大教堂"></p>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="http://ialloc.org/posts/2017/11/03/ngx-notes-prerequisite/#id2" target="_blank" rel="external">Nginx 源代码笔记 - Prerequisite</a> : 之前推荐过这个博主的文章, 这篇是比较新的介绍nginx核心处理流程, 对于filter等执行顺序也有比较深入的介绍</p>
-</li>
-<li><p><a href="https://www.ibm.com/developerworks/cn/linux/l-lo-eBPF-history/index.html" target="_blank" rel="external">eBPF 简史</a> : “高屋建瓴深入浅出”, 非常好的<code>eBPF</code>系统性介绍, 对这方面有认识的，可以深入了解下</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://brandur.org/redis-streams" target="_blank" rel="external">Redis Streams and the Unified Log</a> : 本文主要介绍了redis新的将要支持的<code>streams</code>机制, 其设计功能类似于<code>kafaka</code>, 用于全局统一的日志/事件记录, 作者任务redis对于精细简单任务更为适合，也更容易上手;</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzI0MjczMjM2NA==&amp;mid=2247483872&amp;idx=1&amp;sn=db0fbb2bec0d4e68593f1b9bfc20a8b5" target="_blank" rel="external">爱奇艺个性化推荐排序实践</a> : 具体介绍了爱奇艺的推荐架构里面排序层的实践，从最原始的<code>LR</code>, 到现在的多层<code>DNN+GBDT+FM</code>, 如果理解是对技术的不断机制追求的探索</p>
-</li>
-</ul>
-<a id="more"></a>
-<ul>
-<li><a href="https://zhuanlan.zhihu.com/p/29768996" target="_blank" rel="external">用深度学习检测WAF恶意请求</a> : “总结一下，这篇文章提出了 RNN-LSTM 方法做恶意请求log的判别，用字符序列作为输入给一个简单的 LSTM 可以在自己数据集上达到不错的效果，大家可以一试，这可能是把人类从写规则和写正则里解放出来的一条路”</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404171026404610589" target="_blank" rel="external">最奇葩的编程语言？最让人讨厌的语言？最伟大的语言？</a> : 同样可以关注下几个奇葩的语言<a href="https://gist.github.com/sharmaeklavya2/8a0e2581baf969be0f64" target="_blank" rel="external">Lolcode</a>, <a href="http://progopedia.com/language/befunge/" target="_blank" rel="external">Befunge</a>, <a href="http://www.muppetlabs.com/~breadbox/bf/" target="_blank" rel="external">Brainfuck</a> 等</p>
-</li>
-<li><p><a href="https://www.networkworld.com/article/3236064/servers/minix-the-most-popular-os-in-the-world-thanks-to-intel.html" target="_blank" rel="external">MINIX — The most popular OS in the world, thanks to Intel</a> : Intel在其内置的CPU里面都安卓了<code>MINIX</code>系统, 运行在<code>Ring -3</code>这个层面(我们常规的应用大家知道一般是在<code>Ring 3</code>), 这个系统其拥有”Full networking stack, File systems, Many drivers (including USB, networking, etc.),A web server”, Google的这篇文章<a href="https://schd.ws/hosted_files/osseu17/84/Replace%20UEFI%20with%20Linux.pdf" target="_blank" rel="external">Replace your exploit-ridden firmware with a Linux kernel</a> 对这个方面有非常深入的介绍，有兴趣可以看着</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;最近略忙, 大部分weekly都延迟了&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;img src=&quot;/images/milan_church.jpg&quot; alt=&quot;米兰大教堂&quot;&gt;&lt;/p&gt;
-&lt;h2 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://ialloc.org/posts/2017/11/03/ngx-notes-prerequisite/#id2&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Nginx 源代码笔记 - Prerequisite&lt;/a&gt; : 之前推荐过这个博主的文章, 这篇是比较新的介绍nginx核心处理流程, 对于filter等执行顺序也有比较深入的介绍&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://www.ibm.com/developerworks/cn/linux/l-lo-eBPF-history/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;eBPF 简史&lt;/a&gt; : “高屋建瓴深入浅出”, 非常好的&lt;code&gt;eBPF&lt;/code&gt;系统性介绍, 对这方面有认识的，可以深入了解下&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;系统设计&quot;&gt;&lt;a href=&quot;#系统设计&quot; class=&quot;headerlink&quot; title=&quot;系统设计&quot;&gt;&lt;/a&gt;系统设计&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://brandur.org/redis-streams&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Redis Streams and the Unified Log&lt;/a&gt; : 本文主要介绍了redis新的将要支持的&lt;code&gt;streams&lt;/code&gt;机制, 其设计功能类似于&lt;code&gt;kafaka&lt;/code&gt;, 用于全局统一的日志/事件记录, 作者任务redis对于精细简单任务更为适合，也更容易上手;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s?__biz=MzI0MjczMjM2NA==&amp;amp;mid=2247483872&amp;amp;idx=1&amp;amp;sn=db0fbb2bec0d4e68593f1b9bfc20a8b5&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;爱奇艺个性化推荐排序实践&lt;/a&gt; : 具体介绍了爱奇艺的推荐架构里面排序层的实践，从最原始的&lt;code&gt;LR&lt;/code&gt;, 到现在的多层&lt;code&gt;DNN+GBDT+FM&lt;/code&gt;, 如果理解是对技术的不断机制追求的探索&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
     
   </entry>
   
