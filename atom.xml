@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2018-04-23T03:09:19.000Z</updated>
+  <updated>2018-05-07T04:53:46.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,103 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20180505</title>
+    <link href="http://shevacjs.com/2018/05/07/20180506/"/>
+    <id>http://shevacjs.com/2018/05/07/20180506/</id>
+    <published>2018-05-07T04:53:45.000Z</published>
+    <updated>2018-05-07T04:53:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/yanqing01.jpg" alt="延庆"></p>
+<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://zinovyev.net/blog/ssh-client-configuration-tricks" target="_blank" rel="external">SSH client configuration tricks</a> : 关于SSH的使用技巧, 可以对特定机器设定alias, 并且绑定相关配置, 对于常见的VPS可以做这类的优化</p>
+</li>
+<li><p><a href="https://opensource.com/article/18/4/cpu-utilization-wrong" target="_blank" rel="external">CPU utilization is wrong, says Netflix’s Brendan Gregg</a> : 关于CPU优化的深入讨论, 其实强调的核心理念是，现在CPU和内存的速度越差越大，所以有时候会我们发现CPU idle很低的时候，有可能其并不是在忙着执行指令，而是在等待Memory IO，尤其是高速缓存失效的时候</p>
+</li>
+<li><p><a href="https://onlinebinarytools.com/" target="_blank" rel="external">online binary tools</a> : 一些online bianry的工具集合, 有兴趣可以关注下。不过个人更喜欢用类似于<a href="https://zeppelin.apache.org/" target="_blank" rel="external">Zeppelin</a>通过此类的平台，来构建自己的工具集</p>
+</li>
+<li><p><a href="http://blog.pengqiuyuan.com/ji-chu-jie-shao-ji-suo-yin-yuan-li-fen-xi/" target="_blank" rel="external">Elasticsearch－基础介绍及索引原理分析</a> : 对ES的索引和存储架构有比较详细的说明，可以快速了解下</p>
+</li>
+<li><p><a href="https://github.com/google/randen" target="_blank" rel="external">google/randen: Fast backtracking-resistant random generator</a> : “What if we could default to attack-resistant random generators without excessive CPU cost? We introduce ‘Randen’, a new generator with security guarantees; it outperforms MT19937 and pcg64_c32 in real-world benchmarks. This is made possible by AES hardware acceleration and a large Feistel permutation.”， Google提出的新的随机数生成器，不过对其要解决的问题和解决的方案并不是很了解，先mark</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://groups.csail.mit.edu/mac/users/gjs/6.945/readings/robust-systems.pdf" target="_blank" rel="external">robust-systems.pdf</a> : mark</p>
+</li>
+<li><p><a href="https://www.oschina.net/news/95719/google-chrome-will-show-warnings-for-non-logged-ssl-certificates" target="_blank" rel="external">谷歌访问非登记SSL证书的HTTPS网站将全屏警告</a> : “自今天开始，访问尚未在公共证书透明度（CT）日志中登记 SSL 证书的 HTTPS 网站，Chrome 浏览器将会显示全屏警告。这样做使 Chrome 浏览器成为首个部署支持 Certificate Transparency Log 策略的浏览器”, 如果有关注之前介绍的TLS的文章，可以认为<a href="https://www.certificate-transparency.org/" target="_blank" rel="external">Certificate Transparency</a>是解决CT恶意或者无意颁发错误证书的一个有效办法</p>
+</li>
+<li><p><a href="https://www.ebayinc.com/stories/blogs/tech/elasticsearch-performance-tuning-practice-at-ebay/" target="_blank" rel="external">Elasticsearch Performance Tuning Practice at eBay</a> :  本文是eBay分享的关于ES使用优化的一系列建议，包括<code>优化索引设计</code>, <code>优化检索query</code>，<code>性能评估</code>等多个阶段多个方面的具体实践建议, 也有中文版<a href="http://www.infoq.com/cn/articles/elasticsearch-performance-tuning-practice-at-ebay" target="_blank" rel="external">eBay的Elasticsearch性能调优实践</a></p>
+</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><blockquote>
+<p>这两周主要关注WebAssembly，在整理相关的文章~</p>
+</blockquote>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://dendibakh.github.io/blog/2018/04/22/What-optimizations-you-can-expect-from-CPU" target="_blank" rel="external">What optimizations you can expect from CPU?</a> : Mark</p>
+</li>
+<li><p><a href="http://www.techug.com/post/27-incredibly-useful-things-you-didnt-know-chrome-could-do.html" target="_blank" rel="external">超好用的27个谷歌Chrome浏览器使用技巧</a> : 一些Chrome使用的技巧，可以推荐的包括: <code>Cmd+Shift+T</code>恢复最近关闭的标签, <code>Chrome作为你的文件浏览</code>等</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247489971&amp;idx=1&amp;sn=f9b023413f17576c0e859e1f12c3c5fb&amp;chksm=fbe9a07ccc9e296a24891063cb92c4ecbdee984985f9c9afcc1691748d7ea4c483bd96dc5540#rd" target="_blank" rel="external">苹果、谷歌等大厂的AI面试题被我们搞到手了，你敢来挑战吗？</a> : 有空锻炼下自己也挺好的~</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/ZY0S6V3gOMJ9MNomHJCGQw" target="_blank" rel="external">没有真实，区块链不可篡改有毛用</a> : 比较赞同的一个文章，区块链的核心价值是需要记录真是的信息，然后不被篡改；但是前者才是真正的难题，也很难想明白现在的不可篡改的存储机制对现有的业务流程有深层次改善的地方</p>
+</li>
+<li><p><a href="http://www.techug.com/post/machine-learning-study-list.html" target="_blank" rel="external">牛人的Machine Learning 机器学习笔记目录</a> : ML的学习比较, mark</p>
+</li>
+<li><p><a href="https://asylo.dev/" target="_blank" rel="external">Asylo</a> : Google发布的可信计算的框架，支持在云端部署含有私密数据的应用；直观而言，这个方面的需求在技术方面实现难度还比较大，先mark，下来深入学习</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/yanqing01.jpg&quot; alt=&quot;延庆&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a 
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>weekly of 20180429</title>
+    <link href="http://shevacjs.com/2018/05/07/20180429/"/>
+    <id>http://shevacjs.com/2018/05/07/20180429/</id>
+    <published>2018-05-07T04:50:45.000Z</published>
+    <updated>2018-05-07T04:55:31.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://blogs.msdn.microsoft.com/vcblog/2018/04/24/announcing-a-single-c-library-manager-for-linux-macos-and-windows-vcpkg/" target="_blank" rel="external">Announcing a single C++ library manager for Linux, macOS and Windows: Vcpkg</a> : VC提供的跨平台的C++的lib库，还是第一次见到C++库的解决方案，可以关注</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzUxMzcxMzE5Ng==&amp;mid=2247488782&amp;idx=1&amp;sn=9a450b5e97410a0f58fb61900fd82055" target="_blank" rel="external">Google Fuchsia微内核Zircon先睹为快</a> : Ziron是Google推出的面向IoT操作系统Fuchsia的内核，是一个微内核系统，文章主要介绍了此内核的体系，其语义和传统的Unix操作系统也有诸多不一样的地方，详细可以看原<a href="https://fuchsia.googlesource.com/docs/+/master/the-book/" target="_blank" rel="external">英文文档</a></p>
+</li>
+<li><p><a href="http://norvig.com/spell-correct.html" target="_blank" rel="external">How to Write a Spelling Corrector</a> : </p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="http://blog.qt.io/blog/2018/04/23/beta-qt-webassembly-technology-preview/" target="_blank" rel="external">Beta for Qt for WebAssembly Technology Preview - Qt Blog</a> : Qt发布了支持编译成WebAssembly的beta版本。如此，以后写UI组件等，并不一定需要Js，C++也行；不过效果上面令人存疑</p>
+</li>
+<li><p><a href="http://www.ruanyifeng.com/blog/2018/04/weekly-issue-1.html" target="_blank" rel="external">每周分享第 1 期 - 阮一峰的网络日志</a> : 感觉干货不少，可以订阅关注下</p>
+</li>
+<li><p><a href="http://blog.zulip.org/2018/04/18/zulip-1-8-released/" target="_blank" rel="external">Zulip 1.8: Open source team chat</a> : 类似于<code>Slack</code>的开源方案，mark关注下~</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/vcblog/2018
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20180422</title>
@@ -1242,137 +1339,6 @@
     
     
       <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20171119</title>
-    <link href="http://shevacjs.com/2017/11/24/20171119/"/>
-    <id>http://shevacjs.com/2017/11/24/20171119/</id>
-    <published>2017-11-24T08:47:45.000Z</published>
-    <updated>2017-11-24T08:52:13.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/images/austria02.jpg" alt="奥地利一景"></p>
-<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="https://github.com/blog/2470-introducing-security-alerts-on-github" target="_blank" rel="external">Introducing security alerts on GitHub</a> : Github支持对于Js或者ruby项目的依赖的安全问题进行警告, 值得关注的是，github通过<code>gemfile</code>和<code>package.json</code>自动解析<a href="https://help.github.com/articles/listing-the-packages-that-a-repository-depends-on/" target="_blank" rel="external">分析依赖</a>, 其次通过<a href="https://cve.mitre.org/" target="_blank" rel="external">CVE IDs</a>对于具体的安全问题进行分析，深入分析这个里面技术/规范需要投入较大的支持, 但是对社区其实是非常好的帮助</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://tomassetti.me/guide-natural-language-processing/" target="_blank" rel="external">What can you use Natural Language Processing for?</a> : 非常好的NLP工具的入门和大量的材料，先mark</p>
-</li>
-<li><p><a href="http://abau.org/hannah" target="_blank" rel="external">Hannah – a DSL for parsing and generating files and network traces</a> : 挺好玩的一个工具，通过<code>DSL</code>的方式来定义如何解析和生成数据</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/U0311_AiGkIEtyuO9Uh1Rw" target="_blank" rel="external">HTTP/2之服务器推送(Server Push)最佳实践</a> : 具体介绍了如何在合适的业务场景采用server push, 还是比较接地气的</p>
-</li>
-</ul>
-<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="http://shevacjs.com/2017/11/21/simple_rank_algo/">简单排序算法概述</a> : 关于hacker news和reddit的简单排序算法的介绍, 可以了解下</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://github.com/laoqiren/mlhelper" target="_blank" rel="external">mlhelper: Algorithms and utils for Machine Learning in JavaScript</a> : 一个基于Js的机器学习lib, 可以放在前端做一些简单的机器学习支持，但是google已经开发了一些基于端的机器学习能力组件, 比如<a href="https://deeplearnjs.org/" target="_blank" rel="external">deeplearnjs</a></p>
-</li>
-<li><p><a href="https://github.com/jacobdufault/cquery/#cquery" target="_blank" rel="external">jacobdufault/cquery</a> : “Low-latency vscode language server for large C++ code-bases, powered by libclang”, cquery implements almost the entire <a href="https://github.com/Microsoft/language-server-protocol" target="_blank" rel="external">language server protocol</a> and provides some extra features to boost; 也有VS的扩展, 可以关注；不过没有其他语言的支持, 先mark</p>
-</li>
-<li><p><a href="https://time.geekbang.org/column/article/961" target="_blank" rel="external">GitHub上的五大开源机器学习项目</a> : 包括<code>tensorflow</code>, <code>scikit-learn</code>, <code>PredictionIO</code>, <code>Swift AI</code> 和 <code>GoLearn</code>, 后三者分别是<code>scala</code>, <code>swift</code>和<code>go</code>语言的学习库</p>
-</li>
-<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404173389983009423" target="_blank" rel="external">细思极恐的YouTube可跳过广告</a> : 文章具体分析了<code>Youtube</code>可跳过广告背后的产品逻辑和商业化策略, 个人还是比较认同的；任何产品都需要找个一个用户体验和商业化的一个折衷点</p>
-</li>
-<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404177368133588050" target="_blank" rel="external">10家将机器学习玩出新花样的公司</a> : 具体介绍不用公司在AI在业务线的落地, 个人感觉可以关注<code>Yelp</code>, <code>Pinterest</code>等</p>
-</li>
-<li><p><a href="https://lagunita.stanford.edu/courses/Engineering/Compilers/Fall2014/about" target="_blank" rel="external">Stanford: Compliers</a> : 斯坦福的关于编译器的课程，想学编译原理的同学可以看看，每个人程序员心中应该都有写一个自己的编译器的一个梦想</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;/images/austria02.jpg&quot; alt=&quot;奥地利一景&quot;&gt;&lt;/p&gt;
-&lt;h2 id=&quot;新鲜事&quot;&gt;&lt;a href=&quot;#新鲜事&quot; class=&quot;headerlink&quot; title=&quot;新鲜事&quot;&gt;&lt;/a&gt;新鲜事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>简单排序算法概述</title>
-    <link href="http://shevacjs.com/2017/11/21/simple_rank_algo/"/>
-    <id>http://shevacjs.com/2017/11/21/simple_rank_algo/</id>
-    <published>2017-11-21T12:01:29.000Z</published>
-    <updated>2017-11-22T04:33:51.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>网上有很多这个方面的资料，这里做个简单的总结, 参考资料里面很多写的都很好</p>
-</blockquote>
-<p>主要介绍两个: Hacker News 和 Reddit</p>
-<h3 id="Hacker-News"><a href="#Hacker-News" class="headerlink" title="Hacker News"></a>Hacker News</h3><p>整体算法如下:</p>
-<p>$$ score = weight * \frac{(base-1)^{0.8}}{(time + 2)^G}$$</p>
-<p>几个关键因子:</p>
-<ul>
-<li>weigth : 对不同的类别，权重可以自定义</li>
-<li>time : 从提交时刻到现在的时间 (以小时计算)</li>
-<li>base : 物料的基本信息, 和业务相关，比如点赞数/评论等等</li>
-<li>G : 控制时间因子的敏感程度</li>
-</ul>
-<p>可以理解是和<code>内容质量(base)</code>/<code>内容分类(weight</code>)/<code>内容新鲜度相关</code>的一个排序算法</p>
-<p>如下可以分析出G对score的影响(敏感程度) :</p>
-<p><img src="/images/hacker_rank.png" alt="敏感程度"></p>
-<blockquote>
-<p>发现直接采用<code>notebook</code> + <code>pyplot</code> 绘制数学曲线还是非常有效的，建议!</p>
-</blockquote>
-<h3 id="Reddit"><a href="#Reddit" class="headerlink" title="Reddit"></a>Reddit</h3><p>如下:</p>
-<p>$$f(t_s, y, z) = log_{10}z + \frac{y*t_s}{45000}$$</p>
-<p>其中:</p>
-<ul>
-<li>$t_s$ : 发帖时间的时间戳</li>
-<li>$y$ : $y \in {-1, 0, 1}$, 且有:</li>
-</ul>
-<p>$$<br>y = \begin{cases}<br>    1 &amp; \text{if x &gt; 0} \\<br>    0 &amp; \text{if x = 0} \\<br>   -1 &amp; \text{if x &lt; 0}<br>    \end{cases}<br>$$</p>
-<ul>
-<li>$x$, 其为$U$,$D$之差，前者为正反馈数量(比如点赞/评论)，后者为负反馈数量(比如踩之类的)</li>
-</ul>
-<p>$$ x = U - D $$</p>
-<ul>
-<li>而z者为：</li>
-</ul>
-<p>$$<br>z = \begin{cases}<br>     |x| &amp; \text{if |x| } \geq 1  \\<br>         1 &amp; \text{if |x| &lt; 1 }<br>     \end{cases}<br>$$</p>
-<p>从上面公式可以分析:</p>
-<ul>
-<li><p>发帖时间对score影响较大, 但是和hacker news不一样的是，发帖分数不会降低，不过新增的贴子分数会比较高</p>
-</li>
-<li><p>由于通过$log_{10}z$ 打平, 前10的投票效果和前100相差不会很大, 而且是算$(U-D)$,所有有争议的文章的分数也不会很高 </p>
-</li>
-</ul>
-<h3 id="分析总结"><a href="#分析总结" class="headerlink" title="分析总结"></a>分析总结</h3><ul>
-<li>reddit对时间较为不敏感，较好的文章可以保留更久, hacker news则不一样</li>
-<li>实现上面, reddit时间系数不变；所以只需要再文章up/down的时候更新score即可</li>
-</ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="http://www.cnblogs.com/zhengyun_ustc/archive/2010/12/15/amir.html" target="_blank" rel="external">Hacker News与Reddit的算法比较</a></li>
-<li><a href="http://fjdu.github.io/algorithm/2016/11/29/hacker-news-ranking-algorithm.html" target="_blank" rel="external">Hacker News 的排序算法</a></li>
-<li><p><a href="https://redditblog.com/2009/10/15/reddits-new-comment-sorting-system/" target="_blank" rel="external">reddit’s new comment sorting system</a></p>
-</li>
-<li><p><a href="https://moz.com/blog/reddit-stumbleupon-delicious-and-hacker-news-algorithms-exposed" target="_blank" rel="external">Reddit, Stumbleupon, Del.icio.us and Hacker News Algorithms Exposed!</a></p>
-</li>
-<li><p><a href="https://medium.com/hacking-and-gonzo/how-reddit-ranking-algorithms-work-ef111e33d0d9" target="_blank" rel="external">How Reddit ranking algorithms work</a> : 比较新的文章，分析也比较深入，比较推荐</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;网上有很多这个方面的资料，这里做个简单的总结, 参考资料里面很多写的都很好&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;主要介绍两个: Hacker News 和 Reddit&lt;/p&gt;
-&lt;h3 id=&quot;Hacker-News&quot;&gt;&lt;a href=&quot;#H
-    
-    </summary>
-    
-    
-      <category term="misc" scheme="http://shevacjs.com/tags/misc/"/>
     
   </entry>
   

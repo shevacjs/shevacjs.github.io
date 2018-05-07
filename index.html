@@ -57,6 +57,152 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-20180506" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/07/20180506/">weekly of 20180505</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/05/07/20180506/" class="article-date">
+  <time datetime="2018-05-07T04:53:45.000Z" itemprop="datePublished">2018-05-07</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/yanqing01.jpg" alt="延庆"></p>
+<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://zinovyev.net/blog/ssh-client-configuration-tricks" target="_blank" rel="external">SSH client configuration tricks</a> : 关于SSH的使用技巧, 可以对特定机器设定alias, 并且绑定相关配置, 对于常见的VPS可以做这类的优化</p>
+</li>
+<li><p><a href="https://opensource.com/article/18/4/cpu-utilization-wrong" target="_blank" rel="external">CPU utilization is wrong, says Netflix’s Brendan Gregg</a> : 关于CPU优化的深入讨论, 其实强调的核心理念是，现在CPU和内存的速度越差越大，所以有时候会我们发现CPU idle很低的时候，有可能其并不是在忙着执行指令，而是在等待Memory IO，尤其是高速缓存失效的时候</p>
+</li>
+<li><p><a href="https://onlinebinarytools.com/" target="_blank" rel="external">online binary tools</a> : 一些online bianry的工具集合, 有兴趣可以关注下。不过个人更喜欢用类似于<a href="https://zeppelin.apache.org/" target="_blank" rel="external">Zeppelin</a>通过此类的平台，来构建自己的工具集</p>
+</li>
+<li><p><a href="http://blog.pengqiuyuan.com/ji-chu-jie-shao-ji-suo-yin-yuan-li-fen-xi/" target="_blank" rel="external">Elasticsearch－基础介绍及索引原理分析</a> : 对ES的索引和存储架构有比较详细的说明，可以快速了解下</p>
+</li>
+<li><p><a href="https://github.com/google/randen" target="_blank" rel="external">google/randen: Fast backtracking-resistant random generator</a> : “What if we could default to attack-resistant random generators without excessive CPU cost? We introduce ‘Randen’, a new generator with security guarantees; it outperforms MT19937 and pcg64_c32 in real-world benchmarks. This is made possible by AES hardware acceleration and a large Feistel permutation.”， Google提出的新的随机数生成器，不过对其要解决的问题和解决的方案并不是很了解，先mark</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://groups.csail.mit.edu/mac/users/gjs/6.945/readings/robust-systems.pdf" target="_blank" rel="external">robust-systems.pdf</a> : mark</p>
+</li>
+<li><p><a href="https://www.oschina.net/news/95719/google-chrome-will-show-warnings-for-non-logged-ssl-certificates" target="_blank" rel="external">谷歌访问非登记SSL证书的HTTPS网站将全屏警告</a> : “自今天开始，访问尚未在公共证书透明度（CT）日志中登记 SSL 证书的 HTTPS 网站，Chrome 浏览器将会显示全屏警告。这样做使 Chrome 浏览器成为首个部署支持 Certificate Transparency Log 策略的浏览器”, 如果有关注之前介绍的TLS的文章，可以认为<a href="https://www.certificate-transparency.org/" target="_blank" rel="external">Certificate Transparency</a>是解决CT恶意或者无意颁发错误证书的一个有效办法</p>
+</li>
+<li><p><a href="https://www.ebayinc.com/stories/blogs/tech/elasticsearch-performance-tuning-practice-at-ebay/" target="_blank" rel="external">Elasticsearch Performance Tuning Practice at eBay</a> :  本文是eBay分享的关于ES使用优化的一系列建议，包括<code>优化索引设计</code>, <code>优化检索query</code>，<code>性能评估</code>等多个阶段多个方面的具体实践建议, 也有中文版<a href="http://www.infoq.com/cn/articles/elasticsearch-performance-tuning-practice-at-ebay" target="_blank" rel="external">eBay的Elasticsearch性能调优实践</a></p>
+</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><blockquote>
+<p>这两周主要关注WebAssembly，在整理相关的文章~</p>
+</blockquote>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://dendibakh.github.io/blog/2018/04/22/What-optimizations-you-can-expect-from-CPU" target="_blank" rel="external">What optimizations you can expect from CPU?</a> : Mark</p>
+</li>
+<li><p><a href="http://www.techug.com/post/27-incredibly-useful-things-you-didnt-know-chrome-could-do.html" target="_blank" rel="external">超好用的27个谷歌Chrome浏览器使用技巧</a> : 一些Chrome使用的技巧，可以推荐的包括: <code>Cmd+Shift+T</code>恢复最近关闭的标签, <code>Chrome作为你的文件浏览</code>等</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247489971&amp;idx=1&amp;sn=f9b023413f17576c0e859e1f12c3c5fb&amp;chksm=fbe9a07ccc9e296a24891063cb92c4ecbdee984985f9c9afcc1691748d7ea4c483bd96dc5540#rd" target="_blank" rel="external">苹果、谷歌等大厂的AI面试题被我们搞到手了，你敢来挑战吗？</a> : 有空锻炼下自己也挺好的~</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/ZY0S6V3gOMJ9MNomHJCGQw" target="_blank" rel="external">没有真实，区块链不可篡改有毛用</a> : 比较赞同的一个文章，区块链的核心价值是需要记录真是的信息，然后不被篡改；但是前者才是真正的难题，也很难想明白现在的不可篡改的存储机制对现有的业务流程有深层次改善的地方</p>
+</li>
+<li><p><a href="http://www.techug.com/post/machine-learning-study-list.html" target="_blank" rel="external">牛人的Machine Learning 机器学习笔记目录</a> : ML的学习比较, mark</p>
+</li>
+<li><p><a href="https://asylo.dev/" target="_blank" rel="external">Asylo</a> : Google发布的可信计算的框架，支持在云端部署含有私密数据的应用；直观而言，这个方面的需求在技术方面实现难度还比较大，先mark，下来深入学习</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-20180429" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/07/20180429/">weekly of 20180429</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/05/07/20180429/" class="article-date">
+  <time datetime="2018-05-07T04:50:45.000Z" itemprop="datePublished">2018-05-07</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://blogs.msdn.microsoft.com/vcblog/2018/04/24/announcing-a-single-c-library-manager-for-linux-macos-and-windows-vcpkg/" target="_blank" rel="external">Announcing a single C++ library manager for Linux, macOS and Windows: Vcpkg</a> : VC提供的跨平台的C++的lib库，还是第一次见到C++库的解决方案，可以关注</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzUxMzcxMzE5Ng==&amp;mid=2247488782&amp;idx=1&amp;sn=9a450b5e97410a0f58fb61900fd82055" target="_blank" rel="external">Google Fuchsia微内核Zircon先睹为快</a> : Ziron是Google推出的面向IoT操作系统Fuchsia的内核，是一个微内核系统，文章主要介绍了此内核的体系，其语义和传统的Unix操作系统也有诸多不一样的地方，详细可以看原<a href="https://fuchsia.googlesource.com/docs/+/master/the-book/" target="_blank" rel="external">英文文档</a></p>
+</li>
+<li><p><a href="http://norvig.com/spell-correct.html" target="_blank" rel="external">How to Write a Spelling Corrector</a> : </p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="http://blog.qt.io/blog/2018/04/23/beta-qt-webassembly-technology-preview/" target="_blank" rel="external">Beta for Qt for WebAssembly Technology Preview - Qt Blog</a> : Qt发布了支持编译成WebAssembly的beta版本。如此，以后写UI组件等，并不一定需要Js，C++也行；不过效果上面令人存疑</p>
+</li>
+<li><p><a href="http://www.ruanyifeng.com/blog/2018/04/weekly-issue-1.html" target="_blank" rel="external">每周分享第 1 期 - 阮一峰的网络日志</a> : 感觉干货不少，可以订阅关注下</p>
+</li>
+<li><p><a href="http://blog.zulip.org/2018/04/18/zulip-1-8-released/" target="_blank" rel="external">Zulip 1.8: Open source team chat</a> : 类似于<code>Slack</code>的开源方案，mark关注下~</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20180422" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -853,200 +999,6 @@
 <li><p><a href="https://mp.weixin.qq.com/s/Hjl8pRlVKkahxsWwhUXAmA" target="_blank" rel="external">开源社区，终于找到了公平的商业模式</a> : 文章的一些前后逻辑并不完全赞同, 但是几个最后关于区块链的应用说的很清楚, 可以关注，包括<code>IPFS</code>的<code>FileCoin</code>, <code>Steemit</code>, <code>Aptoide</code></p>
 </li>
 <li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247489065&amp;idx=1&amp;sn=cd6f7f0abd7c52faf33ddabf3429480e" target="_blank" rel="external">JeffDean又用深度学习搞事情：这次要颠覆整个计算机系统结构设计</a> : 通过引入ML的技术来提升内存分支预测的准确率，进一步提升整体计算机的性能，个人可能认识有点肤浅，但是整体觉得方案有点重</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-nginx_1_13_10" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/23/nginx_1_13_10/">nginx 1.13.10 版本说明</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2018/03/23/nginx_1_13_10/" class="article-date">
-  <time datetime="2018-03-23T03:02:29.000Z" itemprop="datePublished">2018-03-23</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Feature-List"><a href="#Feature-List" class="headerlink" title="Feature List"></a>Feature List</h2><blockquote>
-<p>对SSI模块增强，支持set指令，允许插入任何变量</p>
-</blockquote>
-<ul>
-<li>Feature: the “set” parameter of the “include” SSI directive now allows writing arbitrary responses to a variable; the “subrequest_output_buffer_size” directive defines maximum responsesize.</li>
-</ul>
-<blockquote>
-<p>通过 CLOCK_MONOTONIC方式获取时间, 避免时间回转</p>
-</blockquote>
-<ul>
-<li>Feature: now nginx uses clock_gettime( CLOCK_MONOTONIC ) if available, to avoid timeouts being incorrectly triggered on system time changes.</li>
-</ul>
-<blockquote>
-<p>支持日志输出时不做字符转义</p>
-</blockquote>
-<ul>
-<li>Feature: the “escape=none” parameter of the “log_format” directive.</li>
-</ul>
-<blockquote>
-<p>支持打印<code>ALPN</code>变量情况</p>
-</blockquote>
-<ul>
-<li>Feature: the $ssl_preread_alpn_protocols variable in the ngx_stream_ssl_preread_module.</li>
-</ul>
-<blockquote>
-<p>引入gRpc支持</p>
-</blockquote>
-<ul>
-<li>Feature: the ngx_http_grpc_module.</li>
-</ul>
-<h2 id="快速说明"><a href="#快速说明" class="headerlink" title="快速说明"></a>快速说明</h2><ul>
-<li>CLOCK_MONOTONIC方式获取时间 : 正常系统提供两个类型的时间<ul>
-<li>time-of-day : 俗称墙上时间，但是墙上时间会通过类似于<code>NTP</code>的协议同步时钟，这个有可能导致时间回退，</li>
-<li>CLOCK_MONOTONIC时间 : 理论上对和time-of-day一致，其主要特点是, 基本同步时钟后发现自己时间过快，也不会回退，而是按照一定的算法自己缓慢增加，慢慢保持一致, 也就是能保障这个时间总是<code>单调</code>(MONOTONIC)的</li>
-<li>这个问题是分布式系统经常会碰到的，可以深入了解</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>“escape=none”支持:<ul>
-<li>简单来说, 之前nginx默认对输入的日志变量会进行转义，转义的字符主要是<code>Nginx</code>认为不可见的那部分, 这部分代码实现很精巧，如下:</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> uintptr_t</span></div><div class="line"><span class="title">ngx_http_log_escape</span><span class="params">(u_char *dst, u_char *src, <span class="keyword">size_t</span> size)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">ngx_uint_t</span>      n;</div><div class="line">    <span class="keyword">static</span> u_char   hex[] = <span class="string">"0123456789ABCDEF"</span>;</div><div class="line"></div><div class="line">    <span class="comment">//建立`escape`的bitmask数组, 一个有 32 * 8 = 256个bit</span></div><div class="line">    <span class="comment">//如果对于bit被mask为1，表明需要转义</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">uint32_t</span>   escape[] = &#123;</div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line"></div><div class="line">                    <span class="comment">/* ?&gt;=&lt; ;:98 7654 3210  /.-, +*)( '&amp;%$ #"!  */</span></div><div class="line">        <span class="number">0x00000004</span>, <span class="comment">/* 0000 0000 0000 0000  0000 0000 0000 0100 */</span></div><div class="line"></div><div class="line">                    <span class="comment">/* _^]\ [ZYX WVUT SRQP  ONML KJIH GFED CBA@ */</span></div><div class="line">        <span class="number">0x10000000</span>, <span class="comment">/* 0001 0000 0000 0000  0000 0000 0000 0000 */</span></div><div class="line"></div><div class="line">                    <span class="comment">/*  ~&#125;| &#123;zyx wvut srqp  onml kjih gfed cba` */</span></div><div class="line">        <span class="number">0x80000000</span>, <span class="comment">/* 1000 0000 0000 0000  0000 0000 0000 0000 */</span></div><div class="line"></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (size) &#123;</div><div class="line">        <span class="comment">// 判断其mask位是否为1</span></div><div class="line">        <span class="comment">// *src &gt;&gt; 5 为去其高3位，用于获取数组的便宜量</span></div><div class="line">        <span class="comment">// 1U &lt;&lt; (*src &amp; 0x0f) 为获取具体在数据bit mask的位置</span></div><div class="line">        <span class="keyword">if</span> (escape[*src &gt;&gt; <span class="number">5</span>] &amp; (<span class="number">1U</span> &lt;&lt; (*src &amp; <span class="number">0x1f</span>))) &#123;</div><div class="line">            *dst++ = <span class="string">'\\'</span>;</div><div class="line">            *dst++ = <span class="string">'x'</span>;</div><div class="line">            *dst++ = hex[*src &gt;&gt; <span class="number">4</span>];</div><div class="line">            *dst++ = hex[*src &amp; <span class="number">0xf</span>];</div><div class="line">            src++;</div><div class="line"></div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            *dst++ = *src++;</div><div class="line">        &#125;</div><div class="line">        size--;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> (<span class="keyword">uintptr_t</span>) dst;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>ssl_preread_alpn_protocols变量 :<ul>
-<li>这里面大家可以关注<code>ALPN</code>协议，他和<code>NPN</code>都是用于在TLS交互的时候进行协议的协商, 可以关注之前的文章<a href="https://imququ.com/post/enable-alpn-asap.html" target="_blank" rel="external">为什么我们应该尽快支持 ALPN？</a><br>，大概区别如下: <ul>
-<li>NPN 是服务端发送所支持的 HTTP 协议列表，由客户端选择；而 ALPN 是客户端发送所支持的 HTTP 协议列表，由服务端选择；</li>
-<li>NPN 的协商结果是在 Change Cipher Spec 之后加密发送给服务端；而 ALPN 的协商结果是通过 Server Hello 明文发给客户端；</li>
-</ul>
-</li>
-<li>可以总结为ALPN是趋势，也是未来的标准，但是短期内各方厂商的支持情况并不理想</li>
-</ul>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20180304" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/06/20180304/">weekly of 20180304</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2018/03/06/20180304/" class="article-date">
-  <time datetime="2018-03-06T04:28:45.000Z" itemprop="datePublished">2018-03-06</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
-<li><p><a href="https://developers.googleblog.com/2018/02/announcing-flutter-beta-1.html" target="_blank" rel="external">Announcing Flutter beta 1: Build beautiful native apps</a> :  Flutter is Google’s new mobile UI framework that helps developers craft high-quality native interfaces for both iOS and Android, 其采用<code>Dart</code>语言, 有兴趣的可以去进一步了解</p>
-</li>
-<li><p><a href="https://github.com/pornin/CTTK" target="_blank" rel="external">CTTK: Constant-Time Toolkit</a> : A collection of constant-time implementations of primitive operations that may help in writing constant-time code, including non-cryptographic constant-time code</p>
-</li>
-<li><p><a href="https://blog.cloudflare.com/memcrashed-major-amplification-attacks-from-port-11211/" target="_blank" rel="external">Memcrashed - Major amplification attacks from UDP port 11211</a> : 基于Memcached的放大攻击, 是本周Github DDOS攻击的主要恶意流量</p>
-</li>
-</ul>
-<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
-<li><p><a href="https://textslashplain.com/2018/02/14/understanding-the-limitations-of-https/" target="_blank" rel="external">Understanding the Limitations of HTTPS</a> : HTTPS协议不是银弹，本文系统化的介绍HTTPS协议的一些弊端，包括<code>Privacy Limitations</code>, <code>Real-world Implementation Limitations</code>等，可以加深对整个https协议和网络栈的理解</p>
-</li>
-<li><p><a href="https://developers.redhat.com/blog/2018/02/22/container-terminology-practical-introduction/#h.dqlu6589o789" target="_blank" rel="external">A Practical Introduction to Container Terminology</a> : 关于容器化技术的概述性介绍，值得收藏</p>
-</li>
-<li><p><a href="http://www.ruanyifeng.com/blog/2018/03/http2_server_push.html" target="_blank" rel="external">HTTP/2 服务器推送（Server Push）教程</a> : 一个入门的HTTP2推送介绍, 可以手动试验下</p>
-</li>
-<li><p><a href="http://www.techug.com/post/zero-knowledge-and-blockchains.html" target="_blank" rel="external">白话区块链加密货币中的零知识证明（Zero-Knowledge Proof）</a> : 零知识证明的介绍, 。零知识证明的本质就是在不揭晓我所知道或拥有的某样东西的前提下，向别人证明我有很大几率（这点很重要，零知识证明说到底是一个概率上的证明）确实知道或拥有这个东西。其已经应用在ZCASH等区块链场景下, 可以进一步了解的文章包括<a href="https://www.leiphone.com/news/201712/ACn6T08O3cyhu8DN.html" target="_blank" rel="external">详解零知识证明的四大基础技术，如何与以太坊发生反应</a>, <a href="https://zh.wikipedia.org/wiki/%E4%BA%A4%E4%BA%92%E5%BC%8F%E8%AF%81%E6%98%8E%E7%B3%BB%E7%BB%9F" target="_blank" rel="external">交互式证明系统</a></p>
-</li>
-</ul>
-<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
-<li><p><a href="https://azure.microsoft.com/en-us/services/cosmos-db/?v=17.45b" target="_blank" rel="external">Azure Cosmos DB</a> : A database for extremely low latency and massively scalable applications anywhere in the world, with native support for NoSQL; 微软新出的之前多种Nosql接口的全球数据库</p>
-</li>
-<li><p><a href="https://github.com/yujiosaka/headless-chrome-crawler" target="_blank" rel="external">headless-chrome-crawler</a> : Distributed crawler powered by Headless Chrome</p>
-</li>
-<li><p><a href="https://blog.riseml.com/benchmarking-googles-new-tpuv2-121c03b71384" target="_blank" rel="external">Benchmarking Google’s new TPUv2</a> : TPUs compare very well, both, performance-wise and economically, to the latest generations of GPUs.</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=16473482" target="_blank" rel="external">101 NumPy Exercises for Data Analysis (Python)</a> : 可以针对性的提高你对<code>Numpy</code>这个库的掌握程度, 其他可以推荐的包括<a href="https://github.com/ajcr/100-pandas-puzzles" target="_blank" rel="external">pandas</a></p>
-</li>
-</ul>
-<ul>
-<li>mark下个人感觉不错的关于区块链的文章/资料(现在是信息过剩) :<ul>
-<li><a href="https://36kr.com/p/5075268.html" target="_blank" rel="external">比特币从“不了解”到“被误解”——详解区块链技术</a> : 很好的一个入门介绍, 可以先阅读这篇文章</li>
-<li><a href="http://ibloodline.com/articles/2018/01/22/mechanics.html" target="_blank" rel="external">Bloodline’s Blog</a> : 比较深入/细节的介绍比特币/区块链的相关技术实现</li>
-<li><a href="https://www.jianshu.com/p/8ea9a9a21f1f" target="_blank" rel="external">谈谈自己对比特币脚本的理解</a> : 侧重介绍比特币的脚本机制和实现</li>
-<li><a href="https://yeasy.gitbooks.io/blockchain_guide/content/" target="_blank" rel="external">区块链技术指南</a> : 内容不是很对自己胃口，但是对于一些基本概念有比较详细介绍</li>
-<li><a href="http://www.aquagemini.com/bitcoin-difficulty-adjust/" target="_blank" rel="external">深入理解比特币系列（25）: 难度系数及调整周期</a> : 对于一些针对性的问题进行讨论</li>
-<li><a href="https://www.coursera.org/learn/cryptocurrency" target="_blank" rel="external">课程: Bitcoin and Cryptocurrency Technologies</a></li>
-<li><a href="https://github.com/chaozh/awesome-blockchain" target="_blank" rel="external">awesome-blockchain</a> : 收集所有区块链(BlockChain)技术开发相关资料，包括Fabric和Ethereum开发资料</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p><a href="https://www.miaopai.com/show/ZqUFOkk1NeWXcgL12vzhIrkX~uh72G4E77S8pw__.htm" target="_blank" rel="external">The clearest explanation of Paxos I’ve seen so far</a> : 先收藏mark, 周末review一遍</p>
-</li>
-<li><p><a href="https://developers.google.cn/machine-learning/crash-course/" target="_blank" rel="external">Google: 机器学习速成课程</a> : Google 制作的节奏紧凑、内容实用的机器学习简介课程</p>
 </li>
 </ul>
 

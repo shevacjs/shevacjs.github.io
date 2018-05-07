@@ -57,6 +57,273 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-hotcode_analysis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/10/hotcode_analysis/">nginx扩展/lua的性能剖析支持</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/05/10/hotcode_analysis/" class="article-date">
+  <time datetime="2015-05-09T18:27:32.000Z" itemprop="datePublished">2015-05-10</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>by <a href="mailto:chenjiansen@baidu.com" target="_blank" rel="external">chenjiansen@baidu.com</a></p>
+</blockquote>
+<h2 id="0x00-背景"><a href="#0x00-背景" class="headerlink" title="0x00 背景"></a>0x00 背景</h2><p>nginx的扩展和nginx lua在贴吧有了越来越多的应用，但是对于整个nginx相关组件的性能测试一直没有完善的支持。除了常规的流量压测，cpu利用率的分析等。我们还需要对nginx的具体性能瓶颈进一步分析，<code>发现具体的代码热点</code>，以便进一步的性能优化。</p>
+<p>简而言之，我们需要达到如下目标:</p>
+<ul>
+<li>对于C扩展，我们能够明确其代码热点</li>
+<li>对于nginx lua代码，我们同样也能明确其lua代码热点</li>
+</ul>
+<p>这里主要介绍nginx扩展/lua的性能剖析的现状支持，以及贴吧短期内的落地实践规划</p>
+<h2 id="0x01-性能剖析工具"><a href="#0x01-性能剖析工具" class="headerlink" title="0x01 性能剖析工具"></a>0x01 性能剖析工具</h2><h3 id="C-C-程序的热点分析"><a href="#C-C-程序的热点分析" class="headerlink" title="C/C++ 程序的热点分析"></a>C/C++ 程序的热点分析</h3><p>首先简单看下现在linux工具链对代码热点发现的支持</p>
+<p><a href="http://zh.wikipedia.org/wiki/%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90" target="_blank" rel="external">维基百科</a>上面对性能剖析工具有个简单的介绍, 由于是需要做热代码的发现，因此很少有静态代码分析的办法，一般都是运行时的剖析，具体可以分为:</p>
+<ul>
+<li>逻辑注入的性能分析：一把是指在编译链接的时候，链上相关的lib(其实也有运行时的代码注入，暂不考虑)，这些lib会在函数执行的时候自动做一些统计和分析，比较典型的是<a href="https://sourceware.org/binutils/docs/gprof/" target="_blank" rel="external">gprof</a></li>
+<li>非逻辑注入的性能分析：此类分析一般没有对具体的应用程序进行修改，更多是一种旁路异步的观察方式，而根据数据获取方式的不同一般区分为:<ul>
+<li>基于事件的性能分析: 是指为特定事件增加回调,记录事件发生次数</li>
+<li>基于采样的性能分析: 构造以一定周期重复的触发器用来采样<br>现在的一般性能剖析工具都是这两则的结合，比如说perf, perf的sampling的机制是基于对事件的统计（比如1000个cpu周期(事件)采样一次)，故其实没太大的区分，最为常见的工具包括<a href="">perf</a>, <a href="https://sourceware.org/systemtap/wiki" target="_blank" rel="external">systemtap</a>,<br>其中perf和systemtap下面会进一步介绍</li>
+</ul>
+</li>
+</ul>
+<h3 id="解释型语言的热点分析"><a href="#解释型语言的热点分析" class="headerlink" title="解释型语言的热点分析"></a>解释型语言的热点分析</h3><p>上面剖析出来的更多是C/C++代码层面的函数热点，但如果是一个解释型的脚本语言，要找出脚本的代码热点，上面的方法并不靠谱，还需要进一步的支持。其主要原因是一般解释型语言的实现大概如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">vm_execute</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="comment">//fetch code</span></div><div class="line">        <span class="keyword">switch</span>(op) &#123;</div><div class="line">            <span class="keyword">case</span> BYTECODE_A: <span class="comment">//do somthing a</span></div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> BTYECODE_B: <span class="comment">//do something b</span></div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样在执行的时候会发现大部分热点是在<code>vm_execute</code>里面，我们看不到代码级别的热点，故没有太多参考意义。</p>
+<p>java，php, nodejs, lua等都面临此类问题，那他们是如何解决的，大致如下:</p>
+<ul>
+<li><p>语言/扩展层面提供具体的解决方案 : 比如php的xprofile，其<a href="http://blog.csdn.net/yzongyu/article/details/8457209" target="_blank" rel="external">机制</a>大体类似</p>
+</li>
+<li><p>语言层面提供部分支持，再通过外部工具进行剖析 : 也是语言层面的支持，但和上述不同的是，并不是提供具体是profile的支持，而是一些机制的支持,再和一些外部工具结合(比如perf record)，产生性能剖析的结果，比较常见的包括:</p>
+<ul>
+<li>JVM的JVMTI机制，提供提供给性能分析器的hook，可以抓到像函数调用、类加载、卸载、线程的进入及离开等事件, 具体可以见<a href="http://www.ibm.com/developerworks/cn/java/j-lo-jpda2/" target="_blank" rel="external">深入 Java 调试体系，第 2 部分: JVMTI 和 Agent 实现</a></li>
+<li>luajit的<code>LUAJIT_USE_PERFTOOLS</code> option，具体可以看下文 </li>
+</ul>
+</li>
+<li><p>语言层面不提供任何支持 : 比如lua，此时只能依赖外部工具了，现在比较常见的是systemtap，下面会详细介绍systemtap如何进行lua源码级别的性能剖析</p>
+</li>
+</ul>
+<h2 id="0x02-lua源码的性能剖析"><a href="#0x02-lua源码的性能剖析" class="headerlink" title="0x02 lua源码的性能剖析"></a>0x02 lua源码的性能剖析</h2><p>联系到我们的具体需求，我们主要是考虑现有的工具如果快速支持nginx/lua的性能剖析，从两个最为常见的工具入手: systemtap和perf tools，看下他们对这个的支持情况</p>
+<h3 id="基于systemtap的性能分析"><a href="#基于systemtap的性能分析" class="headerlink" title="基于systemtap的性能分析"></a>基于systemtap的性能分析</h3><p><a href="https://github.com/agentzh" target="_blank" rel="external">agentzh</a>在git的<a href="https://github.com/openresty/nginx-systemtap-toolkit" target="_blank" rel="external">openresty/nginx-systemtap-toolkit</a>就已经提供了对lua/luajit的源码级别的热点发现，那他是如何实现的呢？</p>
+<p>简单介绍下systemtap一些核心特性,包括:</p>
+<ul>
+<li>systemtap支持多样的probe, 包括kernel/user space function调用，离开等事件</li>
+<li>systemtap支持读取特定进程的内存信息，同时支持加载特定的符号信息</li>
+<li>systamtap支持类C语法的指针操作</li>
+</ul>
+<p>依照如上特性，systemtap对lua源码的栈帧的采集策略大概如下:</p>
+<blockquote>
+<p>perl脚本，来自ngx-sample-lua-bt : <a href="https://github.com/openresty/nginx-systemtap-toolkit/blob/master/ngx-sample-lua-bt" target="_blank" rel="external">https://github.com/openresty/nginx-systemtap-toolkit/blob/master/ngx-sample-lua-bt</a></p>
+</blockquote>
+<ol>
+<li>通过probe, 获取VM的指针</li>
+</ol>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// 监测lua_pcall函数，存储VM的指针</div><div class="line">probe process(<span class="string">"$lua_path"</span>).function(<span class="string">"lua_resume"</span>),</div><div class="line">      process(<span class="string">"$lua_path"</span>).function(<span class="string">"lua_pcall"</span>)</div><div class="line">&#123;</div><div class="line">    my_pid = pid()</div><div class="line">    <span class="keyword">if</span> ($condition) &#123;</div><div class="line">        lua_states[my_pid] = \$L</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>通过VM的指针，依照语言特性，获取栈帧</li>
+</ol>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// 依照语言特性, 获取栈帧 --&gt; 强语言依赖</div><div class="line">function lua_getstack(L, level) &#123;</div><div class="line">    <span class="regexp">/* code from function lj_debug_frame in LuaJIT 2.0 */</span></div><div class="line">    /* TValue *frame, *nextframe, *bot; *<span class="regexp">/</span></div><div class="line">    bot = tvref(\&amp;$L-&gt;stack)  /<span class="regexp">/ TValue *</span></div><div class="line">    found_frame = 0</div><div class="line">    for (nextframe = frame = $L-&gt;base - $sizeof_TValue; frame &gt; bot; ) &#123;</div><div class="line">        /* Traverse frames backwards *<span class="regexp">/</span></div><div class="line">        if (frame_gc(frame) == L) &#123;</div><div class="line">            /<span class="regexp">/dd("Skip dummy frames. See lj_meta_call")</span></div><div class="line">            level++</div><div class="line">        &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+<ol>
+<li>通过<code>timer probe</code>进行频繁的采样和存储</li>
+</ol>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">probe timer.profile &#123;</div><div class="line">    my_pid = pid()</div><div class="line">    <span class="keyword">if</span> ($condition) &#123;</div><div class="line">        L = lua_states[my_pid]</div><div class="line">        // 采样 &amp;&amp; 存储</div></pre></td></tr></table></figure>
+<p>大概的原理就是通过systemtap定时器和进程侵入的特性，直接读取nginx进程的地址空间内容，又依照对nginx lua/luajit的内存布局理解(通过review lua/luajit的源码)，直接打印出栈布局。 这要求systemtap脚本对lua/luajit的代码非常熟悉，而且一旦程序有相关升级之类的，可能就有兼容性问题 </p>
+<p>总结下来，如下:</p>
+<ul>
+<li>优点: 功能强大，同时支持lua/luajit</li>
+<li>缺点: systemtap在线上安装成本颇高，后续维护也是问题</li>
+</ul>
+<h3 id="基于perf-record的性能分析"><a href="#基于perf-record的性能分析" class="headerlink" title="基于perf record的性能分析"></a>基于perf record的性能分析</h3><p>考虑到systemtap落地和维护的成本，我们在考虑能不能用<code>perf record</code>做一个简单的支持。答案是肯定的!</p>
+<p>在2009年，perf events增加了对<a href="https://lkml.org/lkml/2009/6/8/499" target="_blank" rel="external">jit symbol的支持</a>, 总的来说一个JIT的VM只要做如下的支持就可以了:</p>
+<ul>
+<li>应用程序需要导出<code>/tmp/perf-PID.map</code>的文件, 文件以文本格式存储内存地址，大小以及符号名称 </li>
+</ul>
+<p>其中<a href="http://www.brendangregg.com/blog/2014-06-12/java-flame-graphs.html" target="_blank" rel="external">jave</a>和<a href="http://www.brendangregg.com/blog/2014-09-17/node-flame-graphs-on-linux.html" target="_blank" rel="external">nodejs</a>先后依据此特性增加了对perf tool的支持</p>
+<p>那luajit呢？是否有这个方面的支持？查阅了luajit的官网上面的文档，并没有涉及此方面的讨论，连Makefile里面的feature也没有提及到这一点。不过直接grep源码，还是有惊喜的，如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[chenjiansen@cq01-rdqa-dev028.cq01.baidu.com LuaJIT-2.0.3]$ grep <span class="string">"perftool"</span> * -r -i -n</div><div class="line">src/lj_trace.c:85:<span class="comment">#ifdef LUAJIT_USE_PERFTOOLS</span></div><div class="line">src/lj_trace.c:96:static void perftools_addtrace(GCtrace *T)<span class="string">""</span></div></pre></td></tr></table></figure>
+<p>简单的说，主要开启<code>LUAJIT_USE_PERFTOOLS</code>宏，应该就能自动导出<code>/tmp/perf-{PDI}</code>文件</p>
+<p>重新编译luajit，执行nginx/lua，可以看到的确有相关文件导出，如下:</p>
+<blockquote>
+<p>luajit在每次jit的时候，会导出此符号文件，但这些不一定的应用程序的热点, 只是lua vm的热点</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[forum@db-forum-phpfr01.db01.baidu.com ~]$ cat /tmp/perf-23998.map </div><div class="line">bffff55 a4 TRACE_1::/home/work/nginx_inner/lua/tieba/lua_script/service_status/setServiceStatus.lua:89</div><div class="line">bffff2a 24 TRACE_2::/home/work/nginx_inner/lua/tieba/lua_script/service_status/setServiceStatus.lua:90</div><div class="line">bfffe96 8d TRACE_3::/home/work/nginx_inner/lua/tieba/lua_script/util/http_instruct_util.lua:47</div><div class="line">bfffd40 14f TRACE_4::/home/work/nginx_inner/lua/tieba/lua_script/rewrite/ngx_rewrite_server_degradation.lua:1</div></pre></td></tr></table></figure>
+<p>用<code>perf report</code>就可以看到如下的结果:</p>
+<p><img src="perf_report_sample.png" alt="perf_report_demo"></p>
+<p>总结下来，如下:</p>
+<ul>
+<li>优点: 使用起来简单方便，无需太多的额外操作</li>
+<li>缺点: 灵活性有限，仅支持luajit</li>
+</ul>
+<h3 id="火焰图"><a href="#火焰图" class="headerlink" title="火焰图"></a>火焰图</h3><p>如上采样统计分析的结果，一般就是各种栈帧的采集，需要一些工具做进一步的分析总结，比如说用<code>perf report</code>进行分析</p>
+<p>而<a href="http://www.brendangregg.com/blog/index.html" target="_blank" rel="external">Brendan Gregg</a>的<a href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html" target="_blank" rel="external">火焰图</a> 则给这些数据做一个可视化的展现，通过简单的<a href="https://github.com/brendangregg/FlameGraph" target="_blank" rel="external">脚本</a>能快速生成相应的<code>.svg</code> 文件，通过浏览器可以清晰的看到具体的热点</p>
+<p>如下是一个火焰图的<a href="http://db-forum-phpfr01.db01.baidu.com:8200/svg//nginx_runtime_jit.svg" target="_blank" rel="external">demo</a>:</p>
+<p><img src="http://db-forum-phpfr01.db01.baidu.com:8200/svg//nginx_runtime_jit.svg" alt="flame_demo"></p>
+<p>可以清楚的看到热点在<code>test.lua:7</code>这个地方</p>
+<h2 id="0x03-后续计划"><a href="#0x03-后续计划" class="headerlink" title="0x03 后续计划"></a>0x03 后续计划</h2><blockquote>
+<p>短期内的贴吧落地实践</p>
+</blockquote>
+<p>主要采用<code>perf record + luajit</code>的机制, 为了满足此需求，现实的nginx会调整如下:</p>
+<ul>
+<li>nginx lua全部迁移nginx luajit : 之前有些case问题，这方面会重新review，争取全部迁移过去</li>
+<li>所有线下的luajit编译时候开启<code>LUAJIT_USE_PERFTOOLS</code>选项(由于不会自动删除过期文件，且reload的时候会重新生成/temp/perf-*文件，线上暂不开启)</li>
+<li>在上线流程的时候，性能测试报告，必须附上火焰图的链接</li>
+</ul>
+<p>如下两个图的router和inrouter的性能分析图(可以看到inrouter的的DNA扩展占用了3%的无效cpu)</p>
+<blockquote>
+<p>使用http_load 压测（可以沟通不同的URL), runtime nginx用nginx lua简单mock了</p>
+</blockquote>
+<ul>
+<li>router的火焰图(<a href="http://db-forum-phpfr01.db01.baidu.com:8200/svg//router_jit.svg" target="_blank" rel="external">点此</a>新窗口打开)</li>
+</ul>
+<p><img src="http://db-forum-phpfr01.db01.baidu.com:8200/svg//router_jit.svg" alt="router_flame"></p>
+<ul>
+<li>inrouter的火焰图(<a href="http://db-forum-phpfr01.db01.baidu.com:8200/svg//inner_jit.svg" target="_blank" rel="external">点此</a>新窗口打开)<br><img src="http://db-forum-phpfr01.db01.baidu.com:8200/svg//inner_jit.svg" alt="inrouter_flame"></li>
+</ul>
+<h2 id="0x04-参考"><a href="#0x04-参考" class="headerlink" title="0x04 参考"></a>0x04 参考</h2><p>上面讨论略去一些无关的细节，比如说<code>perf</code>在后续的版本也支持了<a href="https://gnu.wildebeest.org/blog/mjw/2012/05/24/pull-user-space-probe-instrumentation/" target="_blank" rel="external">function probe</a>的功能, 一些结论也是猜测，可能有比较多的错误之处，欢迎指出</p>
+<p>最后附上一些参考资料: </p>
+<ul>
+<li>perf的一些资料<ul>
+<li><a href="http://www.brendangregg.com/perf.html#FlameGraphs" target="_blank" rel="external">perf Examples</a> : 具体介绍了perf record的优缺点以及具体的解决方案</li>
+<li><a href="https://perf.wiki.kernel.org/index.php/Tutorial" target="_blank" rel="external">Perf Tutorial</a> : perf的非常不错入门介绍，介绍简单的使用和内部机制</li>
+<li><a href="http://files.cnblogs.com/files/jiayy/Perf%E5%9C%A8Linux%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_v3.pdf" target="_blank" rel="external">Perf在Linux性能评估中的应用</a> : 淘宝承刚的perf PDF，入门也是不错的</li>
+</ul>
+</li>
+<li><p>systemtap的资料</p>
+<ul>
+<li><a href="https://sourceware.org/systemtap/wiki" target="_blank" rel="external">systemtap wiki主页</a></li>
+<li><a href="http://blog.yufeng.info/archives/tag/systemtap" target="_blank" rel="external">系统技术非业余研究: systemtap的专题</a></li>
+</ul>
+</li>
+<li><p><a href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html" target="_blank" rel="external">CPU Flame Graphs</a> : CPU火焰图说明</p>
+</li>
+<li><a href="http://www.brendangregg.com/blog/2014-09-17/node-flame-graphs-on-linux.html" target="_blank" rel="external">node.js Flame Graphs on Linux</a> : nodejs的火焰图</li>
+<li><a href="http://www.slideshare.net/chaoslawful/cc-14971110" target="_blank" rel="external">C/C++调试、跟踪及性能分析工具综述</a></li>
+<li><a href="http://www.slideshare.net/brendangregg/linux-performance-analysis-new-tools-and-old-secrets" target="_blank" rel="external">Linux Performance Analysis: New Tools and Old Secrets</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-nginx_https_proxy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/25/nginx_https_proxy/">nginx与https -- 正向代理支持</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/04/25/nginx_https_proxy/" class="article-date">
+  <time datetime="2015-04-25T07:34:36.000Z" itemprop="datePublished">2015-04-25</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>众所周知，nginx的对于http(s)反向代理的支持一直不错，但对正向代理(正向VS反向代理区别，见<a href="http://z00w00.blog.51cto.com/515114/1031287" target="_blank" rel="external">图解正向代理、反向代理、透明代理</a>)的支持如何呢？</p>
+<p>对于http正向代理, nginx很早就支持了，具体如何配置nginx的正向代理可以见:<a href="http://rhomobi.com/topics/94" target="_blank" rel="external">Nginx配置正向http代理</a></p>
+<p>而对于https的正向代理，nginx是从1.5.6版本，才开始逐渐支持, 现在看来其实是比较晚的版本，可以理解要支持https正向代理还是需要一些成本的。本文主要简单介绍下nginx要支持https需要支持的运行机制以及具体如何配置nginx才能支持https。代码层面的实现，暂不赘述。</p>
+<p>希望通过这篇文件让大家了解如何配置nginx的https正向代理，以及对https协议有个简单的了解。</p>
+<h2 id="要怎么做"><a href="#要怎么做" class="headerlink" title="要怎么做"></a>要怎么做</h2><p>如上，如果支持了https，就是要在和upstream交互的过程中支持https协议，如下是TLS协议的示意图，总的来说就是会多一些HTTPS握手的流程，因此nginx在具体实现上面就是需要支持HTTPS握手，以及此方面的相关配置：</p>
+<p><img src="/images/ssl-handshake.png" alt="ssl-handshake.png"></p>
+<p>就是要实现一个完整的<code>client-hello</code>, <code>client key change</code>等(如果做https反向代理，主要做的事情是<code>server hello</code>等)，好在openssl库其实此类都有完整的支持，nginx只需要根据自己的框架套进去就可以了。</p>
+<p>同样，nginx对正向代理的支持，也就体现在对client这边行为的控制。</p>
+<h2 id="nginx支持哪些"><a href="#nginx支持哪些" class="headerlink" title="nginx支持哪些"></a>nginx支持哪些</h2><p>通过上面的分析，nginx具体在支持请求https的时候，主要是包括如下几个方面的控制:</p>
+<h4 id="对server的验证和识别"><a href="#对server的验证和识别" class="headerlink" title="对server的验证和识别"></a>对server的验证和识别</h4><p>传统情况下，我们对server的失败是通过浏览器内部以及相关配置的CA去做的，现在如果让nginx去连接https服务器，而且我们也希望做相关的身份验证的话, 就得配置相关的CA以及证书链之类的，具体包括:</p>
+<ul>
+<li>proxy_ssl_verify : 是否验证服务端</li>
+<li>proxy_ssl_crl : 配置验证服务端的CRL(吊销证书列表)</li>
+<li>proxy_ssl_trusted_certificate : 配置验证服务端的CA列表</li>
+<li>proxy_ssl_verify_depth : 配置验证证书链的深度</li>
+</ul>
+<h4 id="对client的标识"><a href="#对client的标识" class="headerlink" title="对client的标识"></a>对client的标识</h4><p>有些情况下，server端还会有对client端进行身份验证的需求（比如vpn登陆），因此nginx还支持配置client端的证书信息，具体包括:</p>
+<ul>
+<li>proxy_ssl_certificate : 指定client公钥文件的地址</li>
+<li>proxy_ssl_certificate_key : 指定client密钥文件地址</li>
+<li>proxy_ssl_ciphers : 指定可以采用的加密算法列表</li>
+<li>proxy_ssl_protocols : 指定要采用的HTTPS(TLS协议)</li>
+<li>proxy_ssl_name : 指定用于要访问和SNI里面传送的域名，默认用的是proxy_pass的URL域名</li>
+<li>proxy_ssl_password_file : 指定密钥文件（待明确!）</li>
+</ul>
+<h4 id="其他性能-优化相关的"><a href="#其他性能-优化相关的" class="headerlink" title="其他性能/优化相关的"></a>其他性能/优化相关的</h4><ul>
+<li>proxy_ssl_server_name : 是否启用SNI机制</li>
+<li>proxy_ssl_session_reuse : 是否复用ssl session</li>
+</ul>
+<p>其中<a href="http://en.wikipedia.org/wiki/Server_Name_Indication" target="_blank" rel="external">SNI机制</a>，可以简单理解是允许在发送https请求加个类似http协议里面的host域，这样允许一个IP和PORT同时支持多个域名</p>
+<p>而SSL Session机制则允许减少<code>TLS握手的次数</code>, 包括sesseion tickets和session identifier; 启用这个的话，nginx内部会用<code>SSL_session_reused</code>尝试复用，具体https的性能优化和内部策略，后面一篇文章(nginx的https反向代理支持)再细说。</p>
+<h2 id="配置demo"><a href="#配置demo" class="headerlink" title="配置demo"></a>配置demo</h2><p>如下是nginx正向代理的配置的demo（开启服务端检测)</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="attribute">location</span> / &#123;</div><div class="line">    <span class="attribute">proxy_ssl_verify</span> <span class="literal">on</span>;</div><div class="line">    <span class="attribute">proxy_ssl_trusted_certificate</span> /home/users/chenjiansen/nginx_ssl/root_ca.pem;</div><div class="line">    <span class="attribute">proxy_ssl_verify_depth</span> <span class="number">9</span>;</div><div class="line">    <span class="attribute">proxy_pass</span> https://<span class="variable">$http_host</span><span class="variable">$request_uri</span>;</div><div class="line">    <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</div><div class="line">    <span class="attribute">proxy_set_header</span> <span class="string">"user-agent"</span> <span class="string">'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTM</span></div><div class="line">L, like Gecko) Chrome/42.0.2311.90 Safari/537.36';</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>用如下命令可以尝试验证https代理的可用性</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl <span class="string">"cq01-rdqa-dev028.xxxxx.com:8300"</span> -H<span class="string">"Host:www.baidu.com"</span></div></pre></td></tr></table></figure>
+<h2 id="部署建议"><a href="#部署建议" class="headerlink" title="部署建议"></a>部署建议</h2><p>现在我们具体生产部署的时候，一般是调用一些第三方的支付接口，建议如下:</p>
+<ul>
+<li>开启服务端验证机制, 避免中间人攻击</li>
+<li>根证书的配置尽量最少原则的, 不要配置太多无用的根证书。比如，我们如果明确就是用一个location访问<code>https://www.baidu.com</code>，而百度域的根证书是<code>VeriSign Class 3 Public Primary Certification Authority - G5</code> ，这样的话，我们的CA列表只要有这个根证书就可以了</li>
+</ul>
+<p>而一些其他的业务需求，对安全性等要求不是很高的话，可以按需调整。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://support.microsoft.com/en-us/kb/823503/zh-cn" target="_blank" rel="external">导入和导出证书以便能够在多台计算机上使用</a>, MAC系统更简单，在<code>钥匙串</code>里面直接点击导出即可</li>
+<li><p><a href="http://nginx.com/resources/admin-guide/nginx-tcp-ssl-upstreams/" target="_blank" rel="external">Securing TCP Traffic to Upstream Servers</a></p>
+</li>
+<li><p><a href="http://vincent.bernat.im/en/blog/2011-ssl-session-reuse-rfc5077.html" target="_blank" rel="external">Speeding up SSL: enabling session reuse</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-anti_censorship" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -710,181 +977,6 @@ $ gzip access.log.0    # do something with access.log.0
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
 
       </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-tcp_close" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/02/01/tcp_close/">tcp的关闭处理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/02/01/tcp_close/" class="article-date">
-  <time datetime="2015-02-01T15:41:49.000Z" itemprop="datePublished">2015-02-01</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>tcp的系列文章，不深究源码，偏于理解&amp;应用</p>
-</blockquote>
-<h2 id="状态图迁移"><a href="#状态图迁移" class="headerlink" title="状态图迁移"></a>状态图迁移</h2><p>一般tcp的关闭称为四次挥手，要求client/server端都关闭该通道的连接，他们的状态迁移图如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">#这里暂不考虑同时关闭的情况</span></div><div class="line"></div><div class="line">主动关闭方                  被动关闭方</div><div class="line"></div><div class="line">ESTABLISTED                 ESTABLISED</div><div class="line">    |                           |</div><div class="line">  (send fin)                (get fin</div><div class="line">    |                       /snd ack)</div><div class="line">    |                           |</div><div class="line">    v                           v</div><div class="line">FIN_WAIT_1                  CLOSE_WAIT</div><div class="line">    |                           |</div><div class="line">  (get ack)                     |</div><div class="line">    |                           |</div><div class="line">    v                       (send fin)</div><div class="line">FIN_WAIT_2                      |</div><div class="line">    |                           v</div><div class="line"> (getfin                    LAST_ACK</div><div class="line"> /send ack)                     |</div><div class="line">    |                           |</div><div class="line">    v                       (get ack )</div><div class="line">TIME_WAIT                       |</div><div class="line">    |                           |</div><div class="line">  (2* MSL)                      v</div><div class="line">    |                        CLOSED</div><div class="line">    v</div><div class="line">CLOSED</div></pre></td></tr></table></figure>
-<h2 id="API关系"><a href="#API关系" class="headerlink" title="API关系"></a>API关系</h2><p>关闭的函数主要有两个，如下:</p>
-<ul>
-<li>close : close主要是减少句柄的引用计数，如果为0，在发送fin信号，关闭这一端的连接;</li>
-<li>shutdown : shutdown则是直接发送FIN信号，不考虑引用计数的问题，可以导致一些正在连接的socket直接无效了</li>
-</ul>
-<p>而在具体使用上面，还有一些细节，包括:</p>
-<ul>
-<li><p>close一般情况下是非阻塞的，但我们可以通过设置SO_LINGER的socket选项对close的行为做一些控制,使之变成非阻塞，具体包括:</p>
-</li>
-<li><p>shutdown可以控制关闭读或者关闭写</p>
-</li>
-</ul>
-<p>这里面的一个经典问题的<code>客户端关闭时，如何让服务端尽量的收到数据?</code>，这个后续再详述。</p>
-<h2 id="常见问题-amp-配置"><a href="#常见问题-amp-配置" class="headerlink" title="常见问题&amp;配置"></a>常见问题&amp;配置</h2><p>回到tcp的状态迁移本身，这里面说明下常见的问题：</p>
-<ul>
-<li>A和B交互，如果A send data后，直接close，会有上面影响？</li>
-</ul>
-<p>首先，我们必须非常明确&amp;理解，socket close的作用，如上，一般的就是减少引用计数，如果为0的话，就发送fin，故我们可以推测如下情况:</p>
-<ol>
-<li><p>A发送成功fin也接收到了ack，此时A的状态迁移到了fin_time_2; 同样可以考虑两个场景:<br> 1.1 B那边也close了socket，此时B的socekt发送ack过来，则A走正常的关闭流程，从fin_wait_2 –&gt; time_wait-&gt;close<br> 1.2 B那边由于长短链接或者协议约定的不一致，B并不关闭socket，此时B的socket已经变成了close wait; 而A只能继续处在fin_time_2的状态</p>
-<p> 问题1.2属于不正常的，一般怎么处理呢?</p>
-<ul>
-<li>为了保证A不浪费太多时间在FIN_WAIT_2，对于FIN_WAIT_2有个(TCP_FIN_TIMEOUT，默认60s)的限制，也就是说如果A 60s后还没有接收到对方的fin，则自己会自动切到关闭(<code>or time wait:待明确</code>)状态</li>
-<li>上面的FIN_WAIT_2状态超时有个细节需要关注，那就是此时的socket必须是属于孤儿状态，也就说没有任何句柄和他们关联，如果有句柄和他关联的话，就就会一直处在FIN_WAIT_2状态。之所以强调这点，是因为tcp本身是允许半关闭的，也就是说肯定有socket是持久的处在FIN_WAIT_2状态的，因为tcp需要提供一个机制来保证该状态的存在，其中最关键的一点就是要先判断一个socket是否是孤儿socket。代码demo如下:</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// 假设对方不关闭close fd，分析本端的行为</span></div><div class="line"><span class="comment">//关闭句柄，假设引用计数会变成0</span></div><div class="line">close(fd);</div><div class="line"><span class="comment">// 此时，发送FIN信号，本地的socket状态变成FIN_WAIT_2</span></div><div class="line"><span class="comment">// 由于没有句柄关联，60s后，改socket将关闭 </span></div><div class="line"></div><div class="line"><span class="comment">// 同样是发送FIN信号，本地socket状态变成FIN_WAIT_2</span></div><div class="line"><span class="comment">// 但是由于有句柄关联，改状态会一直持续</span></div><div class="line">shutdown(fd, SHUT_WR);</div><div class="line"></div><div class="line"><span class="comment">//shutdow 还有SHUT_RD(关闭读,不发送信号)，SHUT_RDWR(关闭读写，类似close)</span></div></pre></td></tr></table></figure>
-<pre><code>* B那边由于被动关闭，而自己也不处理，socket会处于CLOSE WAIT状态，`奇怪的是，系统并没有给close wait一个超时的时间`, 因此我们需要自己想办法清理，`一般close相关的程序就OK了`
-</code></pre><h3 id="FIN-WAIT-1的超时问题"><a href="#FIN-WAIT-1的超时问题" class="headerlink" title="FIN_WAIT_1的超时问题"></a>FIN_WAIT_1的超时问题</h3><p>首先明确，如果一个socket进入FIN_WAIT_1，很大可能性是已经没有句柄关联了(shutdown？)</p>
-<p>如果此时发送失败的话，会受到<code>tcp_orphan_retries</code>参数的控制（重试次数）</p>
-<p>同时为了保证系统的资源有限，<code>tcp_max_orphans</code> 这个参数控制了系统可以存在的最多孤儿socket的个数</p>
-<h3 id="TIME-WAIT的存在必要性问题"><a href="#TIME-WAIT的存在必要性问题" class="headerlink" title="TIME_WAIT的存在必要性问题"></a>TIME_WAIT的存在必要性问题</h3><h3 id="LAST-ACK"><a href="#LAST-ACK" class="headerlink" title="LAST ACK"></a>LAST ACK</h3><h2 id="存在即合理"><a href="#存在即合理" class="headerlink" title="存在即合理"></a>存在即合理</h2><ul>
-<li><p>TCP里面有些状态有超时，有些没有，个人理解其根本原则在于：<code>资源能否被控制住</code>，如果你的资源属于一个进程，那么就不会去限制你的超时，因为进程存在，控制进程就可以了，进程死了你也就死了；如果你已久脱离了进程的管辖，比如说孤儿状态下的FIN_WAIT_2，我们就不能让他活的太持久</p>
-</li>
-<li><p>可以理解对于一个状态要有超时，</p>
-</li>
-<li>对于孤儿的socket</li>
-</ul>
-
-      
-    </div>
-    
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-loader_and_linker" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/02/01/loader_and_linker/">linux系统下的链接&amp;加载</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/02/01/loader_and_linker/" class="article-date">
-  <time datetime="2015-02-01T15:41:35.000Z" itemprop="datePublished">2015-02-01</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="静态库"><a href="#静态库" class="headerlink" title="静态库"></a>静态库</h2><p><code>.a</code>文件，一大堆<code>.o</code>文件的组合体，对于系统库而言，一般一个<code>.o</code>文件对于一个函数<br>静态文件的链接世界上就是一大堆<code>.o</code>文件的代码的合并&amp;段合并（比如把<code>.text</code>段合并起来），组成一个新的目标文件;<br>其核心要解决的问题包括:</p>
-<ul>
-<li>符号重定位 ： 不同obj文件里面的地址在调整之后，需要调整对应的一些地址（函数地址，变量地址等）；解决方案是每个obj都有一个重定位段，用于记录需要重定位的地址和符号信息(<code>.rel.text</code>,<code>.rel.data</code>等 )</li>
-<li>符号决策：强符号/弱符号</li>
-</ul>
-<p>总的来说，静态链接是比较简单，可以理解为就是简单的代码拷贝，加上基址重定位</p>
-<h2 id="动态库实现"><a href="#动态库实现" class="headerlink" title="动态库实现"></a>动态库实现</h2><p>如上，静态库存在两个比较大的问题：</p>
-<ul>
-<li>bin文件对存储空间的浪费</li>
-<li>执行时候对内存的浪费</li>
-</ul>
-<p>解决的思路很简单，就是让bin链接的库是动态加载的，一个简单的办法就是让上面做静态链接的过程放在程序的加载过程，也就是所谓的装载重定位(<code>-shared</code>标签)，但装载重定位存在一个问题就是，不同的bin的装载的地址不一致，导致加载进来的动态库的虚存地址也不一致，因此并不能起到节省内存的效果，如何解决呢？</p>
-<p>方法就是让编译出来的so地址无关，这样无论应用程序把so装载到那个地方，所有的经常都能恭喜相同的代码段。</p>
-<p>要生成地址无关的代码(<code>-fPIC</code>),解决也比较简单。由于每个so最终会主要包括两个段: text段和data段，其中text段是要共享的，data段是每个进程都会有的，而data和text的偏移量的固定的，因此所有的地址都可以先存在data段(<code>GOT表</code>)，然后访问的时候先去访问GOT表，获取真正的地址。</p>
-<p>事实上，为了优化动态库的加载速度等，系统还做了一些比如延迟加载等技术，这里就不深入探讨。</p>
-<h2 id="linux动态库的组织"><a href="#linux动态库的组织" class="headerlink" title="linux动态库的组织"></a>linux动态库的组织</h2><p>所谓的动态库的组织，其实就是要提供一个通用的机制方便其他elf文件加载&amp;链接，核心解决两个问题</p>
-<h3 id="去哪里找"><a href="#去哪里找" class="headerlink" title="去哪里找"></a>去哪里找</h3><ol>
-<li>系统路径: /lib, /usr/lib, /usr/loca/lib, 可以参看FHS规范</li>
-<li>配置查找路径: 查看<code>ld.so.con</code>配置的路径</li>
-<li>一些系统变量，比如LD_LIBRARY_PATH</li>
-</ol>
-<p>查找的规则顺序是3-&gt;2-&gt;1 </p>
-<p>其他一些可以关注的点包括: LD_PRELOAD, LD_DEBUG, -rpath</p>
-<h3 id="找哪个"><a href="#找哪个" class="headerlink" title="找哪个"></a>找哪个</h3><p>由于动态库可能会一直升级，基本我们找到了那个so，我们能否使用之，会不会版本太老或者太新等。为止，我们需要有相关的规范约定动态库能够被使用，具体来说，由如下三个部分沟通:</p>
-<h4 id="so版本库概念"><a href="#so版本库概念" class="headerlink" title="so版本库概念"></a>so版本库概念</h4><p>具体约定每个so按照如下命名规则:</p>
-<p>lib_name_.so._x_._y_._z_</p>
-<ul>
-<li>x : 主版本号,表示重大升级，不同主版本号可以不兼容</li>
-<li>y : 次版本号，表示增量升级，新建一些接口，且会兼容老的版本</li>
-<li>z : 发布版本号，一般表示库的错误的修正，不增加新的接口，兼容老版本</li>
-</ul>
-<p>由上，我们只要保证一个程序在查找so的时候满足如下规则即可:</p>
-<ul>
-<li>相同的主版本号</li>
-<li>查找到次版本号高于或者等于程序需要的此版本号</li>
-</ul>
-<h4 id="so-name"><a href="#so-name" class="headerlink" title="so-name"></a>so-name</h4><p>so-name简单的说，就是表示一个程序要链接的so-name，so-name是可以让应用程序就记录<code>so-name</code>，而非具体的so的版本信息，故<code>so-name</code>主要定义如下:</p>
-<ul>
-<li>每个so-name 包括libname和主版本号信息，比如libtest.2，2是主版本</li>
-<li>由于主版本不能保证指向的so能兼容所有程序，姑系统会让<code>so-name</code>指向该主版本对应的最高的此版本so,比如:</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">ll libtest.so.2</div><div class="line">libtest.so.2 -&gt; libtest.so.2.4.1 [2.4是最高的次版本]</div></pre></td></tr></table></figure>
-<p>在ELF文件<code>.dynamic</code>段里面记录的链接库信息就是用的so-name</p>
-<p>同时为了保证总能指向最新的此版本so，当so升级的时候，需要运行<code>ldconfig</code>去调整so-name对应的软连接</p>
-<h4 id="符号版本机制"><a href="#符号版本机制" class="headerlink" title="符号版本机制"></a>符号版本机制</h4><p>so-name虽然能解决很大一部分问题，但是有时候，我们希望做更细粒度的控制，比如如果一个so升级了，但是其中部分函数没有修改，我们依旧希望这个部分的代码能被老版本的ELF使用，怎么做呢？很多简单，就是给每个符号加一个版本信息</p>
-<p>当在linux gcc下面其实上述符号版本并没有大规模使用，gcc通报拆分so（glibc软件包提供了20多个共享库）,来达到细粒度控制so版本的目标。</p>
-<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>一些异类，主要是两类 最核心的so，包括:</p>
-<ul>
-<li>glibc :</li>
-<li>ld : </li>
-</ul>
-
-      
-    </div>
-    
     
   </div>
   

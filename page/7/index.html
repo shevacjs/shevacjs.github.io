@@ -57,6 +57,179 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-pca" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/06/pca/">About PCA</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/05/06/pca/" class="article-date">
+  <time datetime="2017-05-05T16:25:11.000Z" itemprop="datePublished">2017-05-06</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>wiki概述:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在多元统计分析中，主成分分析（英语：Principal components analysis，PCA）是一种分析、简化数据集的技术。主成分分析经常用于减少数据集的维数，同时保持数据集中的对方差贡献最大的特征。这是通过保留低阶主成分，忽略高阶主成分做到的。这样低阶成分往往能够保留住数据的最重要方面。但是，这也不是一定的，要视具体应用而定。由于主成分分析依赖所给数据，所以数据的准确性对分析结果影响很大。</div></pre></td></tr></table></figure>
+<p>数学定义:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">PCA的数学定义是：一个正交化线性变换，把数据变换到一个新的坐标系统中，使得这一数据的任何投影的第一大方差在第一个坐标（称为第一主成分）上，第二大方差在第二个坐标（第二主成分）上，依次类推</div></pre></td></tr></table></figure>
+<h2 id="个人理解"><a href="#个人理解" class="headerlink" title="个人理解"></a>个人理解</h2><p>考虑到我们有一个矩阵m*n , 行代表特征，列代表数据(意味着我们有N个数据点，每个数据点有M个维度) </p>
+<p>我们基于的假设是: 我们可以约定一个办法, 可以让这堆数据从m维降到k维, 但是对这个数据包含的信息量影响很小;</p>
+<p>如果数据没有一定的分布，其实这个假设是不大可能成立的，从wiki上面可以看到描述: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">通过使用降维来保存大部分数据信息的主成分分析的观点是不正确的。确实如此，当没有任何假设信息的信号模型时，主成分分析在降维的同时并不能保证信息的不丢失，其中信息是由香农熵[8]来衡量的。 基于假设得 &#123;\displaystyle \mathbf &#123;x&#125; =\mathbf &#123;s&#125; +\mathbf &#123;n&#125; &#125;  \mathbf&#123;x&#125; = \mathbf&#123;s&#125; +  \mathbf&#123;n&#125;   也就是说，向量 x 是含有信息的目标信号 s 和噪声信号 n 之和，从信息论角度考虑主成分分析在降维上是最优的。</div><div class="line">特别地，Linsker证明了如果 s 是高斯分布，且 n 是 与密度矩阵相应的协方差矩阵的高斯噪声，</div></pre></td></tr></table></figure>
+<p>现在我们不考虑这个假设是否成立的前提下, 需要抽象一个数据方法来实践; 一个重点的衡量标准是:<code>数据包含的信息量影响很小</code> ; 基于信息论的假设：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在信号处理中认为信号具有较大的方差，噪声有较小的方差，信噪比就是信号与噪声的方差比，越大越好。</div></pre></td></tr></table></figure>
+<p>这也就抽象出上面具体的<code>数学定义</code></p>
+<p>所以整体依赖的核心思路和思想是对<code>信息论</code>的抽象和实践</p>
+<h2 id="简单推导"><a href="#简单推导" class="headerlink" title="简单推导"></a>简单推导</h2><p>假设有m个点，目标后的向量空间为 </p>
+<p>$$<br>U = {u_1, u_2, u_3, … u_n}<br>$$</p>
+<p>假设$u_1$是让其投影方差最大的直线的单位向量；则$u_1$满足如下要求: </p>
+<p>对于任意一个点 $x_i$ 其到目标向量$u_1$的投影的长度为 两个向量的点积，即: $x_i.u_i$，平方之后不影响结论，则我们考虑目标后的方差之和 (目标是求让$\lambda$最大的u):</p>
+<p>$$\lambda=\frac{1}{m}\sum_1^m(x_i.u_1)^2 = \frac{1}{m}\sum_1^m(x_i^Tu_1)(x_i^Tu_1) $$<br>$$=\frac{1}{m}\sum_1^m(x_i^Tu_1)^T(x_i^Tu_1)$$<br>$$=\frac{1}{m}\sum_1^mu_1^Tx_ix_i^Tu_1$$<br>$$=\frac{1}{m}u_1^T\sum_1^m(x_ix_i^T)u_1$$<br>$$=u_1^T\frac{1}{m}\sum_1^m(x_ix_i^T)u_1$$</p>
+<p>令 $A=\frac{1}{m}\sum_1^m(x_ix_i^T)$, $u_1$简写成u则有 :<br>$$\lambda=u^TAu$$</p>
+<p>由于 $u^Tu=1$, 同时乘以u, 则有:</p>
+<p>$$\lambda u=Au$$</p>
+<p>故而可以知道 u 是矩阵 A 的最大特征值对应的特征向量 , 第二大特征值等依次也可以推出</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020209.html" target="_blank" rel="external">主成分分析（Principal components analysis）-最大方差解释</a></li>
+<li><a href="http://blog.csdn.net/zhongkelee/article/details/44064401" target="_blank" rel="external">主成分分析（PCA）原理详解</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-svd" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/06/svd/">About SVD</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/05/06/svd/" class="article-date">
+  <time datetime="2017-05-05T16:25:11.000Z" itemprop="datePublished">2017-05-06</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>关于机器学习的任何文章仅限个人理解，会有颇多谬误之处</p>
+</blockquote>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>奇异值分解是一种非常重要的矩阵分解,  设A为m*n阶矩阵，r = rank A, 则具体形式如下:</p>
+<p>$$ A = U\sum V^T$$</p>
+<p>其中 :</p>
+<ul>
+<li>U : 是m*m阶单位正交矩阵，是有$AA^T$的特征向量构成的列向量组成的</li>
+<li>$\sum $ : 是m*n对角矩阵，这些是 $AA^T$及 $A^TA$的特征值的非零平方根，并与U和V的行向量相对应</li>
+<li>$V^T$ :  n*n阶单位正交矩阵，是由$A^TA$的特征向量构成的列向量组成的</li>
+</ul>
+<p>可以理解，我们对于任意一个矩阵，希望转换为一个我们更容易处理的方式，<code>SVD</code>有比较相对标准化的办法</p>
+<blockquote>
+<p>其他， 关于矩阵的相似和对角化</p>
+</blockquote>
+<p>对于任意一个方阵 M ，设 $M=PBP^{-1}$</p>
+<blockquote>
+<p>todo 关于矩阵相似的说明</p>
+</blockquote>
+<p>我们知道任意一个对称矩阵，即$A^T=A$，则A可以正交对角化，也就是: </p>
+<p>$$ A = P^{-1} D P$$</p>
+<p>其中 :</p>
+<ul>
+<li>D是对角矩阵，对应着A的特征值</li>
+<li>P的列向量对应这 A的特征向量</li>
+</ul>
+<p>证明 :</p>
+<h2 id="几何意义"><a href="#几何意义" class="headerlink" title="几何意义"></a>几何意义</h2><blockquote>
+<p>不同的说明</p>
+</blockquote>
+<p>从参考链接 $[1]$, 可以说明:  </p>
+<p>它的核心價值在於為矩陣 (線性變換) A 找出兩組理想的基底：在 A 的定義域的正交基底為 $\beta ={\mathbf{v}1,\ldots,\mathbf{v}_n}$，在 A 的到達域 (codomain) 的正交基底為 $\boldsymbol{\gamma}={\mathbf{u}_1,\ldots,\mathbf{u}_m}$，並滿足 $A\mathbf{v}_{i}=\sigma_{i}\mathbf{u}_{i}，1\le i\le r$。這個式子的重大意義是矩陣 A 將列空間基底 ${\mathbf{v}_1,\ldots,\mathbf{v}_r} $映至行空間基底 ${\mathbf{u}_1,\ldots,\mathbf{u}_r}$，同時指出向量長度的改變量，即非零奇異值 $\sigma_1,\ldots,\sigma_r (見上圖)。因此，若以 \boldsymbol{\beta}$ 和 $\boldsymbol{\gamma}$ 當作線性變換 A 的參考基底，便得出對角形式的矩陣表示，即奇異值矩陣 $\Sigma$</p>
+<p>```</p>
+<p>或者 :</p>
+<p>我們可以將 SVD 想成把變換矩陣 A 分解為旋轉 $V^T$，伸縮 $\Sigma$，再旋轉 U 三個步驟 </p>
+<p>或者 :</p>
+<p>SVD分解的几何意义就可以做如下的归纳：对于每一个线性映射 ${\displaystyle {\mathcal {T}}:K^{n}\rightarrow K^{m}} \mathcal T:K^n\rightarrow K^m， {\displaystyle {\mathcal {T}}} \mathcal T$的奇异值分解在原空间与像空间中分别找到一组标准正交基，使得 ${\displaystyle {\mathcal {T}}} \mathcal T把 {\displaystyle K^{n}} K^n$的第$ {\displaystyle i} i$个基向量映射为 ${\displaystyle K^{m}} K^m的第 {\displaystyle i} i$个基向量的非负倍数，并将 ${\displaystyle K^{n}} K^n$中余下的基向量映射为零向量。换句话说，线性变换 ${\displaystyle {\mathcal {T}}} \mathcal T$在这两组选定的基上的矩阵表示为所有对角元均为非负数的对角矩阵。</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><blockquote>
+<p>most from wiki</p>
+</blockquote>
+<ul>
+<li>SVD 可以用于矩阵数量压缩 ： 用<code>r</code></li>
+<li>奇异值分解可以被用来计算矩阵的伪逆求; 伪逆通常可以用来求解最小二乘法问题</li>
+<li>奇异值分解在统计中的主要应用为主成分分析（PCA）。数据集的特征值（在SVD中用奇异值表征）按照重要性排列，降维的过程就是舍弃不重要的特征向量的过程，而剩下的特征向量张成空间为降维后的空间</li>
+</ul>
+<h2 id="与PCA关系"><a href="#与PCA关系" class="headerlink" title="与PCA关系"></a>与PCA关系</h2><p>对任意一个矩阵A(m*n)考虑到<code>pca</code>的目标为: </p>
+<p>设 B 为A的协方差矩阵，则</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>[1] <a href="https://ccjou.wordpress.com/2009/09/01/%E5%A5%87%E7%95%B0%E5%80%BC%E5%88%86%E8%A7%A3-svd/" target="_blank" rel="external">奇異值分解 (SVD)</a></li>
+</ul>
+<ul>
+<li>[2] <a href="https://zh.wikipedia.org/wiki/%E5%A5%87%E5%BC%82%E5%80%BC%E5%88%86%E8%A7%A3" target="_blank" rel="external">奇异值分解</a></li>
+</ul>
+<ul>
+<li>[3] <a href="https://ccjou.wordpress.com/2009/05/27/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8%E5%9F%BA%E6%9C%AC%E5%AE%9A%E7%90%86-%E5%9B%9B/" target="_blank" rel="external">線性代數基本定理 (四)</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20170430" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -605,173 +778,6 @@
 
 
     
-      <article id="post-20170305" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/05/20170305/">weekly of 20170305</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/03/05/20170305/" class="article-date">
-  <time datetime="2017-03-04T16:29:56.000Z" itemprop="datePublished">2017-03-05</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="https://hypothes.is/blog/annotation-is-now-a-web-standard/" target="_blank" rel="external">Annotation is now a web standard</a> : <code>标注</code>功能现在是web 浏览器的一个新标准，个人感觉内容分发等之类业务可以考虑进一步和此标准结合</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="http://new.gafferongames.com/post/why_cant_i_send_udp_packets_from_a_browser/" target="_blank" rel="external">Why can’t I send UDP packets from a browser?</a> : 一个很简单的问题，就是浏览器是否会发出UDP请求呢? 本文介绍了浏览器发送UDP场景的一些case, 比如说<code>QUIC</code>, <code>Websocket</code>等, 本文具体介绍了浏览器支持的不同协议, 以及不同协议支持的业务场景</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzA3ODg4MDk0Ng==&amp;mid=2651113124&amp;idx=1&amp;sn=6417e2552676b8903461217911dfcac2" target="_blank" rel="external">网易乐得iOS无埋点数据SDK实践之路</a> : 贴吧这边是不是也可以调研考虑下?, 同样可以关注的还有<a href="http://tech.meituan.com/mt-mobile-analytics-practice.html" target="_blank" rel="external">美团点评前端无痕埋点实践</a></p>
-</li>
-<li><p><a href="https://research.fb.com/prophet-forecasting-at-scale/?" target="_blank" rel="external">Prophet: forecasting at scale</a> : Facebook开源的趋势预测库, 感觉接入挺方便的, 我们可以测试支持下, 另外同时也看到另外一个类似的工具<a href="http://unplu.gg/test_api.html" target="_blank" rel="external">Unplugg: An automated Forecasting API for timeseries data</a> 同样是用来分析时序数据</p>
-</li>
-<li><p><a href="http://www.cnblogs.com/bodhitree/p/6289023.html" target="_blank" rel="external">/dev/shm介绍</a> : Linux下面的内存文件系统, 可能会有用</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="http://weibo.com/ttarticle/p/show?id=2309404079547992658540" target="_blank" rel="external">【论文每日读】Learning from User Interactions in Personal Search</a> : 一个很新颖的想法, 不过部分东西不是很能理解, 明天再好好研究下</p>
-</li>
-<li><p><a href="https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/" target="_blank" rel="external">A cartoon intro to WebAssembly</a> : 一些系列文章, 对<code>WebAssembly</code> 有非常详细的介绍和说明; 个人感觉<code>WebAssembly</code>是不是可以应用于我们一些可行前端的构建和支持, 期待其快速的标准化和浏览器的支持</p>
-</li>
-<li><p><a href="http://rystsov.info/2017/02/15/simple-consensus.html" target="_blank" rel="external">In search of a simple consensus algorithm</a> : 对一个一致性协议的探讨, 作者认为<code>Single Decree Paxos is simpler than Multi-Paxos &amp; Raft</code> , 一些论证细节下来再研究下，先mark</p>
-</li>
-<li><p><a href="http://www.infoq.com/cn/news/2017/03/Shopify-solve-idea" target="_blank" rel="external">Shopify的闪购限流解决方案</a> : 一些限流方案&amp;思路值得学习, 很多思想和我们线上的反攻击验证码类似, 包括可以注意和进一步总结的<a href="http://security.stackexchange.com/questions/7398/secure-session-cookies/7409#7409" target="_blank" rel="external">Secure Session Cookies</a></p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://medium.com/@martinmalinda/save-time-by-transforming-images-in-the-command-line-c63c83e53b17#.ek048qbel" target="_blank" rel="external">Save time by transforming images in the command line</a> : 文章介绍了使用<code>ImageMagick</code> 这个工具, 在命令行环境下面进行图片处理和切换的一些技巧, 可以试试</p>
-</li>
-<li><p><a href="http://oserror.com/backend/raid-principle/" target="_blank" rel="external">程序员需要知道的RAID基本原理</a> : 说得非常直观，浅显易懂</p>
-</li>
-<li><p><a href="https://arxiv.org/abs/1702.07800" target="_blank" rel="external">On the Origin of Deep Learning</a> : This paper is a review of the evolutionary history of deep learning models, 关于深度学习的介绍和入门, 先mark</p>
-</li>
-<li><p><a href="http://n-gate.com/hackernews/" target="_blank" rel="external">Hackernews Weekly</a> : 该网站收集每周hacker news的热门文章, 如果精力有限，可以看看这里的内容</p>
-</li>
-<li><p><a href="http://insights.thoughtworkers.org/detailed-hsts/" target="_blank" rel="external">HSTS详解</a> : 关于HSTS的说明, 比较浅显易懂</p>
-</li>
-<li><p><a href="https://opensource.com/article/17/2/3-top-machine-learning-libraries-python" target="_blank" rel="external">Top 3 machine learning libraries for Python</a> : 三个关键字<code>Theano</code>, <code>TensorFlow</code> 和<code>scikit-learn</code></p>
-</li>
-<li><p><a href="https://www.lvh.io/posts/nonce-misuse-resistance-101.html" target="_blank" rel="external">Nonce misuse resistance 101</a> : 先mark</p>
-</li>
-<li><p><a href="https://zhuanlan.zhihu.com/p/25532724" target="_blank" rel="external">raft 经典场景分析</a> : mark</p>
-</li>
-<li><p><a href="http://blog.volema.com/nginx-insecurities.html#.WLvi3BJ96Rs" target="_blank" rel="external">Some cases of insecure NGINX configurations</a> : 挺有意思的, 一些配置的trick点; 可以关注下</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20170226" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/26/20170226/">weekly of 20170226</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/02/26/20170226/" class="article-date">
-  <time datetime="2017-02-26T10:23:34.000Z" itemprop="datePublished">2017-02-26</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><img src="https://imgsa.baidu.com/forum/w%3D580/sign=53bf6888a4345982c58ae59a3cf5310b/6f22928fa0ec08fa955fef5b50ee3d6d54fbda95.jpg" alt="image test"></p>
-</li>
-<li><p><a href="https://blog.cloudflare.com/incident-report-on-memory-leak-caused-by-cloudflare-parser-bug/" target="_blank" rel="external">Incident report on memory leak caused by Cloudflare parser bug</a> : Cloudflare由于proxy代码异常导致的敏感信息泄露的事情, 影响挺大的；另外可以参见<a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=1139" target="_blank" rel="external">Cloudflare Reverse Proxies are Dumping Uninitialized Memory</a> 以及<a href="https://github.com/pirate/sites-using-cloudflare/blob/master/README.md" target="_blank" rel="external">List of Sites possibly affected by Cloudflare’s</a></p>
-</li>
-<li><p>nginx新版本支持stale-while-revalidate和stale-if-error : 具体这两个特性的说明可以参看: <a href="https://www.mnot.net/blog/2007/12/12/stale" target="_blank" rel="external">Two HTTP Caching Extensions</a>, <a href="https://www.mnot.net/blog/2014/06/01/chrome_and_stale-while-revalidate" target="_blank" rel="external">Chrome and Stale-While-Revalidate</a>, 以及<a href="https://tools.ietf.org/html/rfc5861" target="_blank" rel="external">HTTP Cache-Control Extensions for Stale Content</a></p>
-</li>
-</ul>
-<ul>
-<li><a href="https://security.googleblog.com/2017/02/announcing-first-sha1-collision.html" target="_blank" rel="external">Announcing the first SHA1 collision</a> : </li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://scotthelme.co.uk/csrf-is-dead/" target="_blank" rel="external">Cross-Site Request Forgery is dead!</a> : 新引入的cookie头部属性<code>SameSite</code>可以大大预防和避免CSRF之类的攻击, 不过现在浏览器对此头部支持的不是很好; 可以看作者的<a href="https://scotthelme.co.uk/tough-cookies/" target="_blank" rel="external">Tough Cookies</a> 了解cookie头部里面有哪些安全属性可以设置</p>
-</li>
-<li><p><a href="https://blog.cloudflare.com/luajit-hacking-getting-next-out-of-the-nyi-list/" target="_blank" rel="external">LuaJIT Hacking: Getting next() out of the NYI list</a> : CloudFlare分享如何优化<code>next()</code>函数的实践；两个方面需要去学习, 一个是Luajit的<a href="http://wiki.luajit.org/NYI#libraries_base-library" target="_blank" rel="external">Not Yet Implemented</a> 之前理解不够深刻, 其次是<a href="https://github.com/cloudflare/loom" target="_blank" rel="external">cloudflare/loom</a> 可以研究下</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="https://zhuanlan.zhihu.com/p/21628977?refer=sangwf" target="_blank" rel="external">在数据采集上的痛苦、幻想与失望</a> : 关于无埋点的几个文章, 包括<a href="http://mp.weixin.qq.com/s/TqV9UNaPBGfBIWY64iApfA" target="_blank" rel="external">SDK无埋点技术在百分点的探索和实践</a> 以及 <a href="http://www.chinawebanalytics.cn/auto-event-tracking-good-bad-ugly/" target="_blank" rel="external">无埋点实现监测的真相——革新还是噱头？</a>, 对我们以后的数据体系建设是一个可以去思考的问题</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="http://mysql.taobao.org/monthly/2017/02/" target="_blank" rel="external">Mysql:数据库内核月报:2017/02</a> : 感觉干货非常多, 对mysql有兴趣的可以收藏起来</p>
-</li>
-<li><p><a href="https://zneak.github.io/fcd/2017/02/19/divisions.html" target="_blank" rel="external">How do compilers optimize divisions?</a> : 挺有意思的一个说明, 就是编译在编译除法指令的时候，很少会直接使用<code>div</code>指令，因为存在一些性能问题, 所有通常情况下会使用一些数值计算作为转换; 通用可以关注对官方工具<a href="https://zneak.github.io/fcd/" target="_blank" rel="external">fcd</a></p>
-</li>
-<li><p><a href="https://www.gcppodcast.com/post/episode-62-cloud-spanner-with-deepti-srivastava/" target="_blank" rel="external">62 Cloud Spanner with Deepti Srivastava</a> : 上面有不少Google Spanner的介绍, 这个周末好好梳理下</p>
-</li>
-<li><p><a href="https://www.blog.google/topics/journalism-news/expanding-fact-checking-google/" target="_blank" rel="external">Expanding Fact Checking at Google</a> : Google引入和推广他的<code>News Fact Checking</code>功能，其内部通过和多个社区和媒体的合作而成; 这方面感觉百度也需要考虑下</p>
-</li>
-<li><p><a href="https://github.com/k4m4/terminals-are-sexy" target="_blank" rel="external">terminals-are-sexy</a> : A curated list of Terminal frameworks, plugins &amp; resources for CLI lovers</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/6/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/8/">下一页 &raquo;</a>
       </nav>
@@ -807,6 +813,23 @@
 
 
 <script src="/js/script.js"></script>
-  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 </body>
 </html>
