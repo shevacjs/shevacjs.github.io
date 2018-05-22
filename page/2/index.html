@@ -57,6 +57,165 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-20180318" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/27/20180318/">weekly of 20180318</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/03/27/20180318/" class="article-date">
+  <time datetime="2018-03-27T02:57:45.000Z" itemprop="datePublished">2018-03-27</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://www.nginx.com/blog/nginx-1-13-10-grpc/" target="_blank" rel="external">Announcing gRPC Support in NGINX</a> : Nginx支持Grpc方式的服务代理，和服务转发, 下来写文章重点关注</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16609429" target="_blank" rel="external">RedisGraph: A High Performance In-Memory Graph Database as a Redis Module</a> : 作者基于Redis的扩展机制，写了一个基于<code>openCypher</code>接口，底层存储以<a href="Hexastore">Hexastore</a>为主的图数据库; 之前对于图数据库理解一般, 可以持续关注</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16651426" target="_blank" rel="external">TCP Tracepoints</a> : Linux 4.15版本即将支持<code>TCP tracepoint</code>, 也就是说，后续通过eBPF工具，我们可以非常方便的探测<code>tcp socket</code>的变化情况，对于我们分析网络拥塞，tcp协议细节等都有较大帮助</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16666057" target="_blank" rel="external">TLS 1.3 approved</a> : TLS 1.3的规范正式确定, 链接里面主要讨论了<code>0-RTT</code>情况下潜在的攻击和风险</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://webkit.org/blog/8146/protecting-against-hsts-abuse/" target="_blank" rel="external">Protecting Against HSTS Abuse</a> : 本文介绍了<code>HSTS</code>的另外一个缺点, 除了传统的设置<code>HSTS</code>不合理，可能导致源站不能访问之外。文章指出: 每为一个域名设置一个HSTS, 其实就相当于给这个域名种下永久cookie。基于次, 我们可以通过N个不同的域名(比如a/b/c/d/e)，并且以类似于0/1组合的方式设置HSTS, 这样的话，我们就可以唯一标识一个具体的用户。基于次，在用户信息收集，广告追踪等方面，都可以发挥一定效果。<code>webkit</code>同时也给出了他们的解决方案，比如控制相同域名请求等, 感觉治标不治本。其实进一步，可以分析和感觉，网络攻击的自由和灵活性。</p>
+</li>
+<li><p><a href="https://dendibakh.github.io/blog/2018/03/21/port-contention" target="_blank" rel="external">Understanding CPU port contention.</a> : mark，作者是做编译器设计的，blog里面有不少文章介绍<code>performance optimizations and analysis in C/C++</code></p>
+</li>
+</ul>
+<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><ul>
+<li><a href="https://stackoverflow.com/questions/19413494/does-grep-work-differently-on-osx" target="_blank" rel="external">Does grep work differently on OSX</a> : 大家知道MacOS是基于FreeBSD的，所以其内置的<code>grep</code>命令，也是不支持<code>Perl regex</code>语法，一个解决方案是用<code>homebrew</code>去安装, 会生成<code>ggrep</code>的新的支持GNU Grep规则的命令</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="http://codebay.cn/post/8161.html" target="_blank" rel="external">推荐10款流行的密码破解工具</a> : 关注下, 后续找地方实践</p>
+</li>
+<li><p><a href="http://www.ifanr.com/553590" target="_blank" rel="external">霍金用的那套语音合成软件，现在你也可以尝鲜了</a> : </p>
+</li>
+<li><p><a href="http://photo.weibo.com/1963193953/wbphotos/large/mid/4219964099264239/pid/7503f661gy1fpk97cer8tj21ay2an1ky" target="_blank" rel="external">信息安全书单推荐</a> : 可以重点关注<code>安全技术</code>分类下面的那些书，虽然感觉看了一半，但是缺乏实践，所得一般</p>
+</li>
+<li><p><a href="https://aws.amazon.com/cn/public-datasets/" target="_blank" rel="external">AWS 公用数据集</a> : 有兴趣的可以关注下, 建议可以关注<code>Amazon Bin Image Dataset</code>, <code>GDELT on AWS</code>(Global Database of Events, Language and Tone)等</p>
+</li>
+<li><p><a href="https://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux" target="_blank" rel="external">Coping with the TCP TIME-WAIT state on busy Linux servers</a> : 14年的一篇老文章，今天才看到，个人感觉是对Linux <code>TIME_WAIT</code>等问题和解决方案介绍的比较系统的文章。简而言之，<code>TIME_WAIT</code>状态, 一则可以避免网络中丢失包的错误ACK，同时也能解决<code>FIN-&gt;ACK</code>时ACK丢失的问题。但是正常情况下, <code>TIME_WAIT</code>状态要保留2MSL(差不多60s), 这个对于固定的四元组(src ip, src port ,dest ip, dest port)来说, port资源会不足，从而导致性能上面会有影响。而一旦使用<code>tcp_tw_recycle</code> flag，就会存在较大的副作用, 比较建议的是<code>tcp_tw_reuse</code>, 但是其要求开启tcp timestamp flag, 在NAT网络下兼容性较差。同时也推荐下作者的blog，有不少非常靠谱的文章。</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-20180311" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/23/20180311/">weekly of 20180311</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/03/23/20180311/" class="article-date">
+  <time datetime="2018-03-23T03:03:45.000Z" itemprop="datePublished">2018-03-23</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="http://cs.boisestate.edu/~alark/cs354/lectures/ieee754.pdf" target="_blank" rel="external">IEEE 754 Floating Point Representation</a> : 本文非常精炼的介绍了<a href="https://en.wikipedia.org/wiki/IEEE_754" target="_blank" rel="external">IEEE 754</a>浮点数的标准规范, 对于<code>IEEE 754</code>想有进一步了解，可以参考<a href="https://coolshell.cn/articles/11235.html" target="_blank" rel="external">一个浮点数跨平台产生的问题</a>, <a href="http://www.ruanyifeng.com/blog/2010/06/ieee_floating-point_representation.html" target="_blank" rel="external">浮点数的二进制表示</a>, 以及推荐的可视化工具<a href="https://www.h-schmidt.net/FloatConverter/IEEE754.html" target="_blank" rel="external">Floating Point Converter</a>, <a href="https://en.wikipedia.org/wiki/File:IEEE754.png" target="_blank" rel="external">File:IEEE754 精度图说明</a>, 新出的<a href="https://bellard.org/libbf/" target="_blank" rel="external">LibBF Library</a></p>
+</li>
+<li><p><a href="https://liudanking.com/network/tls1-3-quic-%E6%98%AF%E6%80%8E%E6%A0%B7%E5%81%9A%E5%88%B0-0-rtt-%E7%9A%84/" target="_blank" rel="external">TLS1.3/QUIC 是怎样做到 0-RTT 的</a> ： 对于常见的协议TLS1.2/TLS1.3/QUIC/HTTP 2等初始化数据交互的所需RTT，有详细的分析和介绍, 作者blog的文章和排版都很好看，也值得关注</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404214118084135438" target="_blank" rel="external">以太坊 Vitalik Buterin：“去中文化”的含义</a> : 三把衡量“去中心化”程度的尺子，三个独立的判断标准：架构层、政治层、逻辑层。其可以保证容错性、抗攻击性、抗勾结性。对”中心化”有深刻的理解和说明</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/LVmSFtU_UEDIRS8OLgM0DQ" target="_blank" rel="external">除了虚拟货币，区块链到底能用在哪些领域和场景下？</a> : 抛砖引玉，个觉得写的内容还是有点浅，对于区块链如何真正应用，和业务结合，形成业务场景说的不够清楚, 可以参考<a href="http://tech.sina.com.cn/i/2018-01-30/doc-ifyqyuhy7705954.shtml" target="_blank" rel="external">高盛区块链79页完整报告：从理论到实践</a></p>
+</li>
+<li><p><a href="https://www.qubole.com/blog/advantage-decoupling/" target="_blank" rel="external">The Cloud Advantage: Decoupling Storage and Compute</a> : 传统的基于Hadoop模型，将系统的能力核心拆分为计算和存储，但是现在的计算机架构将这两个耦合在一起, 文章认为在系统设计和架构方面，都需要进一步将「计算」和『存储』能力解耦，这样能提供更大的灵活性和系统性能</p>
+</li>
+<li><p><a href="https://code.facebook.com/posts/286893341840510/under-the-hood-suicide-prevention-tools-powered-by-ai/" target="_blank" rel="external">Under the hood: Suicide prevention tools powered by AI</a> : Facebook的又一个AI场景应用，通过对博文内容以及相关场景的识别，判读一个人是否有自杀倾向，并给予帮助。虽然是一个很小的点，但是特别有人文关怀信息, mark</p>
+</li>
+</ul>
+<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://news.ycombinator.com/item?id=16535358" target="_blank" rel="external">Convert screenshots of equations to LaTeX</a> : 将数学公司转换成<code>LaTex</code>公式；属于个人觉得非常有用的一个功能，希望某天有空自己去实现一个简单版本的;</p>
+</li>
+<li><p><a href="http://netsmell.com/post/how-elon-musk-learns-faster-and-better-than-everyone-else.html" target="_blank" rel="external">马斯克：如何做到常人阅读量的60倍？</a> : </p>
+</li>
+</ul>
+<ul>
+<li><p><a href="https://mp.weixin.qq.com/s/2Rk7bhRb8cPhGHbYzdtt3w" target="_blank" rel="external">读懂这台Google量子计算机，你才明白它的意义远超“量子霸权”</a> : 本文对量子计算机有深入浅出的介绍，一个关键点说明就是”学界普遍认为当量子计算机的量子比特超过 50，量子优势就实现”</p>
+</li>
+<li><p><a href="https://weibo.com/1560906700/G6JupkTq7?type=comment" target="_blank" rel="external">论P2P的这几年发展</a> : 关于P2P网络这几年的发展，中心化的趋势而是越来越明显, </p>
+</li>
+<li><p><a href="https://github.com/alevchuk/vim-clutch" target="_blank" rel="external">vim-clutch: A hardware pedal for improved text editing in Vim</a> : VIM离合器类似于汽车的脚踏板, 一旦踩下，会出发vim进入插入模式, 继续踩下则是退出编辑, 感觉这样编码起来非常像一个缝纫机</p>
+</li>
+<li><p><a href="https://snips-nlu.readthedocs.io" target="_blank" rel="external">Snips: Python library to extract meaning from text</a> : Snips NLU (Natural Language Understanding) is a Python library that allows to parse sentences written in natural language and extracts structured information. </p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/Hjl8pRlVKkahxsWwhUXAmA" target="_blank" rel="external">开源社区，终于找到了公平的商业模式</a> : 文章的一些前后逻辑并不完全赞同, 但是几个最后关于区块链的应用说的很清楚, 可以关注，包括<code>IPFS</code>的<code>FileCoin</code>, <code>Steemit</code>, <code>Aptoide</code></p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247489065&amp;idx=1&amp;sn=cd6f7f0abd7c52faf33ddabf3429480e" target="_blank" rel="external">JeffDean又用深度学习搞事情：这次要颠覆整个计算机系统结构设计</a> : 通过引入ML的技术来提升内存分支预测的准确率，进一步提升整体计算机的性能，个人可能认识有点肤浅，但是整体觉得方案有点重</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-nginx_1_13_10" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -748,168 +907,8 @@
 
 
     
-      <article id="post-20171210" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/12/20171210/">weekly of 20171210</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/12/12/20171210/" class="article-date">
-  <time datetime="2017-12-12T07:17:45.000Z" itemprop="datePublished">2017-12-12</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/seu.jpg" alt="SEU四牌楼-冬日清晨"></p>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://www.haproxy.com/blog/dynamic-configuration-haproxy-runtime-api/" target="_blank" rel="external">Dynamic Configuration with the HAProxy Runtime API</a> : 介绍了<code>HAProxy</code>的动态configure功能，其可以通过一个<code>socat</code>的命令行工具进行交互, 感觉这个设计对于nginx也很有借鉴意义，先mark</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=15845114" target="_blank" rel="external">Evolution of <img>: Gif without the GIF</a> : 先mark</p>
-</li>
-<li><p><a href="https://github.com/Microsoft/ProcDump-for-Linux" target="_blank" rel="external">Microsoft/ProcDump-for-Linux</a> : “ProcDump provides a convenient way for Linux developers to create core dumps of their application based on performance triggers”</p>
-</li>
-<li><p><a href="https://blog.cloudflare.com/arm-takes-wing/" target="_blank" rel="external">ARM Takes Wing: Qualcomm vs. Intel CPU comparison</a> : 本文具体对比了intel和高通的CPU在服务器市场的性能情况，文章具体分析了在<code>openssl</code>, <code>zlib</code>, <code>go</code>语言, <code>nginx</code>等，在以C语言为基础的组件里面intel的cpu在单核上面优势都比较明显，但是整体的性能(28核vs48核)会弱一些，而go语言arm的处理器没有太多优势; 整体来看, arm后续的服务器的处理器还是很有竞争力的</p>
-</li>
-</ul>
-<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><ul>
-<li><p><a href="https://machinelearning.apple.com/docs/learning-with-privacy-at-scale/appledifferentialprivacysystem.pdf" target="_blank" rel="external">Learning with Privacy at Scale</a> : 苹果介绍了其差分隐私(Differential Privacy)的实践和经验，略长，先mark</p>
-</li>
-<li><p><a href="https://blog.acolyer.org/2017/11/28/popularity-predictions-of-facebook-videos-for-higher-quality-streaming/" target="_blank" rel="external">Popularity predictions of Facebook videos for higher quality streaming</a> : 预判一些内容的流行度/热点有时候非常有用，比如说视频转H265对CPU等成本非常高, 所以我们如果能够正确预估哪些视频会是热点，并且提前压缩，对带宽和cpu等资源的利用率会有质的提升，具体的预估算法不是特别理解，反正是又引入了一个简单的神经网络模型进行训练，下来可以细看下</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://blog.cloudflare.com/make-ssl-boring-again/" target="_blank" rel="external">Make SSL boring again</a> : CloudFlare的分享文章，介绍其引入google的开源<a href="https://boringssl.googlesource.com/boringssl/" target="_blank" rel="external">BoringSSL</a>的历程以及收获, 除了对TLS1.3更好的支持以外，还包括<code>private key callback</code>, <code>equal-preference cipher grouping</code>等特性，对于大规模的SSL部署，非常有裨益</p>
-</li>
-<li><p><a href="https://www.nginx.com/blog/optimizing-web-servers-for-high-throughput-and-low-latency/" target="_blank" rel="external">Optimizing Web Servers for High Throughput and Low Latency</a> : 对于实现一个高性能web server的建议, 从硬件CPU的选择到上层lib库和nginx配置的控制, 讲得非常细，非常系统, 对里面一些优化的理解可以加深对nginx/linux系统的理解，建议多多review</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/sDRftJL1xNBR6tQB7S4SIA" target="_blank" rel="external">Aurora Serveless的红与黑</a> : <code>Aurora Serveless</code>是AWS新推出的无服务,类似于mysql的存储解决方案，现在还不大清楚里面的一些实现细节，但是其设计抽象理念值得关注</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://www.gatesnotes.com/About-Bill-Gates/Best-Books-2017" target="_blank" rel="external">5 amazing books I read this year</a> :  Bill Gates推荐2017的几本书，包括<code>The Rise of ISIS by</code>, <code>Turtles All the Way Down</code>, <code>The Color of Law</code> 等, 以上几本书亚马逊基本都有售，可以考虑入手</p>
-</li>
-<li><p><a href="http://www.visualcapitalist.com/histomap/" target="_blank" rel="external">Histomap: Visualizing the 4,000 Year History of Global Power</a> : 通过可视化的方式展现近4000年历史上各个权利的迭代更替</p>
-</li>
-<li><p><a href="https://www.feistyduck.com/books/openssl-cookbook/" target="_blank" rel="external">OpenSSL Cookbook</a> : 非常好的关于openssl的工具和实践书籍，对此有兴趣的可以深入看看</p>
-</li>
-<li><p><a href="https://blog.cloudflare.com/randomness-101-lavarand-in-production/" target="_blank" rel="external">Randomness 101: LavaRand in Production</a> : CloudFlare通过摄像头采集<code>LavaRand</code>的信息，来作为加密随机数的输入变量</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20171126" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/05/20171126/">weekly of 20171126</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/12/05/20171126/" class="article-date">
-  <time datetime="2017-12-05T03:39:45.000Z" itemprop="datePublished">2017-12-05</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/shanghai01.jpg" alt="上海外滩"></p>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://aws.amazon.com/cn/blogs/opensource/better-random-number-generation-for-openssl-libc-and-linux-mainline/" target="_blank" rel="external">Better Random Number Generation for OpenSSL, libc, and Linux Mainline</a> : AWS构建了自己的ssl库(<a href="https://aws.amazon.com/cn/blogs/security/introducing-s2n-a-new-open-source-tls-implementation/" target="_blank" rel="external">s2c</a>), 其在随机数生成里面考虑了具体在linux系统下面实线的一个问题，比如fork子进程的时候会完全拷贝内存，导致信息泄露, 引入了在madvise的新的option(<code>MADV_DONTFORK</code>)；还是非常佩服这些公司，能够持续的在这些基础技术上面做投入</p>
-</li>
-<li><p><a href="https://draveness.me/docker" target="_blank" rel="external">Docker 核心技术与实现原理</a> :  非常不错的docker技术的普及和介绍</p>
-</li>
-<li><p><a href="https://www.opengarden.com/meshkit.html" target="_blank" rel="external">MeshKit: Mesh networking made easy</a> : 可以支持各设备以<code>P2P</code>的方式交互, 类似于PC上面的P2P，个人觉得随着视频等富媒体的增长，此方向是一个不错的技术选择，但是需要考虑和权衡对用户体验/隐私等方面的保护</p>
-</li>
-<li><p><a href="https://zhuanlan.zhihu.com/p/31630417" target="_blank" rel="external">拒绝超大coredump - 用backtrace和addr2line搞定异常函数栈</a> : 思路可以总结为自己捕捉段错误的信息, 然后通过<code>backtrace</code>和<code>addr2line</code>打印相应的堆栈信息</p>
-</li>
-<li><p><a href="http://www.commandlinefu.com/commands/browse/sort-by-votes" target="_blank" rel="external">Commandlinefu</a> : 不少命令还挺有用的，关注<code>curl ifconfig.me</code>, <code>dig +short txt &lt;keyword&gt;.wp.dg.cx</code></p>
-</li>
-<li><p><a href="https://hackernoon.com/how-ive-captured-all-passwords-trying-to-ssh-into-my-server-d26a2a6263ec" target="_blank" rel="external">How I’ve captured all passwords trying to ssh into my server!</a> : 挺有意思的一个研究, 作者通过重编译<code>openssh</code>使得其可以打印出来登录的用户名和密码, 再基于这些数据做研究，可以发现很多攻击者和登陆者的特征</p>
-</li>
-</ul>
-<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="https://code.facebook.com/posts/190251048047090/myrocks-a-space-and-write-optimized-mysql-database/" target="_blank" rel="external">MyRocks: A space- and write-optimized MySQL database</a> : <code>MyRocks</code>是基于<code>RocksDB</code>封装的mysql存储引擎,  对存储空间和写优化上面做了大幅的提升, 可以了解下，另外也可以参看<a href="https://code.facebook.com/posts/1478526992216557/migrating-a-database-from-innodb-to-myrocks/" target="_blank" rel="external">Migrating a database from InnoDB to MyRocks</a> 了解他们迁移到Innodb的具体过程</p>
-</li>
-<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404179898175459305" target="_blank" rel="external">企业大规模部署机器学习模型的困境</a> : 通过类似于<code>FAAS</code>的方式，提供人工智能相关的服务，可以让其他更多专注于策略的迭代和开发</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://developers.googleblog.com/2017/09/introducing-tensorflow-datasets.html" target="_blank" rel="external">Introduction to TensorFlow Datasets and Estimators</a> : 关于tensorflow的教程，先收藏mark</p>
-</li>
-<li><p><a href="https://leastauthority.com/blog/mixnet-intro/" target="_blank" rel="external">Introduction to Mix Networks and Anonymous Communication Networks</a> : 对于混杂网络和匿名通信的系统性介绍, 简单扫了一眼，感觉是非常系统性的文章，先收藏mark</p>
-</li>
-<li><p><a href="https://cs007.blog/" target="_blank" rel="external">Stanford CS007: Personal Finance For Engineers</a> : 斯坦福的教程，一些对于工程师财务管理的建议和指导，现在的材料多为PPT, 先mark收藏</p>
-</li>
-<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404179321597125139" target="_blank" rel="external">【深度长文】为什么微博不像微信一样设计得简洁？</a> : 对产品的思考和分析</p>
-</li>
-<li><p><a href="https://rafalcieslak.wordpress.com/2013/04/02/dynamic-linker-tricks-using-ld_preload-to-cheat-inject-features-and-investigate-programs/" target="_blank" rel="external">Dynamic linker tricks: Using LD_PRELOAD to cheat, inject features and investigate programs</a> : 我们知道系统在搜索动态链接库的时候会优先加载<code>LD_PRELOAD</code>里面的so, 通过着特性，如果我们构造合适威胁的so，可能对程序的行为有着重大影响，比如随机数生成等</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
+        <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
       </nav>
     </section>
     <footer id="footer">
