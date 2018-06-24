@@ -57,6 +57,181 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-0612" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/15/0612/">weekly of 20160612</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/06/15/0612/" class="article-date">
+  <time datetime="2016-06-15T07:34:36.000Z" itemprop="datePublished">2016-06-15</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><a href="https://www.cloudflare.com/http2/server-push/" target="_blank" rel="external">What Is HTTP/2 Server Push?</a> : CloudFlare支持<code>server push</code>，真是个事事都走在前头的牛逼公司</li>
+</ul>
+<h2 id="应用实践"><a href="#应用实践" class="headerlink" title="应用实践"></a>应用实践</h2><ul>
+<li><p><a href="https://vox.space/blog/89/being-privacy-aware-in-2016" target="_blank" rel="external">Being privacy-aware in 2016</a> : 文章具体介绍了, 在现在的情况下如何系统地做好个人隐身方面的防护工作，包括对密码的管理，对浏览器的设置，对搜索引擎的使用等, 细度里面的很多设置，可以让我们对安全方面的知识更为了解</p>
+</li>
+<li><p><a href="http://tagide.com/blog/research/distributed-systems-testing-the-lost-world/" target="_blank" rel="external">Distributed Systems Testing: The Lost World</a> : 关于分布式系统的测试的说明，包括paper的推荐，框架的推荐等，值得mark</p>
+</li>
+<li><p><a href="https://developer.ibm.com/bluemix/2016/06/09/http2-will-make-the-internet-faster/" target="_blank" rel="external">HTTP/2 will make the Internet faster. So why the slow adoption?</a> : 文章里面有个<code>HTTP/1.1 VS HTTP/2</code>的video，可以了解看看</p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/inside-imagetragick-the-real-payloads-being-used-to-hack-websites-2/" target="_blank" rel="external">Inside ImageTragick: The Real Payloads Being Used to Hack Websites</a> : <code>Cloudflare</code>对ImageTragick事件的处理，其中<code>WAF</code>在里面扮演了重要角色</p>
+</li>
+</ul>
+<h2 id="资料工具"><a href="#资料工具" class="headerlink" title="资料工具"></a>资料工具</h2><ul>
+<li><p><a href="https://github.com/matildah/hellcat" target="_blank" rel="external">hellcat</a> : 文件介绍一个很trick的策略，就是大部分的流控系统，对于起始的流量并不会做严格的控制，而是系统平稳继续之后；所以一个加上下载速度的办法就是，分多次建立链接</p>
+</li>
+<li><p><a href="http://groveronline.com/2016/06/why-rust-for-low-level-linux-programming/" target="_blank" rel="external">Why Rust for Low-level Linux programming?</a> : 总感觉像rust的软文，不过基础工具方面Rust的确是一个新的选择，但是如果一定要新学一门语言的话，个人更建议haskell，scala等函数式编程语言</p>
+</li>
+<li><p><a href="https://www.artofmonitoring.com/" target="_blank" rel="external">The Art of Monitoring</a> : 关于监控系统设计的一本书, 需要花钱，比较关注的第二章<code>Monitoring, Metrics and Measurement</code>也看不了， 先mark，不过系统的设计是和<a href="http://riemann.io/" target="_blank" rel="external">Riemann</a> 集成的，这个可以关注下 </p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-about_nginx_cve_2016_4450" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/12/about_nginx_cve_2016_4450/">关于nginx的CVE-2016-4450的安全问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/06/12/about_nginx_cve_2016_4450/" class="article-date">
+  <time datetime="2016-06-12T07:34:36.000Z" itemprop="datePublished">2016-06-12</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="关于nginx的CVE-2016-4450的安全问题"><a href="#关于nginx的CVE-2016-4450的安全问题" class="headerlink" title="关于nginx的CVE-2016-4450的安全问题"></a>关于nginx的CVE-2016-4450的安全问题</h1><p>nginx在5-31凌晨发布了一个安全漏洞修复的说明: <a href="http://nginx.org/en/security_advisories.html" target="_blank" rel="external">NULL pointer dereference while writing client request body</a> , 关于漏洞的细节没有详述，仅仅在邮件里面说明如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">A special last buffer with cl-&gt;buf-&gt;pos set to NULL can be present in</div><div class="line">a chain when writing request body if chunked encoding was used.  This</div><div class="line">resulted in a NULL pointer dereference if it happened to be the only</div><div class="line">buffer left after a do...while loop iteration in ngx_write_chain_to_file().</div><div class="line"></div><div class="line">The problem originally appeared in nginx 1.3.9 with chunked encoding</div><div class="line">support.  Additionally, rev. 3832b608dc8d (nginx 1.9.13) changed the</div><div class="line">minimum number of buffers to trigger this from IOV_MAX (typically 1024)</div><div class="line">to NGX_IOVS_PREALLOCATE (typically 64).</div><div class="line"></div><div class="line">Fix is to skip such buffers in ngx_chain_to_iovec(), much like it is</div><div class="line">done in other places.</div></pre></td></tr></table></figure>
+<p>这里简单说下具体这个crash的分析&amp;复现过程</p>
+<h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2><p>从邮件和给予的<a href="http://nginx.org/download/patch.2016.write2.txt" target="_blank" rel="external">补丁</a>可以看出, 应该主要是如下核心代码出现问题:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* nginx 1.8.0 源码为例说明 */</span></div><div class="line"><span class="comment">/* 过滤了无关代码 */</span></div><div class="line"></div><div class="line"><span class="keyword">do</span> &#123;</div><div class="line">    prev = <span class="literal">NULL</span>;</div><div class="line">    iov = <span class="literal">NULL</span>;</div><div class="line">    size = <span class="number">0</span>;</div><div class="line"></div><div class="line">    vec.nelts = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="comment">/* create the iovec and coalesce the neighbouring bufs */</span></div><div class="line"></div><div class="line">    <span class="keyword">while</span> (cl &amp;&amp; vec.nelts &lt; IOV_MAX) &#123;</div><div class="line">        <span class="keyword">if</span> (prev == cl-&gt;buf-&gt;pos) &#123;</div><div class="line">            iov-&gt;iov_len += cl-&gt;buf-&gt;last - cl-&gt;buf-&gt;pos;</div><div class="line"></div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            iov = ngx_array_push(&amp;vec);</div><div class="line">            <span class="keyword">if</span> (iov == <span class="literal">NULL</span>) &#123;</div><div class="line">                <span class="keyword">return</span> NGX_ERROR;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        cl = cl-&gt;next;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125; <span class="keyword">while</span>(cl)</div></pre></td></tr></table></figure>
+<p>从上面的代码，简单的静态分析可以看出(个人感觉), 如果<code>prev == cl-&gt;buf-&gt;pos</code> 都是NULL的话，<code>iov</code> 也肯定是NULL, 如果走这个流程，就会发生段异常, 从这个 <code>do {} while()</code> 的结构来看, 是存在这个可能性的</p>
+<p>加上作者在邮件里面是阐述，大概可以猜测crash应该是如下条件会产生的:</p>
+<ul>
+<li>cl-&gt;buf-&gt;pos 为NULL : 满足条件是如果是input 是chunk编码, last_buf会是这样的</li>
+<li>prev : 也为 NULL :  满足条件是从<code>do-while</code>循环进入</li>
+</ul>
+<p>第二个条件是触发条件应该是： 在第二，三等次进入外层的<code>do-while</code>循环的时候(第一次肯定不行), 也就是写完一个IOV_MAX的时候</p>
+<p>所以总计下来构造如下特点的请求就可能导致nginx crash:</p>
+<ul>
+<li>输入包体为chunk</li>
+<li>输入包体的大小正好让nginx在写文件的时候, 多次写iov数组的时候，出发临界条件</li>
+</ul>
+<p>下面就看我们如果构造此类请求了</p>
+<h2 id="流程说明"><a href="#流程说明" class="headerlink" title="流程说明"></a>流程说明</h2><p>在具体看请求构造的时候，先简单说明nginx输入请求包体读取流程;<br>在支持<code>transfer-encoding:chunked</code>的请求下，nginx会解析进来的请求，然后将输入的内容以如下的形式组织:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">chain --------&gt;  chain ----------&gt; chain --------- chain</div><div class="line">   |               |                 |               |</div><div class="line">   |               |                 |               |</div><div class="line">   \/              \/                \/              \/</div><div class="line">   buf1            buf2              buf3            buf4 (last buf)</div></pre></td></tr></table></figure>
+<p>其中<code>last_buf</code> 代表一个请求内容的结束, 每个buf缓存一部分数据</p>
+<p>综上，如果要让他出现异常，只要让输入的请求，在nginx内部表针如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">chain --------&gt;  chain ----------&gt; chain ---(IOV_MAX)------- chain</div><div class="line">   |               |                 |                        |</div><div class="line">   |               |                 |                        |</div><div class="line">   \/              \/                \/                       \/</div><div class="line">   buf1            buf2              buf(IOV_MAX)          buf (last buf)</div></pre></td></tr></table></figure>
+<p>基于次，我们来看看需要构造多大的包体来让nginx crash</p>
+<h2 id="关键参数"><a href="#关键参数" class="headerlink" title="关键参数"></a>关键参数</h2><p>nginx内部有如下几个参数影响对请求包体的控制，如下 :</p>
+<ul>
+<li>client_max_body_size : 最大的body size</li>
+<li>client_body_buffer_size : client body在内存的缓存大小，如果超过这个，就要write到文件</li>
+</ul>
+<p>所以第一步, 我们发送的包体大小要小于<code>client_max_body_size</code> 并且 大于<code>client_body_buffer_size</code> </p>
+<p>第二步，我们需要构造的长度是约等于<code>IOV_MAX * buf</code> : </p>
+<ul>
+<li>正常在我们64位的linux机器上面可以理解buf大小大约是<code>16K</code>(具体为什么是16K还需要分析, 通过gdb可以看到)</li>
+<li>IOV_MAX 在不同的平台value也不一样，在64位机器比较明显是1024</li>
+</ul>
+<p>所以我们需要构造的body，在我们的平台上面至少是 : <code>16K * 1024 = 16M</code>, 而且为了不让被拆到不同的chain, 我们的<br><code>client_body_buffer_size</code> 也要大于16M , 但是这样又反过来会导致数据全部在内存，不会写文件，所以我们要构造的具体包体大小是:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">size = client_body_buffer_size + IOV_MAX * buf</div></pre></td></tr></table></figure>
+<p>其中<code>client_body_buffer_size</code> 和 <code>IOV_MAX * buf</code> 还要去一些水分(给nginx的内部数据结构用，但是范围基本是确定了)</p>
+<p>从上面的添加分析，可以看到其实要触发这个请求不容易，简单要求概括如下(在我们的机器平台上):</p>
+<ul>
+<li>client_body_buffer_size 配置大于 16M</li>
+<li>client_max_body_size 大于 32M</li>
+</ul>
+<p>如下是具体的复现过程:</p>
+<h2 id="请求复现"><a href="#请求复现" class="headerlink" title="请求复现"></a>请求复现</h2><p>如上，由于对<code>client_body_buffer_size</code>和<code>client_max_body_size</code> 有一定的要求，我们先构造如下一个nginx配置:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">server &#123;</div><div class="line">    listen 8094;</div><div class="line">    access_log logs/access_log main;</div><div class="line"></div><div class="line">    underscores_in_headers on;</div><div class="line">    ignore_invalid_headers off;</div><div class="line">    client_body_buffer_size 20m;</div><div class="line">    client_max_body_size 60m;</div><div class="line">    root /home/users/chenjiansen/nginx_lua_access/dir_list;</div><div class="line">    location = /set_cache &#123;</div><div class="line">        lua_need_request_body on;</div><div class="line">        content_by_lua &apos; ngx.say(&quot;aaa&quot;)&apos;;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>引入如下的gdb脚本，用于分析:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">define print_nginx_chain</div><div class="line">    set $total = 0</div><div class="line">    set $index = 0</div><div class="line">    set $cur = $arg0</div><div class="line">    while $cur</div><div class="line"></div><div class="line">        if $cur-&gt;buf-&gt;last_buf</div><div class="line">            print &quot;end last in chain&quot;</div><div class="line">            loop_break</div><div class="line">        end</div><div class="line"></div><div class="line">        set $cur_size =  ($cur-&gt;buf-&gt;last - $cur-&gt;buf-&gt;pos)</div><div class="line">        set $total = $total + ($cur-&gt;buf-&gt;last - $cur-&gt;buf-&gt;pos)</div><div class="line">        printf &quot;%p,pos:%p, last:%p, index:%u, size:%u, total:%u \n&quot;, $cur, $cur-&gt;buf-&gt;pos, $cur-&gt;buf-&gt;last, $index,</div><div class="line"> $cur_size, $total</div><div class="line">        set $cur = $cur-&gt;next</div><div class="line">        set $index = $index + 1</div><div class="line">    end</div><div class="line"></div><div class="line">    print $total</div><div class="line">end</div></pre></td></tr></table></figure>
+<p>开始测试, 如上，我们先随便构造一个范围区间在<code>36M</code> 左右的文件用于发送:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment"># 创建36M文件 aaa</span></div><div class="line">dd <span class="keyword">if</span>=pb_temp_data  ibs=1 count=37721088 of=aaa</div><div class="line"></div><div class="line"><span class="comment"># 用curl发送，注意编码</span></div><div class="line">curl --data-binary @aaa  <span class="string">"127.0.0.1:8094/set_cache"</span> -H<span class="string">"transfer-encoding:chunked"</span></div></pre></td></tr></table></figure>
+<p>在nginx的gdb设下如下断点:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">(gdb) b ngx_http_write_request_body</div><div class="line">(gdb) r</div><div class="line">Breakpoint 1, ngx_http_write_request_body (r=0xd5e170) at src/http/ngx_http_request_body.c:493</div><div class="line">493     rb = r-&gt;request_body;</div><div class="line">(gdb) n</div><div class="line">495     ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r-&gt;connection-&gt;log, 0,</div><div class="line">(gdb) print_nginx_chain_size rb-&gt;bufs</div><div class="line">$1 = 20961274</div></pre></td></tr></table></figure>
+<p>可以看到第一个chain用了<code>20961274</code>字节, 再看下第二个chain:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">    (gdb) print_nginx_chain rb-&gt;bufs</div><div class="line">    0xe2d6f0,pos:0x7fffe83dc010, last:0x7fffe83dec0a, index:0, size:11258, total:11258</div><div class="line">    0xe2d680,pos:0x7fffe83dec12, last:0x7fffe83dec52, index:1, size:64, total:11322</div><div class="line">    ---------</div><div class="line">    0x21f4e40,pos:0x1ddef8e, last:0x1de2f42, index:2044, size:16308, total:16743442</div><div class="line">--&gt; 0x21f4dd0,pos:0x1de2f4a, last:0x1de2f8a, index:2045, size:64, total:16743506 </div><div class="line">--&gt; 0x21f4d60,pos:0x1de2f8a, last:0x1de6f3e, index:2046, size:16308, total:16759814</div><div class="line">    0x21f4cf0,pos:0x1de6f46, last:0x1de6f86, index:2047, size:64, total:16759878</div><div class="line">    0x21f4c80,pos:0x1de6f86, last:0x1deaf3a, index:2048, size:16308, total:16776186</div><div class="line">    0x21f4c10,pos:0x1deaf42, last:0x1deaf6f, index:2049, size:45, total:16776231</div><div class="line">    0x21f4ba0,pos:0x1deaf6f, last:0x1dedb4e, index:2050, size:11231, total:16787462</div><div class="line">    $12 = &quot;end last in chain&quot;</div><div class="line">    $13 = 16787462</div></pre></td></tr></table></figure>
+<p>关注index是<code>2045</code>和<code>2046</code>那一行，由于需要除以2（细节问题）, 所以可以判断<code>total:16743506</code>这个大小应该是边界条件，也就是说我们需要发送一个: <code>16743506 + 20961274 = 37704780</code></p>
+<p>重新生成数据编译如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">dd <span class="keyword">if</span>=pb_temp_data  ibs=1 count=37721088 of=aaa</div><div class="line"></div><div class="line">curl --data-binary @aaa  <span class="string">"127.0.0.1:8094/set_cache"</span> -H<span class="string">"transfer-encoding:chunked"</span></div></pre></td></tr></table></figure>
+<p>成功出core</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>总体上看配置需要满足一定的条件才能出发core</li>
+<li>对于特定配置的文件，在不同平台，不同配置参数的情况下，出发的阈值并不一样，但是用户探测的成本也不算特别高</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-nginx_1_11_0" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -575,203 +750,6 @@
 
 
     
-      <article id="post-tcp_proxy" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/10/tcp_proxy/">关于nginx的tcp代理支持</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2016/01/10/tcp_proxy/" class="article-date">
-  <time datetime="2016-01-10T06:17:31.000Z" itemprop="datePublished">2016-01-10</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="TCP代理简述"><a href="#TCP代理简述" class="headerlink" title="TCP代理简述"></a>TCP代理简述</h2><p>所谓的TCP proxy是一个用于代理tcp协议的中间代理；比如类似我们的http代理, 我们的mysqlproxy等; tcp代理相比于其他的proxy，具有如下特征:</p>
-<ul>
-<li>由于TCP代理是传输层的代理，所以能支持更多的业务，无论是http, mysql, redis, websocket等应用层协议他都能代理</li>
-<li>由于TCP代理是底层的协议，所以虽然能代理，但是对业务的控制能力也变弱(只能拿到传输层的信息): 比如我们不能像http代理那样，通过cookie，refer做请求的转发和控制</li>
-</ul>
-<p>其实，我们也可以把他理解为一个LVS, 或者公司内的BGW(他们是IP层的负载均衡代理); 但是又比他们稍微高一点</p>
-<p>如下是简单的一个不同网络层的软件的示范:</p>
-<table>
-<thead>
-<tr>
-<th>网络层</th>
-<th>具体软件/技术</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>IP</td>
-<td>LVS, BGW</td>
-</tr>
-<tr>
-<td>TCP</td>
-<td>haproxy, nginx</td>
-</tr>
-<tr>
-<td>HTTP</td>
-<td>nginx, haproxy</td>
-</tr>
-</tbody>
-</table>
-<h2 id="nginx的TCP代理功能简述"><a href="#nginx的TCP代理功能简述" class="headerlink" title="nginx的TCP代理功能简述"></a>nginx的TCP代理功能简述</h2><p>nginx是从1.9.0版本开始支持tcp代理, 称之为<a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html" target="_blank" rel="external">stream</a>模块, 发展到现在的1.9.9版本, 已经初步具备了tcp proxy的功能了, 如下是一个简单的nginx stream配置; 可以注意到:</p>
-<ul>
-<li>tcp代理是一个stream模块, 要放在stream段</li>
-<li>http里面的很多功能，比如access_log, realip 等都不能使用(可以思考为什么)</li>
-</ul>
-<p>通过下面的配置，我们就可以实现一个mysql的proxy，自动做几个db的负载均衡；图来自于<a href="https://www.nginx.com/blog/mysql-high-availability-with-nginx-plus-and-galera-cluster/" target="_blank" rel="external">nginx官方文档</a></p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="section">stream</span> &#123;</div><div class="line">    <span class="attribute">upstream</span> db &#123;</div><div class="line">        <span class="attribute">server</span> db1:<span class="number">3306</span>;</div><div class="line">        <span class="attribute">server</span> db2:<span class="number">3306</span>;</div><div class="line">        <span class="attribute">server</span> db3:<span class="number">3306</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="section">server</span> &#123;</div><div class="line">        <span class="attribute">listen</span> <span class="number">3306</span>;</div><div class="line">        <span class="attribute">proxy_pass</span> db;</div><div class="line">        <span class="attribute">proxy_connect_timeout</span> <span class="number">1s</span>; <span class="comment"># detect failure quickly</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>架构示意图:</p>
-<p><img src="./nginx-plus-load-balancing.png" alt="nginx tcp proxy demo"></p>
-<h2 id="关于nginx-tcp代理注意点"><a href="#关于nginx-tcp代理注意点" class="headerlink" title="关于nginx tcp代理注意点"></a>关于nginx tcp代理注意点</h2><p>如果你准备要写一个nginx stream模块的扩展，你会发现和之前的http差异会比较大，下面简单说几点现在写stream proxy总结的一些问题</p>
-<h3 id="文档未稳定"><a href="#文档未稳定" class="headerlink" title="文档未稳定"></a>文档未稳定</h3><p>现在nginx还没文档化nginx stream扩展的具体开发模式，从源码上面查看，nginx也是一直在调整，比如1.9.0和1.9.9的module定义就有所不同，如下:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// 1.9.0 源码</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">ngx_stream_module_t</span>  ngx_stream_upstream_hash_module_ctx = &#123;</div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* create main configuration */</span></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* init main configuration */</span></div><div class="line"></div><div class="line">    ngx_stream_upstream_hash_create_conf,  <span class="comment">/* create server configuration */</span></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* merge server configuration */</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 1.9.9 源码, 多了 postconfiguration 定义</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">ngx_stream_module_t</span>  ngx_stream_upstream_hash_module_ctx = &#123;</div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* postconfiguration */</span> </div><div class="line"></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* create main configuration */</span></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* init main configuration */</span></div><div class="line"></div><div class="line">    ngx_stream_upstream_hash_create_conf,  <span class="comment">/* create server configuration */</span></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* merge server configuration */</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>可以看到, 连核心的module定义都有所调整, 所以这个方面估计还需要进一步观察</p>
-<h3 id="调试有一定的成本"><a href="#调试有一定的成本" class="headerlink" title="调试有一定的成本"></a>调试有一定的成本</h3><p>要注意到我们现在是在写tcp proxy，所以之前用于调试的curl, access_log都不能直接使用了; 依照我现在的个人经验，推荐大家熟悉如下两个工具:</p>
-<ul>
-<li>nc : arbitrary TCP and UDP connections and listens<ul>
-<li>作为server端，可以尝试 : nc -lk </li>
-<li>作为client端，可以尝试 : echo “xxx” | nc {host} {port} 或者 nc {host} {post} (后者会保持长连接)</li>
-</ul>
-</li>
-</ul>
-<p>nc 可以让我们非常简单的去发送tcp的包体，用于作为我们测试的原始流量, 也可以非常简单的搭建一个tcp server</p>
-<ul>
-<li>tcpdump :<ul>
-<li>命令大概如下(最基本的) : tcpdump -vvv -nn -X -i any (host 10.46.178.51 and port 12388)(condition)</li>
-<li>要求对tcp的协议交互有较深的理解, 各种flag</li>
-</ul>
-</li>
-</ul>
-<p>关于nc和tcpdump, 文章的末尾给了几个链接，是非常适合系统性学习的</p>
-<h3 id="关于日志"><a href="#关于日志" class="headerlink" title="关于日志"></a>关于日志</h3><p>由于tcp proxy的特殊性，导致其现在还不大方便有类似http模块access_log的日志(http有请求的概念，但是tcp没有); 所以tcp proxy的日志基本上都是通过error log体现的<br>贴吧线上的常规日志级别是notice, 如果我们要观察比如一个client连接，发送多少数据之类的，建议把日志级别调成<code>info</code>级别; 如下是大概的info级别的日志信息:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">2016/01/10 00:32:17 [info] 9530#0: *13 client 127.0.0.1:45607 connected to 0.0.0.0:12345</div><div class="line">2016/01/10 00:32:17 [info] 9530#0: *13 proxy 10.46.178.51:60713 connected to 10.36.89.18:12388</div><div class="line">2016/01/10 00:32:49 [info] 9530#0: *13 client disconnected, bytes from/to client:16/0, bytes from/to upstream:0/16</div></pre></td></tr></table></figure>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>关于tcpdump的:</p>
-<ul>
-<li><a href="https://danielmiessler.com/study/tcpdump/" target="_blank" rel="external">A tcpdump Primer with Examples</a> :  tcpdump工具非常不错的说明，便于理解</li>
-<li><p><a href="https://sokratisg.net/2012/04/01/udp-tcp-checksum-errors-from-tcpdump-nic-hardware-offloading/" target="_blank" rel="external">UDP/TCP Checksum errors from tcpdump &amp; NIC Hardware Offloading</a> : 关于tcpdump的<code>incorret chksum</code>问题说明</p>
-</li>
-<li><p><a href="http://www.thegeekstuff.com/2012/04/nc-command-examples/" target="_blank" rel="external">8 Practical Linux Netcat NC Command Examples</a></p>
-</li>
-</ul>
-<p>关于tcpproxy的文章:</p>
-<ul>
-<li><p><a href="https://www.nginx.com/resources/admin-guide/tcp-load-balancing/" target="_blank" rel="external">TCP LOAD BALANCING</a> : nginx官方blog，介绍如何具体配置nginx</p>
-</li>
-<li><p><a href="https://www.nginx.com/blog/mysql-high-availability-with-nginx-plus-and-galera-cluster/" target="_blank" rel="external">MySQL High Availability with NGINX Plus and Galera Cluster</a> : 一个tcp proxy的具体demo，用于做mysql的复杂均衡</p>
-</li>
-</ul>
-<p>下一篇文章会介绍<a href="http://gitlab.baidu.com/nginx/ngx_stream_keepalive_module/tree/master" target="_blank" rel="external">tcp proxy长连接</a>的实现；已经<a href="http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt" target="_blank" rel="external">proxy protocol</a>的情况以及使用</p>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-nginx_1_9_9" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/19/nginx_1_9_9/">nginx 1.9.9 特性说明</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/12/19/nginx_1_9_9/" class="article-date">
-  <time datetime="2015-12-19T06:17:30.000Z" itemprop="datePublished">2015-12-19</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="feature说明"><a href="#feature说明" class="headerlink" title="feature说明"></a>feature说明</h2><ul>
-<li>pwritev() support.</li>
-<li>the “include” directive inside the “upstream” block.</li>
-<li>the ngx_http_slice_module.</li>
-</ul>
-<h2 id="pwritev说明"><a href="#pwritev说明" class="headerlink" title="pwritev说明"></a>pwritev说明</h2><p><a href="http://linux.die.net/man/2/pwritev" target="_blank" rel="external">pwritev</a>的具体说明可以见链接；nginx在这个版本里面主要用<code>pwritev</code>替代<code>writev</code>的功能；简单的理解，可以认为是将老的:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">lseek(fd, offset);</div><div class="line">writev(fd, iov);</div></pre></td></tr></table></figure>
-<p>改成</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">pwritev()</div></pre></td></tr></table></figure>
-<p>总结的收益是:</p>
-<ul>
-<li>系统调用从2次改成1次，主要是性能方面的</li>
-<li>pwritev() was introduced in FreeBSD 6 and Linux 2.6.30, glibc 2.10</li>
-</ul>
-<p>具体可以参看文档: <a href="http://blog.libtorrent.org/2012/12/principles-of-high-performance-programs/" target="_blank" rel="external">principles of high performance programs</a></p>
-<h2 id="ngx-http-slice-module"><a href="#ngx-http-slice-module" class="headerlink" title="ngx_http_slice_module"></a>ngx_http_slice_module</h2><p><a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html" target="_blank" rel="external">ngx_http_slice_module</a>是新引入的一个功能模块；大概的作用是可以将一个upstream response body 切成那个小块，然后每个单独缓存; 官方原话:</p>
-<blockquote>
-<p>The module makes it<br>possible to split a big upstream response into smaller parts and cache them<br>independently.</p>
-<p>The module supports range requests.  When a part of a file is requested,<br>only the required slice upstream requests are made.  If caching is enabled,<br>future requests will only go to upstream for missing slices.</p>
-</blockquote>
-<p>可以理解的应用场景:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client ---&gt; proxy(nginx) ---&gt; upstream</div></pre></td></tr></table></figure>
-<ul>
-<li>proxy那边会将一个big file切成小块缓存</li>
-</ul>
-<blockquote>
-<p>todo待补充</p>
-</blockquote>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/11/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/13/">下一页 &raquo;</a>
       </nav>
@@ -807,6 +785,23 @@
 
 
 <script src="/js/script.js"></script>
-  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 </body>
 </html>

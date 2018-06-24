@@ -57,6 +57,203 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-tcp_proxy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/10/tcp_proxy/">关于nginx的tcp代理支持</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/01/10/tcp_proxy/" class="article-date">
+  <time datetime="2016-01-10T06:17:31.000Z" itemprop="datePublished">2016-01-10</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="TCP代理简述"><a href="#TCP代理简述" class="headerlink" title="TCP代理简述"></a>TCP代理简述</h2><p>所谓的TCP proxy是一个用于代理tcp协议的中间代理；比如类似我们的http代理, 我们的mysqlproxy等; tcp代理相比于其他的proxy，具有如下特征:</p>
+<ul>
+<li>由于TCP代理是传输层的代理，所以能支持更多的业务，无论是http, mysql, redis, websocket等应用层协议他都能代理</li>
+<li>由于TCP代理是底层的协议，所以虽然能代理，但是对业务的控制能力也变弱(只能拿到传输层的信息): 比如我们不能像http代理那样，通过cookie，refer做请求的转发和控制</li>
+</ul>
+<p>其实，我们也可以把他理解为一个LVS, 或者公司内的BGW(他们是IP层的负载均衡代理); 但是又比他们稍微高一点</p>
+<p>如下是简单的一个不同网络层的软件的示范:</p>
+<table>
+<thead>
+<tr>
+<th>网络层</th>
+<th>具体软件/技术</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IP</td>
+<td>LVS, BGW</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td>haproxy, nginx</td>
+</tr>
+<tr>
+<td>HTTP</td>
+<td>nginx, haproxy</td>
+</tr>
+</tbody>
+</table>
+<h2 id="nginx的TCP代理功能简述"><a href="#nginx的TCP代理功能简述" class="headerlink" title="nginx的TCP代理功能简述"></a>nginx的TCP代理功能简述</h2><p>nginx是从1.9.0版本开始支持tcp代理, 称之为<a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html" target="_blank" rel="external">stream</a>模块, 发展到现在的1.9.9版本, 已经初步具备了tcp proxy的功能了, 如下是一个简单的nginx stream配置; 可以注意到:</p>
+<ul>
+<li>tcp代理是一个stream模块, 要放在stream段</li>
+<li>http里面的很多功能，比如access_log, realip 等都不能使用(可以思考为什么)</li>
+</ul>
+<p>通过下面的配置，我们就可以实现一个mysql的proxy，自动做几个db的负载均衡；图来自于<a href="https://www.nginx.com/blog/mysql-high-availability-with-nginx-plus-and-galera-cluster/" target="_blank" rel="external">nginx官方文档</a></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="section">stream</span> &#123;</div><div class="line">    <span class="attribute">upstream</span> db &#123;</div><div class="line">        <span class="attribute">server</span> db1:<span class="number">3306</span>;</div><div class="line">        <span class="attribute">server</span> db2:<span class="number">3306</span>;</div><div class="line">        <span class="attribute">server</span> db3:<span class="number">3306</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="section">server</span> &#123;</div><div class="line">        <span class="attribute">listen</span> <span class="number">3306</span>;</div><div class="line">        <span class="attribute">proxy_pass</span> db;</div><div class="line">        <span class="attribute">proxy_connect_timeout</span> <span class="number">1s</span>; <span class="comment"># detect failure quickly</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>架构示意图:</p>
+<p><img src="./nginx-plus-load-balancing.png" alt="nginx tcp proxy demo"></p>
+<h2 id="关于nginx-tcp代理注意点"><a href="#关于nginx-tcp代理注意点" class="headerlink" title="关于nginx tcp代理注意点"></a>关于nginx tcp代理注意点</h2><p>如果你准备要写一个nginx stream模块的扩展，你会发现和之前的http差异会比较大，下面简单说几点现在写stream proxy总结的一些问题</p>
+<h3 id="文档未稳定"><a href="#文档未稳定" class="headerlink" title="文档未稳定"></a>文档未稳定</h3><p>现在nginx还没文档化nginx stream扩展的具体开发模式，从源码上面查看，nginx也是一直在调整，比如1.9.0和1.9.9的module定义就有所不同，如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// 1.9.0 源码</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">ngx_stream_module_t</span>  ngx_stream_upstream_hash_module_ctx = &#123;</div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* create main configuration */</span></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* init main configuration */</span></div><div class="line"></div><div class="line">    ngx_stream_upstream_hash_create_conf,  <span class="comment">/* create server configuration */</span></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* merge server configuration */</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 1.9.9 源码, 多了 postconfiguration 定义</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">ngx_stream_module_t</span>  ngx_stream_upstream_hash_module_ctx = &#123;</div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* postconfiguration */</span> </div><div class="line"></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* create main configuration */</span></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* init main configuration */</span></div><div class="line"></div><div class="line">    ngx_stream_upstream_hash_create_conf,  <span class="comment">/* create server configuration */</span></div><div class="line">    <span class="literal">NULL</span>,                                  <span class="comment">/* merge server configuration */</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>可以看到, 连核心的module定义都有所调整, 所以这个方面估计还需要进一步观察</p>
+<h3 id="调试有一定的成本"><a href="#调试有一定的成本" class="headerlink" title="调试有一定的成本"></a>调试有一定的成本</h3><p>要注意到我们现在是在写tcp proxy，所以之前用于调试的curl, access_log都不能直接使用了; 依照我现在的个人经验，推荐大家熟悉如下两个工具:</p>
+<ul>
+<li>nc : arbitrary TCP and UDP connections and listens<ul>
+<li>作为server端，可以尝试 : nc -lk </li>
+<li>作为client端，可以尝试 : echo “xxx” | nc {host} {port} 或者 nc {host} {post} (后者会保持长连接)</li>
+</ul>
+</li>
+</ul>
+<p>nc 可以让我们非常简单的去发送tcp的包体，用于作为我们测试的原始流量, 也可以非常简单的搭建一个tcp server</p>
+<ul>
+<li>tcpdump :<ul>
+<li>命令大概如下(最基本的) : tcpdump -vvv -nn -X -i any (host 10.46.178.51 and port 12388)(condition)</li>
+<li>要求对tcp的协议交互有较深的理解, 各种flag</li>
+</ul>
+</li>
+</ul>
+<p>关于nc和tcpdump, 文章的末尾给了几个链接，是非常适合系统性学习的</p>
+<h3 id="关于日志"><a href="#关于日志" class="headerlink" title="关于日志"></a>关于日志</h3><p>由于tcp proxy的特殊性，导致其现在还不大方便有类似http模块access_log的日志(http有请求的概念，但是tcp没有); 所以tcp proxy的日志基本上都是通过error log体现的<br>贴吧线上的常规日志级别是notice, 如果我们要观察比如一个client连接，发送多少数据之类的，建议把日志级别调成<code>info</code>级别; 如下是大概的info级别的日志信息:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">2016/01/10 00:32:17 [info] 9530#0: *13 client 127.0.0.1:45607 connected to 0.0.0.0:12345</div><div class="line">2016/01/10 00:32:17 [info] 9530#0: *13 proxy 10.46.178.51:60713 connected to 10.36.89.18:12388</div><div class="line">2016/01/10 00:32:49 [info] 9530#0: *13 client disconnected, bytes from/to client:16/0, bytes from/to upstream:0/16</div></pre></td></tr></table></figure>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>关于tcpdump的:</p>
+<ul>
+<li><a href="https://danielmiessler.com/study/tcpdump/" target="_blank" rel="external">A tcpdump Primer with Examples</a> :  tcpdump工具非常不错的说明，便于理解</li>
+<li><p><a href="https://sokratisg.net/2012/04/01/udp-tcp-checksum-errors-from-tcpdump-nic-hardware-offloading/" target="_blank" rel="external">UDP/TCP Checksum errors from tcpdump &amp; NIC Hardware Offloading</a> : 关于tcpdump的<code>incorret chksum</code>问题说明</p>
+</li>
+<li><p><a href="http://www.thegeekstuff.com/2012/04/nc-command-examples/" target="_blank" rel="external">8 Practical Linux Netcat NC Command Examples</a></p>
+</li>
+</ul>
+<p>关于tcpproxy的文章:</p>
+<ul>
+<li><p><a href="https://www.nginx.com/resources/admin-guide/tcp-load-balancing/" target="_blank" rel="external">TCP LOAD BALANCING</a> : nginx官方blog，介绍如何具体配置nginx</p>
+</li>
+<li><p><a href="https://www.nginx.com/blog/mysql-high-availability-with-nginx-plus-and-galera-cluster/" target="_blank" rel="external">MySQL High Availability with NGINX Plus and Galera Cluster</a> : 一个tcp proxy的具体demo，用于做mysql的复杂均衡</p>
+</li>
+</ul>
+<p>下一篇文章会介绍<a href="http://gitlab.baidu.com/nginx/ngx_stream_keepalive_module/tree/master" target="_blank" rel="external">tcp proxy长连接</a>的实现；已经<a href="http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt" target="_blank" rel="external">proxy protocol</a>的情况以及使用</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-nginx_1_9_9" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/19/nginx_1_9_9/">nginx 1.9.9 特性说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/12/19/nginx_1_9_9/" class="article-date">
+  <time datetime="2015-12-19T06:17:30.000Z" itemprop="datePublished">2015-12-19</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="feature说明"><a href="#feature说明" class="headerlink" title="feature说明"></a>feature说明</h2><ul>
+<li>pwritev() support.</li>
+<li>the “include” directive inside the “upstream” block.</li>
+<li>the ngx_http_slice_module.</li>
+</ul>
+<h2 id="pwritev说明"><a href="#pwritev说明" class="headerlink" title="pwritev说明"></a>pwritev说明</h2><p><a href="http://linux.die.net/man/2/pwritev" target="_blank" rel="external">pwritev</a>的具体说明可以见链接；nginx在这个版本里面主要用<code>pwritev</code>替代<code>writev</code>的功能；简单的理解，可以认为是将老的:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">lseek(fd, offset);</div><div class="line">writev(fd, iov);</div></pre></td></tr></table></figure>
+<p>改成</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">pwritev()</div></pre></td></tr></table></figure>
+<p>总结的收益是:</p>
+<ul>
+<li>系统调用从2次改成1次，主要是性能方面的</li>
+<li>pwritev() was introduced in FreeBSD 6 and Linux 2.6.30, glibc 2.10</li>
+</ul>
+<p>具体可以参看文档: <a href="http://blog.libtorrent.org/2012/12/principles-of-high-performance-programs/" target="_blank" rel="external">principles of high performance programs</a></p>
+<h2 id="ngx-http-slice-module"><a href="#ngx-http-slice-module" class="headerlink" title="ngx_http_slice_module"></a>ngx_http_slice_module</h2><p><a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html" target="_blank" rel="external">ngx_http_slice_module</a>是新引入的一个功能模块；大概的作用是可以将一个upstream response body 切成那个小块，然后每个单独缓存; 官方原话:</p>
+<blockquote>
+<p>The module makes it<br>possible to split a big upstream response into smaller parts and cache them<br>independently.</p>
+<p>The module supports range requests.  When a part of a file is requested,<br>only the required slice upstream requests are made.  If caching is enabled,<br>future requests will only go to upstream for missing slices.</p>
+</blockquote>
+<p>可以理解的应用场景:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client ---&gt; proxy(nginx) ---&gt; upstream</div></pre></td></tr></table></figure>
+<ul>
+<li>proxy那边会将一个big file切成小块缓存</li>
+</ul>
+<blockquote>
+<p>todo待补充</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-ngx_variable_flag" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -880,209 +1077,6 @@ $ gzip access.log.0    # do something with access.log.0
 <li><a href="https://blog.mozilla.org/tanvi/2013/04/10/mixed-content-blocking-enabled-in-firefox-23/" target="_blank" rel="external">Mixed Content Blocking Enabled in Firefox 23!</a></li>
 <li><a href="http://www.tinywebgallery.com/blog/iframe-do-not-mix-http-and-https" target="_blank" rel="external">Why you should not mix http and https when using iframes</a></li>
 <li><a href="http://lison.sinaapp.com/?p=317" target="_blank" rel="external">HTTPS和HTTP相互间IFRAME的浏览器限制及安全提示</a></li>
-</ul>
-
-      
-    </div>
-    
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-about_https" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/06/about_https/">https 概述</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/03/06/about_https/" class="article-date">
-  <time datetime="2015-03-06T03:13:34.000Z" itemprop="datePublished">2015-03-06</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>个人学习目标:</p>
-<ol>
-<li>了解https的核心以及几个常见的概念</li>
-<li>了解https的大致交流流程</li>
-<li>明确https的性能关键点&amp;优化点</li>
-<li>了解https在具体实践过程的常见问题以及解决方案</li>
-</ol>
-<p>几点总结 :</p>
-<ul>
-<li>关于加密解密都是非常细致的一个处理过程，有非常多的细节需要关注，但尽量会把协议本身</li>
-<li>多用一些图示和衍生的demo展示来加深对https的理解</li>
-</ul>
-<h2 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h2><h2 id="交互过程"><a href="#交互过程" class="headerlink" title="交互过程"></a>交互过程</h2><p>整个交换过程可以大致分为两个阶段:</p>
-<ol>
-<li><p>TLS握手: 协商此次交互的用于加密的对称密钥，这个过程颇为复杂，等下会详解，核心思想是通过非对称密钥和双方的随机数生成一个密钥</p>
-</li>
-<li><p>具体内容交互: 此时双方都用上一步生成的对称密钥，加密要交互的内容，进行通信</p>
-</li>
-</ol>
-<h2 id="TLS握手流程"><a href="#TLS握手流程" class="headerlink" title="TLS握手流程"></a>TLS握手流程</h2><p>如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client                                  server</div><div class="line"></div><div class="line">ClientHello             --------&gt;</div><div class="line">        </div><div class="line">                                        ServerHello </div><div class="line">                                        ServerCertificate</div><div class="line">                        &lt;--------       ServerKeyExchange</div><div class="line">                                        CertificateRequest</div><div class="line">                                        ServerHelloDone</div><div class="line"></div><div class="line">ClientCertificate</div><div class="line">ClientKeyExchange</div><div class="line">Certificate Verify      --------&gt;</div><div class="line">Change the Cipher Spce</div><div class="line">Client Finish Message</div><div class="line"></div><div class="line">                                        Change Cipher Spec</div><div class="line">                        &lt;--------       Server Finish Message</div><div class="line"></div><div class="line">&lt;--------------    Application Data  ----------------------&gt;</div></pre></td></tr></table></figure>
-<p>总结:</p>
-<ul>
-<li>client&amp;server加起来一共两个RTT的过程</li>
-<li>协商出来的密钥大致是: 2 * client ranodw + server random </li>
-<li>整个交互过程还是明文的，不过生成的密钥是使用非对称加密算法加密的</li>
-</ul>
-<h2 id="性能影响"><a href="#性能影响" class="headerlink" title="性能影响"></a>性能影响</h2><p>几个关键的性能点</p>
-<h3 id="会话恢复"><a href="#会话恢复" class="headerlink" title="会话恢复"></a>会话恢复</h3><p>如上，如果每次交互都需要重新进行TLS握手，需要浪费两个RTT，这个是不大希望的，我们可以引入如下两个机制，使得在进行TLS握手的时候，就需要一个RTT，包括:</p>
-<ul>
-<li>会话标识符(Session Identifier) :</li>
-<li>会话记录单(Session Ticket) :</li>
-</ul>
-<h3 id="证书验证"><a href="#证书验证" class="headerlink" title="证书验证"></a>证书验证</h3><p>在进行TLS握手的时候，一般地，我们要求client端去严重证书的合法性，一个重要的判断是证书的有效时间的问题，主要有如下两个方法:</p>
-<ul>
-<li>证书撤销名单(CRL, Certificate Revocation List)</li>
-<li>在线证书状态协议(OCSP, Online Certificate Status Protocol)</li>
-</ul>
-<p>如上是具体的协议，而浏览器在具体工作的时候，不同的浏览器行为也不一致，比如:</p>
-<ul>
-<li>某些浏览器会使用自己的更新机制推送更新CRL名单</li>
-<li>某些浏览器只会针对扩展证书(EV证书)进行实时的OCSP和CRL检查</li>
-</ul>
-<p>这些情况很复杂。对整个系统设计来说，可以引人一个叫做<code>OCSP封套</code>的优化措施: 服务器可以在证书链里面包含证书颁发机构的OCSP响应，让浏览器跳过在线查询。把查询OCSP操作转移到服务器可以让服务器缓存签名的OCSP响应。当然OCSP响应也包含一系列问题，包括:</p>
-<ul>
-<li>OCSP的包体大小(400 ~ 4000)可能会导致TCP窗口拥塞</li>
-<li>只能包括一个OCSP响应，导致浏览器对其他的证书仍然需要发送OCSP响应</li>
-</ul>
-<h2 id="应用及问题"><a href="#应用及问题" class="headerlink" title="应用及问题"></a>应用及问题</h2><h3 id="第三方cdn服务商的https支持"><a href="#第三方cdn服务商的https支持" class="headerlink" title="第三方cdn服务商的https支持"></a>第三方cdn服务商的https支持</h3><p>对于CloudFlare这样的云服务提供商，要给第三方做cdn的加速支持，如果此时主站点的域名是通过https提供服务，这就要求cdn缓存的静态文件也是需要走https，由于cdn是第三方的(CloudFlare)，主站显然不大可能把https的私钥放在服务商那边，对于此类场景要怎么办?</p>
-<p>CloundFlare在<a href="https://blog.cloudflare.com/keyless-ssl-the-nitty-gritty-technical-details/" target="_blank" rel="external">Keyless SSL: The Nitty Gritty Technical Details</a> 介绍了一个所谓的<code>Keyless SSL</code>机制，核心的思路就是： 正常情况下, 整个对话过程中（握手阶段和其后的对话），服务器的公钥和私钥只需要用到一次。某些客户（比如银行）想要使用外部CDN，加快自家网站的访问速度，但是出于安全考虑，不能把私钥交给CDN服务商。这时，完全可以把私钥留在自家服务器，只用来解密对话密钥，其他步骤都让CDN服务商去完成。</p>
-<h3 id="nginx对SSL的支持"><a href="#nginx对SSL的支持" class="headerlink" title="nginx对SSL的支持"></a>nginx对SSL的支持</h3><p>如上ssl/tls相对于普通的http1.0/1.1协议复杂很多，因此整个nginx的SSL的指令和变量也是非常负责的，详情可以参看</p>
-<ul>
-<li><a href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html#example" target="_blank" rel="external">Module ngx_http_ssl_module</a></li>
-<li><a href="http://nginx.org/cn/docs/http/configuring_https_servers.html#optimization`" target="_blank" rel="external">Nginx: 配置HTTPS服务器</a></li>
-</ul>
-<h2 id="推荐了解的名词"><a href="#推荐了解的名词" class="headerlink" title="推荐了解的名词"></a>推荐了解的名词</h2><ul>
-<li>数字签名&amp;数字证书 : <a href="http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html</a></li>
-</ul>
-<h2 id="参考-amp-推荐文章"><a href="#参考-amp-推荐文章" class="headerlink" title="参考&amp;推荐文章"></a>参考&amp;推荐文章</h2><ul>
-<li><a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="external">图解SSL/TLS协议</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="external">SSL/TLS协议运行机制的概述</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2011/02/seven_myths_about_https.html" target="_blank" rel="external">HTTPS的七个误解（译文）</a></li>
-</ul>
-<h2 id="todo-for-me"><a href="#todo-for-me" class="headerlink" title="todo for me"></a>todo for me</h2><ol>
-<li>nginx搭建一个完整的https服务</li>
-<li>对tls恢复方式的进一步了解(session identifier &amp; session ticket)</li>
-<li>用http watch观看https的交互</li>
-</ol>
-
-      
-    </div>
-    
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-web_browser_and_protocol" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/06/web_browser_and_protocol/">从浏览器角度看web交互</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/03/06/web_browser_and_protocol/" class="article-date">
-  <time datetime="2015-03-06T03:13:24.000Z" itemprop="datePublished">2015-03-06</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>web浏览器已经成为我们获取信息最重要的工具之一，我们也不仅仅把web浏览器当成简单的http内容获取+页面渲染的功能，而是希望在web上面构建越来越多的应用，比如实时会议之类的，这里简单说明下从web浏览器角度，分析他应该和现在支持的web交互功能</p>
-<h2 id="浏览器要干嘛"><a href="#浏览器要干嘛" class="headerlink" title="浏览器要干嘛"></a>浏览器要干嘛</h2><p>浏览器终归到底是一个client，负责和server交互，如果不考虑本地渲染的复杂功能，我们对浏览器的考差点就是他如何支持一个交互的</p>
-<p>一个交互可以划分如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client api ---&gt; protocol support ---&gt; server</div></pre></td></tr></table></figure>
-<p>可见，浏览器主要关心两个大点：</p>
-<ul>
-<li>client api : 浏览器需要提供标准的api，有个规范的标准便于在不同平台上面的迁移</li>
-<li>protocol : 其实就是对具体api的实现，比如用http交互等</li>
-</ul>
-<p>上面就是一个宏观上面的分析，下面说明具体的实现和现状</p>
-<h2 id="Client-API-html5-以及js"><a href="#Client-API-html5-以及js" class="headerlink" title="Client API : html5 以及js"></a>Client API : html5 以及js</h2><p>HTML语言充当了client api一个最重要的角色，用于描述浏览器的行为，当然还包括javascript, css等</p>
-<p>新的HTML5规范还增加了新的API规范，其实就是对之前html的补充，包括:</p>
-<h2 id="Protocols-http-websocket"><a href="#Protocols-http-websocket" class="headerlink" title="Protocols : http, websocket"></a>Protocols : http, websocket</h2><p>protocol就是浏览器要实现的协议，当然http协议是最核心的，也是必须要实现的；但是，随着client api的增加，对于新的api可能就需要实现特定的协议(比如websocket)，因此，现如今，浏览器支持的协议是越来越多，下面是一个简单分类:</p>
-<table>
-<thead>
-<tr>
-<th>功能</th>
-<th>(现在)依赖协议</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ajax(XmlHttpRequest)</td>
-<td>http</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Server-Sent Event</td>
-<td>http</td>
-<td>服务器以text/event-stream内容响应</td>
-</tr>
-<tr>
-<td>websocket</td>
-<td>http + websocket</td>
-<td>http发起连接,ws具体交互</td>
-</tr>
-<tr>
-<td>webrtc</td>
-<td>udp+ice+srtp等</td>
-<td>基于udp构建</td>
-</tr>
-</tbody>
-</table>
-<p>因此浏览器的协议支持图大致如下:</p>
-<p><img src="./browser_protocol_support.png" alt="Alt text"></p>
-<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>其一:</p>
-<p>api可以理解为是对具体功能的描述，而协议是对具体实现的描述，两者并不是强耦合的，比如说websocket的api，其描述的就是对一个双向的，自由格式的内容交互的支持。其现在的底层实现是基于websocket 协议的，但是http 2协议显然也能满足这个功能，也是可以用了实现这个协议的。</p>
-<p>其二:</p>
-<p>下图描绘几个api和server交互的场景</p>
-<p><img src="./ajax_vs_websocket.png" alt="Alt text"></p>
-<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ul>
-<li>web性能权威指南</li>
-<li>web之困:现代web应用安全指南 </li>
 </ul>
 
       
