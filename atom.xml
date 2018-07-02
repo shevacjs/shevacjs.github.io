@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2018-06-24T05:36:18.000Z</updated>
+  <updated>2018-07-02T04:51:01.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,84 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20180624</title>
+    <link href="http://shevacjs.com/2018/07/02/20180624/"/>
+    <id>http://shevacjs.com/2018/07/02/20180624/</id>
+    <published>2018-07-02T04:49:45.000Z</published>
+    <updated>2018-07-02T04:51:01.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/hongkong.jpg" alt="香港"></p>
+<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://news.ycombinator.com/item?id=17363871" target="_blank" rel="external">Jsonnet – A data templating language | Hacker News</a> : Jsonnet是一个Json的模板语言，可以简单快速的构建基于Json的数据结构；PS: 其应用场景应该是作为中间工具，让业务用比较低的成本编写Json(支持计算/变量等)，然后转换成最终的Json，降低业务json的维护和改造成本, 但是感觉其学习成本也不低</p>
+</li>
+<li><p><a href="https://www.bleepingcomputer.com/news/security/changes-in-webassembly-could-render-meltdown-and-spectre-browser-patches-useless/" target="_blank" rel="external">Changes in WebAssembly Could Render Meltdown and Spectre Browser Patches Useless</a> : WebAssembly提供了一个能让程序更高效运行在浏览器的机制，但是也可能存在一些副作用，比如一旦引入类似于<code>multi-thread</code>的机制，就可能引入一些安全问题和风险, 比如之前CPU的Meltdown和Spectre漏洞</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247491111&amp;idx=1&amp;sn=4dae1d28412e4a09e8cc56e3d35284cf" target="_blank" rel="external">独家揭秘：腾讯千亿级参数分布式ML系统无量背后的秘密</a> : 信息量很大，先mark，本周消化下</p>
+</li>
+<li><p><a href="https://blog.acolyer.org/2018/06/26/deep-code-search/" target="_blank" rel="external">Deep code search | the morning paper</a> : 挺有意思的一个系统，通过深度学习的方法来了解代码的大概功能，基于此，可以解决一些语义检索的问题，比如说”read an object from xml”, 可能有一天会取代<code>stack overflow</code></p>
+</li>
+<li><p><a href="https://khanna.cc/blog/structuring-deep-learning-projects/" target="_blank" rel="external">Structuring Deep Learning Projects</a> : 本文介绍一个架构化的深度学习项目的开展方式，具体包括: </p>
+<ol>
+<li>Pick a cost function.</li>
+<li>Pick an initial network architecture.</li>
+<li>Fit the training set well on the cost function.</li>
+<li>Fit the validation set well on the cost function.</li>
+<li>Verify performance on a test set.</li>
+<li><p>Verify performance in the real world.</p>
+<p>其实这也是普适的机器学习方法</p>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><blockquote>
+<p>About Perf Tool</p>
+</blockquote>
+<ul>
+<li><p>选择工具: <a href="http://www.brendangregg.com/blog/2015-07-08/choosing-a-linux-tracer.html" target="_blank" rel="external">Choosing a Linux Tracer (2015)</a>  作者分享了自己如何选择trace的参考依据，结论是建议大部分情况可以优先考虑perf tool(系统默认支持，不过和系统版本相关性较大)</p>
+</li>
+<li><p>入门使用 :</p>
+<ul>
+<li><a href="https://perf.wiki.kernel.org/index.php/Tutorial" target="_blank" rel="external">Perf: Tutorial</a> : 入门了解</li>
+<li><a href="http://www.brendangregg.com/perf.html" target="_blank" rel="external">Brendangregg: perf Examples</a> : 系统介绍</li>
+</ul>
+</li>
+<li><p>机制原理 : </p>
+<ul>
+<li><a href="https://jvns.ca/blog/2016/03/12/how-does-perf-work-and-some-questions/" target="_blank" rel="external">How does perf work? (in which we read the Linux kernel source)</a></li>
+<li><a href="https://news.ycombinator.com/item?id=11277172" target="_blank" rel="external">Hacker News Comment On How does perf work</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247491140&amp;idx=1&amp;sn=8849bce1ea612049a07f6406c244a771" target="_blank" rel="external">最强指南：处理35种不良数据的正确方式</a> : 一些处理数据的tips建议，可以关注的点包括<a href="https://zh.wikipedia.org/wiki/%E6%9C%AC%E7%A6%8F%E7%89%B9%E5%AE%9A%E5%BE%8B" target="_blank" rel="external">本福特定律</a>,<a href="https://www.quora.com/What-is-p-hacking" target="_blank" rel="external">结果被p-hack</a></p>
+</li>
+<li><p><a href="https://github.com/oddisland/Draft" target="_blank" rel="external">Draft:Online markdown editor</a> : 感觉是一个还不错的markdown在线编辑器</p>
+</li>
+<li><p><a href="https://pomax.github.io/bezierinfo/zh-CN/" target="_blank" rel="external">A Primer on Bézier Curves</a> : 进行mark</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247491127&amp;idx=1&amp;sn=9897b560cb0350e8ece0f61b3dc461c4" target="_blank" rel="external">这是我看过解释TensorFlow最透彻的文章！</a> : 继续mark</p>
+</li>
+<li><p><a href="https://github.com/Valloric/YouCompleteMe" target="_blank" rel="external">Valloric/YouCompleteMe: A code-completion engine for Vim</a> : A code-completion engine for Vim, 一个比较系统的代码补全工具的合集, 还可以参看<a href="https://ops.tips/gists/navigating-the-linux-kernel-source-with-youcompleteme/" target="_blank" rel="external">Navigating the Linux Kernel source tree with YouCompleteMe | OpsTips</a>这个的介绍说明</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/hongkong.jpg&quot; alt=&quot;香港&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a h
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20180617</title>
@@ -1278,57 +1356,6 @@
       &lt;p&gt;&lt;img src=&quot;/images/Japan_Fuji.jpg&quot; alt=&quot;日本-富士山&quot;&gt;&lt;/p&gt;
 &lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20180121</title>
-    <link href="http://shevacjs.com/2018/02/11/20180121/"/>
-    <id>http://shevacjs.com/2018/02/11/20180121/</id>
-    <published>2018-02-11T03:32:45.000Z</published>
-    <updated>2018-02-11T03:33:13.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/images/Austria_02.jpg" alt="奥地利"></p>
-<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
-<li><p><a href="https://blog.cloudflare.com/syn-packet-handling-in-the-wild/" target="_blank" rel="external">SYN packet handling in the wild</a> : 关于TCP SYN交互和实现的深入讨论，包括内核和应用程序对于<code>syn flood</code>, <code>syn queue</code>, <code>accept queue</code>的介绍</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU3MDM4OTE1Mw==&amp;mid=2247483680&amp;idx=1&amp;sn=96c8379db26115cb6e166ce0ef5bdc1d&amp;scene=45#wechat_redirect" target="_blank" rel="external">揭秘超分辨率的正确打开方式</a> : 具体介绍超分图片背后的理念，以及在微信的应用和效果，手百现在也在推动此类的事情。对于超分的应用场景也做了比较好的分析和介绍</p>
-</li>
-</ul>
-<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
-<li><p><a href="http://www.dwmkerr.com/the-death-of-microservice-madness-in-2018/" target="_blank" rel="external">The Death of Microservice Madness in 2018</a> : 对微服务化的又一次系统性概述，分析，对于希望或者想要设计更理想业务模式的同学而言，是个很好的思路学习机会，也有<a href="http://www.jdon.com/49261" target="_blank" rel="external">中文翻译版</a></p>
-</li>
-<li><p><a href="https://blog.cloudflare.com/why-tls-1-3-isnt-in-browsers-yet/" target="_blank" rel="external">Why TLS 1.3 isn’t in browsers yet</a> : 随着<code>TLS 1.3</code>的规范落地，其业务落地也是需要重点考虑的问题，然而现实情况是，由于一些<code>middlebox</code>在实现等兼容性的问题, 浏览器其实并不能透明的从<code>TLS 1.2</code>升级到<code>TLS 1.3</code>, 作者具体分析了这里面的一些风险和问题, 包括协议设计上面的兼容性问题等等，整体下来可以加深对TLS协议的理解</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/8KYlDIhYmF0jCpbdBsIdcw" target="_blank" rel="external">如何节省1T图片带宽？ 解密极致图像压缩</a> : 腾讯的团队，分别介绍了在<code>WebP</code>, 自研<code>WXAM</code>, 以及<code>guetzli</code>的落地经验。两个总结, 一个是腾讯在这个方面还是做了较多的研究和分析的，文章分享的问题都是比较干货的；其次是, 虽然之前也考虑落地过<code>guetzli</code>, 但没有成功, 整体来说, 执行力还是太差了</p>
-</li>
-<li><p><a href="http://www.arkteam.net/?p=3390" target="_blank" rel="external">Deemon:自动化CSRF安全检测框架</a> : 关于自动化<code>CSRF</code>攻击检测的设计理念, 一些东西没有完全理解，先mark</p>
-</li>
-</ul>
-<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
-<li><p><a href="https://blog.cloudflare.com/2017-holiday-reading-from-the-cloudflare-blog/" target="_blank" rel="external">Technical reading from the Cloudflare blog for the holidays</a> : 可以认为是2017年<a href="https://blog.cloudflare.com/" target="_blank" rel="external">CloudFlare博客</a>的精选, 里面文章质量都不错，可以mark关注下</p>
-</li>
-<li><p><a href="https://www.nginx.com/blog/modsecurity-apache-struts-cve-2017-5638/" target="_blank" rel="external">Using ModSecurity to Virtual Patch Apache Struts CVE-2017-5638</a> : 对于一些紧急的线上安全问题, 使用类似于<code>ModSecurtiy</code>的安全策略可以快速止损, 具体nginx的modsecurity的文档可以参看<a href="https://www.nginx.com/resources/library/modsecurity-3-nginx-quick-start-guide/" target="_blank" rel="external">ModSecurity 3.0 and NGINX: Quick Start Guide</a></p>
-</li>
-<li><p><a href="https://www.gatesnotes.com/Books/Enlightenment-Now" target="_blank" rel="external">Bill Gates: My new favorite book of all time</a> : 作者推荐了一本新书<a href="https://www.amazon.cn/dp/0525559027/" target="_blank" rel="external">Enlightenment Now: The Case for Reason, Science, Humanism, and Progress</a>, 现在英文版刚才出来</p>
-</li>
-<li><p><a href="http://zulko.github.io/moviepy/getting_started/getting_started.html" target="_blank" rel="external">MoviePy: Video editing with Python</a> : 一个Python的视频编辑库, 可以让你快速做一些视频Gif抽取等工作, 但并不擅长”You only need to do frame-by-frame video analysis “, “You only want to convert a video file, or turn a series of image files into a movie”, 可以先mark关注</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/Law7FpS53TjrDrzSMCtcVg" target="_blank" rel="external">低调现身北京的吴恩达，刚刚给人工智能公司下了个定义</a> : 关于传统公司，互联网公司和人工智能公司的定义和理解；其一直强调人工智能技术会想电能等成为企业和产业改造的源动力, 里面的关键在于数据驱动思想的注入以及和行业的深度结合</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;/images/Austria_02.jpg&quot; alt=&quot;奥地利&quot;&gt;&lt;/p&gt;
-&lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;
     
     </summary>
     

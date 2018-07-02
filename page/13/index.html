@@ -57,6 +57,84 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-tcp_keepalive_proxy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/19/tcp_keepalive_proxy/">让nginx支持TCP长连接代理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/01/19/tcp_keepalive_proxy/" class="article-date">
+  <time datetime="2016-01-19T06:17:30.000Z" itemprop="datePublished">2016-01-19</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">              -----&gt; LCS </div><div class="line">            /</div><div class="line">Client(PHP) -------&gt; LCS</div><div class="line">            \</div><div class="line">             ------&gt; LCS</div></pre></td></tr></table></figure>
+<p>如上，我们客户端需要和LCS交互，正常情况下，由于PHP比较难做长链接(当然RAL后续可以做长连接的支持)，所以现在每次和LCS交互，都需要建立一次TCP连接，然后做数据传输；现在问题是，如果LCS在其他的IDC，这样client和LCS每次都得做一次跨机房的三次握手, 这样对服务稳定性等都有一定的影响</p>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">                        -----&gt; LCS </div><div class="line">                      /</div><div class="line">Client(PHP)---&gt; Proxy -------&gt; LCS</div><div class="line">                      \</div><div class="line">                        ------&gt; LCS</div></pre></td></tr></table></figure>
+<p>一个方案是如上，加上一个proxy，这个Proxy的作用是和LCS维护一个长连接，和client保持短连接，同时让Client和Proxy部署在一个IDC, Proxy和LCS可以跨IDC；此时Proxy和LCS的由于是长连接交互，不必要每次都有个跨IDC的三次握手, 但也有如下的问题:</p>
+<ul>
+<li>增加了一层，意味着多一层网络交互，</li>
+<li>长连接的跨IDC交互有可能也避免不了跨IDC的网络异常问题</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>如上，上面的proxy，其实就是我们说的nginx proxy, 现在的问题是nginx虽然支持简单的tcp proxy，但是并不支持downstream是短链接，然后upstream是长连接(upstream和downstream的长短链接必须一致), 但是我们知道nginx http模块里面是有一个keepalive模块的，所以技术上面应该问题不大的，我们要做的就是把那个东西迁移过来, 具体如下:</p>
+<h3 id="关于nginx-HTTP-长连接"><a href="#关于nginx-HTTP-长连接" class="headerlink" title="关于nginx HTTP  长连接"></a>关于nginx HTTP  长连接</h3><ul>
+<li>内部实现 : <a href="http://blog.csdn.net/gzh0222/article/details/8523635" target="_blank" rel="external">http://blog.csdn.net/gzh0222/article/details/8523635</a></li>
+<li>大概思路 :<ul>
+<li>对于一个具体的upstream，可以设置其connection pool的size</li>
+<li>每次需要访问upstream的时候，先去connection pool里面查找, 如果存在，就用改连接；否则新建一个连接</li>
+<li>当访问结束的时候, 不主动断开连接，而且放回到连接池; 如果连接池是满的，需要释放最老的无用的连接(LRU)</li>
+</ul>
+</li>
+</ul>
+<h3 id="配置demo"><a href="#配置demo" class="headerlink" title="配置demo"></a>配置demo</h3><p>依照http upstream keepalive module的工作原理，我们编写了一个tcp upstream keepalie模块，具体代码请见<a href="http://gitlab.baidu.com/nginx/ngx_stream_keepalive_module/tree/master" target="_blank" rel="external">ngx_stream_keepalive_module</a></p>
+<p>如下是简单的配置demo</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="section">stream</span> &#123;</div><div class="line">    <span class="attribute">upstream</span> stream_test &#123;</div><div class="line">        <span class="comment"># 设置连接池的大小, 用法同http upstream keepalive module</span></div><div class="line">        <span class="attribute">keepalive</span> <span class="number">10</span>;</div><div class="line">        <span class="attribute">server</span> yf-forum-rdcjs1.yf01.baidu.com:<span class="number">12388</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="section">server</span> &#123;</div><div class="line">        <span class="attribute">listen</span> <span class="number">12345</span>;</div><div class="line">        <span class="attribute">proxy_pass</span> stream_test;</div><div class="line">        <span class="attribute">proxy_protocol</span> <span class="literal">on</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="问题-amp-思路"><a href="#问题-amp-思路" class="headerlink" title="问题&amp;思路"></a>问题&amp;思路</h3><p>一旦加入一个proxy，我们其实又面临一个问题，以上图为例，就是LCS如何获取真正的client ip? </p>
+<p>像http协议的代理，一般会在应用层做这个事情，比如说通过<a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html" target="_blank" rel="external">ngx_http_realip_module</a> 把相关的信息放到header里面，这样是能满足业务需求的; 那tcp proxy怎么办?</p>
+<p>像TCP层一下的代理，比如说<a href="https://en.wikipedia.org/wiki/Linux_Virtual_Server" target="_blank" rel="external">LVS</a>一般会需要<a href="http://www.just4coding.com/blog/2015/11/16/toa/" target="_blank" rel="external">内核的支持</a>，以便我们正确的获取客户端的IP，感觉解决方案都是挺重的</p>
+<p>一个简单的方案是<a href="http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt" target="_blank" rel="external">The PROXY protocol</a>, 这个协议原理&amp;思路非常简单，就是在协议代理，新建连接的时候，会传输具体的代理信息。比如按照上图，当<code>Proxy</code>和<code>LCS</code>建立连接的时候，他做的第一个事情是发送一个文本信息，告诉<code>LCS</code>相关的client信息，大概如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">PROXY TCP4 192.168.0.1 192.168.0.11 56324 443</div></pre></td></tr></table></figure>
+<p>所以此时客户端需要修改其读取逻辑，在首次连接之后，需要尝试去读取proxy的信息，如果存在，就可以做一些具体的解析</p>
+<p>同时，也要求proxy做一些修改，在发送请求给后端的时候，需要额外带上这些信息，具体可以通过<a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_protocol" target="_blank" rel="external">proxy_protocol</a>这个指令控制;</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html" target="_blank" rel="external">nginx stream module官方链接</a></li>
+<li><a href="http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt" target="_blank" rel="external">proxy protocol具体说明文档</a> </li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-tcp_proxy" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -180,80 +258,6 @@
 
 
     
-      <article id="post-nginx_1_9_9" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/19/nginx_1_9_9/">nginx 1.9.9 特性说明</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/12/19/nginx_1_9_9/" class="article-date">
-  <time datetime="2015-12-19T06:17:30.000Z" itemprop="datePublished">2015-12-19</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="feature说明"><a href="#feature说明" class="headerlink" title="feature说明"></a>feature说明</h2><ul>
-<li>pwritev() support.</li>
-<li>the “include” directive inside the “upstream” block.</li>
-<li>the ngx_http_slice_module.</li>
-</ul>
-<h2 id="pwritev说明"><a href="#pwritev说明" class="headerlink" title="pwritev说明"></a>pwritev说明</h2><p><a href="http://linux.die.net/man/2/pwritev" target="_blank" rel="external">pwritev</a>的具体说明可以见链接；nginx在这个版本里面主要用<code>pwritev</code>替代<code>writev</code>的功能；简单的理解，可以认为是将老的:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">lseek(fd, offset);</div><div class="line">writev(fd, iov);</div></pre></td></tr></table></figure>
-<p>改成</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">pwritev()</div></pre></td></tr></table></figure>
-<p>总结的收益是:</p>
-<ul>
-<li>系统调用从2次改成1次，主要是性能方面的</li>
-<li>pwritev() was introduced in FreeBSD 6 and Linux 2.6.30, glibc 2.10</li>
-</ul>
-<p>具体可以参看文档: <a href="http://blog.libtorrent.org/2012/12/principles-of-high-performance-programs/" target="_blank" rel="external">principles of high performance programs</a></p>
-<h2 id="ngx-http-slice-module"><a href="#ngx-http-slice-module" class="headerlink" title="ngx_http_slice_module"></a>ngx_http_slice_module</h2><p><a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html" target="_blank" rel="external">ngx_http_slice_module</a>是新引入的一个功能模块；大概的作用是可以将一个upstream response body 切成那个小块，然后每个单独缓存; 官方原话:</p>
-<blockquote>
-<p>The module makes it<br>possible to split a big upstream response into smaller parts and cache them<br>independently.</p>
-<p>The module supports range requests.  When a part of a file is requested,<br>only the required slice upstream requests are made.  If caching is enabled,<br>future requests will only go to upstream for missing slices.</p>
-</blockquote>
-<p>可以理解的应用场景:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client ---&gt; proxy(nginx) ---&gt; upstream</div></pre></td></tr></table></figure>
-<ul>
-<li>proxy那边会将一个big file切成小块缓存</li>
-</ul>
-<blockquote>
-<p>todo待补充</p>
-</blockquote>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <article id="post-ngx_variable_flag" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -337,6 +341,80 @@
 <li><a href="http://m.blog.csdn.net/blog/dingyujie/7106524" target="_blank" rel="external">[原]nginx脚本引擎与设计设计(三)</a></li>
 <li><a href="http://blog.lifeibo.com/blog/2011/12/17/nginx-varibles.html" target="_blank" rel="external">Nginx源码分析之变量</a></li>
 </ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-nginx_1_9_9" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/19/nginx_1_9_9/">nginx 1.9.9 特性说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/12/19/nginx_1_9_9/" class="article-date">
+  <time datetime="2015-12-19T06:17:30.000Z" itemprop="datePublished">2015-12-19</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="feature说明"><a href="#feature说明" class="headerlink" title="feature说明"></a>feature说明</h2><ul>
+<li>pwritev() support.</li>
+<li>the “include” directive inside the “upstream” block.</li>
+<li>the ngx_http_slice_module.</li>
+</ul>
+<h2 id="pwritev说明"><a href="#pwritev说明" class="headerlink" title="pwritev说明"></a>pwritev说明</h2><p><a href="http://linux.die.net/man/2/pwritev" target="_blank" rel="external">pwritev</a>的具体说明可以见链接；nginx在这个版本里面主要用<code>pwritev</code>替代<code>writev</code>的功能；简单的理解，可以认为是将老的:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">lseek(fd, offset);</div><div class="line">writev(fd, iov);</div></pre></td></tr></table></figure>
+<p>改成</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">pwritev()</div></pre></td></tr></table></figure>
+<p>总结的收益是:</p>
+<ul>
+<li>系统调用从2次改成1次，主要是性能方面的</li>
+<li>pwritev() was introduced in FreeBSD 6 and Linux 2.6.30, glibc 2.10</li>
+</ul>
+<p>具体可以参看文档: <a href="http://blog.libtorrent.org/2012/12/principles-of-high-performance-programs/" target="_blank" rel="external">principles of high performance programs</a></p>
+<h2 id="ngx-http-slice-module"><a href="#ngx-http-slice-module" class="headerlink" title="ngx_http_slice_module"></a>ngx_http_slice_module</h2><p><a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html" target="_blank" rel="external">ngx_http_slice_module</a>是新引入的一个功能模块；大概的作用是可以将一个upstream response body 切成那个小块，然后每个单独缓存; 官方原话:</p>
+<blockquote>
+<p>The module makes it<br>possible to split a big upstream response into smaller parts and cache them<br>independently.</p>
+<p>The module supports range requests.  When a part of a file is requested,<br>only the required slice upstream requests are made.  If caching is enabled,<br>future requests will only go to upstream for missing slices.</p>
+</blockquote>
+<p>可以理解的应用场景:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">client ---&gt; proxy(nginx) ---&gt; upstream</div></pre></td></tr></table></figure>
+<ul>
+<li>proxy那边会将一个big file切成小块缓存</li>
+</ul>
+<blockquote>
+<p>todo待补充</p>
+</blockquote>
 
       
     </div>
@@ -1025,63 +1103,6 @@ $ gzip access.log.0    # do something with access.log.0
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
 
       </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-mixed_content_control" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/06/mixed_content_control/">关于https嵌套http iframe的问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/03/06/mixed_content_control/" class="article-date">
-  <time datetime="2015-03-06T03:13:44.000Z" itemprop="datePublished">2015-03-06</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>主要是https 和 http页面嵌套，引用的一些具体规则？哪些是允许的，哪些是不允许的？</p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>一般地，我们主要规范https页面上面对http请求的场景。http页面可以嵌入https一般浏览器不会太care</p>
-<p>浏览器把https嵌入的外部资源分成两大类，如下:</p>
-<ul>
-<li>Mixed Passive Content (a.k.a. Mixed Display Content) : 被动页面嵌入内容，此类的资源不会对已有的https主页面产生修改，更新之类的操作，具体包括:  images, audio, and video loads. </li>
-<li>Mixed Active Content (a.k.a. Mixed Script Content) : 主动页面嵌入内容，此类的资源可能会影响原来的页面的展现和内容，具体包括: JavaScript, CSS, objects, xhr requests, iframes, and fonts</li>
-</ul>
-<blockquote>
-<p>PS: 不同浏览器对MPC和MAC的分类不一定一致，比如说iframe在chrome下面属于MPC,而在ie/firefox属于MAC</p>
-</blockquote>
-<p>一般的浏览器如果发现一个资源属于MAC，就会blocking此类请求</p>
-<p>故，综上，在IE浏览器下面一个https页面嵌入http请求会直接被block</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://blog.mozilla.org/tanvi/2013/04/10/mixed-content-blocking-enabled-in-firefox-23/" target="_blank" rel="external">Mixed Content Blocking Enabled in Firefox 23!</a></li>
-<li><a href="http://www.tinywebgallery.com/blog/iframe-do-not-mix-http-and-https" target="_blank" rel="external">Why you should not mix http and https when using iframes</a></li>
-<li><a href="http://lison.sinaapp.com/?p=317" target="_blank" rel="external">HTTPS和HTTP相互间IFRAME的浏览器限制及安全提示</a></li>
-</ul>
-
-      
-    </div>
-    
     
   </div>
   
