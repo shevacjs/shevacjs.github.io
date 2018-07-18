@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>nginx 1.15.1 版本说明 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Feature List主要包含如下两点:   Feature: the “random” directive inside the “upstream” block.  Feature: improved performance when using the “hash” and “ip_hash” directives with the “zone” directive.   一个是引入了ra">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx 1.15.1 版本说明">
+<meta property="og:url" content="http://shevacjs.com/2018/07/17/nginx_1_15_1/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="Feature List主要包含如下两点:   Feature: the “random” directive inside the “upstream” block.  Feature: improved performance when using the “hash” and “ip_hash” directives with the “zone” directive.   一个是引入了ra">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://shevacjs.com/images/two-choice-info.svg">
+<meta property="og:updated_time" content="2018-07-18T06:05:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx 1.15.1 版本说明">
+<meta name="twitter:description" content="Feature List主要包含如下两点:   Feature: the “random” directive inside the “upstream” block.  Feature: improved performance when using the “hash” and “ip_hash” directives with the “zone” directive.   一个是引入了ra">
+<meta name="twitter:image" content="http://shevacjs.com/images/two-choice-info.svg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-nginx_1_15_1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      nginx 1.15.1 版本说明
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/07/17/nginx_1_15_1/" class="article-date">
+  <time datetime="2018-07-17T08:50:29.000Z" itemprop="datePublished">2018-07-17</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Feature-List"><a href="#Feature-List" class="headerlink" title="Feature List"></a>Feature List</h2><p>主要包含如下两点: </p>
+<ul>
+<li><p>Feature: the “random” directive inside the “upstream” block.</p>
+</li>
+<li><p>Feature: improved performance when using the “hash” and “ip_hash” directives with the “zone” directive.</p>
+</li>
+</ul>
+<p>一个是引入了<code>random</code>的upstream机制，还有一个是优化了<code>zone</code>区的<code>hash</code>性能; 下面我们详细拆解其功能</p>
+<h2 id="Upstream-Zone机制"><a href="#Upstream-Zone机制" class="headerlink" title="Upstream Zone机制"></a>Upstream Zone机制</h2><p>Nginx在<code>1.9.0</code>版本引入了<a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone" target="_blank" rel="external">zone</a>的机制, 官方手册说明如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">* Syntax:    zone name [size];</div><div class="line">* Default:    —</div><div class="line">* Context:    upstream</div><div class="line">&gt; This directive appeared in version 1.9.0.</div><div class="line"></div><div class="line">Defines the name and size of the shared memory zone that keeps the group’s configuration and run-time state that are shared between worker processes.</div></pre></td></tr></table></figure>
+<p>也就是其核心能力是使得upstream的相关配置以及状态，支持在进程间共享。这方面的优势显而易见，依照<a href="https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#zone" target="_blank" rel="external">NGINX Load Balancing - HTTP Load Balancer
+</a>说明，我们可以总结为:</p>
+<ul>
+<li><p>其可以方便的支持健康检查,动态upstream配置等，而无需担心多进程数据同步的问题</p>
+</li>
+<li><p>状态数据，比如<code>max_fail</code>等信息，可以被多个进程共享，这样是的业务避免无效的请求和重试, 否则每个进程都得去触发<code>max_fail</code>之类的阈值</p>
+</li>
+</ul>
+<p>关于upstream zone另外一个可以关注的点是其<code>实现机制</code>。直观来看的话，从单进程到多进程共享的数据结构，可能对源码会有较大的改动，尤其是有不少现存的upstream module,  不过nginx引入了一个相对巧妙的机制, 可以通过<code>ngx_http_upstream_zone_module.c</code>了解，其核心思路是: </p>
+<ol>
+<li>将进程内的数据拷贝到共享内存里面</li>
+<li>将所有的指针指向共享内存空间</li>
+</ol>
+<p>这样<code>几乎</code>(主要有时候还需要解决多进程并发读写的问题)可以透明的将数据迁移到共享内存里面; 大致代码如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> ngx_int_t</span></div><div class="line"><span class="title">ngx_http_upstream_init_zone</span><span class="params">(<span class="keyword">ngx_shm_zone_t</span> *shm_zone, <span class="keyword">void</span> *data)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">size_t</span>                          len;</div><div class="line">    <span class="keyword">ngx_uint_t</span>                      i;</div><div class="line">    <span class="keyword">ngx_slab_pool_t</span>                *shpool;</div><div class="line">    <span class="keyword">ngx_http_upstream_srv_conf_t</span>   *uscf, **uscfp;</div><div class="line">    <span class="keyword">ngx_http_upstream_main_conf_t</span>  *umcf;</div><div class="line"></div><div class="line">    <span class="comment">/* 省去部分代码，指向共享内存区域 */</span></div><div class="line">    shpool = (<span class="keyword">ngx_slab_pool_t</span> *) shm_zone-&gt;shm.addr;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/* copy peers to shared memory */</span></div><div class="line"></div><div class="line">    umcf = shm_zone-&gt;data;</div><div class="line">    uscfp = umcf-&gt;upstreams.elts;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; umcf-&gt;upstreams.nelts; i++) &#123;</div><div class="line">        uscf = uscfp[i];</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (uscf-&gt;shm_zone != shm_zone) &#123;</div><div class="line">            <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">/* 讲每个upstream conf 拷贝到共享内存区域 */</span></div><div class="line">        <span class="keyword">if</span> (ngx_http_upstream_zone_copy_peers(shpool, uscf) != NGX_OK) &#123;</div><div class="line">            <span class="keyword">return</span> NGX_ERROR;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> NGX_OK;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>所以回到这次的feature, 对所谓的『ip_hash/hash』的性能优化，其实就是对zone里面读写锁的精细化控制。</p>
+<h2 id="Random-Upstream"><a href="#Random-Upstream" class="headerlink" title="Random Upstream"></a>Random Upstream</h2><p>另外一个比较大的特性是引入<a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#random" target="_blank" rel="external">random upstream</a>的支持, 其官方手册说明如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">* Syntax:	random [two [method]];</div><div class="line">* Default:	—</div><div class="line">* Context:	upstream</div><div class="line"></div><div class="line">The optional two parameter instructs nginx to randomly select two servers and then choose a server using the specified method. The default method is least_conn which passes a request to a server with the least number of active connections.</div></pre></td></tr></table></figure>
+<p>这里我们主要关注<code>random two least_conn</code>的情况; 什么意思呢?</p>
+<p>用随机算法的时候，我们最担心的就是随机不均衡的问题, 所以对于我们upstream的random算法，其也要考虑这个方面的情况, 而<code>two least_conn</code>就是处理这个问题的有效手段，下面具体分析。</p>
+<p>首先回到一个纯粹的数学问题，N个请求让N个服务器处理，则处理请求最多的服务器其会处理多少请求呢？</p>
+<p>我们知道正常情况下，平均一个服务器会处理一个请求，但是事实上这个是低概率事件, 从<a href="https://homes.cs.washington.edu/~karlin/papers/balls.pdf" target="_blank" rel="external">Balanced Allocations</a>的分析，其原话是:</p>
+<blockquote>
+<p>the fullest box has, with high probability, ln $n$ / ln ln $n(1 + o(1))$ ball in it</p>
+</blockquote>
+<p>也就是其实最大负载的机器其处理的请求数会远超于均值, 而如果用<code>Two Random Choices</code>(随机选两个，其次选择负载低的策略), 其概率大概为 $ln \ ln\ n$</p>
+<p>如下是去概率函数分布图: </p>
+<p><img src="/images/two-choice-info.svg" alt="two-random-choice"></p>
+<p>总而言之, 双次选择会使得我们的负载均衡的表现更为优异。</p>
+<p>如上公式的数学推导其实是比较复杂的(至少我没有看懂), 所以这里在简单分享自己对”N个请求让N个服务器处理，则处理请求最多的服务器其会处理多少请求呢?”这个问题的程序员解法;(Maybe有错误哈)</p>
+<p>首先定义概率密度函数:</p>
+<ul>
+<li>$f(k)$ : 表示N个球放N个盒子,处理请求最多的盒子其处理请求数量为k的概率</li>
+<li>则上面的问题，其实求的就是该分布的期望, 可以有:</li>
+</ul>
+<p>$$E = \sum_{k=1}^{n}{f(k)*k}$$</p>
+<p>其次，我们分析如何求解$f(k)$, 这里面我们通过传统概率算法计数法来计算对应的概率, 具体如下:</p>
+<ul>
+<li>N个球放入N个盒子，不考虑球的差异性，其有 $\binom{2*n-1}{n}$ 可能性</li>
+<li><p>再考虑如果最多盒子对应的球的个数为k的放法, 我们定义为$c(n_1,n_2,k)$, 表明$n_1$个球放入$n_2$盒子，最多的盒子里面有$k$个球的方法数,则显然有:</p>
+<ul>
+<li>$c(n,n,1)$ = 1</li>
+<li>$c(n,n,n)$ = n</li>
+</ul>
+</li>
+</ul>
+<p>而对于$c(n,n,k)$我们则使用递归法统计， 我们可以估算其最多有$i$个盒子里面有$k$个球，基于次分析:</p>
+<p>$$c(n_1,n_2,k) =  \sum_{i=1}^{n} (cc(i) <em> (\sum_{j=1}^{k-1}c(n_1-i</em>k,n_2-i, j)))$$</p>
+<p>其中$cc(i)$ 表明$i$个盒子有$k$个球，选取的办法有$\binom{n_2}{i}$<br>而公示后半部分的意思是剩余的盒子里面，最多为1,2,…,k-1个球的放法</p>
+<p>按照如上的公示，可以得到代码如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">s</span><span class="params">(ball,box,k)</span> :</span></div><div class="line">    </div><div class="line">    <span class="keyword">if</span> ball &gt; box <span class="keyword">and</span> k == <span class="number">1</span> :</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span></div><div class="line">    </div><div class="line">    <span class="keyword">if</span> box &gt; ball <span class="keyword">and</span> k == <span class="number">1</span> :</div><div class="line">        total = math.factorial(box) / math.factorial(ball) / math.factorial(box - ball)</div><div class="line">        <span class="keyword">return</span> total</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> ball == box <span class="keyword">and</span> k == <span class="number">1</span> :</div><div class="line">        <span class="keyword">return</span> <span class="number">1</span></div><div class="line">    </div><div class="line">    <span class="keyword">if</span> k &lt;= <span class="number">0</span> :</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span></div><div class="line">    </div><div class="line">    total = <span class="number">0</span></div><div class="line">    </div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,ball+<span class="number">1</span>) :</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> i * k &gt; ball :</div><div class="line">            <span class="keyword">break</span></div><div class="line">            </div><div class="line">        <span class="keyword">if</span> i &gt; box :</div><div class="line">            <span class="keyword">break</span></div><div class="line">        </div><div class="line">        tmp1 = math.factorial(box) / math.factorial(i) / math.factorial(box - i)</div><div class="line">        tmp2 = <span class="number">0</span></div><div class="line">        </div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,k) :</div><div class="line">            tmp2 += s(ball- i*k, box-i, k-j)</div><div class="line">        total += tmp1 * tmp2</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> total</div></pre></td></tr></table></figure>
+<p>依照如上公示，我们可以得到一些期望值如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ball_exp(<span class="number">10</span>) = <span class="number">3.7</span></div><div class="line">ball_exp(<span class="number">20</span>) = <span class="number">4.7</span></div><div class="line">ball_exp(<span class="number">40</span>) = <span class="number">5.6</span></div></pre></td></tr></table></figure></p>
+<p>和上面的数据推导数据不完全一致，但是还是符合相应的函数曲线的</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><p><a href="https://fly.io/articles/simple-wins-power-of-2-load-balancing/" target="_blank" rel="external">When Simple Wins: The Power of Two Random Choices</a> : 介绍<code>Two-Random-Choices</code>在<code>fly.io</code>的应用</p>
+</li>
+<li><p><a href="http://liblb.com/p2c.html#experiment" target="_blank" rel="external">An Empirical Study of Load Balancing Algorithms</a> : 对<code>Two Random Choices</code>的深入介绍和说明</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/07/02/20180624/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20180624&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  var disqus_url = 'http://shevacjs.com/2018/07/17/nginx_1_15_1/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

@@ -57,6 +57,82 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-20180415" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/18/20180415/">weekly of 20180415</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/04/18/20180415/" class="article-date">
+  <time datetime="2018-04-18T04:26:45.000Z" itemprop="datePublished">2018-04-18</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/yanqing.jpg" alt="延庆一景"></p>
+<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://ultralig.ht/" target="_blank" rel="external">Lightweight, Pure-GPU HTML Renderer</a> : 一个纯GPU执行的HTML渲染器，对于游戏类的业务场景会有比较好的支持</p>
+</li>
+<li><p><a href="http://0x80.pl/notesen/2018-04-11-simd-is-sorted.html" target="_blank" rel="external">Is sorted using SIMD instructions</a> : 判断一个数组是否有序的最简单算法，就是遍历数组，依次比较; 但是如果处理器本身支持<code>SIMD</code>之类，会有怎么样的优化算法呢?文章具体说明了如何将上面操作<code>vectorization</code>，以提升判断的速度，结果表明在<code>AVX2</code>的指令集下面性能有<code>100%</code>以上的提升, 对SIMD指令感兴趣的话，可以参看<a href="https://software.intel.com/sites/landingpage/IntrinsicsGuide/" target="_blank" rel="external">Intrinsics Guide</a>这个指令手册</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://blog.cloudflare.com/neon-is-the-new-black/" target="_blank" rel="external">NEON is the new black: fast JPEG optimization on ARM server</a> : CloudFlare的技术博客，介绍其对<code>libjpg</code>在ARM平台的优化，主要是讲将在Intel下面优化的SIMD指令在ARM系统上面重写, 总结值得思考: “It is evident that the Qualcomm Centriq is a powerful processor, that definitely provides a good bang for a buck. However, years of Intel leadership in the server and desktop space mean that a lot of software is better optimized for Intel processors.”</p>
+</li>
+<li><p><a href="https://snr.stanford.edu/salsify/" target="_blank" rel="external">Salsify</a> : Salsify是斯坦福大学的一个项目，其核心思路是通过对视频编码速率和网络速率的协同控制，来提升<code>real time video</code>的性能和体验，直接感觉意义一般，但是其性能数据体现”reduced delay (at the 95th percentile) by 4.6×, while also improving SSIM by about 60% (2.1 dB)”，先mark，后续有空关注</p>
+</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><blockquote>
+<p>本周关注GPU编程</p>
+</blockquote>
+<ul>
+<li><p><a href="http://courses.cms.caltech.edu/cs179/" target="_blank" rel="external">课程: GPU Programming CS179</a> : 比较综合的介绍GPU的概念基础，以及和CUDA的实践, 可以关注<a href="https://news.ycombinator.com/item?id=11902172" target="_blank" rel="external">Hacer News</a>上面对其评价</p>
+</li>
+<li><p><a href="https://cn.udacity.com/course/intro-to-parallel-programming--cs344" target="_blank" rel="external">课程: 并行编程入门 by Nvidia</a> : 中文版的课程</p>
+</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://weibo.com/1705822647/GbThVDxKJ?type=comment" target="_blank" rel="external">关于百度区块链应用的思考</a> : 用区块链进行图片和内容版权保护的问题，作者的存疑和我个人的思考分析一致，mark下关注网友的讨论</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16827817" target="_blank" rel="external">Quantum mechanics used for better random numbers</a> : 量子计算机可以产生真正的随机数，但是评论上面认为，其实现在的不少硬件，比如说<code>Johnson–Nyquist</code>已经具备这类能力了</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=16817234" target="_blank" rel="external">Quantum Algorithm Implementations for Beginners</a> : </p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20180408" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -940,85 +1016,6 @@
 <li><p><a href="https://github.com/pxgm/awesome-markdown-alternatives" target="_blank" rel="external">Awesome Markdown Alternatives</a> : 还可以参考另外一篇文档<a href="https://blog.jez.io/reach-for-markdown/" target="_blank" rel="external">Reach for Markdown, not LaTeX</a>，介绍基于<code>Markdown</code>, <code>Pandoc</code> 和<code>LaTex</code>组合的工具链</p>
 </li>
 <li><p><a href="https://blog.sourcerer.io/ascii-art-dead-or-alive-cc237391e5d8" target="_blank" rel="external">ASCII art — dead or alive</a> : 关于ASCII Art的概述，个人决定有时候ASCII的图表在可迁移性和可观性还是不错的, 文章里面的几个工具大家可以参考，包括<a href="https://github.com/dhobsd/asciitosvg" target="_blank" rel="external">asciitosvg</a>, <a href="http://asciiflow.com/" target="_blank" rel="external">asciiflow</a>，<a href="https://en.wikipedia.org/wiki/Cowsay" target="_blank" rel="external">cowsay</a></p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20180211" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/11/20180211/">weekly of 20180211</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2018/02/11/20180211/" class="article-date">
-  <time datetime="2018-02-11T03:33:45.000Z" itemprop="datePublished">2018-02-11</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/Japan_Fuji.jpg" alt="日本-富士山"></p>
-<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
-<li><a href="https://www.ctrl.blog/entry/chrome-adblocker" target="_blank" rel="external">Here’s how Google Chrome’s new ad blocker works</a> : 关于Chrome的广告防御系统的设计和构建, 可以了解整个Chrome反作弊体系的设计思路和理念；感觉Google做多系统和模块设计的系统化和组件化都很强，非常值得学习</li>
-</ul>
-<ul>
-<li><a href="https://blog.harmonicinc.com/apple-backs-av1-what-does-this-mean-for-the-future-of-video-codecs/" target="_blank" rel="external">Apple Backs AV1: What Does This Mean for the Future of Video Codecs</a> : 苹果也会加入并且支持AV1，对于视频编解码生态不大了解的可以参看<a href="http://media.pkusz.edu.cn/achievements/?p=138" target="_blank" rel="external">谁将引领新一代视频编码标准：HEVC、AVS2和AV1性能对比报告</a> 和<a href="http://www.sohu.com/a/198863865_458408" target="_blank" rel="external">下一代开放视频编码标准AV1</a></li>
-</ul>
-<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
-<li><p><a href="https://lwn.net/Articles/745590/" target="_blank" rel="external">QUIC as a solution to protocol ossification</a> : 文章讨论了<code>QUIC</code>的设计理念, 其主要面临的问题不仅仅是协议设计上面的优化，还包括如何能支持在现在互联网生态</p>
-</li>
-<li><p><a href="https://code.facebook.com/posts/471099566618454/2017-year-in-review-building-immersive-experiences/" target="_blank" rel="external">2017 Year in review: Building immersive experiences</a> : Facebook总结2017年在用户沉浸式体验上面的改造，包括在文本方面对于多语言和翻译的支持, 以及在VR以及全景图上面的优化和改进</p>
-</li>
-<li><p><a href="https://code.facebook.com/posts/348442828901047/aquila-what-s-next-for-high-altitude-connectivity-/" target="_blank" rel="external">Aquila: What’s next for high-altitude connectivity?</a> : Facebook为了提升偏远地区的用户体验和网络可达率, 决定成立<code>Aquila</code>项目，核心的思路是通过一个运行在相对低空的太阳能无人机来提供地空的网络链接支持</p>
-</li>
-<li><p><a href="https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md" target="_blank" rel="external">寻找一种易于理解的一致性算法</a> : 对Raft的解释，先mark，到时候给个总结</p>
-</li>
-</ul>
-<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
-<li><p><a href="http://www.calstephens.tech/blog/announcing-ar-planes" target="_blank" rel="external">Announcing AR Planes</a> : 关于AR Plane的一个Demo, 可惜是付费软件，不能试用；不过idea可以参考</p>
-</li>
-<li><p><a href="https://qianduan.group/posts/5a66f36e0cf6b624d2239c74" target="_blank" rel="external">2018 Web 开发者路线图</a> : 可以对整体技术栈有全局的认识, 另外几张图个人感觉画的非常好，可惜不知道画图软件</p>
-</li>
-<li><p><a href="https://fosdem.org/2018/schedule/event/introduction/" target="_blank" rel="external">Introduction to LLVM</a> : 关于LLVM的介绍，先mark</p>
-</li>
-<li><p><a href="https://zhuanlan.zhihu.com/p/33678187" target="_blank" rel="external">Google Project Zero 成员教你如何入门搞安全</a> : 定个小目标, 明天开始对安全相关的研究做进一步的深入学习</p>
-</li>
-<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404205853535261184" target="_blank" rel="external">科普: 宇宙奥德赛 — 太阳系之旅</a> : 众多关于太阳系星球科普的文章, 看了一部分非常值得推荐, mark</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/Q9ZRHbRI5lkqAn1NLkDzXg" target="_blank" rel="external">纠正你对区块链的认知偏见</a> : 又是一个区块链的文章, 作为最近的业内的风口, 此类的文章不少，希望下来自己也写一篇更具针对性的总结文章</p>
-</li>
-<li><p><a href="http://www.techug.com/post/webassembly-application-example.html" target="_blank" rel="external">WebAssembly 能干什么？8个WebAssembly 应用案例</a> : 关注WebAssembly在多媒体网页编辑上面的应用，希望能够对一些PGC/UGC内容的生产带来不一样的体验</p>
 </li>
 </ul>
 
