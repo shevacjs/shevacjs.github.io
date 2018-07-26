@@ -57,6 +57,90 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-20170205" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/05/20170205/">weekly of 20170205</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/02/05/20170205/" class="article-date">
+  <time datetime="2017-02-05T10:23:33.000Z" itemprop="datePublished">2017-02-05</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><p><a href="http://www.computerworld.in/news/future-ios-64-bit-only-apple-stop-support-32-bit-apps" target="_blank" rel="external">The future of iOS is 64-bit only: Apple to stop support of 32-bit apps</a> : 新的IOS系统即将不支持32位系统的程序</p>
+</li>
+<li><p><a href="https://blog.chromium.org/2017/02/integrating-progressive-web-apps-deeply.html?m=1" target="_blank" rel="external">Integrating Progressive Web Apps deeply into Android</a> : 谷歌宣布，PWA将获得与安卓原生应用同等的待遇与权限，用户体验将完全一致, 包括桌面图标，通知等支持。如同大家预料的，Chrome浏览器与安卓的底层正在逐渐打通，H5开发的前景越来越光明;</p>
+</li>
+<li><p><a href="https://blog.chromium.org/2017/01/reload-reloaded-faster-and-leaner-page_26.html" target="_blank" rel="external">Reload, reloaded: faster and leaner page reloads</a> : Chrome最近动作不断, 新的reload特性可以减少无效的网络请求(默认是304的静态请求)，大大提升页面的性能; 此特性在前一期的weekly 已经提及</p>
+</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="http://stats.stackexchange.com/questions/7959/algorithm-to-dynamically-monitor-quantiles" target="_blank" rel="external">Algorithm to dynamically monitor quantiles</a> : P^2算法的介绍，可以支持动态，增量地，以固定存储空间去计算一个特意的分位点, 还是非常精妙的, 先收藏，后续看下如何落地; P2算法可以参见<a href="http://www.cse.wustl.edu/~jain/papers/ftp/psqr.pdf" target="_blank" rel="external">The P-Square Algorithm for Dynamic Calculation of Percentiles and Histograms without Storing Observations</a></p>
+</li>
+<li><p><a href="https://learntemail.sam.today/blog/stop-disabling-selinux:-a-real-world-guide/" target="_blank" rel="external">Stop Disabling SELinux: A Real-World guide</a> : 本文介绍了具体使用<code>SELinux</code>的用于访问控制的实例, 作者认为<code>SELinux</code>在实践中还是能发挥非常大的作用，建议我们保留</p>
+</li>
+<li><p><a href="https://medium.com/airbnb-engineering/introducing-lottie-4ff4a0afac0e#.th36uwgaj" target="_blank" rel="external">Introducing Lottie</a> : Airbnb开源的跨系统的动画解决发个那你，和之前的facebook的keyframe很像, 也可以参看中文的介绍版本<a href="http://stormzhang.com/2017/02/03/airbnb-lottie-android/" target="_blank" rel="external">这个项目碉堡了</a></p>
+</li>
+<li><p><a href="https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-algorithm-choice" target="_blank" rel="external">How to choose algorithms for Microsoft Azure Machine Learning</a> : 个人觉得是对机器学习新手入门的一个非常好的文章, 包括对算法选择的考量，算法的具体分类和介绍；是对现在机器学习算法领域一个较高程度的概述</p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="https://news.ycombinator.com/item?id=13541589" target="_blank" rel="external">Unlearning descriptive statistics</a> : 本文介绍了在统计方法里面，一些容易被误解或者被遗漏的一些概念，比如说中位数和均值的意义，分位点的重要, 如何衡量分布的均衡性和奇异点, 另外hacker news上面的评论也是需要重点关注的; 包括一些建议可以去了解的<a href="https://en.m.wikipedia.org/wiki/Five-number_summary" target="_blank" rel="external">Five-number summary</a>用来描述一堆有序数据, 用<a href="https://en.wikipedia.org/wiki/Medcouple" target="_blank" rel="external">Medcouple</a> 来评估分布的均衡性, <a href="http://www.johnmyleswhite.com/notebook/2013/03/22/modes-medians-and-means-an-unifying-perspective/" target="_blank" rel="external">Modes, Medians and Means: A Unifying Perspective</a>用统一的视角来定义均值，中位数; 以及<a href="http://queue.acm.org/detail.cfm?id=2903468" target="_blank" rel="external">Statistics for Engineers: Applying statistical techniques to operations data</a> 这些纯统计的概念在具体工程应用里面的还是会发挥不少作用的</p>
+</li>
+<li><p><a href="https://speakerdeck.com/filosottile/tls-1-dot-3-at-33c3" target="_blank" rel="external">TLS 1.3 @ 33c3 by Filippo Valsorda</a> : TLS 1.3相比于之前的TLS 1.2有较大的飞跃，主要体现在于协议之初的密钥交互过程，可以支持<code>1-RTT</code>, 甚至<code>O-RTT</code></p>
+</li>
+<li><p><a href="https://code.facebook.com/posts/952820474848503/beringei-a-high-performance-time-series-storage-engine/?utm_source=codedot_rss_feed&amp;utm_medium=rss&amp;utm_campaign=RSS+Feed" target="_blank" rel="external">Beringei: A high-performance time series storage engine</a> : Facebook之前提到的基于全内存的时间序列的数据库的开源实现的介绍</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://garbagecollected.org/2017/01/31/four-column-ascii/" target="_blank" rel="external">Four Column ASCII</a> : 以四列的方式显示<code>ASCII</code>表，会发现更多有趣好玩的情况</p>
+</li>
+<li><p><a href="http://greenteapress.com/thinkos/" target="_blank" rel="external">Think OS: A Brief Introduction to Operating Systems</a> : 一个OS的入门教程，感觉外国人做这个东西做得非常的精细，特别赞</p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzI4NjYwMjcxOQ==&amp;mid=2247483822&amp;idx=1&amp;sn=e73bf5a690c5333cbf9b04f77a40d2a5&amp;chksm=ebdb251edcacac08c6426cecf6998cc061efafd70d79ca6f440d9107b75b2717f7ba1bda33d9#rd" target="_blank" rel="external">评论：机器学习和深度学习的最佳框架大比拼</a> : 对于要入门深度学习的同学来说, 是一个不错的入门参考手册; 大概的结论是: 对于深度学习，或者<code>TensorFlow</code>是现阶段最好的选择, 虽然他的入门曲线有点抖</p>
+</li>
+<li><p><a href="https://blog.ycombinator.com/category/hacker-news/" target="_blank" rel="external">Hacker News Highlights</a> : 有定义的Hacker News上面一些高回复/高赞成的文章合集, 可以收藏mark</p>
+</li>
+<li><p><a href="https://github.com/microsoft/dmtk" target="_blank" rel="external">Microsoft/DMTK</a> : Microsoft Distributed Machine Learning Toolkit, 里面有不少干货，包括<a href="https://github.com/Microsoft/LightGBM/wiki/Installation-Guide" target="_blank" rel="external">Microsoft/LightGBM</a> 等, <a href="https://github.com/Microsoft/lightlda" target="_blank" rel="external">LightLDA</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20170129" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -715,89 +799,6 @@
 <li><p><a href="http://muratbuffalo.blogspot.jp/2016/11/my-distributed-systems-seminars-reading.html" target="_blank" rel="external">My Distributed Systems Seminar’s reading list for Spring 2017</a> : 不少文章/paper可以关注</p>
 </li>
 <li><p><a href="https://cpbotha.net/2016/11/27/android-security-in-2016-is-a-mess/" target="_blank" rel="external">Android security in 2016 is a mess</a> : 对Android系统的安全性的概述，其面临的问题和风险还是非常大的；</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-1127" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/27/1127/">weekly of 20161127</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2016/11/27/1127/" class="article-date">
-  <time datetime="2016-11-26T16:25:11.000Z" itemprop="datePublished">2016-11-27</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><a href="http://www.infoq.com/cn/news/2016/11/webassembly-browser-preview#anch142297" target="_blank" rel="external">WebAssembly浏览器预览版收集社区反馈</a> : 可以试试哈</p>
-</li>
-<li><p><a href="https://code.facebook.com/posts/894756093957171/spam-fighting-scale-2016/" target="_blank" rel="external">Spam Fighting @Scale 2016</a> : “这个里面介绍了不少公司，包括Facebook，LinkedIn, WhatsApp, Netflix 的反作弊经验和策略”, 都是视频；但是有不少感觉挺有兴趣的，包括: Whatsapp基于端到端加密是如何做spam, facebook如何用聚类的策略做假用户识别的, 同时还可以关注<a href="https://code.facebook.com/posts/1709127516080157/networking-scale-boston/" target="_blank" rel="external">Networking @Scale Boston</a>, 关于网络方面的介绍</p>
-</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="http://linuxperf.com/?p=156" target="_blank" rel="external">容易被误读的IOSTAT</a> : 本文具体说明了<code>await</code>的含义, 以及在不同的业务场景下，不同磁盘类型其大概估值的含义和表针的问题(“因为await不仅包括硬盘设备处理I/O的时间，还包括了在队列中等待的时间”)</p>
-</li>
-<li><p><a href="https://code.facebook.com/posts/354469174916519/" target="_blank" rel="external">Keyframes: Delivering scalable, high-quality animations to mobile clients</a> : facebook的文章，看了挺有感慨的； 初衷是支持 动态表情 展现的更友好【其实用PNG之类的也没差多少】；但是他们对这个小问题也追的很深；最后采用的是 基于『Adobe After Effects』的方案； 很多事情，看起来简单，做到极致，挑战和收获都有很多</p>
-</li>
-<li><p><a href="https://learnbchs.org/pledge.html" target="_blank" rel="external">pledge(2): how I learned to love web application sandboxing</a> : <code>pledge</code>是OpenBDS系统下面用于控制系统调用的系统调用, 类似于linux系统下面的<a href="https://en.wikipedia.org/wiki/Seccomp" target="_blank" rel="external">seccomp</a>指令，后者可以深入了解; 在Chrome/docker等多个软件系统都有应用</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="http://evilcos.me/?p=574" target="_blank" rel="external">关于浏览器混合内容的安全性</a> : 文章具体讨论了，在<code>mixed content</code>情况下，可以采用的安全攻击; 但是感觉博主的思路有点乱; 不过可以关注另外一个blog: <a href="http://paper.seebug.org/" target="_blank" rel="external">Paper:安全技术精粹</a></p>
-</li>
-<li><p><a href="https://blog.eood.cn/prometheus-grafana-monitoring" target="_blank" rel="external">Prometheus 和 Grafana 监控系统指南</a> : 挺符合我设计理念的一个监控系统；或者是信息采集系统</p>
-</li>
-<li><p><a href="http://blog.mailgun.com/machine-learning-for-everyday-tasks/" target="_blank" rel="external">Machine Learning for Everyday Tasks</a> : 本文具体介绍了<code>ML</code> 算法的一个应用, 随着机器学习算法的广泛理解和接受，相信后续有很多之前觉得复杂或者很难的事情，可以很容的被处理; </p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><a href="http://www.benfrederickson.com/numerical-optimization/" target="_blank" rel="external">An Interactive Tutorial on Numerical Optimization</a> : 数值优化的一些说明和可视化展示, 先mark；</li>
-</ul>
-<ul>
-<li><p><a href="http://www.ruanyifeng.com/blog/2016/11/byte-order.html" target="_blank" rel="external">理解字节序</a> : 很简短的文章，当做小科普吧</p>
-</li>
-<li><p><a href="https://github.com/linghuazaii/blog/wiki/Memory-management-every-engineer-needs-to-know" target="_blank" rel="external">Memory management every engineer needs to know</a> : 对于进程的内存管理的说明，还是比较精细的，包括堆，栈，静态区的位置说明, 也可以参看<a href="http://duartes.org/gustavo/blog/post/anatomy-of-a-program-in-memory/" target="_blank" rel="external">Anatomy of a Program in Memory</a></p>
-</li>
-<li><p><a href="http://www.jiqizhixin.com/article/1894" target="_blank" rel="external">服务器端人工智能，FPGA和GPU到底谁更强？</a> : 对GPU, FPGA等一些基础概念可以有初步的了解</p>
-</li>
-<li><p><a href="https://github.com/aymericdamien/TopDeepLearning" target="_blank" rel="external">Top Deep Learning Projects</a> : 一些深度学习项目的list</p>
-</li>
-<li><p><a href="https://github.com/nothings/single_file_libs" target="_blank" rel="external">Single-file public-domain/open source libraries with minimal dependencies</a> :  一些优秀的C++ lib的合集, 先mark</p>
 </li>
 </ul>
 
