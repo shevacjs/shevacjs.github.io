@@ -57,6 +57,145 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-1211" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/11/1211/">weekly of 20161211</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/12/11/1211/" class="article-date">
+  <time datetime="2016-12-10T16:25:11.000Z" itemprop="datePublished">2016-12-11</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
+<li><a href="https://blog.chromium.org/2016/12/chrome-56-beta-not-secure-warning-web.html" target="_blank" rel="external">Chrome 56 Beta: “Not Secure” warning, Web Bluetooth, and CSS position: sticky</a> : Chorme56 beta，支持包括<code>Web Bluetooth</code>, <code>WebVR API</code> 等一些新特征</li>
+</ul>
+<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><p><a href="https://sysdig.com/blog/selinux-seccomp-falco-technical-discussion/" target="_blank" rel="external">SELinux, Seccomp, Falco, and You: A Technical Discussion</a> : Sysdig具体分析比较了不同沙盒工作，和操作控制系统的优缺点; 可以关注下<code>Falco</code>(<a href="http://www.sysdig.org/falco/" target="_blank" rel="external">sysdig 出品</a>)</p>
+</li>
+<li><p><a href="https://news.ycombinator.com/item?id=13136536" target="_blank" rel="external">Load Balancing is Impossible(video)</a> : 关于负载均衡的论述，信息量太大，需要后续在梳理; 不过有几点可以说明:1) 非常不建议使用随机作为负责均衡算法  2) 我们应该更关注某些分为点的异常，比如99%的分为点; 相关资料包括: <a href="http://www.slideshare.net/Fastly/load-balancing-is-impossible-62833005" target="_blank" rel="external">Load balancing is impossible pdf链接</a>, <a href="https://www.microsoft.com/en-us/research/publication/join-idle-queue-a-novel-load-balancing-algorithm-for-dynamically-scalable-web-services/" target="_blank" rel="external">Join-Idle-Queue: A Novel Load Balancing Algorithm for Dynamically Scalable Web Services</a>, 微软发表的JIQ负载均衡算法, <a href="http://latencytipoftheday.blogspot.co.at/2014/06/latencytipoftheday-most-page-loads.html" target="_blank" rel="external"> MOST page loads will experience the 99%’lie server response</a>: 这篇文章对于分位点的论述很是独特，建议了解下</p>
+</li>
+<li><p><a href="http://hondu.co/blog/write-a-strace-and-gdb" target="_blank" rel="external">Write a (toy) strace and gdb</a> : 可以了解下gbd和strace的原理(基于系统调用pstrace的应用)</p>
+</li>
+<li><p><a href="https://lukasa.co.uk/2016/12/Debugging_Your_Operating_System/?hn=1" target="_blank" rel="external">Debugging Your Operating System: A Lesson In Memory Allocation</a> : 有点冗长，其实就是讲关于内存分配和管理的机制</p>
+</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><p><a href="https://slack.engineering/data-wrangling-at-slack-f2e0ff633b69#.k5mzym1al" target="_blank" rel="external">Data Wrangling at Slack</a> : Slack的数据分析实践, Slack基本都依赖AWS的生态，不过基于次他们的标准化和规范化也容易实施;</p>
+</li>
+<li><p><a href="http://dockone.io/article/1884" target="_blank" rel="external">如何打造安全的容器云平台</a> : 关于容器的安全有一个系统的描述和说明；包括docer主要面临的风险 etc</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://news.ycombinator.com/item?id=13134363" target="_blank" rel="external">A Provably Secure Proof-Of-Stake Blockchain Protocol</a> : 先mark，应该是一个类似于区块链的原型验证</p>
+</li>
+<li><p><a href="http://openresty.org/slides/New-development-of-OpenResty-in-2016.pdf" target="_blank" rel="external">OpenResty 2016 新发展</a> : openresty写的关于openresty 2016的总结和2017的规划</p>
+</li>
+<li><p><a href="http://fsecurify.com/how-to-learn-hacking/" target="_blank" rel="external">How to learn Hacking?</a> : 一个hacker的入门说明；主要是链接一些资源，包括pdf, blog, video</p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s/hgJ4tzSeXp0RaJ3Q6hxX-g" target="_blank" rel="external">推荐几个技术类的公众号</a> : 喜欢用微信公众号的人可以收藏下</p>
+</li>
+<li><p><a href="https://github.com/Qihoo360/poseidon" target="_blank" rel="external">波塞冬Poseidon: 360的日志检索系统</a> : 关于日志检索系统的，可以关注</p>
+</li>
+<li><p><a href="https://security.googleblog.com/2016/12/announcing-oss-fuzz-continuous-fuzzing.html" target="_blank" rel="external">Announcing OSS-Fuzz: Continuous Fuzzing for Open Source Software</a> : 开一些开源软件的自动扫描和分析，以便更好的为用户服务</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-1204" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/04/1204/">weekly of 20161204</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/12/04/1204/" class="article-date">
+  <time datetime="2016-12-03T16:25:11.000Z" itemprop="datePublished">2016-12-04</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
+<li><a href="http://blog.kevinalbs.com/base122" target="_blank" rel="external">Base-122 Encoding</a> : Base64是最为常见的将二机制数据转为text的编码方式; 本文提出了一个类似于<code>Base64</code>的编码方案<code>Base122</code>, 相比于base64, base-122理论上认为有更高的压缩比，但是结合gzip之后，实测数据是低于<code>gzip+base64</code>，具体落地收益一般; 不过还是可以让我们对base64之类的编码方式有初步的了解和认识</li>
+</ul>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
+<li><a href="https://blog.hypertrack.io/2016/11/28/battery-efficient-real-time-gps-tracking/" target="_blank" rel="external">Battery Efficient Real-Time GPS Tracking</a> : HyperTrack介绍的如何低功耗的进行GPS追踪; 主要是基于如下两个假设(发现) : 1)GPS数据传输的耗电量是采集的5~10倍 2)主动追踪应用场景的覆盖率比例不会太高(约20%), 然后提出了类似于<code>VARIABLE FREQUENCY MODEL</code>, 以及在这个指导策略下多场景的优化</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p><a href="https://gchq.github.io/CyberChef/" target="_blank" rel="external">CyberChef – A Cyber Swiss Army Knife</a> : 程序猿的网上”瑞士军刀”, 各种小工具助你解决大问题</p>
+</li>
+<li><p><a href="http://muratbuffalo.blogspot.jp/2016/11/my-distributed-systems-seminars-reading.html" target="_blank" rel="external">My Distributed Systems Seminar’s reading list for Spring 2017</a> : 不少文章/paper可以关注</p>
+</li>
+<li><p><a href="https://cpbotha.net/2016/11/27/android-security-in-2016-is-a-mess/" target="_blank" rel="external">Android security in 2016 is a mess</a> : 对Android系统的安全性的概述，其面临的问题和风险还是非常大的；</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-1127" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -630,153 +769,6 @@
 <li><p><a href="https://whispersystems.org/blog/disappearing-messages/" target="_blank" rel="external">Disappearing messages for Signal</a> : 注重于端到端加密的协议<code>Signal</code>，现支持</p>
 </li>
 <li><p><a href="https://github.com/BruceDone/awesome-crawler" target="_blank" rel="external">Awesome-crawler</a> : A collection of awesome web crawler,spider and resources in different language</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-1009" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/09/1009/">weekly of 20161009</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2016/10/09/1009/" class="article-date">
-  <time datetime="2016-10-08T16:25:11.000Z" itemprop="datePublished">2016-10-09</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="https://news.ycombinator.com/item?id=12635247" target="_blank" rel="external">GitHub Audio (github.audio)</a> : “This website tracks events happening across GitHub and converts them to music notes based on certain parameters.”</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://github.com/Microsoft/language-server-protocol" target="_blank" rel="external">Language Server Protocol</a> : 挺有意思的一个设计, 通过构建一个C/S的模型, 让一些语言分析的工具能够提供服务化的接口; 这对一些编辑器的自动补全/语法检验等都能简单</p>
-</li>
-<li><p><a href="https://github.com/iovisor/bcc/blob/master/docs/kernel-versions.md" target="_blank" rel="external">BPF Features by Linux Kernel Version</a> : 具体介绍了不同版本的linux内核有哪些feature</p>
-</li>
-<li><p><a href="https://ifconfiger.com/page/understanding-on-BIOS-MBR-GRUB" target="_blank" rel="external">BIOS,MBR,GRUB的一些理解</a> : 关于硬盘分区和管理的一些知识</p>
-</li>
-<li><p><a href="https://sanctum.geek.nz/arabesque/series/linux-crypto/" target="_blank" rel="external">Linux Crypto: Introduction</a> : 对Linux的加密体系，尤其是工具有比较详细的说明</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><p><a href="http://www.linkedkeeper.com/detail/blog.action?bid=121" target="_blank" rel="external">Redis 内存使用优化与存储</a> : 总结和梳理的挺全面的</p>
-</li>
-<li><p><a href="https://idea.popcount.org/2016-09-20-strange-loop---ip-spoofing/" target="_blank" rel="external">Strange Loop - IP Spoofing</a> : 具体介绍了DDos攻击的概念和IP伪造的方法，其中介绍的关于利用<code>Hilbert Curve</code>曲线描绘IP分布的方法值得学习</p>
-</li>
-<li><p><a href="https://blog.apnic.net/2016/10/14/quic-experiment-chrome-52/" target="_blank" rel="external">A QUIC experiment with Chrome 52+</a> : 具体介绍如何自己测试使用<code>QUIC</code>协议</p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://www.zhihu.com/question/23645117/answer/124708083" target="_blank" rel="external">学习分布式系统需要怎样的知识?</a> : 知乎上面一个关于分布式系统的介绍，个人感觉还是可以全局的了解<code>分布式系统</code></p>
-</li>
-<li><p><a href="https://github.com/facert/awesome-spider" target="_blank" rel="external">爬虫集合</a> : 有不少爬虫的干货</p>
-</li>
-<li><p><a href="http://www.teamchuang.com:8080/ttc_web/book/share/297ebe0e572d1d690157a3431d4a06a4" target="_blank" rel="external">终于把区块链的技术与应用讲清楚(57张PPT)</a> : 先收藏</p>
-</li>
-<li><p><a href="http://zhibimo.com/read/wang-miao/mastering-bitcoin/index.html" target="_blank" rel="external">精通比特币</a> : 目前看到最好的关于比特币的书, 免费电子版;另外推荐的东西包括: <a href="http://ethfans.org/wikis/Home" target="_blank" rel="external">以太坊中文官网</a> 以及<a href="http://www.teamchuang.com:8080/ttc_web/book/share/297ebe0e572d1d690157a3431d4a06a4" target="_blank" rel="external">终于把区块链的技术与应用讲清楚了</a>; 东西比较多，需要一个持续的学习过程 </p>
-</li>
-</ul>
-<h2 id="other"><a href="#other" class="headerlink" title="other"></a>other</h2><p>‘</p>
-<p>在x86_64上面，为了把尽可能多的低 2GB 的地址空间留给 LuaJIT 的 GC 管理的内存分配器，ngx_lua 模块中使用 mmap(sbrk(0)) 让数据段里的“堆”，即所谓的 program break，停止生长。这样 glibc 的分配器便不能再使用 brk() 系统调用来分配较小块的内存，而不得不换用 mmap(). 这是书鑫老师的想法。</p>
-<p>‘</p>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-1002" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/02/1002/">weekly of 20161002</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2016/10/02/1002/" class="article-date">
-  <time datetime="2016-10-01T16:25:11.000Z" itemprop="datePublished">2016-10-02</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><p><a href="https://news.ycombinator.com/item?id=12609752" target="_blank" rel="external">DNS-over-HTTPS</a> : google开放了基于<code>https</code>的DNS查询服务, url为<code>https://dns.google.com/resolve?</code>; <a href="http://www.dmitry-ishkov.com/2016/09/dns-over-https.html" target="_blank" rel="external">DNS over HTTPS</a>这个文章具体介绍，如何用https dns服务搭建dns服务(构建一个dns –&gt; http的代理) </p>
-</li>
-<li><p><a href="https://blog.google/" target="_blank" rel="external">The Keyword: Is this thing on?</a> : “You’ve made it to blog.google, our new central source for news and stories about Google”, google新的众多产品线的官方blog</p>
-</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://blog.separateconcerns.com/2015-06-18-love-hate-luajit.html" target="_blank" rel="external">My love-hate relationship with LuaJIT</a> : 对luajit的想法和讨论, luajit虽然快，但很多时候是一个黑盒，所以作者宁愿选择lua; 个人还是比较认同这个观点的, 所以希望设计一个兼容luajit bitcode的新的lua vm 引擎</p>
-</li>
-<li><p><a href="https://sqlite.org/whentouse.html" target="_blank" rel="external">Appropriate Uses For SQLite</a> : 给出了<code>SQLite</code>的一些使用场景，个人觉得sqlite的确应用场景非常多，只不过之前没有系统梳理过</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="http://mp.weixin.qq.com/s?__biz=MzIzOTU0NTQ0MA==&amp;mid=2247483750&amp;idx=1&amp;sn=d41f5427738369f4a27f4b617184ea9f&amp;mpshare=1&amp;scene=1&amp;srcid=0905CgJUDh0Ytx9shPpEK74e&amp;from=groupmessage&amp;isappinstalled=0#wechat_redirect" target="_blank" rel="external">“异地多活”设计辣么难？其实是你想多了</a> : 和我个人想法差不多, “会不自觉的陷入一个思维误区：我要保证所有业务的“异地多活”！”</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://research.googleblog.com/2016/09/image-compression-with-neural-networks.html" target="_blank" rel="external">Image Compression with Neural Networks</a> : 基于神经网络的图片压缩</p>
-</li>
-<li><p><a href="https://hownot2code.com/2016/09/29/collection-of-cheat-sheets-for-programmers/" target="_blank" rel="external">Collection of cheat sheets for programmers</a> : 一些资料干货list</p>
 </li>
 </ul>
 

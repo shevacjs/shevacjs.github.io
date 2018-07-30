@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>weekly of 20180708 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="工具技巧 PDBs on Linux : PDB是windows下面的符号文件，其可以和bin文件拆分，某些时候会便于调试；默认情况下, linux的ELF的文件其调试信息的耦合在bin里面的，作者给出了自己的办法，具体为(可以收藏):  123$ objcopy --only-keep-debug a.out a.out.pdb # extract symbols$ strip a.out #">
+<meta name="keywords" content="weekly">
+<meta property="og:type" content="article">
+<meta property="og:title" content="weekly of 20180708">
+<meta property="og:url" content="http://shevacjs.com/2018/07/30/20180708/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="工具技巧 PDBs on Linux : PDB是windows下面的符号文件，其可以和bin文件拆分，某些时候会便于调试；默认情况下, linux的ELF的文件其调试信息的耦合在bin里面的，作者给出了自己的办法，具体为(可以收藏):  123$ objcopy --only-keep-debug a.out a.out.pdb # extract symbols$ strip a.out #">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-07-30T03:41:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="weekly of 20180708">
+<meta name="twitter:description" content="工具技巧 PDBs on Linux : PDB是windows下面的符号文件，其可以和bin文件拆分，某些时候会便于调试；默认情况下, linux的ELF的文件其调试信息的耦合在bin里面的，作者给出了自己的办法，具体为(可以收藏):  123$ objcopy --only-keep-debug a.out a.out.pdb # extract symbols$ strip a.out #">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-20180708" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      weekly of 20180708
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/07/30/20180708/" class="article-date">
+  <time datetime="2018-07-30T03:35:45.000Z" itemprop="datePublished">2018-07-30</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><a href="https://arvid.io/2018/05/05/pdbs-on-linux/" target="_blank" rel="external">PDBs on Linux</a> : PDB是windows下面的符号文件，其可以和bin文件拆分，某些时候会便于调试；默认情况下, linux的ELF的文件其调试信息的耦合在bin里面的，作者给出了自己的办法，具体为(可以收藏):</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ objcopy --only-keep-debug a.out a.out.pdb <span class="comment"># extract symbols</span></div><div class="line">$ strip a.out <span class="comment"># strip away any debug information</span></div><div class="line">$ objcopy --add-gnu-debuglink=a.out.pdb a.out <span class="comment"># attach the symbols to the executable</span></div></pre></td></tr></table></figure>
+<ul>
+<li><p><a href="https://arvid.io/2018/06/30/on-cxx-random-number-generator-quality/" target="_blank" rel="external">On C++ Random Number Generator Quality</a> : 文章评估了C++lib下面随机数生成器的质量, 总结而已就是使用<a href="https://arvid.io/2018/06/30/on-cxx-random-number-generator-quality/" target="_blank" rel="external">PractRand</a>的方法评估, 可以持续关注; 另外推进作者的几篇不错的blog，包括<a href="https://arvid.io/2018/05/27/intel-microarchitectures-instruction-sets/" target="_blank" rel="external">Intel &amp; AMD Micro-Architecture Extended Instruction Sets</a>, <a href="https://arvid.io/2018/07/02/better-cxx-prng/" target="_blank" rel="external">Better C++ Pseudo Random Number Generator</a></p>
+</li>
+<li><p><a href="https://nullprogram.com/blog/2018/06/23/" target="_blank" rel="external">Intercepting and Emulating Linux System Calls with Ptrace « null program</a> : 深入ptrace的应用，其可以作为一个仿真器, 比如调用自定义的system call, 或者我们可以让其调用我们预定义的ABI</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247491177&amp;idx=1&amp;sn=756699190c00c5bc11113819bb57dec3" target="_blank" rel="external">谨防5个陷阱！数据科学家新手快速上道秘诀</a> : 最近<code>AI前线</code>给了不少实践落地的一些建议，这篇文章也是，有不少干货可以学习，具体包括:<ul>
+<li>练习数据管理技能</li>
+<li>研究不同模型的优缺点</li>
+<li>尽可能简化模型</li>
+<li>检查你结论中的因果关系和相关性</li>
+<li>优化最有用的参数</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw==&amp;mid=2247488099&amp;idx=1&amp;sn=4b7ab3e5fd87d036e1deab2b1c0c9ecf" target="_blank" rel="external">Istio以及Service Mesh的未来</a> : 文章介绍<code>Istio</code>的简单机制，包括几个核心的组件:<code>Envoy</code>, <code>Pilot</code>,<code>Mixer</code>等，以及总结出来的其带来<code>灵活性</code>, <code>安全性</code>, <code>可观测性</code>等优点</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://mp.weixin.qq.com/s/473mATiM1xnLUFKMD2FnnQ" target="_blank" rel="external">区块链的信任从何而来？</a> :  总而言之，就是用技术的手段，构建了一个大家认为『无法轻易作伪』的分布式存储系统，基于次可以构建更多的应用和业务</p>
+</li>
+<li><p><a href="https://www.theverge.com/2018/7/9/17549668/app-wikipedia-location-facts" target="_blank" rel="external">This app reads Wikipedia to teach you about the cities you’re driving through</a> : 作者开发了一个App，其可以通过地理位置信息，自动抓取Wikipedia上面的文章，推荐给用户(感觉是一个不错的产品玩法)</p>
+</li>
+<li><p><a href="https://github.com/rhysd/vim.wasm" target="_blank" rel="external">rhysd/vim.wasm: Vim editor ported to WebAssembly</a> : 将vim迁移到浏览器, 由于vim本身有不少UI交互上面的操作，因此直接编译源码到WASM并不可行，作者在blog里面也介绍了其思路, 通过disable适当的功能和构建合适的运行环境，值得学习</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247491444&amp;idx=1&amp;sn=47aa445f49de52316beaec40a776dbc7" target="_blank" rel="external">Hadoop老矣，为什么腾讯还要花精力在其开源发布上</a> : 可以理解为是对现在大数据生态现状的概述</p>
+</li>
+<li><p><a href="https://blog.acolyer.org/2018/07/05/enclavedb-a-secure-database-using-sgx/" target="_blank" rel="external">EnclaveDB: a secure database using SGX | the morning paper</a> : </p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/07/30/20180722/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          weekly of 20180722
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/26/nginx_1_15_2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">nginx 1.15.2 版本说明&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  var disqus_url = 'http://shevacjs.com/2018/07/30/20180708/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2018-07-26T08:17:30.000Z</updated>
+  <updated>2018-07-30T03:41:29.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,122 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20180722</title>
+    <link href="http://shevacjs.com/2018/07/30/20180722/"/>
+    <id>http://shevacjs.com/2018/07/30/20180722/</id>
+    <published>2018-07-30T03:40:45.000Z</published>
+    <updated>2018-07-30T03:41:29.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw==&amp;mid=2247488140&amp;idx=1&amp;sn=a4397201d781386f854242d0ff5d2be8" target="_blank" rel="external">Facebook使用机器学习手段来自动优化其系统性能</a> : 没有完全理解文章的内容，现在的理解是，通过声明式的方式描述程序的逻辑，同时基于此，通过输入日志和反馈，调整程序的策略，进而优化整体的性能; 总感觉有点理想化~</li>
+</ul>
+<ul>
+<li><p><a href="https://www.oschina.net/news/98255/facebook-open-source-oomd" target="_blank" rel="external">Facebook 开源 oomd，一种处理内存溢出的新方法</a> : <code>OOMD</code>也是一个<code>OOM</code>的处理工具，但是和传统的<code>OOM</code>工具不一样，其更会侧重优化和清理用户空间的内存，这样会保障整个内核和系统的相对稳健</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzAwNzU3NzQ0MA==&amp;mid=2652089442&amp;idx=1&amp;sn=69bae21c50c779b8c0b995bd0c654e57&amp;chksm=809b066db7ec8f7b275b8a6f1ef792aace8a920c6c87dfe30fa401add813caa84929e4f420e0#rd" target="_blank" rel="external">大话计算机: 趣味了解浮点数</a> :  关于计算机浮点数机制的介绍，这本书的内容看目录还是非常不多的，先收藏mark</p>
+</li>
+<li><p><a href="https://emerentius.github.io/sudoku_web/" target="_blank" rel="external">Rust Sudoku Solver</a> : 作者用rust编写了一个Sudoku的解法器, 对于sudo的解决算法还是可以深入研究分析的, 先mark下，可以参考<a href="https://en.wikipedia.org/wiki/Sudoku_solving_algorithms" target="_blank" rel="external">Sudoku solving algorithms</a>, <a href="https://attractivechaos.wordpress.com/2011/06/19/an-incomplete-review-of-sudoku-solver-implementations/" target="_blank" rel="external">An Incomplete Review of Sudoku Solver Implementations</a></p>
+</li>
+<li><p><a href="http://tonsky.me/blog/dsl/" target="_blank" rel="external">Designing good DSL @ tonsky.me</a> : 设计新的<code>DSL</code>是我们解决一些复杂问题或者场景的一个有效方法，作者提出了真正要设计<code>DSL</code>的时候需要的一些注意点，包括<code>Make it verbose(不用用正则的奇怪的不容易理解的语法)</code>, <code>Don’t invent second syntax</code>等，不少意见值得采纳深思</p>
+</li>
+<li><p><a href="https://blog.ibireme.com/2015/11/02/mobile_image_benchmark/" target="_blank" rel="external">移动端图片格式调研 | Garan no dou</a> : 对于图片格式，以及其编解码速度的问题有一个非常系统的分析和对比，感觉可以关注的图片格式包括<code>APNG</code>,<code>BPG</code>, 但是直观上面感觉这两年发展不算快(2015年的文章)</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="http://www.techug.com/post/meitun-deep-learning.html" target="_blank" rel="external">美团是如何基于深度学习实现图像的智能审核</a> : 两个值得关注的，一个是其审核的流程, 为”负例图片-&gt;正例图片-&gt;人审”, 这样可以保障业务迭代或者新增图片类型时，系统的健壮性；其次是其对于<code>水印检测</code>, <code>明星脸识别</code>, <code>色情图片检测</code>的策略优化，这个方面也有不少可借鉴的地方</p>
+</li>
+<li><p><a href="https://code.fb.com/data-infrastructure/xars-a-more-efficient-open-source-system-for-self-contained-executables/" target="_blank" rel="external">XARs: An efficient system for self-contained executables – Facebook Code</a> : </p>
+</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://zkp.science/" target="_blank" rel="external">What is a zero-knowledge proof? | Zero-Knowledge Proofs</a> : Mark, 关于<code>零和知识</code>的集中资料，先mark，找个周末再完整消化下</p>
+</li>
+<li><p><a href="https://github.com/hq6/GdbShellPipe" target="_blank" rel="external">GdbShellPipe: Enable piping of internal command output to external commands</a> : 一个 GDB的扩展，允许在 GDB 里面执行 shell 的命令, 比如说<code>shell-pipe disas | grep mov</code>可以检索出<code>disas</code>里面含有<code>mov</code>命令的语句</p>
+</li>
+<li><p><a href="https://stenci.la/" target="_blank" rel="external">Stencila</a>: “An open source office suite for reproducible research”, mark</p>
+</li>
+<li><p><a href="https://www.univocity.com/pages/html_parser_tutorial" target="_blank" rel="external">HTML parser : uniVocity data integration</a> : 一个开源的Java HTML解析器, 具有声明式语法, 自动内容下载的特性, mark关注了解下</p>
+</li>
+<li><p><a href="http://www.darkside.com.au/snow/" target="_blank" rel="external">The SNOW Home Page</a> : <code>SNOW</code>是一个通过增加在一些行末尾添加空格内容，以支持信息隐藏的一个手段, 甚至可以通过引入加密算法进行加密，使得即便此规则被泄露，依旧能进行信息隐藏和保护，其最后还有一个在线的<a href="http://fog.misty.com/perry/ccs/snow/snow/snow.html" target="_blank" rel="external">WEB DEMO</a>, 有兴趣可以试用下</p>
+</li>
+<li><p><a href="https://mwhittaker.github.io/blog/an_illustrated_proof_of_the_cap_theorem/" target="_blank" rel="external">An Illustrated Proof of the CAP Theorem</a> : 关于<code>CAP</code>原理的一个比较好的可视化演示和证明，可以关注下</p>
+</li>
+<li><p><a href="https://john-millikin.com/software/anansi" target="_blank" rel="external">Anansi: a NoWeb-inspired literate programming preprocessor</a> : Anansi是所谓的<code>文学编程</code>模式的预处理起，所谓<a href="https://zh.wikipedia.org/wiki/%E6%96%87%E5%AD%A6%E7%BC%96%E7%A8%8B" target="_blank" rel="external">文学编程</a>是相比于传统结构化编程的模式, 其可以让程序员在描述/书写文档的过程中完成对应的编码和文档说明(个人感觉这个模式效率其实是蛮低的)</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw==&amp;mid=2247488196&amp;idx=1&amp;sn=c5b243b9dc7bd7b3d44aab83aba820a7" target="_blank" rel="external">作为面试官，我是怎么快速判断程序员能力的？</a> : 对于如何做一个成功的面试的一些建议，还是非常接地气的；从我个人角度来看，『面试』这个事情，其实还是在于面试官对待面试的态度和准备，只有充分准备才能起到真正面试和完成合理判断</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>weekly of 20180708</title>
+    <link href="http://shevacjs.com/2018/07/30/20180708/"/>
+    <id>http://shevacjs.com/2018/07/30/20180708/</id>
+    <published>2018-07-30T03:35:45.000Z</published>
+    <updated>2018-07-30T03:41:01.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><a href="https://arvid.io/2018/05/05/pdbs-on-linux/" target="_blank" rel="external">PDBs on Linux</a> : PDB是windows下面的符号文件，其可以和bin文件拆分，某些时候会便于调试；默认情况下, linux的ELF的文件其调试信息的耦合在bin里面的，作者给出了自己的办法，具体为(可以收藏):</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ objcopy --only-keep-debug a.out a.out.pdb <span class="comment"># extract symbols</span></div><div class="line">$ strip a.out <span class="comment"># strip away any debug information</span></div><div class="line">$ objcopy --add-gnu-debuglink=a.out.pdb a.out <span class="comment"># attach the symbols to the executable</span></div></pre></td></tr></table></figure>
+<ul>
+<li><p><a href="https://arvid.io/2018/06/30/on-cxx-random-number-generator-quality/" target="_blank" rel="external">On C++ Random Number Generator Quality</a> : 文章评估了C++lib下面随机数生成器的质量, 总结而已就是使用<a href="https://arvid.io/2018/06/30/on-cxx-random-number-generator-quality/" target="_blank" rel="external">PractRand</a>的方法评估, 可以持续关注; 另外推进作者的几篇不错的blog，包括<a href="https://arvid.io/2018/05/27/intel-microarchitectures-instruction-sets/" target="_blank" rel="external">Intel &amp; AMD Micro-Architecture Extended Instruction Sets</a>, <a href="https://arvid.io/2018/07/02/better-cxx-prng/" target="_blank" rel="external">Better C++ Pseudo Random Number Generator</a></p>
+</li>
+<li><p><a href="https://nullprogram.com/blog/2018/06/23/" target="_blank" rel="external">Intercepting and Emulating Linux System Calls with Ptrace « null program</a> : 深入ptrace的应用，其可以作为一个仿真器, 比如调用自定义的system call, 或者我们可以让其调用我们预定义的ABI</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247491177&amp;idx=1&amp;sn=756699190c00c5bc11113819bb57dec3" target="_blank" rel="external">谨防5个陷阱！数据科学家新手快速上道秘诀</a> : 最近<code>AI前线</code>给了不少实践落地的一些建议，这篇文章也是，有不少干货可以学习，具体包括:<ul>
+<li>练习数据管理技能</li>
+<li>研究不同模型的优缺点</li>
+<li>尽可能简化模型</li>
+<li>检查你结论中的因果关系和相关性</li>
+<li>优化最有用的参数</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw==&amp;mid=2247488099&amp;idx=1&amp;sn=4b7ab3e5fd87d036e1deab2b1c0c9ecf" target="_blank" rel="external">Istio以及Service Mesh的未来</a> : 文章介绍<code>Istio</code>的简单机制，包括几个核心的组件:<code>Envoy</code>, <code>Pilot</code>,<code>Mixer</code>等，以及总结出来的其带来<code>灵活性</code>, <code>安全性</code>, <code>可观测性</code>等优点</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://mp.weixin.qq.com/s/473mATiM1xnLUFKMD2FnnQ" target="_blank" rel="external">区块链的信任从何而来？</a> :  总而言之，就是用技术的手段，构建了一个大家认为『无法轻易作伪』的分布式存储系统，基于次可以构建更多的应用和业务</p>
+</li>
+<li><p><a href="https://www.theverge.com/2018/7/9/17549668/app-wikipedia-location-facts" target="_blank" rel="external">This app reads Wikipedia to teach you about the cities you’re driving through</a> : 作者开发了一个App，其可以通过地理位置信息，自动抓取Wikipedia上面的文章，推荐给用户(感觉是一个不错的产品玩法)</p>
+</li>
+<li><p><a href="https://github.com/rhysd/vim.wasm" target="_blank" rel="external">rhysd/vim.wasm: Vim editor ported to WebAssembly</a> : 将vim迁移到浏览器, 由于vim本身有不少UI交互上面的操作，因此直接编译源码到WASM并不可行，作者在blog里面也介绍了其思路, 通过disable适当的功能和构建合适的运行环境，值得学习</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247491444&amp;idx=1&amp;sn=47aa445f49de52316beaec40a776dbc7" target="_blank" rel="external">Hadoop老矣，为什么腾讯还要花精力在其开源发布上</a> : 可以理解为是对现在大数据生态现状的概述</p>
+</li>
+<li><p><a href="https://blog.acolyer.org/2018/07/05/enclavedb-a-secure-database-using-sgx/" target="_blank" rel="external">EnclaveDB: a secure database using SGX | the morning paper</a> : </p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://arvid.io/2018/05/05/pdbs-on-linux/&quot; tar
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>nginx 1.15.2 版本说明</title>
@@ -1317,126 +1433,6 @@
     
     
       <category term="nginx" scheme="http://shevacjs.com/tags/nginx/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20180304</title>
-    <link href="http://shevacjs.com/2018/03/06/20180304/"/>
-    <id>http://shevacjs.com/2018/03/06/20180304/</id>
-    <published>2018-03-06T04:28:45.000Z</published>
-    <updated>2018-03-06T04:28:10.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
-<li><p><a href="https://developers.googleblog.com/2018/02/announcing-flutter-beta-1.html" target="_blank" rel="external">Announcing Flutter beta 1: Build beautiful native apps</a> :  Flutter is Google’s new mobile UI framework that helps developers craft high-quality native interfaces for both iOS and Android, 其采用<code>Dart</code>语言, 有兴趣的可以去进一步了解</p>
-</li>
-<li><p><a href="https://github.com/pornin/CTTK" target="_blank" rel="external">CTTK: Constant-Time Toolkit</a> : A collection of constant-time implementations of primitive operations that may help in writing constant-time code, including non-cryptographic constant-time code</p>
-</li>
-<li><p><a href="https://blog.cloudflare.com/memcrashed-major-amplification-attacks-from-port-11211/" target="_blank" rel="external">Memcrashed - Major amplification attacks from UDP port 11211</a> : 基于Memcached的放大攻击, 是本周Github DDOS攻击的主要恶意流量</p>
-</li>
-</ul>
-<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
-<li><p><a href="https://textslashplain.com/2018/02/14/understanding-the-limitations-of-https/" target="_blank" rel="external">Understanding the Limitations of HTTPS</a> : HTTPS协议不是银弹，本文系统化的介绍HTTPS协议的一些弊端，包括<code>Privacy Limitations</code>, <code>Real-world Implementation Limitations</code>等，可以加深对整个https协议和网络栈的理解</p>
-</li>
-<li><p><a href="https://developers.redhat.com/blog/2018/02/22/container-terminology-practical-introduction/#h.dqlu6589o789" target="_blank" rel="external">A Practical Introduction to Container Terminology</a> : 关于容器化技术的概述性介绍，值得收藏</p>
-</li>
-<li><p><a href="http://www.ruanyifeng.com/blog/2018/03/http2_server_push.html" target="_blank" rel="external">HTTP/2 服务器推送（Server Push）教程</a> : 一个入门的HTTP2推送介绍, 可以手动试验下</p>
-</li>
-<li><p><a href="http://www.techug.com/post/zero-knowledge-and-blockchains.html" target="_blank" rel="external">白话区块链加密货币中的零知识证明（Zero-Knowledge Proof）</a> : 零知识证明的介绍, 。零知识证明的本质就是在不揭晓我所知道或拥有的某样东西的前提下，向别人证明我有很大几率（这点很重要，零知识证明说到底是一个概率上的证明）确实知道或拥有这个东西。其已经应用在ZCASH等区块链场景下, 可以进一步了解的文章包括<a href="https://www.leiphone.com/news/201712/ACn6T08O3cyhu8DN.html" target="_blank" rel="external">详解零知识证明的四大基础技术，如何与以太坊发生反应</a>, <a href="https://zh.wikipedia.org/wiki/%E4%BA%A4%E4%BA%92%E5%BC%8F%E8%AF%81%E6%98%8E%E7%B3%BB%E7%BB%9F" target="_blank" rel="external">交互式证明系统</a></p>
-</li>
-</ul>
-<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
-<li><p><a href="https://azure.microsoft.com/en-us/services/cosmos-db/?v=17.45b" target="_blank" rel="external">Azure Cosmos DB</a> : A database for extremely low latency and massively scalable applications anywhere in the world, with native support for NoSQL; 微软新出的之前多种Nosql接口的全球数据库</p>
-</li>
-<li><p><a href="https://github.com/yujiosaka/headless-chrome-crawler" target="_blank" rel="external">headless-chrome-crawler</a> : Distributed crawler powered by Headless Chrome</p>
-</li>
-<li><p><a href="https://blog.riseml.com/benchmarking-googles-new-tpuv2-121c03b71384" target="_blank" rel="external">Benchmarking Google’s new TPUv2</a> : TPUs compare very well, both, performance-wise and economically, to the latest generations of GPUs.</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=16473482" target="_blank" rel="external">101 NumPy Exercises for Data Analysis (Python)</a> : 可以针对性的提高你对<code>Numpy</code>这个库的掌握程度, 其他可以推荐的包括<a href="https://github.com/ajcr/100-pandas-puzzles" target="_blank" rel="external">pandas</a></p>
-</li>
-</ul>
-<ul>
-<li>mark下个人感觉不错的关于区块链的文章/资料(现在是信息过剩) :<ul>
-<li><a href="https://36kr.com/p/5075268.html" target="_blank" rel="external">比特币从“不了解”到“被误解”——详解区块链技术</a> : 很好的一个入门介绍, 可以先阅读这篇文章</li>
-<li><a href="http://ibloodline.com/articles/2018/01/22/mechanics.html" target="_blank" rel="external">Bloodline’s Blog</a> : 比较深入/细节的介绍比特币/区块链的相关技术实现</li>
-<li><a href="https://www.jianshu.com/p/8ea9a9a21f1f" target="_blank" rel="external">谈谈自己对比特币脚本的理解</a> : 侧重介绍比特币的脚本机制和实现</li>
-<li><a href="https://yeasy.gitbooks.io/blockchain_guide/content/" target="_blank" rel="external">区块链技术指南</a> : 内容不是很对自己胃口，但是对于一些基本概念有比较详细介绍</li>
-<li><a href="http://www.aquagemini.com/bitcoin-difficulty-adjust/" target="_blank" rel="external">深入理解比特币系列（25）: 难度系数及调整周期</a> : 对于一些针对性的问题进行讨论</li>
-<li><a href="https://www.coursera.org/learn/cryptocurrency" target="_blank" rel="external">课程: Bitcoin and Cryptocurrency Technologies</a></li>
-<li><a href="https://github.com/chaozh/awesome-blockchain" target="_blank" rel="external">awesome-blockchain</a> : 收集所有区块链(BlockChain)技术开发相关资料，包括Fabric和Ethereum开发资料</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p><a href="https://www.miaopai.com/show/ZqUFOkk1NeWXcgL12vzhIrkX~uh72G4E77S8pw__.htm" target="_blank" rel="external">The clearest explanation of Paxos I’ve seen so far</a> : 先收藏mark, 周末review一遍</p>
-</li>
-<li><p><a href="https://developers.google.cn/machine-learning/crash-course/" target="_blank" rel="external">Google: 机器学习速成课程</a> : Google 制作的节奏紧凑、内容实用的机器学习简介课程</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://developers.googleblog.com/2018/02/an
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20180225</title>
-    <link href="http://shevacjs.com/2018/03/06/20180225/"/>
-    <id>http://shevacjs.com/2018/03/06/20180225/</id>
-    <published>2018-03-06T04:27:45.000Z</published>
-    <updated>2018-03-06T04:27:10.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
-<li><p><a href="https://instantdomainsearch.com/" target="_blank" rel="external">Use streaming JSON to speed up your website</a> : 作者提出了，通过http的chunk机制以及Json的<a href="https://github.com/eBay/jsonpipe" target="_blank" rel="external">jsonpipe library</a>来断点, 分片传输结果数据, 可以参考下</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw==&amp;mid=2247487440&amp;idx=1&amp;sn=230462b054753c6d0a0a155f82ed9993&amp;chksm=96c9b9b0a1be30a624890e1f529058a9ca5b6206bfc9179ecd05843cc78b563599ade9967758#rd" target="_blank" rel="external">LLVM：Swift、Rust等语言背后那个默默付出的女人</a> : 有点标题党，不错这篇文章对LLVM的功能，应用场景，以及不足之处都有简单的介绍，可以了解LLVM的优缺点</p>
-</li>
-<li><p><a href="http://nginx.org/en/CHANGES" target="_blank" rel="external">Nginx: 1.13.9</a> : Nginx的最新版本, 支持<code>HTTP/2 server push support; the &quot;http2_push&quot; and &quot;http2_push_preload&quot; directives.</code>, 详细的用法和机制可以参考Nginx官方博客的<a href="https://www.nginx.com/blog/nginx-1-13-9-http2-server-push/" target="_blank" rel="external">Introducing HTTP/2 Server Push with NGINX 1.13.9</a> 这篇文章</p>
-</li>
-</ul>
-<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
-<li><p><a href="https://muratbuffalo.blogspot.com/2018/02/paper-review-ipfs-content-addressed.html" target="_blank" rel="external">Paper review. IPFS: Content addressed, versioned, P2P file system</a> : IPFS最近被普遍认为会是一个改变下一步互联网的技术，其非中心化的特性以及基于内容hash的索引使得我们在内容安全，查找等多方面都有进一步的优势，作者肯定其思路和创意，同时也提出了一些对IPFS的看法，比如说P2P的网络如何和移动设备关联推广起来, P2P的内容管理对现在中心化的产品以及交互的改变(比如Googl如何索引内容)等, 可以加深对整个IPFS的理解和认识</p>
-</li>
-<li><p><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.62.7953&amp;rep=rep1&amp;type=pdf" target="_blank" rel="external">Scalable Bloom Filters(PDF)</a> : 作者介绍了一个可扩展的布隆过滤器方法, 核心思路是通过增加新的slot来构建一定数量和准确率要求下的过滤器</p>
-</li>
-</ul>
-<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
-<li><p><a href="https://github.com/Submanifold/latex-mimosis" target="_blank" rel="external">latex-mimosis: A minimal &amp; modern template for your thesis</a> : 一个论文/Paper的LaTex的模板, 个人感觉还是很优雅的，这几天有空完全熟悉下</p>
-</li>
-<li><p><a href="https://www.checkbot.io/" target="_blank" rel="external">Checkbot: Test your site follows 50+ SEO, speed &amp; security best practices</a> : 一个检验特定网站是否满足一些SEO规则的Chrome扩展，可以检测包括死链，是否页面/标题重复等特性</p>
-</li>
-<li><p><a href="https://hackernoon.com/securing-your-linux-web-server-2be683c223eb" target="_blank" rel="external">Securing your Linux web server</a> : 介绍了如何防护个人的web server，从帐号保护，运行时进程行为监控等多方面进行；不过介绍的太过琐碎，感觉此类问题最好能够交付出成套的解决方案</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2651001305&amp;idx=1&amp;sn=1593b0a727a2f62de331165096274ff7" target="_blank" rel="external">春节假期技术圈都发生了哪些大新闻？</a> : 可以简单了解下</p>
-</li>
-<li><p><a href="https://wx4.sinaimg.cn/mw690/006lALW6ly1fop7cqcl9wj30sy2lsq9w.jpg" target="_blank" rel="external">Google内部的一些核心技术，以及外部对应的开源项目整理</a> : 可以关注下<code>Dremel UI</code>, <code>Blaze</code>, <code>styleguide</code>, 其中<code>Dremel UI</code>对应着<a href="https://redash.io/" target="_blank" rel="external">redash</a></p>
-</li>
-<li><p><a href="Industrial-Strength Natural Language Processing">spaCy</a> : 一个这次多语言的NLP工具，不过现在并不支持中文，看Demo感觉入门应该挺方便的</p>
-</li>
-<li><p><a href="http://cockpit-project.org/" target="_blank" rel="external">Cockpit</a> : Cockpit is a server manager that makes it easy to administer your GNU/Linux servers via a web browser</p>
-</li>
-<li><p><a href="https://github.com/google/pprof" target="_blank" rel="external">Google: Pprof</a> : pprof is a tool for visualization and analysis of profiling data, 一个可视化pprof数据的工具, 可惜没有示意图</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://instantdomainsearch.com/&quot; target=&quot;_b
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
     
   </entry>
   

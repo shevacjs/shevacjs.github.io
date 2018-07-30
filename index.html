@@ -57,6 +57,172 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-20180722" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/30/20180722/">weekly of 20180722</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/07/30/20180722/" class="article-date">
+  <time datetime="2018-07-30T03:40:45.000Z" itemprop="datePublished">2018-07-30</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw==&amp;mid=2247488140&amp;idx=1&amp;sn=a4397201d781386f854242d0ff5d2be8" target="_blank" rel="external">Facebook使用机器学习手段来自动优化其系统性能</a> : 没有完全理解文章的内容，现在的理解是，通过声明式的方式描述程序的逻辑，同时基于此，通过输入日志和反馈，调整程序的策略，进而优化整体的性能; 总感觉有点理想化~</li>
+</ul>
+<ul>
+<li><p><a href="https://www.oschina.net/news/98255/facebook-open-source-oomd" target="_blank" rel="external">Facebook 开源 oomd，一种处理内存溢出的新方法</a> : <code>OOMD</code>也是一个<code>OOM</code>的处理工具，但是和传统的<code>OOM</code>工具不一样，其更会侧重优化和清理用户空间的内存，这样会保障整个内核和系统的相对稳健</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzAwNzU3NzQ0MA==&amp;mid=2652089442&amp;idx=1&amp;sn=69bae21c50c779b8c0b995bd0c654e57&amp;chksm=809b066db7ec8f7b275b8a6f1ef792aace8a920c6c87dfe30fa401add813caa84929e4f420e0#rd" target="_blank" rel="external">大话计算机: 趣味了解浮点数</a> :  关于计算机浮点数机制的介绍，这本书的内容看目录还是非常不多的，先收藏mark</p>
+</li>
+<li><p><a href="https://emerentius.github.io/sudoku_web/" target="_blank" rel="external">Rust Sudoku Solver</a> : 作者用rust编写了一个Sudoku的解法器, 对于sudo的解决算法还是可以深入研究分析的, 先mark下，可以参考<a href="https://en.wikipedia.org/wiki/Sudoku_solving_algorithms" target="_blank" rel="external">Sudoku solving algorithms</a>, <a href="https://attractivechaos.wordpress.com/2011/06/19/an-incomplete-review-of-sudoku-solver-implementations/" target="_blank" rel="external">An Incomplete Review of Sudoku Solver Implementations</a></p>
+</li>
+<li><p><a href="http://tonsky.me/blog/dsl/" target="_blank" rel="external">Designing good DSL @ tonsky.me</a> : 设计新的<code>DSL</code>是我们解决一些复杂问题或者场景的一个有效方法，作者提出了真正要设计<code>DSL</code>的时候需要的一些注意点，包括<code>Make it verbose(不用用正则的奇怪的不容易理解的语法)</code>, <code>Don’t invent second syntax</code>等，不少意见值得采纳深思</p>
+</li>
+<li><p><a href="https://blog.ibireme.com/2015/11/02/mobile_image_benchmark/" target="_blank" rel="external">移动端图片格式调研 | Garan no dou</a> : 对于图片格式，以及其编解码速度的问题有一个非常系统的分析和对比，感觉可以关注的图片格式包括<code>APNG</code>,<code>BPG</code>, 但是直观上面感觉这两年发展不算快(2015年的文章)</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="http://www.techug.com/post/meitun-deep-learning.html" target="_blank" rel="external">美团是如何基于深度学习实现图像的智能审核</a> : 两个值得关注的，一个是其审核的流程, 为”负例图片-&gt;正例图片-&gt;人审”, 这样可以保障业务迭代或者新增图片类型时，系统的健壮性；其次是其对于<code>水印检测</code>, <code>明星脸识别</code>, <code>色情图片检测</code>的策略优化，这个方面也有不少可借鉴的地方</p>
+</li>
+<li><p><a href="https://code.fb.com/data-infrastructure/xars-a-more-efficient-open-source-system-for-self-contained-executables/" target="_blank" rel="external">XARs: An efficient system for self-contained executables – Facebook Code</a> : </p>
+</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://zkp.science/" target="_blank" rel="external">What is a zero-knowledge proof? | Zero-Knowledge Proofs</a> : Mark, 关于<code>零和知识</code>的集中资料，先mark，找个周末再完整消化下</p>
+</li>
+<li><p><a href="https://github.com/hq6/GdbShellPipe" target="_blank" rel="external">GdbShellPipe: Enable piping of internal command output to external commands</a> : 一个 GDB的扩展，允许在 GDB 里面执行 shell 的命令, 比如说<code>shell-pipe disas | grep mov</code>可以检索出<code>disas</code>里面含有<code>mov</code>命令的语句</p>
+</li>
+<li><p><a href="https://stenci.la/" target="_blank" rel="external">Stencila</a>: “An open source office suite for reproducible research”, mark</p>
+</li>
+<li><p><a href="https://www.univocity.com/pages/html_parser_tutorial" target="_blank" rel="external">HTML parser : uniVocity data integration</a> : 一个开源的Java HTML解析器, 具有声明式语法, 自动内容下载的特性, mark关注了解下</p>
+</li>
+<li><p><a href="http://www.darkside.com.au/snow/" target="_blank" rel="external">The SNOW Home Page</a> : <code>SNOW</code>是一个通过增加在一些行末尾添加空格内容，以支持信息隐藏的一个手段, 甚至可以通过引入加密算法进行加密，使得即便此规则被泄露，依旧能进行信息隐藏和保护，其最后还有一个在线的<a href="http://fog.misty.com/perry/ccs/snow/snow/snow.html" target="_blank" rel="external">WEB DEMO</a>, 有兴趣可以试用下</p>
+</li>
+<li><p><a href="https://mwhittaker.github.io/blog/an_illustrated_proof_of_the_cap_theorem/" target="_blank" rel="external">An Illustrated Proof of the CAP Theorem</a> : 关于<code>CAP</code>原理的一个比较好的可视化演示和证明，可以关注下</p>
+</li>
+<li><p><a href="https://john-millikin.com/software/anansi" target="_blank" rel="external">Anansi: a NoWeb-inspired literate programming preprocessor</a> : Anansi是所谓的<code>文学编程</code>模式的预处理起，所谓<a href="https://zh.wikipedia.org/wiki/%E6%96%87%E5%AD%A6%E7%BC%96%E7%A8%8B" target="_blank" rel="external">文学编程</a>是相比于传统结构化编程的模式, 其可以让程序员在描述/书写文档的过程中完成对应的编码和文档说明(个人感觉这个模式效率其实是蛮低的)</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw==&amp;mid=2247488196&amp;idx=1&amp;sn=c5b243b9dc7bd7b3d44aab83aba820a7" target="_blank" rel="external">作为面试官，我是怎么快速判断程序员能力的？</a> : 对于如何做一个成功的面试的一些建议，还是非常接地气的；从我个人角度来看，『面试』这个事情，其实还是在于面试官对待面试的态度和准备，只有充分准备才能起到真正面试和完成合理判断</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-20180708" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/30/20180708/">weekly of 20180708</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/07/30/20180708/" class="article-date">
+  <time datetime="2018-07-30T03:35:45.000Z" itemprop="datePublished">2018-07-30</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><a href="https://arvid.io/2018/05/05/pdbs-on-linux/" target="_blank" rel="external">PDBs on Linux</a> : PDB是windows下面的符号文件，其可以和bin文件拆分，某些时候会便于调试；默认情况下, linux的ELF的文件其调试信息的耦合在bin里面的，作者给出了自己的办法，具体为(可以收藏):</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ objcopy --only-keep-debug a.out a.out.pdb <span class="comment"># extract symbols</span></div><div class="line">$ strip a.out <span class="comment"># strip away any debug information</span></div><div class="line">$ objcopy --add-gnu-debuglink=a.out.pdb a.out <span class="comment"># attach the symbols to the executable</span></div></pre></td></tr></table></figure>
+<ul>
+<li><p><a href="https://arvid.io/2018/06/30/on-cxx-random-number-generator-quality/" target="_blank" rel="external">On C++ Random Number Generator Quality</a> : 文章评估了C++lib下面随机数生成器的质量, 总结而已就是使用<a href="https://arvid.io/2018/06/30/on-cxx-random-number-generator-quality/" target="_blank" rel="external">PractRand</a>的方法评估, 可以持续关注; 另外推进作者的几篇不错的blog，包括<a href="https://arvid.io/2018/05/27/intel-microarchitectures-instruction-sets/" target="_blank" rel="external">Intel &amp; AMD Micro-Architecture Extended Instruction Sets</a>, <a href="https://arvid.io/2018/07/02/better-cxx-prng/" target="_blank" rel="external">Better C++ Pseudo Random Number Generator</a></p>
+</li>
+<li><p><a href="https://nullprogram.com/blog/2018/06/23/" target="_blank" rel="external">Intercepting and Emulating Linux System Calls with Ptrace « null program</a> : 深入ptrace的应用，其可以作为一个仿真器, 比如调用自定义的system call, 或者我们可以让其调用我们预定义的ABI</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247491177&amp;idx=1&amp;sn=756699190c00c5bc11113819bb57dec3" target="_blank" rel="external">谨防5个陷阱！数据科学家新手快速上道秘诀</a> : 最近<code>AI前线</code>给了不少实践落地的一些建议，这篇文章也是，有不少干货可以学习，具体包括:<ul>
+<li>练习数据管理技能</li>
+<li>研究不同模型的优缺点</li>
+<li>尽可能简化模型</li>
+<li>检查你结论中的因果关系和相关性</li>
+<li>优化最有用的参数</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw==&amp;mid=2247488099&amp;idx=1&amp;sn=4b7ab3e5fd87d036e1deab2b1c0c9ecf" target="_blank" rel="external">Istio以及Service Mesh的未来</a> : 文章介绍<code>Istio</code>的简单机制，包括几个核心的组件:<code>Envoy</code>, <code>Pilot</code>,<code>Mixer</code>等，以及总结出来的其带来<code>灵活性</code>, <code>安全性</code>, <code>可观测性</code>等优点</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://mp.weixin.qq.com/s/473mATiM1xnLUFKMD2FnnQ" target="_blank" rel="external">区块链的信任从何而来？</a> :  总而言之，就是用技术的手段，构建了一个大家认为『无法轻易作伪』的分布式存储系统，基于次可以构建更多的应用和业务</p>
+</li>
+<li><p><a href="https://www.theverge.com/2018/7/9/17549668/app-wikipedia-location-facts" target="_blank" rel="external">This app reads Wikipedia to teach you about the cities you’re driving through</a> : 作者开发了一个App，其可以通过地理位置信息，自动抓取Wikipedia上面的文章，推荐给用户(感觉是一个不错的产品玩法)</p>
+</li>
+<li><p><a href="https://github.com/rhysd/vim.wasm" target="_blank" rel="external">rhysd/vim.wasm: Vim editor ported to WebAssembly</a> : 将vim迁移到浏览器, 由于vim本身有不少UI交互上面的操作，因此直接编译源码到WASM并不可行，作者在blog里面也介绍了其思路, 通过disable适当的功能和构建合适的运行环境，值得学习</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247491444&amp;idx=1&amp;sn=47aa445f49de52316beaec40a776dbc7" target="_blank" rel="external">Hadoop老矣，为什么腾讯还要花精力在其开源发布上</a> : 可以理解为是对现在大数据生态现状的概述</p>
+</li>
+<li><p><a href="https://blog.acolyer.org/2018/07/05/enclavedb-a-secure-database-using-sgx/" target="_blank" rel="external">EnclaveDB: a secure database using SGX | the morning paper</a> : </p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-nginx_1_15_2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -796,147 +962,6 @@
 <li><p><a href="http://www.techug.com/post/machine-learning-study-list.html" target="_blank" rel="external">牛人的Machine Learning 机器学习笔记目录</a> : ML的学习比较, mark</p>
 </li>
 <li><p><a href="https://asylo.dev/" target="_blank" rel="external">Asylo</a> : Google发布的可信计算的框架，支持在云端部署含有私密数据的应用；直观而言，这个方面的需求在技术方面实现难度还比较大，先mark，下来深入学习</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20180429" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/07/20180429/">weekly of 20180429</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2018/05/07/20180429/" class="article-date">
-  <time datetime="2018-05-07T04:50:45.000Z" itemprop="datePublished">2018-05-07</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
-<li><p><a href="https://blogs.msdn.microsoft.com/vcblog/2018/04/24/announcing-a-single-c-library-manager-for-linux-macos-and-windows-vcpkg/" target="_blank" rel="external">Announcing a single C++ library manager for Linux, macOS and Windows: Vcpkg</a> : VC提供的跨平台的C++的lib库，还是第一次见到C++库的解决方案，可以关注</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzUxMzcxMzE5Ng==&amp;mid=2247488782&amp;idx=1&amp;sn=9a450b5e97410a0f58fb61900fd82055" target="_blank" rel="external">Google Fuchsia微内核Zircon先睹为快</a> : Ziron是Google推出的面向IoT操作系统Fuchsia的内核，是一个微内核系统，文章主要介绍了此内核的体系，其语义和传统的Unix操作系统也有诸多不一样的地方，详细可以看原<a href="https://fuchsia.googlesource.com/docs/+/master/the-book/" target="_blank" rel="external">英文文档</a></p>
-</li>
-<li><p><a href="http://norvig.com/spell-correct.html" target="_blank" rel="external">How to Write a Spelling Corrector</a> : </p>
-</li>
-</ul>
-<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
-<li><p><a href="http://blog.qt.io/blog/2018/04/23/beta-qt-webassembly-technology-preview/" target="_blank" rel="external">Beta for Qt for WebAssembly Technology Preview - Qt Blog</a> : Qt发布了支持编译成WebAssembly的beta版本。如此，以后写UI组件等，并不一定需要Js，C++也行；不过效果上面令人存疑</p>
-</li>
-<li><p><a href="http://www.ruanyifeng.com/blog/2018/04/weekly-issue-1.html" target="_blank" rel="external">每周分享第 1 期 - 阮一峰的网络日志</a> : 感觉干货不少，可以订阅关注下</p>
-</li>
-<li><p><a href="http://blog.zulip.org/2018/04/18/zulip-1-8-released/" target="_blank" rel="external">Zulip 1.8: Open source team chat</a> : 类似于<code>Slack</code>的开源方案，mark关注下~</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20180422" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/23/20180422/">weekly of 20180422</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2018/04/23/20180422/" class="article-date">
-  <time datetime="2018-04-23T03:03:45.000Z" itemprop="datePublished">2018-04-23</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/football_stadium.jpg" alt="中超现场"></p>
-<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
-<li><p><a href="https://news.ycombinator.com/item?id=16862925" target="_blank" rel="external">Facebook Container for Firefox</a> : Firefox发布了一个支持自动隔离facebook的扩展, 其实现在的feed机制也一直在窃取各种个人信息，mark后续研究下，在国内互联网，这类的数据是如何传播传递的，同时又如何可以避免~</p>
-</li>
-<li><p><a href="http://www.graalvm.org/" target="_blank" rel="external">GraalVM</a> : “GraalVM is a universal virtual machine for running applications written in JavaScript, Python, Ruby, R, JVM-based languages like Java, Scala, Kotlin, and LLVM-based languages such as C and C++”, Oracle出品的，意在构建一个统一的VM，看其文档，应该包括对整个编译链的支持(比如支持定制化构建自己的语言)，先mark关注</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=16888605" target="_blank" rel="external">FFmpeg 4.0 released</a> : 最新版的FFmpeg好像有不少新的功能</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=16889181" target="_blank" rel="external">Mermaid: Markdown-like generation of diagrams and flowcharts from text</a> : 有点类似于<code>Dot</code>语言的规则模式，不过其在生成图片的配色方面更好看一些，不过整体图片的布局还是需要进一步的优化,其也被gitlab所<a href="https://docs.gitlab.com/ee/user/markdown.html#mermaid" target="_blank" rel="external">支持</a></p>
-</li>
-</ul>
-<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
-<li><p><a href="https://blog.benjojo.co.uk/post/scan-ping-the-internet-hilbert-curve" target="_blank" rel="external">Mapping the whole internet with Hilbert curves</a> : 作者通过对全部IPV4的扫描, 并以可视化的方式(Hilbert曲线)展示全球IP的活跃情况</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/mYuEt2jFRcO1rbWEe9qL-g" target="_blank" rel="external">谷歌前员工因建言YouTube被炒鱿鱼，开源揭秘其算法</a> : 推荐算法越来越多影响着我们的生活, 但是其对人的影响却很难量化去描述, 本文讲述了Google前员工对于透明推荐算法运动的推进。个人认为，让用户可以透明的了解自己的推荐策略和算法，或者可以让用户自己去定制这方面的算法，Maybe也是一个不错的产品选择。</p>
-</li>
-<li><p><a href="https://eng.uber.com/rethinking-gps/" target="_blank" rel="external">Rethinking GPS: Engineering Next-Gen Location at Uber</a> : </p>
-</li>
-</ul>
-<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
-<li><p><a href="https://medium.com/@anildash/the-missing-building-blocks-of-the-web-3fa490ae5cbc" target="_blank" rel="external">The Missing Building Blocks of the Web</a> :  现在互联网的一切好像都是理所当然的，比如中心化的服务交付，基于js/css等技术组合的web页面, 作者的这个系列从不忘初心开始, 讨论早期互联网技术的设计偏好，以及研究其在发展历程中间的演变，最后分析以后互联网技术发展的方向，同时可以关注的文章还有<a href="https://www.oreilly.com/ideas/its-time-to-rebuild-the-web" target="_blank" rel="external">It’s time to rebuild the web</a>和<a href="http://anildash.com/2012/12/13/the_web_we_lost/" target="_blank" rel="external">The Web We Lost</a></p>
-</li>
-<li><p><a href="https://betanalpha.github.io/assets/case_studies/probability_theory.html" target="_blank" rel="external">Probability Theory (For Scientists and Engineers)</a> : mark</p>
-</li>
-<li><p><a href="https://medium.com/@buckhx/unwinding-uber-s-most-efficient-service-406413c5871d" target="_blank" rel="external">Unwinding Uber’s Most Efficient Service</a> : mark</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247489926&amp;idx=1&amp;sn=e26ee3315236e646a5e6e78bcebfe705" target="_blank" rel="external">机器学习宗师迈克尔·乔丹：AI革命尚未发生</a> : 作者认为，技术变更的本质是『在保证安全的前提下，为人们带来新的资源和能力』，所以我们系统更系统宏观的考虑现实世界的问题，AI(或者文中所说的IA)，会是我们构建更理想目标世界(<code>II</code>(Intelligent Infrastruction))的一个强有力的工具手段，但是不会是全部，而且也很难奢望通过AI等就能自动学习构建更理想的社会。另一方面，从II的视角去考虑问题，可能会更快的触达本质。以自动驾驶为例，我们现在的从IA(AI)的角度，核心的注意力在于让汽车去拥有人的判断力；但是从II的角度，去构建一个更高效的交通体系，其会自动化控制所有汽车，通过大规模的物联网，机器学习算法去做调度控制，可能是一个更好的选择(这段纯属自己臆想)。</p>
-</li>
-<li><p><a href="https://zhuanlan.zhihu.com/p/35925589" target="_blank" rel="external">InnoDB 存储引擎原理解析</a> : 关于Innodb的介绍，不过是纯PPT版本，有些内容只看图片并不直观</p>
-</li>
-<li><p><a href="https://weibo.com/1560906700/GcZescpzI" target="_blank" rel="external">关于Pornhub的一些产品细节和道德节操</a> : 挺有意思的一个说明, Maybe只有压力没那么大的一些产品，对于用户体验和产品细节才会如此用心</p>
 </li>
 </ul>
 
