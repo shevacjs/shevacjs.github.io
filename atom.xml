@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2018-07-30T03:41:29.000Z</updated>
+  <updated>2018-08-06T09:19:40.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,71 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20180805</title>
+    <link href="http://shevacjs.com/2018/08/06/20180805/"/>
+    <id>http://shevacjs.com/2018/08/06/20180805/</id>
+    <published>2018-08-06T09:19:45.000Z</published>
+    <updated>2018-08-06T09:19:40.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/P_np_np-complete_np-hard.svg.png" alt="wiki:p_np_npc_problem"></p>
+<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><a href="https://www.idontplaydarts.com/2016/04/detecting-curl-pipe-bash-server-side/" target="_blank" rel="external">Detecting the use of “curl | bash” server side</a> :  直接执行<code>curl | bash</code>的命令是存在比较大的安全风险的，因为可能执行一些未经确认的恶意代码;  那有没有办法可以去构造这种攻击吗？也就是对于普通的浏览器访问或者命令行下面直接的 curl 输出，我们返回正常的内容，但是如果是执行了<code>curl | bash</code>我们就返回还有恶意代码的内容呢？作者的回答是肯定的，其主要的思路是在返回内部的时候，初步先通过 chunk 机制返回带有<code>sleep 5</code>之类的能够检测时间/bash 的监测代码，在通过在服务端对于响应时间进行判断，就能知道我们输出的内容是否运行在 bash 环境下面（会不会感觉其实和检测一个代码是否跑在一个 JS 环境下面一样？）；当然实现上面还有不少细节，比如说对于发送/接受/pipe 的 buffer 等控制和填充~</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://codingnest.com/modern-sat-solvers-fast-neat-underused-part-1-of-n/" target="_blank" rel="external">Modern SAT solvers: fast, neat and underused (part 1 of N) — The Coding Nest</a> : 本文的<a href="https://en.wikipedia.org/wiki/Boolean_satisfiability_problem" target="_blank" rel="external">SAT</a>是指<code>Boolean satisfiability problem</code>, 其实也就是个<code>NP完全问题</code>(NP-complete)。虽然是NP 问题，但是也有不少的 Lib 库存在，用于去解决这方面的问题，比如说文章提到的<a href="http://minisat.se/" target="_blank" rel="external">Minisat</a>,<a href="http://dimacs.rutgers.edu/" target="_blank" rel="external">DIMACS</a>等; 从计算复杂性的理论，我们知道<code>NPC</code> 的问题是可以相互规约的，利用这个规则和现有的 Lib，我们可以认为，对于现实中存在的真正的 NP 问题，只要建立好正确对应的数学模型，将其规约到一个 NPC 问题，就能用这些基础库解决此类问题了。本文作者举了一个具体<code>数独问题</code>的例子，并演绎如何将其规约到基础的 NPC 问题，最终求解这类问题。对于，我们可以对计算复杂性的理论有进一步的了解和认识，也可以将其应用到其他的问题解决领域。先 mark 下，周末手动测试这些代码。如下的几个相关的参考资料，有助于了解整体文章:</p>
+<ul>
+<li><a href="http://www.matrix67.com/blog/archives/105" target="_blank" rel="external">什么是P问题、NP问题和NPC问题</a> </li>
+<li><a href="http://zhishifenzi.blog.caixin.com/archives/167252" target="_blank" rel="external">最新证明面临质疑：P/NP问题为什么这么难？</a></li>
+<li><a href="https://en.wikipedia.org/wiki/NP_(complexity" target="_blank" rel="external">Wikipedia: NP (complexity)</a>)</li>
+</ul>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/b80Efqsh85vqaWvuB8lUcg" target="_blank" rel="external">Kafka 2.0重磅发布，新特性独家解读</a> : Kafka顺应了现在这个时代对于数据的规模化和流式化处理的需求，本身是发展也是非常迅猛；Maybe 可以其作为自己第二个侧重投入的重点工具链</p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/how-we-scaled-nginx-and-saved-the-world-54-years-every-day/" target="_blank" rel="external">How we scaled nginx and saved the world 54 years every day</a> : 本文介绍了CloudFlare在 Nginx 部署和运维上面的一些先进经验，不少都是 Nginx 的性能深入优化点，比如<code>SO_REUSEPORT</code>, <code>read thread pool</code>, 算是真正有在规模化应用这些特性的大团队，经验等值得参考和采纳</p>
+</li>
+<li><p><a href="http://dockone.io/article/8106" target="_blank" rel="external">小米DevOps团队针对容器的Nginx优化</a> : 主要谈到容器化的时候，通过<code>worker_processes auto</code>的指令，并不能很好的控制 nginx 的进程数，基于此，可以通过旁路的脚本或者程序的升级来支持读取争取分配给他的CPU 线程数。其实，个人感觉，CPU 的限制是软限制，通过控制进程数并不合理，但是其深入分析问题的思路和精神值得佩服~ </p>
+</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><blockquote>
+<p>本周主要关注P2P下载相关的技术</p>
+</blockquote>
+<ul>
+<li><p><a href="https://zh.wikipedia.org/wiki/%E7%A3%81%E5%8A%9B%E9%93%BE%E6%8E%A5" target="_blank" rel="external">磁力链接: 维基百科</a> :  对于磁力链接的概括性介绍, 本质上其是对一个种子文件的<code>URN</code></p>
+</li>
+<li><p><a href="http://blog.kakarott.net/archives/10017" target="_blank" rel="external">P2P技术科普（一）——-P2P基本原理</a> : 对 P2P 网络的发展以及技术演变有概括性，精要的说明，可以关注了解</p>
+</li>
+<li><p><a href="http://www.aneasystone.com/archives/2015/05/how-does-magnet-link-work.html" target="_blank" rel="external">磁力链接是如何实现下载的</a> : 具体介绍磁力链接的执行机制, 推荐<a href="http://magnet2torrent.com/" target="_blank" rel="external">Magnet &gt;&gt; Torrent</a>, 其可以帮忙我们将磁力链接转成 torrent 文件</p>
+</li>
+<li><p><a href="http://www.bittorrent.org/beps/bep_0005.html" target="_blank" rel="external">BitTorrent: DHT</a> : 介绍BitTorrent的 DHT 网络的设计思路和理念，可以加上对 P2P 网络的理解</p>
+</li>
+<li><p><a href="https://my.oschina.net/kanlianhui/blog/167491" target="_blank" rel="external">P2P中DHT网络原理</a> : 另外一个科普文章，可以了解</p>
+</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://www.intel.cn/content/www/cn/zh/events/restoring-great-wall/preserve-great-wall-techarticle.html" target="_blank" rel="external">英特尔修复长城计划 (技术角度)</a> : 有点半软文性质的文章，主要想说明的一点是，AI 赋能的确在影响我们很多时刻解决问题的思路和理念，而这些方面又依赖于每个人的视野和判断力。</p>
+</li>
+<li><p><a href="https://github.com/arnoldrobbins/mcilroy-regex" target="_blank" rel="external">arnoldrobbins/mcilroy-regex: Doug McIlroy’s C++ regular expression matching library</a> : 一个 C++的正则库，先 mark，历史好像很是悠久</p>
+</li>
+<li><p><a href="https://www.quickcode.co/engineer-blogs" target="_blank" rel="external">Engineering Blogs</a> : “A Collection of engineering blogs from top tech companies in the world”</p>
+</li>
+<li><p><a href="https://ricardodsanchez.com/2018/08/03/favorite-visual-studio-code-extensions-of-2018/2018/" target="_blank" rel="external">Favorite Visual Studio Code Extensions of 2018 | Ricardo D Sanchez | Page 2018</a> : 不少插件可以关注，包括<a href="https://marketplace.visualstudio.com/items?itemName=humao.rest-client" target="_blank" rel="external">REST Client</a>, <a href="https://marketplace.visualstudio.com/items?itemName=sdras.night-owl" target="_blank" rel="external">Night Owl</a> 等</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/P_np_np-complete_np-hard.svg.png&quot; alt=&quot;wiki:p_np_npc_problem&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; tit
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20180722</title>
@@ -1356,83 +1421,6 @@
     
     
       <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>nginx 1.13.10 版本说明</title>
-    <link href="http://shevacjs.com/2018/03/23/nginx_1_13_10/"/>
-    <id>http://shevacjs.com/2018/03/23/nginx_1_13_10/</id>
-    <published>2018-03-23T03:02:29.000Z</published>
-    <updated>2018-03-23T03:04:11.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="Feature-List"><a href="#Feature-List" class="headerlink" title="Feature List"></a>Feature List</h2><blockquote>
-<p>对SSI模块增强，支持set指令，允许插入任何变量</p>
-</blockquote>
-<ul>
-<li>Feature: the “set” parameter of the “include” SSI directive now allows writing arbitrary responses to a variable; the “subrequest_output_buffer_size” directive defines maximum responsesize.</li>
-</ul>
-<blockquote>
-<p>通过 CLOCK_MONOTONIC方式获取时间, 避免时间回转</p>
-</blockquote>
-<ul>
-<li>Feature: now nginx uses clock_gettime( CLOCK_MONOTONIC ) if available, to avoid timeouts being incorrectly triggered on system time changes.</li>
-</ul>
-<blockquote>
-<p>支持日志输出时不做字符转义</p>
-</blockquote>
-<ul>
-<li>Feature: the “escape=none” parameter of the “log_format” directive.</li>
-</ul>
-<blockquote>
-<p>支持打印<code>ALPN</code>变量情况</p>
-</blockquote>
-<ul>
-<li>Feature: the $ssl_preread_alpn_protocols variable in the ngx_stream_ssl_preread_module.</li>
-</ul>
-<blockquote>
-<p>引入gRpc支持</p>
-</blockquote>
-<ul>
-<li>Feature: the ngx_http_grpc_module.</li>
-</ul>
-<h2 id="快速说明"><a href="#快速说明" class="headerlink" title="快速说明"></a>快速说明</h2><ul>
-<li>CLOCK_MONOTONIC方式获取时间 : 正常系统提供两个类型的时间<ul>
-<li>time-of-day : 俗称墙上时间，但是墙上时间会通过类似于<code>NTP</code>的协议同步时钟，这个有可能导致时间回退，</li>
-<li>CLOCK_MONOTONIC时间 : 理论上对和time-of-day一致，其主要特点是, 基本同步时钟后发现自己时间过快，也不会回退，而是按照一定的算法自己缓慢增加，慢慢保持一致, 也就是能保障这个时间总是<code>单调</code>(MONOTONIC)的</li>
-<li>这个问题是分布式系统经常会碰到的，可以深入了解</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>“escape=none”支持:<ul>
-<li>简单来说, 之前nginx默认对输入的日志变量会进行转义，转义的字符主要是<code>Nginx</code>认为不可见的那部分, 这部分代码实现很精巧，如下:</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> uintptr_t</span></div><div class="line"><span class="title">ngx_http_log_escape</span><span class="params">(u_char *dst, u_char *src, <span class="keyword">size_t</span> size)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">ngx_uint_t</span>      n;</div><div class="line">    <span class="keyword">static</span> u_char   hex[] = <span class="string">"0123456789ABCDEF"</span>;</div><div class="line"></div><div class="line">    <span class="comment">//建立`escape`的bitmask数组, 一个有 32 * 8 = 256个bit</span></div><div class="line">    <span class="comment">//如果对于bit被mask为1，表明需要转义</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">uint32_t</span>   escape[] = &#123;</div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line"></div><div class="line">                    <span class="comment">/* ?&gt;=&lt; ;:98 7654 3210  /.-, +*)( '&amp;%$ #"!  */</span></div><div class="line">        <span class="number">0x00000004</span>, <span class="comment">/* 0000 0000 0000 0000  0000 0000 0000 0100 */</span></div><div class="line"></div><div class="line">                    <span class="comment">/* _^]\ [ZYX WVUT SRQP  ONML KJIH GFED CBA@ */</span></div><div class="line">        <span class="number">0x10000000</span>, <span class="comment">/* 0001 0000 0000 0000  0000 0000 0000 0000 */</span></div><div class="line"></div><div class="line">                    <span class="comment">/*  ~&#125;| &#123;zyx wvut srqp  onml kjih gfed cba` */</span></div><div class="line">        <span class="number">0x80000000</span>, <span class="comment">/* 1000 0000 0000 0000  0000 0000 0000 0000 */</span></div><div class="line"></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (size) &#123;</div><div class="line">        <span class="comment">// 判断其mask位是否为1</span></div><div class="line">        <span class="comment">// *src &gt;&gt; 5 为去其高3位，用于获取数组的便宜量</span></div><div class="line">        <span class="comment">// 1U &lt;&lt; (*src &amp; 0x0f) 为获取具体在数据bit mask的位置</span></div><div class="line">        <span class="keyword">if</span> (escape[*src &gt;&gt; <span class="number">5</span>] &amp; (<span class="number">1U</span> &lt;&lt; (*src &amp; <span class="number">0x1f</span>))) &#123;</div><div class="line">            *dst++ = <span class="string">'\\'</span>;</div><div class="line">            *dst++ = <span class="string">'x'</span>;</div><div class="line">            *dst++ = hex[*src &gt;&gt; <span class="number">4</span>];</div><div class="line">            *dst++ = hex[*src &amp; <span class="number">0xf</span>];</div><div class="line">            src++;</div><div class="line"></div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            *dst++ = *src++;</div><div class="line">        &#125;</div><div class="line">        size--;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> (<span class="keyword">uintptr_t</span>) dst;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>ssl_preread_alpn_protocols变量 :<ul>
-<li>这里面大家可以关注<code>ALPN</code>协议，他和<code>NPN</code>都是用于在TLS交互的时候进行协议的协商, 可以关注之前的文章<a href="https://imququ.com/post/enable-alpn-asap.html" target="_blank" rel="external">为什么我们应该尽快支持 ALPN？</a><br>，大概区别如下: <ul>
-<li>NPN 是服务端发送所支持的 HTTP 协议列表，由客户端选择；而 ALPN 是客户端发送所支持的 HTTP 协议列表，由服务端选择；</li>
-<li>NPN 的协商结果是在 Change Cipher Spec 之后加密发送给服务端；而 ALPN 的协商结果是通过 Server Hello 明文发给客户端；</li>
-</ul>
-</li>
-<li>可以总结为ALPN是趋势，也是未来的标准，但是短期内各方厂商的支持情况并不理想</li>
-</ul>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;Feature-List&quot;&gt;&lt;a href=&quot;#Feature-List&quot; class=&quot;headerlink&quot; title=&quot;Feature List&quot;&gt;&lt;/a&gt;Feature List&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;对SSI模块增强，支持set指令，
-    
-    </summary>
-    
-    
-      <category term="nginx" scheme="http://shevacjs.com/tags/nginx/"/>
     
   </entry>
   

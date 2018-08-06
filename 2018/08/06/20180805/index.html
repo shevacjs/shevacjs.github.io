@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>weekly of 20180805 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="工具技巧 Detecting the use of “curl | bash” server side :  直接执行curl | bash的命令是存在比较大的安全风险的，因为可能执行一些未经确认的恶意代码;  那有没有办法可以去构造这种攻击吗？也就是对于普通的浏览器访问或者命令行下面直接的 curl 输出，我们返回正常的内容，但是如果是执行了curl | bash我们就返回还有恶意代码的内容呢">
+<meta name="keywords" content="weekly">
+<meta property="og:type" content="article">
+<meta property="og:title" content="weekly of 20180805">
+<meta property="og:url" content="http://shevacjs.com/2018/08/06/20180805/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="工具技巧 Detecting the use of “curl | bash” server side :  直接执行curl | bash的命令是存在比较大的安全风险的，因为可能执行一些未经确认的恶意代码;  那有没有办法可以去构造这种攻击吗？也就是对于普通的浏览器访问或者命令行下面直接的 curl 输出，我们返回正常的内容，但是如果是执行了curl | bash我们就返回还有恶意代码的内容呢">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://shevacjs.com/images/P_np_np-complete_np-hard.svg.png">
+<meta property="og:updated_time" content="2018-08-06T09:19:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="weekly of 20180805">
+<meta name="twitter:description" content="工具技巧 Detecting the use of “curl | bash” server side :  直接执行curl | bash的命令是存在比较大的安全风险的，因为可能执行一些未经确认的恶意代码;  那有没有办法可以去构造这种攻击吗？也就是对于普通的浏览器访问或者命令行下面直接的 curl 输出，我们返回正常的内容，但是如果是执行了curl | bash我们就返回还有恶意代码的内容呢">
+<meta name="twitter:image" content="http://shevacjs.com/images/P_np_np-complete_np-hard.svg.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-20180805" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      weekly of 20180805
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/08/06/20180805/" class="article-date">
+  <time datetime="2018-08-06T09:19:45.000Z" itemprop="datePublished">2018-08-06</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/P_np_np-complete_np-hard.svg.png" alt="wiki:p_np_npc_problem"></p>
+<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><a href="https://www.idontplaydarts.com/2016/04/detecting-curl-pipe-bash-server-side/" target="_blank" rel="external">Detecting the use of “curl | bash” server side</a> :  直接执行<code>curl | bash</code>的命令是存在比较大的安全风险的，因为可能执行一些未经确认的恶意代码;  那有没有办法可以去构造这种攻击吗？也就是对于普通的浏览器访问或者命令行下面直接的 curl 输出，我们返回正常的内容，但是如果是执行了<code>curl | bash</code>我们就返回还有恶意代码的内容呢？作者的回答是肯定的，其主要的思路是在返回内部的时候，初步先通过 chunk 机制返回带有<code>sleep 5</code>之类的能够检测时间/bash 的监测代码，在通过在服务端对于响应时间进行判断，就能知道我们输出的内容是否运行在 bash 环境下面（会不会感觉其实和检测一个代码是否跑在一个 JS 环境下面一样？）；当然实现上面还有不少细节，比如说对于发送/接受/pipe 的 buffer 等控制和填充~</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://codingnest.com/modern-sat-solvers-fast-neat-underused-part-1-of-n/" target="_blank" rel="external">Modern SAT solvers: fast, neat and underused (part 1 of N) — The Coding Nest</a> : 本文的<a href="https://en.wikipedia.org/wiki/Boolean_satisfiability_problem" target="_blank" rel="external">SAT</a>是指<code>Boolean satisfiability problem</code>, 其实也就是个<code>NP完全问题</code>(NP-complete)。虽然是NP 问题，但是也有不少的 Lib 库存在，用于去解决这方面的问题，比如说文章提到的<a href="http://minisat.se/" target="_blank" rel="external">Minisat</a>,<a href="http://dimacs.rutgers.edu/" target="_blank" rel="external">DIMACS</a>等; 从计算复杂性的理论，我们知道<code>NPC</code> 的问题是可以相互规约的，利用这个规则和现有的 Lib，我们可以认为，对于现实中存在的真正的 NP 问题，只要建立好正确对应的数学模型，将其规约到一个 NPC 问题，就能用这些基础库解决此类问题了。本文作者举了一个具体<code>数独问题</code>的例子，并演绎如何将其规约到基础的 NPC 问题，最终求解这类问题。对于，我们可以对计算复杂性的理论有进一步的了解和认识，也可以将其应用到其他的问题解决领域。先 mark 下，周末手动测试这些代码。如下的几个相关的参考资料，有助于了解整体文章:</p>
+<ul>
+<li><a href="http://www.matrix67.com/blog/archives/105" target="_blank" rel="external">什么是P问题、NP问题和NPC问题</a> </li>
+<li><a href="http://zhishifenzi.blog.caixin.com/archives/167252" target="_blank" rel="external">最新证明面临质疑：P/NP问题为什么这么难？</a></li>
+<li><a href="https://en.wikipedia.org/wiki/NP_(complexity" target="_blank" rel="external">Wikipedia: NP (complexity)</a>)</li>
+</ul>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/b80Efqsh85vqaWvuB8lUcg" target="_blank" rel="external">Kafka 2.0重磅发布，新特性独家解读</a> : Kafka顺应了现在这个时代对于数据的规模化和流式化处理的需求，本身是发展也是非常迅猛；Maybe 可以其作为自己第二个侧重投入的重点工具链</p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/how-we-scaled-nginx-and-saved-the-world-54-years-every-day/" target="_blank" rel="external">How we scaled nginx and saved the world 54 years every day</a> : 本文介绍了CloudFlare在 Nginx 部署和运维上面的一些先进经验，不少都是 Nginx 的性能深入优化点，比如<code>SO_REUSEPORT</code>, <code>read thread pool</code>, 算是真正有在规模化应用这些特性的大团队，经验等值得参考和采纳</p>
+</li>
+<li><p><a href="http://dockone.io/article/8106" target="_blank" rel="external">小米DevOps团队针对容器的Nginx优化</a> : 主要谈到容器化的时候，通过<code>worker_processes auto</code>的指令，并不能很好的控制 nginx 的进程数，基于此，可以通过旁路的脚本或者程序的升级来支持读取争取分配给他的CPU 线程数。其实，个人感觉，CPU 的限制是软限制，通过控制进程数并不合理，但是其深入分析问题的思路和精神值得佩服~ </p>
+</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><blockquote>
+<p>本周主要关注P2P下载相关的技术</p>
+</blockquote>
+<ul>
+<li><p><a href="https://zh.wikipedia.org/wiki/%E7%A3%81%E5%8A%9B%E9%93%BE%E6%8E%A5" target="_blank" rel="external">磁力链接: 维基百科</a> :  对于磁力链接的概括性介绍, 本质上其是对一个种子文件的<code>URN</code></p>
+</li>
+<li><p><a href="http://blog.kakarott.net/archives/10017" target="_blank" rel="external">P2P技术科普（一）——-P2P基本原理</a> : 对 P2P 网络的发展以及技术演变有概括性，精要的说明，可以关注了解</p>
+</li>
+<li><p><a href="http://www.aneasystone.com/archives/2015/05/how-does-magnet-link-work.html" target="_blank" rel="external">磁力链接是如何实现下载的</a> : 具体介绍磁力链接的执行机制, 推荐<a href="http://magnet2torrent.com/" target="_blank" rel="external">Magnet &gt;&gt; Torrent</a>, 其可以帮忙我们将磁力链接转成 torrent 文件</p>
+</li>
+<li><p><a href="http://www.bittorrent.org/beps/bep_0005.html" target="_blank" rel="external">BitTorrent: DHT</a> : 介绍BitTorrent的 DHT 网络的设计思路和理念，可以加上对 P2P 网络的理解</p>
+</li>
+<li><p><a href="https://my.oschina.net/kanlianhui/blog/167491" target="_blank" rel="external">P2P中DHT网络原理</a> : 另外一个科普文章，可以了解</p>
+</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://www.intel.cn/content/www/cn/zh/events/restoring-great-wall/preserve-great-wall-techarticle.html" target="_blank" rel="external">英特尔修复长城计划 (技术角度)</a> : 有点半软文性质的文章，主要想说明的一点是，AI 赋能的确在影响我们很多时刻解决问题的思路和理念，而这些方面又依赖于每个人的视野和判断力。</p>
+</li>
+<li><p><a href="https://github.com/arnoldrobbins/mcilroy-regex" target="_blank" rel="external">arnoldrobbins/mcilroy-regex: Doug McIlroy’s C++ regular expression matching library</a> : 一个 C++的正则库，先 mark，历史好像很是悠久</p>
+</li>
+<li><p><a href="https://www.quickcode.co/engineer-blogs" target="_blank" rel="external">Engineering Blogs</a> : “A Collection of engineering blogs from top tech companies in the world”</p>
+</li>
+<li><p><a href="https://ricardodsanchez.com/2018/08/03/favorite-visual-studio-code-extensions-of-2018/2018/" target="_blank" rel="external">Favorite Visual Studio Code Extensions of 2018 | Ricardo D Sanchez | Page 2018</a> : 不少插件可以关注，包括<a href="https://marketplace.visualstudio.com/items?itemName=humao.rest-client" target="_blank" rel="external">REST Client</a>, <a href="https://marketplace.visualstudio.com/items?itemName=sdras.night-owl" target="_blank" rel="external">Night Owl</a> 等</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/07/30/20180722/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20180722&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  var disqus_url = 'http://shevacjs.com/2018/08/06/20180805/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

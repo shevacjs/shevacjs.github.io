@@ -57,6 +57,108 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-nginx_1_13_10" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/23/nginx_1_13_10/">nginx 1.13.10 版本说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/03/23/nginx_1_13_10/" class="article-date">
+  <time datetime="2018-03-23T03:02:29.000Z" itemprop="datePublished">2018-03-23</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Feature-List"><a href="#Feature-List" class="headerlink" title="Feature List"></a>Feature List</h2><blockquote>
+<p>对SSI模块增强，支持set指令，允许插入任何变量</p>
+</blockquote>
+<ul>
+<li>Feature: the “set” parameter of the “include” SSI directive now allows writing arbitrary responses to a variable; the “subrequest_output_buffer_size” directive defines maximum responsesize.</li>
+</ul>
+<blockquote>
+<p>通过 CLOCK_MONOTONIC方式获取时间, 避免时间回转</p>
+</blockquote>
+<ul>
+<li>Feature: now nginx uses clock_gettime( CLOCK_MONOTONIC ) if available, to avoid timeouts being incorrectly triggered on system time changes.</li>
+</ul>
+<blockquote>
+<p>支持日志输出时不做字符转义</p>
+</blockquote>
+<ul>
+<li>Feature: the “escape=none” parameter of the “log_format” directive.</li>
+</ul>
+<blockquote>
+<p>支持打印<code>ALPN</code>变量情况</p>
+</blockquote>
+<ul>
+<li>Feature: the $ssl_preread_alpn_protocols variable in the ngx_stream_ssl_preread_module.</li>
+</ul>
+<blockquote>
+<p>引入gRpc支持</p>
+</blockquote>
+<ul>
+<li>Feature: the ngx_http_grpc_module.</li>
+</ul>
+<h2 id="快速说明"><a href="#快速说明" class="headerlink" title="快速说明"></a>快速说明</h2><ul>
+<li>CLOCK_MONOTONIC方式获取时间 : 正常系统提供两个类型的时间<ul>
+<li>time-of-day : 俗称墙上时间，但是墙上时间会通过类似于<code>NTP</code>的协议同步时钟，这个有可能导致时间回退，</li>
+<li>CLOCK_MONOTONIC时间 : 理论上对和time-of-day一致，其主要特点是, 基本同步时钟后发现自己时间过快，也不会回退，而是按照一定的算法自己缓慢增加，慢慢保持一致, 也就是能保障这个时间总是<code>单调</code>(MONOTONIC)的</li>
+<li>这个问题是分布式系统经常会碰到的，可以深入了解</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>“escape=none”支持:<ul>
+<li>简单来说, 之前nginx默认对输入的日志变量会进行转义，转义的字符主要是<code>Nginx</code>认为不可见的那部分, 这部分代码实现很精巧，如下:</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> uintptr_t</span></div><div class="line"><span class="title">ngx_http_log_escape</span><span class="params">(u_char *dst, u_char *src, <span class="keyword">size_t</span> size)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">ngx_uint_t</span>      n;</div><div class="line">    <span class="keyword">static</span> u_char   hex[] = <span class="string">"0123456789ABCDEF"</span>;</div><div class="line"></div><div class="line">    <span class="comment">//建立`escape`的bitmask数组, 一个有 32 * 8 = 256个bit</span></div><div class="line">    <span class="comment">//如果对于bit被mask为1，表明需要转义</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">uint32_t</span>   escape[] = &#123;</div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line"></div><div class="line">                    <span class="comment">/* ?&gt;=&lt; ;:98 7654 3210  /.-, +*)( '&amp;%$ #"!  */</span></div><div class="line">        <span class="number">0x00000004</span>, <span class="comment">/* 0000 0000 0000 0000  0000 0000 0000 0100 */</span></div><div class="line"></div><div class="line">                    <span class="comment">/* _^]\ [ZYX WVUT SRQP  ONML KJIH GFED CBA@ */</span></div><div class="line">        <span class="number">0x10000000</span>, <span class="comment">/* 0001 0000 0000 0000  0000 0000 0000 0000 */</span></div><div class="line"></div><div class="line">                    <span class="comment">/*  ~&#125;| &#123;zyx wvut srqp  onml kjih gfed cba` */</span></div><div class="line">        <span class="number">0x80000000</span>, <span class="comment">/* 1000 0000 0000 0000  0000 0000 0000 0000 */</span></div><div class="line"></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">        <span class="number">0xffffffff</span>, <span class="comment">/* 1111 1111 1111 1111  1111 1111 1111 1111 */</span></div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (size) &#123;</div><div class="line">        <span class="comment">// 判断其mask位是否为1</span></div><div class="line">        <span class="comment">// *src &gt;&gt; 5 为去其高3位，用于获取数组的便宜量</span></div><div class="line">        <span class="comment">// 1U &lt;&lt; (*src &amp; 0x0f) 为获取具体在数据bit mask的位置</span></div><div class="line">        <span class="keyword">if</span> (escape[*src &gt;&gt; <span class="number">5</span>] &amp; (<span class="number">1U</span> &lt;&lt; (*src &amp; <span class="number">0x1f</span>))) &#123;</div><div class="line">            *dst++ = <span class="string">'\\'</span>;</div><div class="line">            *dst++ = <span class="string">'x'</span>;</div><div class="line">            *dst++ = hex[*src &gt;&gt; <span class="number">4</span>];</div><div class="line">            *dst++ = hex[*src &amp; <span class="number">0xf</span>];</div><div class="line">            src++;</div><div class="line"></div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            *dst++ = *src++;</div><div class="line">        &#125;</div><div class="line">        size--;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> (<span class="keyword">uintptr_t</span>) dst;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>ssl_preread_alpn_protocols变量 :<ul>
+<li>这里面大家可以关注<code>ALPN</code>协议，他和<code>NPN</code>都是用于在TLS交互的时候进行协议的协商, 可以关注之前的文章<a href="https://imququ.com/post/enable-alpn-asap.html" target="_blank" rel="external">为什么我们应该尽快支持 ALPN？</a><br>，大概区别如下: <ul>
+<li>NPN 是服务端发送所支持的 HTTP 协议列表，由客户端选择；而 ALPN 是客户端发送所支持的 HTTP 协议列表，由服务端选择；</li>
+<li>NPN 的协商结果是在 Change Cipher Spec 之后加密发送给服务端；而 ALPN 的协商结果是通过 Server Hello 明文发给客户端；</li>
+</ul>
+</li>
+<li>可以总结为ALPN是趋势，也是未来的标准，但是短期内各方厂商的支持情况并不理想</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20180304" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -781,81 +883,6 @@
 <li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404179321597125139" target="_blank" rel="external">【深度长文】为什么微博不像微信一样设计得简洁？</a> : 对产品的思考和分析</p>
 </li>
 <li><p><a href="https://rafalcieslak.wordpress.com/2013/04/02/dynamic-linker-tricks-using-ld_preload-to-cheat-inject-features-and-investigate-programs/" target="_blank" rel="external">Dynamic linker tricks: Using LD_PRELOAD to cheat, inject features and investigate programs</a> : 我们知道系统在搜索动态链接库的时候会优先加载<code>LD_PRELOAD</code>里面的so, 通过着特性，如果我们构造合适威胁的so，可能对程序的行为有着重大影响，比如随机数生成等</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20171119" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/24/20171119/">weekly of 20171119</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/11/24/20171119/" class="article-date">
-  <time datetime="2017-11-24T08:47:45.000Z" itemprop="datePublished">2017-11-24</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/austria02.jpg" alt="奥地利一景"></p>
-<h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><ul>
-<li><a href="https://github.com/blog/2470-introducing-security-alerts-on-github" target="_blank" rel="external">Introducing security alerts on GitHub</a> : Github支持对于Js或者ruby项目的依赖的安全问题进行警告, 值得关注的是，github通过<code>gemfile</code>和<code>package.json</code>自动解析<a href="https://help.github.com/articles/listing-the-packages-that-a-repository-depends-on/" target="_blank" rel="external">分析依赖</a>, 其次通过<a href="https://cve.mitre.org/" target="_blank" rel="external">CVE IDs</a>对于具体的安全问题进行分析，深入分析这个里面技术/规范需要投入较大的支持, 但是对社区其实是非常好的帮助</li>
-</ul>
-<h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://tomassetti.me/guide-natural-language-processing/" target="_blank" rel="external">What can you use Natural Language Processing for?</a> : 非常好的NLP工具的入门和大量的材料，先mark</p>
-</li>
-<li><p><a href="http://abau.org/hannah" target="_blank" rel="external">Hannah – a DSL for parsing and generating files and network traces</a> : 挺好玩的一个工具，通过<code>DSL</code>的方式来定义如何解析和生成数据</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/U0311_AiGkIEtyuO9Uh1Rw" target="_blank" rel="external">HTTP/2之服务器推送(Server Push)最佳实践</a> : 具体介绍了如何在合适的业务场景采用server push, 还是比较接地气的</p>
-</li>
-</ul>
-<h2 id="每周paper"><a href="#每周paper" class="headerlink" title="每周paper"></a>每周paper</h2><h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="http://shevacjs.com/2017/11/21/simple_rank_algo/">简单排序算法概述</a> : 关于hacker news和reddit的简单排序算法的介绍, 可以了解下</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="https://github.com/laoqiren/mlhelper" target="_blank" rel="external">mlhelper: Algorithms and utils for Machine Learning in JavaScript</a> : 一个基于Js的机器学习lib, 可以放在前端做一些简单的机器学习支持，但是google已经开发了一些基于端的机器学习能力组件, 比如<a href="https://deeplearnjs.org/" target="_blank" rel="external">deeplearnjs</a></p>
-</li>
-<li><p><a href="https://github.com/jacobdufault/cquery/#cquery" target="_blank" rel="external">jacobdufault/cquery</a> : “Low-latency vscode language server for large C++ code-bases, powered by libclang”, cquery implements almost the entire <a href="https://github.com/Microsoft/language-server-protocol" target="_blank" rel="external">language server protocol</a> and provides some extra features to boost; 也有VS的扩展, 可以关注；不过没有其他语言的支持, 先mark</p>
-</li>
-<li><p><a href="https://time.geekbang.org/column/article/961" target="_blank" rel="external">GitHub上的五大开源机器学习项目</a> : 包括<code>tensorflow</code>, <code>scikit-learn</code>, <code>PredictionIO</code>, <code>Swift AI</code> 和 <code>GoLearn</code>, 后三者分别是<code>scala</code>, <code>swift</code>和<code>go</code>语言的学习库</p>
-</li>
-<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404173389983009423" target="_blank" rel="external">细思极恐的YouTube可跳过广告</a> : 文章具体分析了<code>Youtube</code>可跳过广告背后的产品逻辑和商业化策略, 个人还是比较认同的；任何产品都需要找个一个用户体验和商业化的一个折衷点</p>
-</li>
-<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404177368133588050" target="_blank" rel="external">10家将机器学习玩出新花样的公司</a> : 具体介绍不用公司在AI在业务线的落地, 个人感觉可以关注<code>Yelp</code>, <code>Pinterest</code>等</p>
-</li>
-<li><p><a href="https://lagunita.stanford.edu/courses/Engineering/Compilers/Fall2014/about" target="_blank" rel="external">Stanford: Compliers</a> : 斯坦福的关于编译器的课程，想学编译原理的同学可以看看，每个人程序员心中应该都有写一个自己的编译器的一个梦想</p>
 </li>
 </ul>
 
