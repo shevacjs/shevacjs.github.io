@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2018-08-20T12:16:58.000Z</updated>
+  <updated>2018-08-20T12:27:24.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://shevacjs.com/2018/08/20/introduction_of_the_noise_protocol_framework/"/>
     <id>http://shevacjs.com/2018/08/20/introduction_of_the_noise_protocol_framework/</id>
     <published>2018-08-20T12:20:45.000Z</published>
-    <updated>2018-08-20T12:16:58.000Z</updated>
+    <updated>2018-08-20T12:27:24.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>最近在研究 VPN 相关的技术，会做个简单的总结，稍微系统地去介绍安全协议及其系统</p>
@@ -57,7 +57,7 @@
 </li>
 </ol>
 <p>如下图所示 :</p>
-<p><img src="/images/secure_channel.png" alt="Secure Channel"></p>
+<p><img src="/images/secure_channel.jpeg" alt="Secure Channel"></p>
 <p>但是从实践应用的角度，为了保障安全性(比如考虑前置安全性), 我们会根据情况，重新协商密钥(AKE),  所以整个交互过程，会变成如下模式:</p>
 <blockquote>
 <p> [01] <em> Negotiation  + N </em> (AKE + n * transport )</p>
@@ -68,9 +68,9 @@
 <li>会有多次(AKE + trans)阶段，来保障传输的安全性</li>
 </ol>
 <p>而<code>Noise protocol</code>就是更关注后者的实现, 如下:</p>
-<p><img src="/images/secure_channel_noise.png" alt="secure_channel_of_noise"></p>
+<p><img src="/images/secure_channel_noise.jpeg" alt="secure_channel_of_noise"></p>
 <p>如此一来，一个包含<code>Noise Protocol</code>的应用，其安全信道的组织方式大概如下:</p>
-<p><img src="/images/noise_framework_overview.png" alt="noise_framework_overview"></p>
+<p><img src="/images/noise_framework_overview.jpeg" alt="noise_framework_overview"></p>
 <p>这个也是<a href="https://www.wireguard.com/" target="_blank" rel="external">Wireguard</a>的组织方式，后续的文章会再详细介绍</p>
 <h3 id="2-2-规范"><a href="#2-2-规范" class="headerlink" title="2.2 规范"></a>2.2 规范</h3><p>有了上面的抽象之后，在具体实现上面, Noise 也做了相关的规范和约定；主要包括两个方面，其一是<code>模式</code>的约定，这里面主要说明了根据不同的业务场景(比如是否需要身份验证等)，如何进行握手协议; 其二是<code>密码算法</code>的约定，主要约定了交互时候具体选择的密码协议等</p>
 <h4 id="2-2-1-模式约定"><a href="#2-2-1-模式约定" class="headerlink" title="2.2.1 模式约定"></a>2.2.1 模式约定</h4><blockquote>
