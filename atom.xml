@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2018-08-06T09:19:40.000Z</updated>
+  <updated>2018-08-20T12:16:58.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,399 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Noise Protocol简介</title>
+    <link href="http://shevacjs.com/2018/08/20/introduction_of_the_noise_protocol_framework/"/>
+    <id>http://shevacjs.com/2018/08/20/introduction_of_the_noise_protocol_framework/</id>
+    <published>2018-08-20T12:20:45.000Z</published>
+    <updated>2018-08-20T12:16:58.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>最近在研究 VPN 相关的技术，会做个简单的总结，稍微系统地去介绍安全协议及其系统</p>
+</blockquote>
+<h2 id="0x00-何为Noise-Protocol"><a href="#0x00-何为Noise-Protocol" class="headerlink" title="0x00 何为Noise Protocol"></a>0x00 何为Noise Protocol</h2><p>从<a href="http://noiseprotocol.org/index.html" target="_blank" rel="external">官网</a>的概述，其定义为:</p>
+<blockquote>
+<p>Noise is a framework for building crypto protocols. Noise protocols support mutual and optional authentication, identity hiding, forward secrecy, zero round-trip encryption, and other advanced features.</p>
+</blockquote>
+<p>太过含糊，仅仅强调其功能特性; 不过从作者在<a href="https://fahrplan.events.ccc.de/congress/2017/Fahrplan/events/9222.html" target="_blank" rel="external">Schedule 34th Chaos Communication Congress</a>的介绍，更具象一些，说明如下:</p>
+<blockquote>
+<p>Noise is a framework that helps in creating secure channel protocols</p>
+</blockquote>
+<p>所谓的<code>secure channel</code>，就是安全通道，比如<code>TLS</code>, <code>IPsec</code>, <code>SSH</code>都是; 也就是<code>noise protocol</code>就是用于快速方便去构建安全信道的一个框架。</p>
+<h2 id="0x01-WHY"><a href="#0x01-WHY" class="headerlink" title="0x01 WHY"></a>0x01 WHY</h2><p>一个自然而然的问题是，为什么需要这样的框架? 我个人的理解包括:</p>
+<ul>
+<li><p>从安全的角度来看，虽然我们拥有很多基础的密码原语支持，比如公钥体系，签名体系，对称加密，HASH 等, 但是在业务落地的时候这些东西如何组合也是个问题和风险点。如果组织不合理，非常有可能造成进一步的安全漏洞。基于此，形式化和清晰化的去描述和定义一个”安全协议”, 可以从更系统的层面去分析其安全问题，更全面的评估其可靠性，也避免了一些『自定义』方式带来的安全漏洞。 这个方面其实有点像我们开放我们的『加密算法』，可以让第三方去审计/评估，但是不影响加密算法的可用性。<code>noise protocol</code>同样也是，其明确定义了不同模式的交互方式和协议，我们可以更清晰的审计其健壮性</p>
+</li>
+<li><p>从应用角度而言, two-parties的安全信道构建一直是有强烈诉求的, 但是不同的业务场景对于安全的要求也不尽相同，比如是否需要验证身份等, 所以去构建一个『框架』，让用户可以根据自己的业务场景方便构建自己安全信道的构建方式，是能满足更广大用户</p>
+</li>
+</ul>
+<h2 id="0x02-Noise-的抽象和规范"><a href="#0x02-Noise-的抽象和规范" class="headerlink" title="0x02 Noise 的抽象和规范"></a>0x02 Noise 的抽象和规范</h2><p>介绍完了 Noise 的简单背景之后，我们来分析 Noise 是如何去解决这个问题的。</p>
+<h3 id="2-1-抽象"><a href="#2-1-抽象" class="headerlink" title="2.1 抽象"></a>2.1 抽象</h3><blockquote>
+<p>如下分析来自[1]的 PPT</p>
+</blockquote>
+<p>一个安全信道的构建，可以划分为如下几个阶段 :</p>
+<ol>
+<li><p>握手(Handshake)阶段，这阶段主要用于协议的协商和AKE(Authenticated Key Exchange) 相关事宜的完成，即包括:</p>
+<ul>
+<li>Negotiation : 协议协商等</li>
+<li>AKE : 身份验证&amp;密钥交换</li>
+</ul>
+</li>
+<li><p>数据传输(Transport phase)阶段，根据握手阶段生成的对称密钥，加密传输相关数据</p>
+</li>
+</ol>
+<p>如下图所示 :</p>
+<p><img src="/images/secure_channel.png" alt="Secure Channel"></p>
+<p>但是从实践应用的角度，为了保障安全性(比如考虑前置安全性), 我们会根据情况，重新协商密钥(AKE),  所以整个交互过程，会变成如下模式:</p>
+<blockquote>
+<p> [01] <em> Negotiation  + N </em> (AKE + n * transport )</p>
+</blockquote>
+<p>意味着:</p>
+<ol>
+<li>一般就需要一次协商阶段/或者不需要</li>
+<li>会有多次(AKE + trans)阶段，来保障传输的安全性</li>
+</ol>
+<p>而<code>Noise protocol</code>就是更关注后者的实现, 如下:</p>
+<p><img src="/images/secure_channel_noise.png" alt="secure_channel_of_noise"></p>
+<p>如此一来，一个包含<code>Noise Protocol</code>的应用，其安全信道的组织方式大概如下:</p>
+<p><img src="/images/noise_framework_overview.png" alt="noise_framework_overview"></p>
+<p>这个也是<a href="https://www.wireguard.com/" target="_blank" rel="external">Wireguard</a>的组织方式，后续的文章会再详细介绍</p>
+<h3 id="2-2-规范"><a href="#2-2-规范" class="headerlink" title="2.2 规范"></a>2.2 规范</h3><p>有了上面的抽象之后，在具体实现上面, Noise 也做了相关的规范和约定；主要包括两个方面，其一是<code>模式</code>的约定，这里面主要说明了根据不同的业务场景(比如是否需要身份验证等)，如何进行握手协议; 其二是<code>密码算法</code>的约定，主要约定了交互时候具体选择的密码协议等</p>
+<h4 id="2-2-1-模式约定"><a href="#2-2-1-模式约定" class="headerlink" title="2.2.1 模式约定"></a>2.2.1 模式约定</h4><blockquote>
+<p>重点关注基础(fundamental),交互式(Interactive)的沟通模式</p>
+</blockquote>
+<p>在一个交互式的场景下，比如Alice和Bob，我们假设他们需要完成握手协议，以便后续的数据传输。一个问题是，Alice 和 Bob 有多少种握手沟通方式? 这里, 我们其用两个字母表示，分别表示发送者(Alice)和 Bob(响应者)对于对方<code>static key</code>的诉求情况 :</p>
+<p>对于Alice(请求初始化者)有如下四个情况 :</p>
+<table>
+<thead>
+<tr>
+<th>字母</th>
+<th>spec说明</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>N</strong></td>
+<td>No static key for initiator</td>
+<td>无需发送者的静态key(对发送者不进行身份验证)</td>
+</tr>
+<tr>
+<td><strong>K</strong></td>
+<td>Static key for initiator Known to responder</td>
+<td>已知(通过其他旁路方式)发送者的静态key, 可以进行身份验证</td>
+</tr>
+<tr>
+<td><strong>X</strong></td>
+<td>Static key for initiator Xmitted (“transmitted”) to responder</td>
+<td>通过握手传输交互发送者的静态key</td>
+</tr>
+<tr>
+<td><strong>I</strong></td>
+<td>Static key for initiator Immediately transmitted to responder, despite reduced or absent identity hiding</td>
+<td>通过握手传输，且离开发送静态 key, 这可能使其身份更容易暴露</td>
+</tr>
+</tbody>
+</table>
+<p>对于Bob(请求响应者)有如下三个情况:</p>
+<table>
+<thead>
+<tr>
+<th>字母</th>
+<th>spec说明</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>N</strong></td>
+<td>No static key for responder</td>
+<td>无需响应者的静态key</td>
+</tr>
+<tr>
+<td><strong>K</strong></td>
+<td>Static key for responder Known to initiator</td>
+<td>已知响应者的静态key</td>
+</tr>
+<tr>
+<td><strong>X</strong></td>
+<td>Static key for responder Xmitted (“transmitted”) to initiator</td>
+<td>通过握手传输交互静态key</td>
+</tr>
+</tbody>
+</table>
+<p>基于如上的自由组合，一共会有12种不同的模式; 再加上如下的规则 :</p>
+<blockquote>
+<p>The fundamental handshake patterns perform DH operations for authentication (“es” and “se”) as early as possible</p>
+</blockquote>
+<p>给定任意<code>XY</code>, 原则上面，我们都能推导其交互过程，比如<code>XX</code>，其具体如下:</p>
+<table>
+<thead>
+<tr>
+<th>A status</th>
+<th></th>
+<th>B status</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>s(x),e(x),rs(x),re(x)</td>
+<td></td>
+<td>s(x),e(x),rs(x),re(x)</td>
+<td>初始状态</td>
+</tr>
+<tr>
+<td>s(x),e(y),rs(x),re(x)</td>
+<td>–&gt; e</td>
+<td>s(x),e(x),rs(x),re(x)</td>
+<td>生成e, 发送</td>
+</tr>
+<tr>
+<td>s(x),e(y),rs(x),re(x)</td>
+<td></td>
+<td>s(y),e(y),rs(x),re(y)</td>
+<td>B 知道e,s,re，起可以发送的 DH 有ee, es</td>
+</tr>
+<tr>
+<td>s(x),e(y),rs(x),re(x)</td>
+<td>&lt;–e,ee,s,es</td>
+<td>s(y),e(y),rs(x),re(y)</td>
+</tr>
+<tr>
+<td>s(y),e(y),rs(y),re(y)</td>
+<td></td>
+<td>s(y),e(y),rs(x),re(y)</td>
+<td>发送 A.s, 其可以DH 有se,ss</td>
+</tr>
+<tr>
+<td>s(y),e(y),rs(y),re(y)</td>
+<td>–&gt; s,se</td>
+<td>s(y),e(y),rs(y),re(y) </td>
+</tr>
+</tbody>
+</table>
+<h4 id="2-2-2-基础算法约定"><a href="#2-2-2-基础算法约定" class="headerlink" title="2.2.2 基础算法约定"></a>2.2.2 基础算法约定</h4><p>我们知道，密码学虽然定义了其有限的基本的『能力原语』，但是实现上面却各不相同，纷繁杂乱；一个 hash 方法，就有大几十种选择，不同的实现可能存在着或多或少的安全风险。为此，Noise框架直接规范了其依赖的函数的具体算法，对于这些规范内的函数，其安全性和可控性是经过严格审计的，具体如下:</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>可选项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>密钥交互</td>
+<td>DH25519</td>
+<td>DHLEN = 32</td>
+</tr>
+<tr>
+<td>密钥交互</td>
+<td>DH448</td>
+<td>DHLEN = 56</td>
+</tr>
+<tr>
+<td>加密函数</td>
+<td>ChaChaPoly</td>
+<td>16 byte authentication data</td>
+</tr>
+<tr>
+<td>加密函数</td>
+<td>AESGCM</td>
+<td>16 byte authentication data</td>
+</tr>
+<tr>
+<td>哈希函数</td>
+<td>SHA256</td>
+<td>HASHLEN = 32, BLOCKLEN = 64 </td>
+</tr>
+<tr>
+<td>哈希函数</td>
+<td>SHA512</td>
+<td>HASHLEN = 64, BLOCKLEN = 128</td>
+</tr>
+<tr>
+<td>哈希函数</td>
+<td>BLAKE2s</td>
+<td>HASHLEN = 32, BLOCKLEN = 64</td>
+</tr>
+<tr>
+<td>哈希函数</td>
+<td>BLAKE2b</td>
+<td>HASHLEN = 64, BLOCKLEN = 128</td>
+</tr>
+</tbody>
+</table>
+<p>如上，我们就可以约定<code>Noise Protocol Name</code>, 也可以通过其名字可以知道其协议过程，比如从<code>Noise_NX_25519_AESGCM_SHA256</code>, 可以得到:</p>
+<ul>
+<li>NX = Pattern name</li>
+<li>25519 = DH name</li>
+<li>AESGCM = Cipher name</li>
+<li>SHA256 = Hash name</li>
+</ul>
+<p>同时根据具体选择的算法，我们还可以估算一个Noise Protocol 交互时候其数据包的大小, 比如<code>Noise_XX_25519_ChaChaPoly_SHA256</code>模式，其不同的数据包大小如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">XX:</div><div class="line">  -&gt; e                  <span class="comment">## 1</span></div><div class="line">  &lt;- e, ee, s, es       <span class="comment">## 2</span></div><div class="line">  -&gt; s, se              <span class="comment">## 3</span></div><div class="line"></div><div class="line"><span class="comment"># 说明:</span></div><div class="line"><span class="comment">## 1. DH_25519的公钥为32字节,明文, 总长度为32</span></div><div class="line"><span class="comment">## 2. e为32字节, s为48字节(AEAD模式会增加16字节)，payload(为空)加密后再增加16字节, 一共96字节</span></div><div class="line"><span class="comment">## 3. s加密后为48字节，加上payload为空的加密串,一共64字节</span></div></pre></td></tr></table></figure>
+<h2 id="0x03-Noise-Protocol-实践分析"><a href="#0x03-Noise-Protocol-实践分析" class="headerlink" title="0x03 Noise Protocol 实践分析"></a>0x03 Noise Protocol 实践分析</h2><p>为了助于我们对noise protocol加密协议有进一步的理解,对于给定的一个<code>Noise Protocol Name</code>, 我们要分析其包体格式, 比如上面的<code>Noise_XX_25519_ChaChaPoly_SHA256</code>, 其交互流程如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">XX:</div><div class="line">  -&gt; e</div><div class="line">  &lt;- e, ee, s, es</div><div class="line">  -&gt; s, se</div></pre></td></tr></table></figure>
+<p>那么在每个阶段，其具体发送的内容是什么呢？</p>
+<p>其实在实现的时候, 发送方都维护了一个类似于状态机的内容，而<code>e</code>,<code>s</code>,<code>ee</code>之类的，则类似于<code>action</code>, 用于更新相关状态的内容；所以包的格式其实可以理解为就是对于<code>action</code>的一系列响应的结果；下面具体说明下:</p>
+<h4 id="首先是基础函数方面-有如下几个能力"><a href="#首先是基础函数方面-有如下几个能力" class="headerlink" title="首先是基础函数方面, 有如下几个能力 :"></a>首先是基础函数方面, 有如下几个能力 :</h4><ul>
+<li>$DH(ee|es|se|ss)$ : 用于计算一个共享密钥, 例子用到的是<code>DH25519</code></li>
+<li>$hash(data)$ : 用于计算一个哈希值, 我们这边用的是<code>SHA256</code></li>
+<li>$encrypt(k,h,data)$ : AEAD 模式的加密函数</li>
+<li>$HKDF(ck,data)$ : KDF 函数，用于生成新的key chain</li>
+</ul>
+<h4 id="其次是状态机方面，对于-Alice-Bob，其本地都维护了如下的信息"><a href="#其次是状态机方面，对于-Alice-Bob，其本地都维护了如下的信息" class="headerlink" title="其次是状态机方面，对于 Alice/Bob，其本地都维护了如下的信息:"></a>其次是状态机方面，对于 Alice/Bob，其本地都维护了如下的信息:</h4><table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>s,e</td>
+<td>本地的临时/静态 DH组合对</td>
+</tr>
+<tr>
+<td>rs,re</td>
+<td>对方的临时/静态的 DH 组合对</td>
+</tr>
+<tr>
+<td>h</td>
+<td>当前的 hash 值，初始为空</td>
+</tr>
+<tr>
+<td>ck</td>
+<td>chain key, 初始为空，用于通过 KDF 生成新key</td>
+</tr>
+<tr>
+<td>k, n</td>
+<td>加密k, 加密时候会通过(k,n,hash) 和 AEAD 模式进行对称加密</td>
+</tr>
+<tr>
+<td>msg</td>
+<td>当前要发送的消息内容</td>
+</tr>
+<tr>
+<td>payload</td>
+<td>当前要携带的额外数据</td>
+</tr>
+</tbody>
+</table>
+<h4 id="最后是-action-方面-对于不同的-action，其定义如下"><a href="#最后是-action-方面-对于不同的-action，其定义如下" class="headerlink" title="最后是 action 方面, 对于不同的 action，其定义如下:"></a>最后是 action 方面, 对于不同的 action，其定义如下:</h4><ul>
+<li><p>action e :</p>
+<ul>
+<li>$msg += e$</li>
+<li>$h = hash(h||e)$</li>
+</ul>
+</li>
+<li><p>action s :</p>
+<ul>
+<li>$s = k.empty() ? s : encrypt(s,k,h)$</li>
+<li>$msg+=s$</li>
+<li>$h = hash(h||s)$</li>
+</ul>
+</li>
+<li><p>action ee/es/ss/se :</p>
+<ul>
+<li>$v = DH(ee|es|se|ss)$</li>
+<li>$ck,k = HKDF(ck,v)$</li>
+<li>$n = 0$</li>
+</ul>
+</li>
+<li><p>action token end(全部处理完 token) :</p>
+<ul>
+<li>$payload = encrypt(payload,k,h) (if k!=0 )$</li>
+</ul>
+</li>
+</ul>
+<p>最后发送<code>msg+payload</code></p>
+<p>有了如上的说明，我们再详细看看<code>Noise_XX_25519_ChaChaPoly_SHA256</code>的交互情况 :</p>
+<ol>
+<li><code>--&gt;e</code> : 按照上面的分析, 会发送明文的<code>e</code>, 同时由于其不生成k, 因为也不会额外计算payload, 其发送包体只有<code>32字节</code></li>
+</ol>
+<ol>
+<li><code>&lt;--e,ee,s,es</code> : 其有4个 token，拆分分析, 如下表格:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>action</th>
+<th>msg</th>
+<th>h</th>
+<th>k</th>
+<th>ck</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>e</td>
+<td>e</td>
+<td>h1=hash(e)</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ee</td>
+<td>e</td>
+<td>h1</td>
+<td>k1</td>
+<td>ck1,k1 = HKDF(ck,ee)</td>
+</tr>
+<tr>
+<td>s</td>
+<td>e,enc(s)</td>
+<td>h2=hash(h1+enc(s))</td>
+<td>k1</td>
+<td>ck1</td>
+</tr>
+<tr>
+<td>es</td>
+<td>e,enc(s)</td>
+<td>h2</td>
+<td>k2</td>
+<td>ck2,k2=HKDF(ck1,es)</td>
+</tr>
+<tr>
+<td>end</td>
+<td>e,enc(s),enc(null)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>最后一个命令同理，不再赘述；</p>
+<p>基于上面的分析，详细大家可以直接计算<code>msg</code>的包体大小，也就是上一节里面展示的; </p>
+<p>如下是<code>Wireshark</code>抓包的示意图:</p>
+<p><img src="/images/noise_wireshark_demo.png" alt="noise_wireshark_demo"></p>
+<p>具体实现代码方面，可以参考<a href="https://github.com/plizonczyk/noiseprotocol" target="_blank" rel="external">noiseprotocol:Noise Protocol Framework - Python 3 implementation
+</a></p>
+<p>可以参看其<code>README</code>里面关于server/client的编写，实现一个快速简单的原型;</p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ul>
+<li><p>[1] <a href="https://fahrplan.events.ccc.de/congress/2017/Fahrplan/events/9222.html" target="_blank" rel="external">Lecture: The Noise Protocol Framework</a> @ Schedule 34th Chaos Communication Congress</p>
+</li>
+<li><p>[2] <a href="http://noiseprotocol.org/noise.html" target="_blank" rel="external">The Noise Protocol Framework</a> : White Paper</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;最近在研究 VPN 相关的技术，会做个简单的总结，稍微系统地去介绍安全协议及其系统&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;0x00-何为Noise-Protocol&quot;&gt;&lt;a href=&quot;#0x00-何为Noise-Protocol&quot; 
+    
+    </summary>
+    
+    
+      <category term="cryptography, noise, vpn" scheme="http://shevacjs.com/tags/cryptography-noise-vpn/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20180805</title>
@@ -1359,63 +1752,6 @@
     
       &lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://www.nginx.com/blog/nginx-1-13-10-grp
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20180311</title>
-    <link href="http://shevacjs.com/2018/03/23/20180311/"/>
-    <id>http://shevacjs.com/2018/03/23/20180311/</id>
-    <published>2018-03-23T03:03:45.000Z</published>
-    <updated>2018-03-23T03:03:09.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
-<li><p><a href="http://cs.boisestate.edu/~alark/cs354/lectures/ieee754.pdf" target="_blank" rel="external">IEEE 754 Floating Point Representation</a> : 本文非常精炼的介绍了<a href="https://en.wikipedia.org/wiki/IEEE_754" target="_blank" rel="external">IEEE 754</a>浮点数的标准规范, 对于<code>IEEE 754</code>想有进一步了解，可以参考<a href="https://coolshell.cn/articles/11235.html" target="_blank" rel="external">一个浮点数跨平台产生的问题</a>, <a href="http://www.ruanyifeng.com/blog/2010/06/ieee_floating-point_representation.html" target="_blank" rel="external">浮点数的二进制表示</a>, 以及推荐的可视化工具<a href="https://www.h-schmidt.net/FloatConverter/IEEE754.html" target="_blank" rel="external">Floating Point Converter</a>, <a href="https://en.wikipedia.org/wiki/File:IEEE754.png" target="_blank" rel="external">File:IEEE754 精度图说明</a>, 新出的<a href="https://bellard.org/libbf/" target="_blank" rel="external">LibBF Library</a></p>
-</li>
-<li><p><a href="https://liudanking.com/network/tls1-3-quic-%E6%98%AF%E6%80%8E%E6%A0%B7%E5%81%9A%E5%88%B0-0-rtt-%E7%9A%84/" target="_blank" rel="external">TLS1.3/QUIC 是怎样做到 0-RTT 的</a> ： 对于常见的协议TLS1.2/TLS1.3/QUIC/HTTP 2等初始化数据交互的所需RTT，有详细的分析和介绍, 作者blog的文章和排版都很好看，也值得关注</p>
-</li>
-</ul>
-<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
-<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404214118084135438" target="_blank" rel="external">以太坊 Vitalik Buterin：“去中文化”的含义</a> : 三把衡量“去中心化”程度的尺子，三个独立的判断标准：架构层、政治层、逻辑层。其可以保证容错性、抗攻击性、抗勾结性。对”中心化”有深刻的理解和说明</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/LVmSFtU_UEDIRS8OLgM0DQ" target="_blank" rel="external">除了虚拟货币，区块链到底能用在哪些领域和场景下？</a> : 抛砖引玉，个觉得写的内容还是有点浅，对于区块链如何真正应用，和业务结合，形成业务场景说的不够清楚, 可以参考<a href="http://tech.sina.com.cn/i/2018-01-30/doc-ifyqyuhy7705954.shtml" target="_blank" rel="external">高盛区块链79页完整报告：从理论到实践</a></p>
-</li>
-<li><p><a href="https://www.qubole.com/blog/advantage-decoupling/" target="_blank" rel="external">The Cloud Advantage: Decoupling Storage and Compute</a> : 传统的基于Hadoop模型，将系统的能力核心拆分为计算和存储，但是现在的计算机架构将这两个耦合在一起, 文章认为在系统设计和架构方面，都需要进一步将「计算」和『存储』能力解耦，这样能提供更大的灵活性和系统性能</p>
-</li>
-<li><p><a href="https://code.facebook.com/posts/286893341840510/under-the-hood-suicide-prevention-tools-powered-by-ai/" target="_blank" rel="external">Under the hood: Suicide prevention tools powered by AI</a> : Facebook的又一个AI场景应用，通过对博文内容以及相关场景的识别，判读一个人是否有自杀倾向，并给予帮助。虽然是一个很小的点，但是特别有人文关怀信息, mark</p>
-</li>
-</ul>
-<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
-<li><p><a href="https://news.ycombinator.com/item?id=16535358" target="_blank" rel="external">Convert screenshots of equations to LaTeX</a> : 将数学公司转换成<code>LaTex</code>公式；属于个人觉得非常有用的一个功能，希望某天有空自己去实现一个简单版本的;</p>
-</li>
-<li><p><a href="http://netsmell.com/post/how-elon-musk-learns-faster-and-better-than-everyone-else.html" target="_blank" rel="external">马斯克：如何做到常人阅读量的60倍？</a> : </p>
-</li>
-</ul>
-<ul>
-<li><p><a href="https://mp.weixin.qq.com/s/2Rk7bhRb8cPhGHbYzdtt3w" target="_blank" rel="external">读懂这台Google量子计算机，你才明白它的意义远超“量子霸权”</a> : 本文对量子计算机有深入浅出的介绍，一个关键点说明就是”学界普遍认为当量子计算机的量子比特超过 50，量子优势就实现”</p>
-</li>
-<li><p><a href="https://weibo.com/1560906700/G6JupkTq7?type=comment" target="_blank" rel="external">论P2P的这几年发展</a> : 关于P2P网络这几年的发展，中心化的趋势而是越来越明显, </p>
-</li>
-<li><p><a href="https://github.com/alevchuk/vim-clutch" target="_blank" rel="external">vim-clutch: A hardware pedal for improved text editing in Vim</a> : VIM离合器类似于汽车的脚踏板, 一旦踩下，会出发vim进入插入模式, 继续踩下则是退出编辑, 感觉这样编码起来非常像一个缝纫机</p>
-</li>
-<li><p><a href="https://snips-nlu.readthedocs.io" target="_blank" rel="external">Snips: Python library to extract meaning from text</a> : Snips NLU (Natural Language Understanding) is a Python library that allows to parse sentences written in natural language and extracts structured information. </p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/Hjl8pRlVKkahxsWwhUXAmA" target="_blank" rel="external">开源社区，终于找到了公平的商业模式</a> : 文章的一些前后逻辑并不完全赞同, 但是几个最后关于区块链的应用说的很清楚, 可以关注，包括<code>IPFS</code>的<code>FileCoin</code>, <code>Steemit</code>, <code>Aptoide</code></p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247489065&amp;idx=1&amp;sn=cd6f7f0abd7c52faf33ddabf3429480e" target="_blank" rel="external">JeffDean又用深度学习搞事情：这次要颠覆整个计算机系统结构设计</a> : 通过引入ML的技术来提升内存分支预测的准确率，进一步提升整体计算机的性能，个人可能认识有点肤浅，但是整体觉得方案有点重</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://cs.boisestate.edu/~alark/cs354/lectur
     
     </summary>
     

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="all about IT tech, football">
+<meta property="og:type" content="website">
+<meta property="og:title" content="shevacjs home">
+<meta property="og:url" content="http://shevacjs.com/page/16/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="all about IT tech, football">
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="shevacjs home">
+<meta name="twitter:description" content="all about IT tech, football">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer">
+      <article id="post-lock" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/06/lock/">锁机制概述</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/12/06/lock/" class="article-date">
+  <time datetime="2014-12-06T08:26:33.000Z" itemprop="datePublished">2014-12-06</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="锁机制概述"><a href="#锁机制概述" class="headerlink" title="锁机制概述"></a>锁机制概述</h1><blockquote>
+<p>现代体系结构上的UNIX系统 读书笔记&amp;思考</p>
+</blockquote>
+<h2 id="互斥问题-amp-锁"><a href="#互斥问题-amp-锁" class="headerlink" title="互斥问题 &amp; 锁"></a>互斥问题 &amp; 锁</h2><p>在linux内核上面，或多或少都存在所谓的临界区，用户保护不允许被多个进程同时访问的资源。因此，操作系统或者硬件体系本身需要提供一种机制，来保证这些资源是互斥的使用。</p>
+<p>这里介绍的锁，以及其衍生的一些概念（比如信号量）等，来说明一个操作系统在实现时面临的同步问题，面对这些问题可以采取的方案，思路等。最后介绍作为一个现在的操作系统linux，其提供的内核同步支持以及用户态支持。</p>
+<h2 id="UP-系统面临的同步问题"><a href="#UP-系统面临的同步问题" class="headerlink" title="UP 系统面临的同步问题"></a>UP 系统面临的同步问题</h2><p>我们先考虑一个简单的系统，比如在之前，整个系统都只有一个CPU，这个时候他们会有临界区的问题吗？</p>
+<p>答案是肯定，虽然我们可以一再简化系统的功能（比如不支持内核抢占），但是至少在如下两个运行环境下的代码，是需要考虑同步问题的：</p>
+<ul>
+<li><p>和中断程序共享资源的代码：由于系统总是要开中断的（想象我们关闭时钟中断可能带来的问题），此时这些代码段，面临着和中断并发访问带来的问题</p>
+</li>
+<li><p>处在进程上下文切换环境下的代码段：考虑一些代码段，由于底层资源轻轻未得到满足（比如网络IO）等，此时，我们一般会主动放弃CPU，让系统调度其他的进程进行处理。但我们需要保证，我们代码段所保护的资源，不能被新调度进来的其他进程破坏</p>
+</li>
+</ul>
+<p>抽象的，其实就两大类问题，因为任意的一个UP kernel，如果不支持内核抢占的话，他的运行环境能发生并发的环境就两个情况，一个是中断，一个是进程的切换。</p>
+<p>在一个UP的系统，如上问题，可以用如下的方案解决：</p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>抽象问题</th>
+<th>问题</th>
+<th>解决方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>短期互斥</td>
+<td></td>
+<td>一个内核代码可能会被并发执行</td>
+<td>非抢占内核</td>
+</tr>
+<tr>
+<td>长期互斥</td>
+<td>进程上下文的资源保护</td>
+<td>进程切换时如何保证资源</td>
+<td>对每个资源有个flag标记，只有占有flag标记的进程才能访问资源</td>
+</tr>
+<tr>
+<td>中断互斥</td>
+<td>中断上下文的资源保护</td>
+<td>如何</td>
+<td>关闭中断</td>
+</tr>
+</tbody>
+</table>
+<p>再简单看下长期互斥和中断互斥实现的伪代码</p>
+<ul>
+<li>带有中断处理器的互斥</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line"><span class="meta"># splhi 可以认为是关闭中断，splx是恢复中断</span></div><div class="line">s = splhi();</div><div class="line">counter ++;</div><div class="line">splx(s);</div></pre></td></tr></table></figure>
+<ul>
+<li>长期互斥的伪代码实现</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">lock_object</span><span class="params">(<span class="keyword">char</span>* flag)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">while</span>(*flag)</div><div class="line">    	sleep(flag);</div><div class="line">    *flag = <span class="number">1</span></div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">void</span> unlock_object(<span class="keyword">char</span>* flag)</div><div class="line">&#123;</div><div class="line">	*flag = <span class="number">0</span>;</div><div class="line">    wakeup(flag);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="UP到MP面临的问题"><a href="#UP到MP面临的问题" class="headerlink" title="UP到MP面临的问题"></a>UP到MP面临的问题</h2><p>单一个UP的kernel迁移到MP的时候，上面的同步机制可以认为是全部失效。大致简单说明如下:</p>
+<ul>
+<li>短期互斥: 在UP的情况下，只要不支持抢占，一个资源就无法被并发访问，但是MP情况下，一个资源随时有可能被多个processor直接访问，因为是否抢占都不能解决改问题</li>
+<li>带有中断的互斥：在UP情况下，只要屏蔽当前cpu的中断，就可以保证临界区的资源被保护，同样，由于多个cpu的存在，仅仅屏蔽当前CPU的中断，也无法保护临界区的资源</li>
+<li>长期互斥： review长期互斥的实现代码，同样会发现在MP环境下的问题，比如由于while和flag=1现在不是原子的，导致有可能都进入临界区</li>
+</ul>
+<p>综上，如果一个kernel要迁移MP，需要采用新的策略来解决一系列的同步问题。</p>
+<h2 id="自旋锁的引入"><a href="#自旋锁的引入" class="headerlink" title="自旋锁的引入"></a>自旋锁的引入</h2><p>我们下面主要考虑SMP kernel的实现方案。因为，事实上，在UP迁移到MP的过程中，我们可以采用很多折衷的策略，一个最简单的迁移机制就是所谓的<code>主从架构</code>，就是kernel就跑着一个cpu上面，这样kernel就类似一个UP了，所需要解决的问题就是如果和其他的cpu管理运行队列等，这个就不详细说明。</p>
+<p>在MP系统下面，需要硬件体系提供一些基本的同步支持，比如xchg等，我们将这个引申为<code>自旋锁</code>，可以认为是整个系统最核心，最基本的同步原语，不同硬件环境下面的自旋锁可以有不同的实现。</p>
+<p>但是自旋锁的使用，必须十分小心，因为他一直耗着cpu，一旦出现死锁，系统就将不可用，具体如下：</p>
+<ul>
+<li>正常情况下，一个进程第二次尝试获取一个锁：如果不考虑递归上锁的支持的话，这个情况也会导致系统死锁；</li>
+<li>中断情况下：如果该处理器的基准代码已经拥有了锁，而同时改处理器的中断的处理也要获取这个锁，由于改cpu已经没机会释放锁了，这也会导致死锁。一个处理的方案是，在基准代码之前屏蔽相关的中断，防止一个cpu拥有自旋锁的同时，又产生中断。</li>
+<li>进程切换时，如果要睡眠，也可能出发死锁：且不论其他cpu在等待睡眠进程拥有的锁带来的性能损耗（要等很久），极端情况下也会发生死锁，因为有可能所有的cpu被调度后都在等待这个自旋锁，此时，没人任何的空闲的cpu能够把睡眠的进程拉起来，让他去释放锁，整个系统也就死锁了。因此，我们是<code>不允许一个进程跨越一个上下文切换还能占有一个自旋锁</code></li>
+</ul>
+<p>关于进程切换（睡眠）带来的锁的问题，一个方案是将某个进程占有的以及活的他们的顺序记录在改进程的U区（进程user data区域）。于是，上下文切换代码的能够释放正在被挂起的进程的锁。当进程在休眠之后重新执行的时候，它必须活的它之前占有的所有锁。这也可以由上下文切换代码执行。</p>
+<blockquote>
+<p>感觉这边需要证明一个东西，就是一个序列，比如 L a,b,c UL 和 L a UL,L b,c UL 是等价的，否则为什么可以按照上面那样做？？</p>
+</blockquote>
+<h2 id="MP的方案"><a href="#MP的方案" class="headerlink" title="MP的方案"></a>MP的方案</h2><p>有了自旋锁，我们再看看如何解决上面几个问题：</p>
+<ul>
+<li><p>短期互斥<br>  有了自旋锁，短期互斥，非常方便处理，只要对要保护的代码（资源）加上一个自旋锁保护即可。</p>
+</li>
+<li><p>带有中断的互斥<br>  如上，会面临资源被其他cpu抢占的情况（同时也要避免死锁的情况），因为需要调整此时锁的实现，具体如下：</p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"># 基准代码</div><div class="line"></div><div class="line">s = splhi();</div><div class="line">lock(&amp;drive_lock);</div><div class="line">counter ++;</div><div class="line">unlock(&amp;drive_lock);</div><div class="line">splx(s);</div><div class="line"></div><div class="line"># 中断处理代码:</div><div class="line"></div><div class="line">lock(&amp;drive_lock);</div><div class="line">counter ++;</div><div class="line">unlock(&amp;drive_lock);</div></pre></td></tr></table></figure>
+<pre><code>可以分析，通过关闭中断，可以保证基准代码和中断的代码不会在一个cpu上面（避免死锁）；而如果中断代码和基准代码在不同的cpu上面的话，通过自旋锁来保护资源。
+</code></pre><ul>
+<li>长期互斥</li>
+</ul>
+<p>如上，在一个MP系统的长期互斥的问题，主要是while和flag＝1的操作并不是原子的。有了自旋锁，这个问题就能解决了，具体如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">lock_object</span><span class="params">(<span class="keyword">char</span>* flag_ptr)</span></span></div><div class="line">&#123;</div><div class="line">    lock(&amp; object_locking);</div><div class="line"></div><div class="line">    <span class="keyword">while</span>(*flag_ptr)</div><div class="line">        sleep(flag_ptr);</div><div class="line"></div><div class="line">    *flag_ptr = <span class="number">1</span>;</div><div class="line">    </div><div class="line">    unlokc(&amp; object_locking); </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">unlock_object</span><span class="params">(<span class="keyword">char</span>* flag_ptr)</span></span></div><div class="line">&#123;</div><div class="line">    lock(&amp; object_locking);</div><div class="line"></div><div class="line">    *flag_ptr = <span class="number">1</span>;</div><div class="line"></div><div class="line">    wakeup(flag_ptr);</div><div class="line"></div><div class="line">    unlock(&amp; object_locking);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意一点，在lock_object的时候，当进程获取自旋锁后，发现flag_ptr为1，需要sleep等待资源的释放；也就意味着我们这里是会发生<code>一个占有自旋锁的进程，需要休眠</code>，这个情况，如上，会让进程切换的上下文进程处理的（包括锁的释放&amp;获取）</p>
+<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><p>考虑到上面的<code>长期互斥</code>的支持，可以发现的两个比较大的问题：</p>
+<ol>
+<li>sleep/wakeup 的时候会唤醒多个等待进程，可能存在<code>惊群效应</code></li>
+<li>为了允许拥有自旋锁的进程能够睡醒，在进程进行上下文切换的时候，需要保存一些锁的信息以便恢复</li>
+</ol>
+<p>因此，这里我们引入了一个新的同步原语，信号量，信号量本身是非常强大的，下面简单介绍下。</p>
+<ul>
+<li>定义</li>
+</ul>
+<blockquote>
+<p>copy from wiki</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">计数信号量具备两种操作动作，之前称为 V（又称signal()）与 P（wait()）。 V操作会增加信号量 S的数值，P操作会减少它。</div><div class="line"></div><div class="line">运作方式：</div><div class="line"></div><div class="line">初始化，给与它一个非负数的整数值。</div><div class="line">运行 P（wait()），信号量S的值将被减少。企图进入临界区段的进程，需要先运行 P（wait()）。当信号量S减为负值时，进程会被挡住，不能继续；当信号量S不为负值时，进程可以获准进入临界区段。</div><div class="line">运行 V（又称signal()），信号量S的值会被增加。退出离开临界区段的进程，将会运行 V（又称signal()）。当信号量S不为负值时，先前被挡住的其他进程，将可获准进入临界区段。</div></pre></td></tr></table></figure>
+<ul>
+<li>作用</li>
+</ul>
+<p>由于count可以自己定义，因此我们对信号量的使用也是可以丰富的，比如:</p>
+<pre><code>* 互斥：当count为1的时候，就是一个mutex
+* 同步：可以用来对一个事件的同步
+* 资源分配: ---
+</code></pre><ul>
+<li>实现</li>
+</ul>
+<p>这里简单列下对信号量的实现，可以简单的考虑如下：</p>
+<ul>
+<li>信号量需要维护一个队列，用户唤醒/记住等待的队列</li>
+<li>由于在MP系统下面，因此需要自旋锁</li>
+<li>尽量解决sleep/wakeup对系统带来的额外负担</li>
+</ul>
+<p>简单demo如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">semaphore</span> &#123;</span></div><div class="line">    <span class="keyword">lock_t</span> lock;</div><div class="line">    <span class="keyword">int</span> count;</div><div class="line">    <span class="keyword">proc_t</span>* head;</div><div class="line">    <span class="keyword">proc_t</span>* tail;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">semaphore</span> <span class="title">sema_t</span>;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">init_sema</span><span class="params">(<span class="keyword">sema_t</span>* sp, <span class="keyword">int</span> cnt)</span></span></div><div class="line">&#123;</div><div class="line">    initlock(&amp;sp-&gt;lock);</div><div class="line">    sp-&gt;head = sp-&gt;tail = <span class="literal">NULL</span>;</div><div class="line">    sp-&gt;count = cnt;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">p</span><span class="params">(<span class="keyword">sema_t</span>* sp)</span></span></div><div class="line">&#123;</div><div class="line">    lock(&amp;sp-&gt;lock);</div><div class="line">    sp-&gt;count --;</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(sp-&gt;count &lt; <span class="number">0</span>) &#123;</div><div class="line">        </div><div class="line">        <span class="keyword">if</span>(sp-&gt;head == <span class="literal">NULL</span>)</div><div class="line">            sp-&gt;head = u.u_procp;</div><div class="line">        <span class="keyword">else</span></div><div class="line">            sp-&gt;tail-&gt;p_next = u.u_procp;</div><div class="line">        </div><div class="line">        u.u_procp-&gt;p_next = <span class="literal">NULL</span>;</div><div class="line">        sp-&gt;tail = u.u_procp;</div><div class="line"></div><div class="line">        unlock(&amp; sp-&gt;lock);</div><div class="line"></div><div class="line">        swtch();</div><div class="line"></div><div class="line">        <span class="keyword">return</span>;</div><div class="line">        </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    unlock(&amp; sp-&gt;lock);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到，为了避免一个休眠的进程拥有spin lock，我们在<code>swtch()*</code>要先unlock，然后进行swtch();<br>swtch()本身会进行一个上下文切换；当进程被唤醒的时候，他会从上一次中断的地方继续执行。</p>
+<p>可以注意的事，虽然信号量使用了自旋锁，但他用自旋锁保护的仅仅是队列，而不是大的资源。而整个保护的临界区是非常小的，可以任务不用担心进程睡眠等复杂的问题。</p>
+<p>v的实现也类似，但有一些注意条件，这里不详述。</p>
+<p>最后，我们在考虑用信号量来满足<code>长期互斥</code>的需求。其实很简单，只要让相关要保护的资源和一个信号量挂钩起来就可以了。而且此时，不需要主动sleep和wakeup，因为信号量本身默认支持此类操作。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的分析，一个MP的kernel的同步机制，最重要的两个原语，一个是自旋锁，一个是信号量；<br>自旋锁是一切的基础，可以提供解决短期的互斥。而信号量的实现是基于自旋锁，但他和系统合成之后，支持进程挂起等更强大的支持。</p>
+<p>上面说明的只是操作系统层面的最基本的锁机制。事实上，我们在考究真正锁实现或者锁应用的时候，会发现他们远比想象中的负责，个人认为，主要有两个原因：</p>
+<ul>
+<li>其一，锁和死锁的问题总是如影随形，而整个kernel的运行环境又是比较复杂的，抢占，中断，上下文切换等，对锁的使用都是要小心翼翼，比如spin lock就有N个内核的版本等，要真正理解必须对整个linux的运行机制有较深的认识；</li>
+<li>其二，在MP的系统，锁的性能直接影响着整个内核的性能，因此对锁的优化和研究可以任务是无所不用其极，比如引入了RCU，seq-LOCK等，单单一个spin lock，就有N个版本的实现和考虑。</li>
+</ul>
+<p>对于一个非内核的开发者，对锁的掌握，最好做到能够了解现有linux提供的锁支持，以及用户态情况下pthread库的实现。这个也是下面会具体再讨论的。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>书籍: 现代体系结构上的UNIX系统（修订版）</li>
+<li><a href="http://irl.cs.ucla.edu/~yingdi/web/paperreading/smp_locking.pdf`" target="_blank" rel="external">Locking in OS kernels for SMP Systems</a></li>
+<li>维基百科: <a href="http://zh.wikipedia.org/wiki/%E4%BF%A1%E8%99%9F%E6%A8%99" target="_blank" rel="external">信号量</a></li>
+<li><a href="http://locklessinc.com/articles/locks/" target="_blank" rel="external">Spinlocks and Read-Write Locks</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/linux/l-rcu/index.html" target="_blank" rel="external">Linux 2.6内核中新的锁机制</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/page/15/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span>
+      </nav>
+    </section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

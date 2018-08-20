@@ -57,6 +57,108 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-svd" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/06/svd/">About SVD</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/05/06/svd/" class="article-date">
+  <time datetime="2017-05-05T16:25:11.000Z" itemprop="datePublished">2017-05-06</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>关于机器学习的任何文章仅限个人理解，会有颇多谬误之处</p>
+</blockquote>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>奇异值分解是一种非常重要的矩阵分解,  设A为m*n阶矩阵，r = rank A, 则具体形式如下:</p>
+<p>$$ A = U\sum V^T$$</p>
+<p>其中 :</p>
+<ul>
+<li>U : 是m*m阶单位正交矩阵，是有$AA^T$的特征向量构成的列向量组成的</li>
+<li>$\sum $ : 是m*n对角矩阵，这些是 $AA^T$及 $A^TA$的特征值的非零平方根，并与U和V的行向量相对应</li>
+<li>$V^T$ :  n*n阶单位正交矩阵，是由$A^TA$的特征向量构成的列向量组成的</li>
+</ul>
+<p>可以理解，我们对于任意一个矩阵，希望转换为一个我们更容易处理的方式，<code>SVD</code>有比较相对标准化的办法</p>
+<blockquote>
+<p>其他， 关于矩阵的相似和对角化</p>
+</blockquote>
+<p>对于任意一个方阵 M ，设 $M=PBP^{-1}$</p>
+<blockquote>
+<p>todo 关于矩阵相似的说明</p>
+</blockquote>
+<p>我们知道任意一个对称矩阵，即$A^T=A$，则A可以正交对角化，也就是: </p>
+<p>$$ A = P^{-1} D P$$</p>
+<p>其中 :</p>
+<ul>
+<li>D是对角矩阵，对应着A的特征值</li>
+<li>P的列向量对应这 A的特征向量</li>
+</ul>
+<p>证明 :</p>
+<h2 id="几何意义"><a href="#几何意义" class="headerlink" title="几何意义"></a>几何意义</h2><blockquote>
+<p>不同的说明</p>
+</blockquote>
+<p>从参考链接 $[1]$, 可以说明:  </p>
+<p>它的核心價值在於為矩陣 (線性變換) A 找出兩組理想的基底：在 A 的定義域的正交基底為 $\beta ={\mathbf{v}1,\ldots,\mathbf{v}_n}$，在 A 的到達域 (codomain) 的正交基底為 $\boldsymbol{\gamma}={\mathbf{u}_1,\ldots,\mathbf{u}_m}$，並滿足 $A\mathbf{v}_{i}=\sigma_{i}\mathbf{u}_{i}，1\le i\le r$。這個式子的重大意義是矩陣 A 將列空間基底 ${\mathbf{v}_1,\ldots,\mathbf{v}_r} $映至行空間基底 ${\mathbf{u}_1,\ldots,\mathbf{u}_r}$，同時指出向量長度的改變量，即非零奇異值 $\sigma_1,\ldots,\sigma_r (見上圖)。因此，若以 \boldsymbol{\beta}$ 和 $\boldsymbol{\gamma}$ 當作線性變換 A 的參考基底，便得出對角形式的矩陣表示，即奇異值矩陣 $\Sigma$</p>
+<p>```</p>
+<p>或者 :</p>
+<p>我們可以將 SVD 想成把變換矩陣 A 分解為旋轉 $V^T$，伸縮 $\Sigma$，再旋轉 U 三個步驟 </p>
+<p>或者 :</p>
+<p>SVD分解的几何意义就可以做如下的归纳：对于每一个线性映射 ${\displaystyle {\mathcal {T}}:K^{n}\rightarrow K^{m}} \mathcal T:K^n\rightarrow K^m， {\displaystyle {\mathcal {T}}} \mathcal T$的奇异值分解在原空间与像空间中分别找到一组标准正交基，使得 ${\displaystyle {\mathcal {T}}} \mathcal T把 {\displaystyle K^{n}} K^n$的第$ {\displaystyle i} i$个基向量映射为 ${\displaystyle K^{m}} K^m的第 {\displaystyle i} i$个基向量的非负倍数，并将 ${\displaystyle K^{n}} K^n$中余下的基向量映射为零向量。换句话说，线性变换 ${\displaystyle {\mathcal {T}}} \mathcal T$在这两组选定的基上的矩阵表示为所有对角元均为非负数的对角矩阵。</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><blockquote>
+<p>most from wiki</p>
+</blockquote>
+<ul>
+<li>SVD 可以用于矩阵数量压缩 ： 用<code>r</code></li>
+<li>奇异值分解可以被用来计算矩阵的伪逆求; 伪逆通常可以用来求解最小二乘法问题</li>
+<li>奇异值分解在统计中的主要应用为主成分分析（PCA）。数据集的特征值（在SVD中用奇异值表征）按照重要性排列，降维的过程就是舍弃不重要的特征向量的过程，而剩下的特征向量张成空间为降维后的空间</li>
+</ul>
+<h2 id="与PCA关系"><a href="#与PCA关系" class="headerlink" title="与PCA关系"></a>与PCA关系</h2><p>对任意一个矩阵A(m*n)考虑到<code>pca</code>的目标为: </p>
+<p>设 B 为A的协方差矩阵，则</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>[1] <a href="https://ccjou.wordpress.com/2009/09/01/%E5%A5%87%E7%95%B0%E5%80%BC%E5%88%86%E8%A7%A3-svd/" target="_blank" rel="external">奇異值分解 (SVD)</a></li>
+</ul>
+<ul>
+<li>[2] <a href="https://zh.wikipedia.org/wiki/%E5%A5%87%E5%BC%82%E5%80%BC%E5%88%86%E8%A7%A3" target="_blank" rel="external">奇异值分解</a></li>
+</ul>
+<ul>
+<li>[3] <a href="https://ccjou.wordpress.com/2009/05/27/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8%E5%9F%BA%E6%9C%AC%E5%AE%9A%E7%90%86-%E5%9B%9B/" target="_blank" rel="external">線性代數基本定理 (四)</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-classification_and_logistic_regression" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -699,71 +801,8 @@
 
 
     
-      <article id="post-20170312" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/12/20170312/">weekly of 20170312</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/03/12/20170312/" class="article-date">
-  <time datetime="2017-03-11T16:29:56.000Z" itemprop="datePublished">2017-03-12</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="新鲜事"><a href="#新鲜事" class="headerlink" title="新鲜事"></a>新鲜事</h2><h2 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h2><ul>
-<li><p><a href="https://tomassetti.me/antlr-mega-tutorial/" target="_blank" rel="external">The ANTLR mega tutorial</a> : “ANTLR is a parser generator, a tool that helps you to create parsers”</p>
-</li>
-<li><p><a href="https://medium.com/@homakov/request-for-a-new-header-state-of-the-art-9a1935bbad72#.fzzt4sc4b" target="_blank" rel="external">Request for a new header: State-Of-The-Art</a> :  文章提到，使用<code>State-Of-The-Art</code>这个http头部来默认表示开启类似于<code>X-Frame-Options: deny</code> 之类的安全头部, 不需要一个个手动添加; 贴吧需要尽快指定一个安全头部规范, 来保证相关的安全和隐私性</p>
-</li>
-</ul>
-<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><ul>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzA5Nzc4OTA1Mw==&amp;mid=2659599049&amp;idx=1&amp;sn=86052fdb38eff619ad0311a274708219&amp;chksm=8be997dbbc9e1ecd585e9345d6b535015383b1493539bef8a0a83634b9684e7cdf4e42cca726#rd" target="_blank" rel="external">从Zipkin到Jaeger，Uber的分布式追踪之道</a> : 先mark, 了解下他们的分布式追踪方案</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li><p><a href="http://www.freebuf.com/articles/rookie/127533.html" target="_blank" rel="external">浅谈拒绝服务攻击的原理与防御（4）：新型DDOS攻击 – Websocket和临时透镜</a> : 关于安全科普的文章, <code>临时透镜</code>的概念很新颖, 值得继续关注; 另外可以参考另外一篇关于SSRF的介绍<a href="http://www.freebuf.com/articles/network/128508.html" target="_blank" rel="external">谷歌SSRF漏洞解析</a></p>
-</li>
-<li><p><a href="https://martinfowler.com/articles/serverless.html" target="_blank" rel="external">Serverless Architectures</a> : serverless架构说明, 非常长, 先mark</p>
-</li>
-<li><p><a href="https://github.com/donnemartin/system-design-primer" target="_blank" rel="external">system-design-primer</a> : 资料非常齐全</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/7/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/9/">下一页 &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/7/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/9/">下一页 &raquo;</a>
       </nav>
     </section>
     <footer id="footer">
