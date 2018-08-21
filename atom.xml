@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2018-08-20T12:27:24.000Z</updated>
+  <updated>2018-08-21T12:30:17.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://shevacjs.com/2018/08/20/introduction_of_the_noise_protocol_framework/"/>
     <id>http://shevacjs.com/2018/08/20/introduction_of_the_noise_protocol_framework/</id>
     <published>2018-08-20T12:20:45.000Z</published>
-    <updated>2018-08-20T12:27:24.000Z</updated>
+    <updated>2018-08-21T12:30:17.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>最近在研究 VPN 相关的技术，会做个简单的总结，稍微系统地去介绍安全协议及其系统</p>
@@ -379,6 +379,8 @@
 </tr>
 </tbody>
 </table>
+<p>具体格式如下:</p>
+<p><img src="/images/noise_xx_demo.jpeg" alt="noise_xx_demo"></p>
 <p>最后一个命令同理，不再赘述；</p>
 <p>基于上面的分析，详细大家可以直接计算<code>msg</code>的包体大小，也就是上一节里面展示的; </p>
 <p>如下是<code>Wireshark</code>抓包的示意图:</p>
