@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>weekly of 20180826 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="工具技巧 Introduction to Asynchronous I/O - High Performance computing : 关于异步 IO 的介绍，这个是入门篇，后续希望有更深入的分析和介绍，先 mark  Randomness in .NET – lowleveldesign.org : 分析.NET环境下面伪随机数的安全性，其实只要知道内部状态，就可以快速知道后续的序列了, 另外">
+<meta name="keywords" content="weekly">
+<meta property="og:type" content="article">
+<meta property="og:title" content="weekly of 20180826">
+<meta property="og:url" content="http://shevacjs.com/2018/09/09/20180826/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="工具技巧 Introduction to Asynchronous I/O - High Performance computing : 关于异步 IO 的介绍，这个是入门篇，后续希望有更深入的分析和介绍，先 mark  Randomness in .NET – lowleveldesign.org : 分析.NET环境下面伪随机数的安全性，其实只要知道内部状态，就可以快速知道后续的序列了, 另外">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-09-09T10:59:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="weekly of 20180826">
+<meta name="twitter:description" content="工具技巧 Introduction to Asynchronous I/O - High Performance computing : 关于异步 IO 的介绍，这个是入门篇，后续希望有更深入的分析和介绍，先 mark  Randomness in .NET – lowleveldesign.org : 分析.NET环境下面伪随机数的安全性，其实只要知道内部状态，就可以快速知道后续的序列了, 另外">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-20180826" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      weekly of 20180826
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/09/09/20180826/" class="article-date">
+  <time datetime="2018-09-09T10:58:45.000Z" itemprop="datePublished">2018-09-09</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://highperfdesign.com/post/async_io_intro/" target="_blank" rel="external">Introduction to Asynchronous I/O - High Performance computing</a> : 关于异步 IO 的介绍，这个是入门篇，后续希望有更深入的分析和介绍，先 mark</p>
+</li>
+<li><p><a href="https://lowleveldesign.org/2018/08/15/randomness-in-net/" target="_blank" rel="external">Randomness in .NET – lowleveldesign.org</a> : 分析<code>.NET</code>环境下面伪随机数的安全性，其实只要知道内部状态，就可以快速知道后续的序列了, 另外一篇可以重点学习的文章是<a href="http://lcamtuf.coredump.cx/oldtcp/tcpseq.html" target="_blank" rel="external">Strange Attractors and TCP/IP Sequence Number Analysis</a>, 讨论”inserting a malicious packet into a TCP connection”可行性</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><a href="https://hacks.mozilla.org/2018/08/dweb-building-a-resilient-web-with-webtorrent/" target="_blank" rel="external">Dweb: Building a Resilient Web with WebTorrent – Mozilla Hacks – the Web developer blog</a> : 之前讨论过<code>webTorrent</code>的情况，最近通过了解磁力链接等，对于其内部实现和机制有了进一步的了解, Maybe 是下一代互联网的趋势, 可以参考其<a href="https://webtorrent.io/faq" target="_blank" rel="external">官网</a>举例的一些应用场景，包括对等文件传输, <a href="https://peercloud.io/" target="_blank" rel="external">PeerCloud</a>“Serverless websites via WebTorrent”</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404277899594202694" target="_blank" rel="external">卫夕 | 机器知道你会点广告：写给普通人的CTR预估科普</a> : 很好的的 CTR 入门介绍，值得了解</p>
+</li>
+<li><p><a href="https://github.com/TellinaTool/nl2bash" target="_blank" rel="external">TellinaTool/nl2bash: Generating bash command from natural language</a> :  </p>
+</li>
+<li><p><a href="http://www.styluslabs.com/" target="_blank" rel="external">Stylus Labs: Writer</a> : “writer is a word processor for handwriting”, 一个面向于手写场景的编辑器, 交互和功能支持方式很有针对性，可以参考下，不知道对中文输入场景的支持如何~</p>
+</li>
+<li><p><a href="https://nostarch.com/seriouscrypto" target="_blank" rel="external">Serious Cryptography | No Starch Press</a> : 一本介绍密码学相关的数据，看目录还不错，先 mark</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/ok4oCRNQ9lrgtyTrk-d6gA" target="_blank" rel="external">MacTalk: 推荐几款 Mac 上的效率利器</a> : 推荐了几个<a href="http://macshuo.com/?p=625" target="_blank" rel="external">Alfred</a>, <a href="https://www.alfredapp.com" target="_blank" rel="external">Paste</a>, <code>Magnet</code>, <a href="https://mubu.com" target="_blank" rel="external">幕布</a>等工具, 个人感觉用起来一般~</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/08/30/nginx_1_15_3/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">nginx 1.15.3 版本说明&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  var disqus_url = 'http://shevacjs.com/2018/09/09/20180826/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

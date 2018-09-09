@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>nginx 1.15.3 版本说明 - shevacjs home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="0x00 Feature List主要包含如下两点:   Feature: now TLSv1.3 can be used with BoringSSL.  Feature: the “ssl_early_data” directive, currently available with BoringSSL.  Feature: the “keepalive_timeout” and “keepa">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx 1.15.3 版本说明">
+<meta property="og:url" content="http://shevacjs.com/2018/08/30/nginx_1_15_3/index.html">
+<meta property="og:site_name" content="shevacjs home">
+<meta property="og:description" content="0x00 Feature List主要包含如下两点:   Feature: now TLSv1.3 can be used with BoringSSL.  Feature: the “ssl_early_data” directive, currently available with BoringSSL.  Feature: the “keepalive_timeout” and “keepa">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-09-09T11:06:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx 1.15.3 版本说明">
+<meta name="twitter:description" content="0x00 Feature List主要包含如下两点:   Feature: now TLSv1.3 can be used with BoringSSL.  Feature: the “ssl_early_data” directive, currently available with BoringSSL.  Feature: the “keepalive_timeout” and “keepa">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Shevacjs</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">Rss</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://shevacjs.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-nginx_1_15_3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      nginx 1.15.3 版本说明
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/08/30/nginx_1_15_3/" class="article-date">
+  <time datetime="2018-08-30T04:15:29.000Z" itemprop="datePublished">2018-08-30</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="0x00-Feature-List"><a href="#0x00-Feature-List" class="headerlink" title="0x00 Feature List"></a>0x00 Feature List</h2><p>主要包含如下两点: </p>
+<ul>
+<li><p>Feature: now TLSv1.3 can be used with BoringSSL.</p>
+</li>
+<li><p>Feature: the “ssl_early_data” directive, currently available with BoringSSL.</p>
+</li>
+<li><p>Feature: the “keepalive_timeout” and “keepalive_requests” directives in the “upstream” block.</p>
+</li>
+</ul>
+<p>前两者关于<code>BoringSSL</code>和 TLS 相关的优化，后者是 keepalive 特性的优化，下面分别介绍。</p>
+<h2 id="0x01-UPSTREAM-KEEPALIVE"><a href="#0x01-UPSTREAM-KEEPALIVE" class="headerlink" title="0x01 UPSTREAM KEEPALIVE"></a>0x01 UPSTREAM KEEPALIVE</h2><p>关于Nginx Upstream 长连接池的机制可以参看之前的<a href="http://shevacjs.com/2016/01/19/tcp_keepalive_proxy/">让nginx支持TCP长连接代理</a>这篇文章，这次主要现在如下两个指令, 如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">* Syntax:   keepalive_timeout timeout;</div><div class="line">* Default:  keepalive_timeout 60s;</div><div class="line">* Context:  upstream</div><div class="line">&gt; This directive appeared in version 1.15.3.</div><div class="line"></div><div class="line">Sets a timeout during which an idle keepalive connection to an upstream server will stay open</div></pre></td></tr></table></figure>
+<p>以及如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">* Syntax:    keepalive_requests number;</div><div class="line">* Default:   keepalive_requests 100;</div><div class="line">* Context:    upstream</div><div class="line">&gt; This directive appeared in version 1.15.3.</div><div class="line"></div><div class="line">After the maximum number of requests is made, the connection is closed.</div></pre></td></tr></table></figure>
+<p>可以看到其主要作用是，当一个请求空闲<code>一段时间</code>(keepalive_timeout)或者处理过<code>足够多</code>(keepalive_requests)的请求, 则会关闭连接，以便重启;</p>
+<p>其核心理念是希望长链接的请求能够回收重启, 原因是长连接容易造成一些边缘 case 和异常，比如<a href="https://trac.nginx.org/nginx/ticket/1170" target="_blank" rel="external">implement keepalive timeout for upstream</a> 和 <a href="https://trac.nginx.org/nginx/ticket/1484" target="_blank" rel="external">Timeouts when proxying to Apache and using Keepalive</a>, 提到的proxy server和 proxy 的竞争发送问题, Proxy server<code>time_wait</code>过多等问题; 代码修复实现相对比较简单，不再赘述。</p>
+<h2 id="0x02-BoringSSL与-TLS"><a href="#0x02-BoringSSL与-TLS" class="headerlink" title="0x02 BoringSSL与 TLS"></a>0x02 BoringSSL与 TLS</h2><p>我们知道 OpenSSL是应用最为广泛的TLS协议的实现, 由于 TLS 的重要性以及 OpenSSL 实现的复杂性，其安全问题一直都存在着; 所以，业内也有提出其他的 OpenSSL 的实现方式，比如基于OpenSSL修改衍生的<a href="https://en.wikipedia.org/wiki/BoringSSL" target="_blank" rel="external">BoringSSL</a> 和 <a href="https://en.wikipedia.org/wiki/LibreSSL" target="_blank" rel="external">LibreSSL</a>, 这一类实现和 OpenSSL 基本保持接口的兼容，也就意味着宿主程序可以以较低的成本进行迁移; 还有一类是独立实现的，比如说<a href="https://bearssl.org/index.html#overview" target="_blank" rel="external">BearSSL</a> (建议可以深入了解)之类，其有自己特意的针对性目标和场景，其接口和<code>openssl</code>也不一致, 迁移成本较大。所以, Nginx从<code>1.7.4</code>开始, 开始兼容<code>BoringSSL and LibreSSL</code>, 其兼容成本也不算特别高。</p>
+<p>具体编译的方法可以参考<a href="www.lidaren.com/archives/1702">Nginx替换OpenSSL为LibreSSL</a> 和 <a href="https://sometimesnaive.org/article/64" target="_blank" rel="external">Nginx 启用 BoringSSL</a>, 其核心是Nginx 编译脚本依赖的两类文件(考虑类Unix环境), 包括: </p>
+<ul>
+<li><code>$OPENSSL/.openssl/include/openssl/ssl.h</code>(参考auto/lib/openssl/make文件) : 头文件的依赖</li>
+<li><code>$CORE_LIBS $OPENSSL/.openssl/lib/libssl.a</code>和<code>$CORE_LIBS $OPENSSL/.openssl/lib/libcrypto.a</code>(参考参考auto/lib/openssl/conf文件) : 链接库的依赖</li>
+</ul>
+<p>由于编译的脚本是死的，所以在准备<code>LibreSSL</code>或者<code>BoringSSL</code>的时候，保证上面两者的兼容性就可以了</p>
+<p>再简单分析<code>LibreSSL/BoringSSL</code>和 OpenSSL 的一些差异点, 整体不同的TLS library的对比可以参考<a href="https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations" target="_blank" rel="external">Wiki:Comparison of TLS implementations</a>, 上面有比较详细的对比</p>
+<h2 id="0x03-Reference"><a href="#0x03-Reference" class="headerlink" title="0x03 Reference"></a>0x03 Reference</h2><ul>
+<li><p><a href="https://icmconference.org/wp-content/uploads/G12c-Bechis.pdf" target="_blank" rel="external">LibreSSL</a> : 比较系统的介绍<code>LibreSSL</code>项目初衷，目标以及如何实现(主要在代码实现方面有所取舍)的, 可以快速了解</p>
+</li>
+<li><p><a href="https://bearssl.org/" target="_blank" rel="external">BearSSL: Overview</a> : <code>BearSSL</code>也是一个TLS的实现, 里面保护很多比较最新的特性，比如说<code>时间无关</code>的支持, 是学习TLS的一个很好入门</p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/make-ssl-boring-again/" target="_blank" rel="external">Make SSL boring again</a> : CloudFlare的<code>BoringSSL</code>的迁移实践和总结, 包括其优势，比如说较早的TLS1.3的支持, <code>X25519</code>的支持等, 其不足之处, 比如说<code>Slow Base64</code>(因为保证constant-time的), <code>missing OCSP</code>等，可以看出和了解BoringSSL和Openssl 的异同点</p>
+</li>
+<li><p><a href="https://elib.uni-stuttgart.de/bitstream/11682/9311/1/thesis.pdf" target="_blank" rel="external">Analysing and improving the crypto ecosystem of Rust</a> : 我们知道OpenSSL 现在主要的核心问题实现方面的漏洞, 其和C/C++语言的内存模型有一些关系, Rust的语言设计能很大的规避这方面的问题，这篇长 paper(一百多页) 就是介绍了如果通过Rust 构建一个更健壮的密码系统</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/09/09/20180826/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          weekly of 20180826
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/22/20180812/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">weekly of 20180812&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 shevacjs&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+<script>
+  var disqus_shortname = 'shevacjs-com';
+  
+  var disqus_url = 'http://shevacjs.com/2018/08/30/nginx_1_15_3/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shevacjs.com/"/>
-  <updated>2018-08-22T13:52:57.000Z</updated>
+  <updated>2018-09-09T10:59:54.000Z</updated>
   <id>http://shevacjs.com/</id>
   
   <author>
@@ -14,6 +14,102 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly of 20180826</title>
+    <link href="http://shevacjs.com/2018/09/09/20180826/"/>
+    <id>http://shevacjs.com/2018/09/09/20180826/</id>
+    <published>2018-09-09T10:58:45.000Z</published>
+    <updated>2018-09-09T10:59:54.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://highperfdesign.com/post/async_io_intro/" target="_blank" rel="external">Introduction to Asynchronous I/O - High Performance computing</a> : 关于异步 IO 的介绍，这个是入门篇，后续希望有更深入的分析和介绍，先 mark</p>
+</li>
+<li><p><a href="https://lowleveldesign.org/2018/08/15/randomness-in-net/" target="_blank" rel="external">Randomness in .NET – lowleveldesign.org</a> : 分析<code>.NET</code>环境下面伪随机数的安全性，其实只要知道内部状态，就可以快速知道后续的序列了, 另外一篇可以重点学习的文章是<a href="http://lcamtuf.coredump.cx/oldtcp/tcpseq.html" target="_blank" rel="external">Strange Attractors and TCP/IP Sequence Number Analysis</a>, 讨论”inserting a malicious packet into a TCP connection”可行性</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><a href="https://hacks.mozilla.org/2018/08/dweb-building-a-resilient-web-with-webtorrent/" target="_blank" rel="external">Dweb: Building a Resilient Web with WebTorrent – Mozilla Hacks – the Web developer blog</a> : 之前讨论过<code>webTorrent</code>的情况，最近通过了解磁力链接等，对于其内部实现和机制有了进一步的了解, Maybe 是下一代互联网的趋势, 可以参考其<a href="https://webtorrent.io/faq" target="_blank" rel="external">官网</a>举例的一些应用场景，包括对等文件传输, <a href="https://peercloud.io/" target="_blank" rel="external">PeerCloud</a>“Serverless websites via WebTorrent”</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404277899594202694" target="_blank" rel="external">卫夕 | 机器知道你会点广告：写给普通人的CTR预估科普</a> : 很好的的 CTR 入门介绍，值得了解</p>
+</li>
+<li><p><a href="https://github.com/TellinaTool/nl2bash" target="_blank" rel="external">TellinaTool/nl2bash: Generating bash command from natural language</a> :  </p>
+</li>
+<li><p><a href="http://www.styluslabs.com/" target="_blank" rel="external">Stylus Labs: Writer</a> : “writer is a word processor for handwriting”, 一个面向于手写场景的编辑器, 交互和功能支持方式很有针对性，可以参考下，不知道对中文输入场景的支持如何~</p>
+</li>
+<li><p><a href="https://nostarch.com/seriouscrypto" target="_blank" rel="external">Serious Cryptography | No Starch Press</a> : 一本介绍密码学相关的数据，看目录还不错，先 mark</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/ok4oCRNQ9lrgtyTrk-d6gA" target="_blank" rel="external">MacTalk: 推荐几款 Mac 上的效率利器</a> : 推荐了几个<a href="http://macshuo.com/?p=625" target="_blank" rel="external">Alfred</a>, <a href="https://www.alfredapp.com" target="_blank" rel="external">Paste</a>, <code>Magnet</code>, <a href="https://mubu.com" target="_blank" rel="external">幕布</a>等工具, 个人感觉用起来一般~</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://highperfdesign.com/post/async_io_int
+    
+    </summary>
+    
+    
+      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>nginx 1.15.3 版本说明</title>
+    <link href="http://shevacjs.com/2018/08/30/nginx_1_15_3/"/>
+    <id>http://shevacjs.com/2018/08/30/nginx_1_15_3/</id>
+    <published>2018-08-30T04:15:29.000Z</published>
+    <updated>2018-09-09T11:06:02.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="0x00-Feature-List"><a href="#0x00-Feature-List" class="headerlink" title="0x00 Feature List"></a>0x00 Feature List</h2><p>主要包含如下两点: </p>
+<ul>
+<li><p>Feature: now TLSv1.3 can be used with BoringSSL.</p>
+</li>
+<li><p>Feature: the “ssl_early_data” directive, currently available with BoringSSL.</p>
+</li>
+<li><p>Feature: the “keepalive_timeout” and “keepalive_requests” directives in the “upstream” block.</p>
+</li>
+</ul>
+<p>前两者关于<code>BoringSSL</code>和 TLS 相关的优化，后者是 keepalive 特性的优化，下面分别介绍。</p>
+<h2 id="0x01-UPSTREAM-KEEPALIVE"><a href="#0x01-UPSTREAM-KEEPALIVE" class="headerlink" title="0x01 UPSTREAM KEEPALIVE"></a>0x01 UPSTREAM KEEPALIVE</h2><p>关于Nginx Upstream 长连接池的机制可以参看之前的<a href="http://shevacjs.com/2016/01/19/tcp_keepalive_proxy/">让nginx支持TCP长连接代理</a>这篇文章，这次主要现在如下两个指令, 如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">* Syntax:   keepalive_timeout timeout;</div><div class="line">* Default:  keepalive_timeout 60s;</div><div class="line">* Context:  upstream</div><div class="line">&gt; This directive appeared in version 1.15.3.</div><div class="line"></div><div class="line">Sets a timeout during which an idle keepalive connection to an upstream server will stay open</div></pre></td></tr></table></figure>
+<p>以及如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">* Syntax:    keepalive_requests number;</div><div class="line">* Default:   keepalive_requests 100;</div><div class="line">* Context:    upstream</div><div class="line">&gt; This directive appeared in version 1.15.3.</div><div class="line"></div><div class="line">After the maximum number of requests is made, the connection is closed.</div></pre></td></tr></table></figure>
+<p>可以看到其主要作用是，当一个请求空闲<code>一段时间</code>(keepalive_timeout)或者处理过<code>足够多</code>(keepalive_requests)的请求, 则会关闭连接，以便重启;</p>
+<p>其核心理念是希望长链接的请求能够回收重启, 原因是长连接容易造成一些边缘 case 和异常，比如<a href="https://trac.nginx.org/nginx/ticket/1170" target="_blank" rel="external">implement keepalive timeout for upstream</a> 和 <a href="https://trac.nginx.org/nginx/ticket/1484" target="_blank" rel="external">Timeouts when proxying to Apache and using Keepalive</a>, 提到的proxy server和 proxy 的竞争发送问题, Proxy server<code>time_wait</code>过多等问题; 代码修复实现相对比较简单，不再赘述。</p>
+<h2 id="0x02-BoringSSL与-TLS"><a href="#0x02-BoringSSL与-TLS" class="headerlink" title="0x02 BoringSSL与 TLS"></a>0x02 BoringSSL与 TLS</h2><p>我们知道 OpenSSL是应用最为广泛的TLS协议的实现, 由于 TLS 的重要性以及 OpenSSL 实现的复杂性，其安全问题一直都存在着; 所以，业内也有提出其他的 OpenSSL 的实现方式，比如基于OpenSSL修改衍生的<a href="https://en.wikipedia.org/wiki/BoringSSL" target="_blank" rel="external">BoringSSL</a> 和 <a href="https://en.wikipedia.org/wiki/LibreSSL" target="_blank" rel="external">LibreSSL</a>, 这一类实现和 OpenSSL 基本保持接口的兼容，也就意味着宿主程序可以以较低的成本进行迁移; 还有一类是独立实现的，比如说<a href="https://bearssl.org/index.html#overview" target="_blank" rel="external">BearSSL</a> (建议可以深入了解)之类，其有自己特意的针对性目标和场景，其接口和<code>openssl</code>也不一致, 迁移成本较大。所以, Nginx从<code>1.7.4</code>开始, 开始兼容<code>BoringSSL and LibreSSL</code>, 其兼容成本也不算特别高。</p>
+<p>具体编译的方法可以参考<a href="www.lidaren.com/archives/1702">Nginx替换OpenSSL为LibreSSL</a> 和 <a href="https://sometimesnaive.org/article/64" target="_blank" rel="external">Nginx 启用 BoringSSL</a>, 其核心是Nginx 编译脚本依赖的两类文件(考虑类Unix环境), 包括: </p>
+<ul>
+<li><code>$OPENSSL/.openssl/include/openssl/ssl.h</code>(参考auto/lib/openssl/make文件) : 头文件的依赖</li>
+<li><code>$CORE_LIBS $OPENSSL/.openssl/lib/libssl.a</code>和<code>$CORE_LIBS $OPENSSL/.openssl/lib/libcrypto.a</code>(参考参考auto/lib/openssl/conf文件) : 链接库的依赖</li>
+</ul>
+<p>由于编译的脚本是死的，所以在准备<code>LibreSSL</code>或者<code>BoringSSL</code>的时候，保证上面两者的兼容性就可以了</p>
+<p>再简单分析<code>LibreSSL/BoringSSL</code>和 OpenSSL 的一些差异点, 整体不同的TLS library的对比可以参考<a href="https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations" target="_blank" rel="external">Wiki:Comparison of TLS implementations</a>, 上面有比较详细的对比</p>
+<h2 id="0x03-Reference"><a href="#0x03-Reference" class="headerlink" title="0x03 Reference"></a>0x03 Reference</h2><ul>
+<li><p><a href="https://icmconference.org/wp-content/uploads/G12c-Bechis.pdf" target="_blank" rel="external">LibreSSL</a> : 比较系统的介绍<code>LibreSSL</code>项目初衷，目标以及如何实现(主要在代码实现方面有所取舍)的, 可以快速了解</p>
+</li>
+<li><p><a href="https://bearssl.org/" target="_blank" rel="external">BearSSL: Overview</a> : <code>BearSSL</code>也是一个TLS的实现, 里面保护很多比较最新的特性，比如说<code>时间无关</code>的支持, 是学习TLS的一个很好入门</p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/make-ssl-boring-again/" target="_blank" rel="external">Make SSL boring again</a> : CloudFlare的<code>BoringSSL</code>的迁移实践和总结, 包括其优势，比如说较早的TLS1.3的支持, <code>X25519</code>的支持等, 其不足之处, 比如说<code>Slow Base64</code>(因为保证constant-time的), <code>missing OCSP</code>等，可以看出和了解BoringSSL和Openssl 的异同点</p>
+</li>
+<li><p><a href="https://elib.uni-stuttgart.de/bitstream/11682/9311/1/thesis.pdf" target="_blank" rel="external">Analysing and improving the crypto ecosystem of Rust</a> : 我们知道OpenSSL 现在主要的核心问题实现方面的漏洞, 其和C/C++语言的内存模型有一些关系, Rust的语言设计能很大的规避这方面的问题，这篇长 paper(一百多页) 就是介绍了如果通过Rust 构建一个更健壮的密码系统</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;0x00-Feature-List&quot;&gt;&lt;a href=&quot;#0x00-Feature-List&quot; class=&quot;headerlink&quot; title=&quot;0x00 Feature List&quot;&gt;&lt;/a&gt;0x00 Feature List&lt;/h2&gt;&lt;p&gt;主要包含如下两点: 
+    
+    </summary>
+    
+    
+      <category term="nginx" scheme="http://shevacjs.com/tags/nginx/"/>
+    
+  </entry>
   
   <entry>
     <title>weekly of 20180812</title>
@@ -1510,256 +1606,6 @@
     
     
       <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>weekly of 20180401</title>
-    <link href="http://shevacjs.com/2018/04/06/20180401/"/>
-    <id>http://shevacjs.com/2018/04/06/20180401/</id>
-    <published>2018-04-06T13:15:45.000Z</published>
-    <updated>2018-04-06T13:14:55.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
-<li><p><a href="https://github.com/Microsoft/vscode-tips-and-tricks" target="_blank" rel="external">VS Code Tips and Tricks</a> : 关于VS的tips，简单看了一些，感觉干货还是很多的。之前个人习惯所有的编辑任务都是依赖于命令行的<code>vim</code></p>
-</li>
-<li><p><a href="https://www.charlesproxy.com/documentation/ios/" target="_blank" rel="external">Charles for iOS</a> : Charles支持在IOS系统的请求包分析和捕获,体验还是很不错的。</p>
-</li>
-<li><p><a href="https://bdupras.github.io/filter-tutorial/" target="_blank" rel="external">Probabilistic Filters By Example</a> : 本文简要介绍了<a href="https://brilliant.org/wiki/cuckoo-filter/#cuckoo-vs-bloom-filters" target="_blank" rel="external">Cuckoo Filter</a> 和<a href="https://en.wikipedia.org/wiki/Bloom_filter" target="_blank" rel="external">Blomm Filter</a>各自的特点以及区别, 并具体给出了不用应用场景下面如何选择两者的建议。(PS: 发现网上并没有很多的Cuckoo Filter的入门介绍文章，后续可以补充一个)</p>
-</li>
-<li><p><a href="https://blog.cloudflare.com/dns-resolver-1-1-1-1/" target="_blank" rel="external">Announcing 1.1.1.1: the fastest, privacy-first consumer DNS service</a> : Cloudflare在4月1号发布了号称速度最快的DNS服务器<code>1.1.1.1</code>, 可以参看<a href="https://blog.cloudflare.com/dns-resolver-1-1-1-1/" target="_blank" rel="external">Introducing DNS Resolver, 1.1.1.1 (not a joke)</a>对其技术细节进行深入了解，包括对DNS查询的隐私保护，速度优化方面的策略，对DNS服务有兴趣的可以深入了解下, 正好也可以关注文章<a href="http://blog.jobbole.com/113809/" target="_blank" rel="external">DNS 解析器性能比较：CloudFlare vs Google vs Quad9</a>, 里面具体对比了几个大型DNS服务商的响应时间，cloudflare的确遥遥领先</p>
-</li>
-<li><p><a href="https://medium.com/@NetflixTechBlog/netflix-flamescope-a57ca19d47bb" target="_blank" rel="external">Netflix FlameScope</a> : Netflix开放了另外一个关于<code>flame graph</code>的工具，其主要特点是通过热力图的形式，以<code>100ms</code>为粒度，记录不同时刻的时间情况，并支持基于此粒度进行钻取。同时还可以关注二进制数据的可视化方法，<a href="https://github.com/cortesi/scurve" target="_blank" rel="external">lib库</a>和<a href="https://binvis.io/#/" target="_blank" rel="external">demo</a></p>
-</li>
-</ul>
-<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
-<li><p><a href="https://medium.com/@NetflixTechBlog/performance-under-load-3e6fa9a60581" target="_blank" rel="external">Performance Under Load</a> : Netflix关于如何做过载保护的文章，其实这个topic，个人感觉也研究了一段时间，包括排队论等都做了一些分析。文章的核心思路是复用TCP拥塞控制的算法, 开始以较低流量去尝试，在流量逐渐增大的过程中，通过一些参数指标评估服务是否达到瓶颈，如果是，则流量回退(类似于拥塞窗口减少)($newLimit = currentLimit × gradient + queueSize$)。同时也直接开放了相关的<a href="https://github.com/Netflix/concurrency-limits" target="_blank" rel="external">lib库</a>, 支持Java/Grpc等，可以关注。</p>
-</li>
-<li><p><a href="https://blog.cloudflare.com/introducing-cloudflare-workers/" target="_blank" rel="external">Introducing Cloudflare Workers: Run JavaScript Service Workers at the Edge</a> :  CloudFlare的<code>Service Worker</code>概述，赋予了业务在Edge Node(类似于CDN)执行代码的能力，后端的同学可以通过这篇文章<a href="https://lzw.me/a/pwa-service-worker.html#1%20%E4%BB%80%E4%B9%88%E6%98%AF%20Service%20Worker" target="_blank" rel="external">Service Worker 应用详解</a>了解浏览器service worker的大概机制；整体而言，个人感觉思路和创新都是有的，不过对于应用场景还需要深入和进一步的思考</p>
-</li>
-<li><p><a href="https://medium.com/netflix-techblog/using-machine-learning-to-improve-streaming-quality-at-netflix-9651263ef09f" target="_blank" rel="external">Using Machine Learning to Improve Streaming Quality at Netflix</a> : 通过ML的方法，来预估网络的质量和延迟情况，先mark</p>
-</li>
-</ul>
-<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
-<li><p><a href="http://cstaecker.fairfield.edu/~cstaecker/machines/longimeter.html" target="_blank" rel="external">Steinhaus Longimeter</a> : mark，一个测量曲线长度的办法，非常精巧，先mark</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/moyoJd1EnNziRPQgHbNXRw" target="_blank" rel="external">从抄书到开源之巅：章亦春的程序人生</a> : 非常敬佩的工程师, 每个成功故事的历程都有所不一样，但是持续努力奋斗是永恒的主题；</p>
-</li>
-<li><p><a href="https://www.dongqiudi.com/archive/596265.html" target="_blank" rel="external">西甲风云21：铁血军团，马德里竞技</a> : “催人泪下的卡尔德隆，这是我的家。它教会我怎样成长，怎样忍耐，怎样生活，怎样面对困境。不管贫富，我们永远是第一！Forza Atleti!”, 有点跑题的文章，不过写得很好，也mark</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw==&amp;mid=2247487637&amp;idx=1&amp;sn=d76a3e92036c0487c6f3e16b6afd3df8" target="_blank" rel="external">聊聊Chaos Engineering的历史、原则和最佳实践</a> : 我的理解<code>Chaos Engineering</code>应该属于SRE的一部分，其采用特殊的方法，去验证系统的容灾能力，评估系统的可用性。随着分布式系统的日趋复杂，这样的需求也会愈加强烈。</p>
-</li>
-<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404225376346895947" target="_blank" rel="external">既练轻功也练内功——面对风口的正确姿势</a> : 每个人都会面临各种选择和权衡，如何合适的机会和风口，让自己的职业生涯有进一步提升，是个需要深思的问题, 作者建议的三个原则，学会预测，需找开鱼刀，练轻功之前先修炼好内功, 可以采纳</p>
-</li>
-<li><p><a href="http://www.quickcode.co/engineer-blogs" target="_blank" rel="external">Engineering Blogs</a> : 一些公司的技术blog的list，感觉可以通过收藏夹或者其他的可以序列话的方式提供。</p>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;工具技巧&quot;&gt;&lt;a href=&quot;#工具技巧&quot; class=&quot;headerlink&quot; title=&quot;工具技巧&quot;&gt;&lt;/a&gt;工具技巧&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/Microsoft/vscode-tips-and
-    
-    </summary>
-    
-    
-      <category term="weekly" scheme="http://shevacjs.com/tags/weekly/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Crypto101读书笔记</title>
-    <link href="http://shevacjs.com/2018/03/28/note_about_crypto101/"/>
-    <id>http://shevacjs.com/2018/03/28/note_about_crypto101/</id>
-    <published>2018-03-28T07:58:45.000Z</published>
-    <updated>2018-03-28T08:13:50.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/images/cryptography.jpg" alt="cryptography"></p>
-<blockquote>
-<p>最近要把去年的读书笔记补齐~</p>
-</blockquote>
-<p>电子书<a href="https://www.crypto101.io/" target="_blank" rel="external">Crypto 101</a>是我个人感觉最好的关于密码学的入门笔记; 深入浅出的介绍了整个密码学体系的各类算法，此文为此书的读书笔记</p>
-<h2 id="分层体系"><a href="#分层体系" class="headerlink" title="分层体系"></a>分层体系</h2><ul>
-<li><p>第一层: 最底层是基础算法原语的实现, 比如: md5, AES, RSA, SHA256等</p>
-</li>
-<li><p>第二层: 选定参数后，划分为符合密码学标准分类的算法, 几个基本能力:</p>
-<ul>
-<li>块加密算法</li>
-<li>流加密算法</li>
-<li>密钥交换算法</li>
-<li>公钥加密算法</li>
-<li>MAC算法</li>
-<li>签名算法</li>
-</ul>
-</li>
-<li><p>第三层: 基于标准分类算法进一步组合而成的半成品，比如说对称传输组件例如<code>aes-128-cbc + hmac-sha256</code>, 认证密钥协商算法<code>rsassa-OAEP + ecdh-secp256r1</code></p>
-</li>
-<li><p>第四层: 用各种组件拼装而成的各种成品密码学协议/软件, 比如TLS协议等</p>
-</li>
-</ul>
-<p>这里先介绍第一/二层的常见技术和方法，以后再深入分析第四层的业务应用。</p>
-<h2 id="标准密码学概述"><a href="#标准密码学概述" class="headerlink" title="标准密码学概述"></a>标准密码学概述</h2><h3 id="Block-ciphers"><a href="#Block-ciphers" class="headerlink" title="Block ciphers"></a>Block ciphers</h3><ul>
-<li>定义:</li>
-</ul>
-<p>A block cipher is an algorithm that allows us to encrypt blocks of a fixed length.  It provides an encryption function E that turns plaintext blocks P into ciphertext blocks C, using a secret key k:</p>
-<p>$$ C = E(k, P) \ \ encrpytion $$<br>$$ P = D(k, C) \ \ decryption $$</p>
-<p>一般情况下, 明文和密文的长度是一样的，这个是由密钥控制的；</p>
-<p>常见放的对称加密算法有: <code>AES</code>(Advanced Encryption Standard) 和 相对比较老的 <code>DES</code>和<code>3DES</code></p>
-<p>可以预见块加密算法有两个比较大的问题，具体包括:</p>
-<p>1) 块加密算法只能加密固定长度的信息，这个并不能很好应用于现实世界，所以我们需要引入<code>Stream ciphers</code></p>
-<p>2) 密钥非常重要，但我们仍会面临着如何在一个不安全的通道上面交互密钥；这个在<code>key exchange protocol</code>里面会介绍其解决方案</p>
-<h3 id="Stream-Ciphers"><a href="#Stream-Ciphers" class="headerlink" title="Stream Ciphers"></a>Stream Ciphers</h3><p>还是先看定义，英文如下:</p>
-<p>“A stream cipher is a symmetric-key encryption algorithm that encrypts a stream of bits. Ideally, that stream could be as long as we’d like;”</p>
-<p>如何实现, 初步的想法就是基于<code>Block Ciphers</code>去实现，将超长的文本切分为固定长度的子串，再分别加密。如何将<code>block ciphers</code>变成<code>stream ciphers</code>是需要精细考量的。比如最简单的ECB模式(Electronic Code Book Mode),  其过程大概如下:</p>
-<p><img src="/images/ECB_encryption.svg.png" alt="ECB加密过程"></p>
-<p><img src="/images/ECB_decryption.svg.png" alt="ECB解密过程"></p>
-<p>但是这个模块是的弱点非常明显, 比如攻击者可以方便地做流量重放，而且密文和原始明文的顺序也是一一对应，容易被攻击。</p>
-<p>我们可以考虑其他的几个方式，包括:</p>
-<ul>
-<li>CBC :  “plaintext blocks are XORed with the previous ciphertext block before being encrypted by the block cipher.”, 同时对于第一个block，我们通过引入初始向量解决(initialization vector, <code>IV</code>) ，其中<code>IV</code>我们要求满足不可预测的要求，所以一般用CBC模式加密的时候还需要双方达成<code>IV</code>的一致这个步骤(后续详解)</li>
-</ul>
-<p>如下是CBC的加解密过程示意图:</p>
-<p><img src="/images/CBC_encryption.svg.png" alt="CBC加密过程"><br><img src="/images/CBC_decryption.svg.png" alt="CBC加密过程"></p>
-<p>CBC模式对于初始向量有较大依赖，一旦<code>IV</code>被攻击者预测等，整个加密的安全性也难以得到保障</p>
-<p>一些数学形式化的说明如下，可以简单参考</p>
-<table>
-<thead>
-<tr>
-<th>Mode</th>
-<th>Formulas</th>
-<th>Ciphertext</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ECB</td>
-<td>$Y_i = F(Plaintext_i, Key)$</td>
-<td>$Y_i$</td>
-</tr>
-<tr>
-<td>CBC</td>
-<td>$Y_i = Plaintext_i XOR \ Ciphertext_{i-1}$</td>
-<td>$F(Y,key); Ciphertext_0 = IV$</td>
-</tr>
-<tr>
-<td>PCBC</td>
-<td>$Y_i = Plaintext_i XOR \ (Ciphertext_{i-1} XOR \ Plaintext_{i-1})$</td>
-<td>$F(Y,key); Ciphertext_0 = IV$</td>
-</tr>
-</tbody>
-</table>
-<p>虽然通过<code>CBC</code>等模式，我们可以实现对字节流的加密，但是如何达成密钥的一致性依旧是个问题，所以我们可以看下<code>Key Exchange Protocol</code></p>
-<p>(如上的内容和表格都来自于<a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation" target="_blank" rel="external">Wikipedia:Block cipher mode of operation</a>)</p>
-<h3 id="Key-exchange"><a href="#Key-exchange" class="headerlink" title="Key exchange"></a>Key exchange</h3><p>目标大概如下: “Key exchange protocols attempt to solve a problem that, at first glance, seems impossible. Alice and Bob, who’ve never met before, have to agree on a secret value.  the channel they use to communicate is insecure: we’re assuming that everything they send across the channel is being eavesdropped on.”</p>
-<p>该协议又称<code>Diffie-Hellman</code>算法, 一般有两个实现方式，包括<code>discrete logarithms</code>和<code>elliptic curves</code>，前者相对来说比较好理解，下面详细说明:</p>
-<p>离散对数问题基于如下的假设，对于等式:</p>
-<p>$$ g^x \equiv y (mod \ p) $$</p>
-<p>已知$g,p$, 给定$x$计算$y$很容易，反之则很难; 则我们可以推理如下: </p>
-<p>对于消息交换者Alice, Bob 和 窃听者Eve, 他们在传输消息时候有($r_a$和$r_b$是A，B产生的随机数), 则他们初步可以发送如下两个消息:</p>
-<p>$$ m_a \equiv g^{(r_a)}(mod\ p)$$ </p>
-<p>$$ m_b \equiv g^{(r_b)}(mod\ p)$$ </p>
-<p>依照约定，可以产生密钥$s$</p>
-<p>$$ s = (g^{(r_a)})^{r_b} (mod\ p)$$</p>
-<p>这两个消息，三个人都能看见；但是对Alice而言，他收到了$m_b$我们有:</p>
-<p>$$ s = m_b^{r_a} (mod\ p)$$ </p>
-<p>对Bob同理；</p>
-<p>$$ s = m_a^{r_b} (mod\ p)$$</p>
-<p>但是对于只有$m_a,m_b,g,p$的Eve来说是不能计算出$s$的, 即便$m_a, m_b$相乘:</p>
-<p>$$ t = m_a * m_b (mod\ p) = g^{r_a + r_b} (mod\ p)$$</p>
-<p>如下是从<a href="https://zh.wikipedia.org/wiki/%E8%BF%AA%E8%8F%B2-%E8%B5%AB%E7%88%BE%E6%9B%BC%E5%AF%86%E9%91%B0%E4%BA%A4%E6%8F%9B" target="_blank" rel="external">Wikipedia: 迪菲-赫尔曼密钥交换</a>摘录的示意图: </p>
-<p><img src="/images/Diffie-Hellman-demo.svg.png" alt="DH示意图"></p>
-<p>这个算法很优雅，但是存在很大的问题，就是中间人攻击。 所以我们需要一些新的基础能力，比如说去验证Alice和Bob的真假, 去保障我们消息的完整性。这个后续再讨论如何去保障。</p>
-<h3 id="Public-Key-encryption"><a href="#Public-Key-encryption" class="headerlink" title="Public-Key encryption"></a>Public-Key encryption</h3><p>定义: “People can encrypt information intended for you by using your public key.  the information is then impossible to decipher without your private key.”</p>
-<p>这里咬文嚼字一翻，公钥加密算法并不等同与『公钥算法』，后者的应用场景会更多，包括:</p>
-<ul>
-<li>密钥交换</li>
-<li>加密信息</li>
-<li>数字签名</li>
-</ul>
-<p>常见的公钥算法包括: </p>
-<ul>
-<li>RSA encryption algorithm (PKCS#1)</li>
-<li>Various elliptic curve techniques</li>
-<li>Diffie–Hellman key exchange protocol</li>
-<li>ElGamal</li>
-</ul>
-<p>现在主流的是RSA和基于椭圆曲线的加密算法。</p>
-<p>公钥算法是一个非常大的进步，而且直接感觉，好像所有的密码学问题都可以通过公钥算法解决。但是从现实角度而言,但是仅仅依靠此还不能构建健壮的安全体系，具体的问题包括:</p>
-<ul>
-<li>作用范围 : 公钥加密算法只能加密一小块的数据</li>
-<li>性能问题，这个可以通过混合加密体系解决(公钥+对称加密)</li>
-<li>合法性验证问题: 虽然我们可以加密解密任何消息，但是我们并不知道此消息是否来自真的发送者</li>
-</ul>
-<p>对与最后一个问题，我们需要一个机制去验证消息的合法性(完整性和不可否认性)；常见的做法是在发送消息的时候，增加一些额外信息，这次信息只能是正确的发送者才能构造的；同加密算法一样，验证消息机制同样有对称和非对称体系。如果发送方和接收方用同一个key进行验证，我们一般称为<code>MAC</code>(message authentication codes)；如果用不同的key进行验证，我们则称为<code>signature</code>(数字签名)</p>
-<p>在介绍着两者之前，我们先简单介绍他们的基础支持体系 – hash function</p>
-<h3 id="Hash-functions"><a href="#Hash-functions" class="headerlink" title="Hash functions"></a>Hash functions</h3><p>Hash函数一般而言是对一段文本的摘要(<code>digest</code>), 用于加密验证的hash function一般有更高的要求, 不再赘述，常见的有如下几个算法: </p>
-<ul>
-<li>MD5 : 不建议了</li>
-<li>SHA-1 : 不建议范畴了</li>
-<li>SHA-2 : 现在通用的</li>
-<li>SHA-3(Keccak) : 未来的标准</li>
-</ul>
-<p>可以区别和注意的是<code>SHA2</code>和<code>SHA3</code>,后者的设计理念和前者完全不一致，在硬件上面的性能也更为高效。可以参看<a href="https://en.wikipedia.org/wiki/SHA-3" target="_blank" rel="external">Wikipedia:SHA-3
-</a> 对比不同hash function的特性，表格太大，就不直接摘录了。</p>
-<h3 id="Message-authentication-code"><a href="#Message-authentication-code" class="headerlink" title="Message authentication code"></a>Message authentication code</h3><p>定义: A Message authentication code (MAC) is a small bit of information that can be used to check the authenticity and the integrity of a message.  else codes are often called ”tags”</p>
-<p>也就是说在双方共享$K_m$的情况下，需要达成一种协议，包括接收方能够快速的验证$P$的完整性。本质而言，就是需要一个$F$, 支持如下的模式:</p>
-<p>$$ t = F(P, K_m)$$</p>
-<p>对于如何将MAC和加密消息组合，有三种不同的方式，包括:</p>
-<ul>
-<li>Authenticate and encrypt : 分别进行消息验证和加密，类似于 $C = E(K_C, P), t = MAC(K_m, P)$, 同时发送$C$和$t$, SSH采用该方式</li>
-<li>Authenticate, then encrypt : 对消息进行验证，其次和明文组合一起后加密发送，如下方式 $t=MAC(K_m,P), C=E(K_C,P||t)$, 只要发送$C$ 就可以了, TLS采用的方式</li>
-<li>Encrypt, then authenticate : 先加密, 对加密串算MAC，后一起发送，类似$C=E(K_C,P), t=MAC(K_M,C)$, IPSec采用的方式</li>
-</ul>
-<p>普遍认为第三种方式是最好的，因为在解密之前就可以验证消息的合法性；</p>
-<p>对于<code>MAC</code>的具体实现方式，本质而言，就是需要一个$F$, 给定密钥</p>
-<ul>
-<li>简单的方式: $t=H(k||m)$, H可以选择一个hash function,  这类组合方式有较大的安全风险(不展开)</li>
-<li>HMAC(Hash-based Message Authentication Code<br>) : 其是通过特殊计算的消息验证码，有着更好的安全保障。可以参看其<a href="https://tools.ietf.org/html/rfc2104" target="_blank" rel="external">RFC文档</a></li>
-<li>One-times MAC</li>
-</ul>
-<p>从上面可以看到, 我们现在对于<code>加密</code>和<code>消息验证</code>是当做两个独立的操作，但是在现实生活中，我们很少会独立应用这两个场景，所以现在也提出了AEAD(Authenticated Encryption with Associated Data), 其能支持”验证加密”(authenticated encryption), 将AE的能力以直观的方式提供给业务方。</p>
-<h3 id="Signature-algorithms"><a href="#Signature-algorithms" class="headerlink" title="Signature algorithms"></a>Signature algorithms</h3><p>简单定义如下: </p>
-<p>A signature algorithm is the public-key equivalent of a message authentication code. It consists of three parts:</p>
-<ol>
-<li>a key generation algorithm, which can be shared with other public-key algorithms</li>
-<li>a signature generation algorithm </li>
-<li>a signature verification algorithm</li>
-</ol>
-<p>很自然而然的我们可以想到<code>RSA</code>可以用于数字签名</p>
-<p>下面我们简单分析另外一个数字签名算法<code>DSA</code>, 其分为两个缓解，一个是参数选择，另外一个是生成公钥私钥; 具体如下:</p>
-<blockquote>
-<p>TODO, 补充</p>
-</blockquote>
-<h4 id="DSA-Parameter-generation"><a href="#DSA-Parameter-generation" class="headerlink" title="DSA Parameter generation"></a>DSA Parameter generation</h4><h4 id="Key-generation"><a href="#Key-generation" class="headerlink" title="Key generation"></a>Key generation</h4><p>如下是常见的签名算法(<a href="https://en.wikipedia.org/wiki/Digital_signature" target="_blank" rel="external">Wikipedia: Digital signature
-</a>)</p>
-<ul>
-<li>RSA-based signature schemes, such as RSA-PSS</li>
-<li>DSA and its elliptic curve variant ECDSA</li>
-<li>Edwards-curve Digital Signature Algorithm and its Ed25519 variant.</li>
-</ul>
-<h2 id="通信过程概述"><a href="#通信过程概述" class="headerlink" title="通信过程概述"></a>通信过程概述</h2><p>通过如上的分析，我们可以认为拥有如下几个能力:</p>
-<ul>
-<li>对称加密能力 : 给定一个key，将内容进行加密的能力</li>
-<li>消息散列 : 通过一个key，可以验证消息的完整性和认证</li>
-<li>非对称加密能力: 可以通过公钥密钥进行加解密</li>
-<li>数字签名 : 通过非对称密钥验证消息完整性和认证</li>
-</ul>
-<p>基于此，可以构建上层更复杂丰富的业务场景，比如说<a href="https://en.wikipedia.org/wiki/Transport_Layer_Security" target="_blank" rel="external">TLS</a>; 这个里面的细节比较多，我们在以后的文章详细介绍TLS的协议流程。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;/images/cryptography.jpg&quot; alt=&quot;cryptography&quot;&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;最近要把去年的读书笔记补齐~&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;电子书&lt;a href=&quot;https://www.c
-    
-    </summary>
-    
-    
-      <category term="cryptography" scheme="http://shevacjs.com/tags/cryptography/"/>
     
   </entry>
   

@@ -57,6 +57,153 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-20180826" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/09/20180826/">weekly of 20180826</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/09/09/20180826/" class="article-date">
+  <time datetime="2018-09-09T10:58:45.000Z" itemprop="datePublished">2018-09-09</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://highperfdesign.com/post/async_io_intro/" target="_blank" rel="external">Introduction to Asynchronous I/O - High Performance computing</a> : 关于异步 IO 的介绍，这个是入门篇，后续希望有更深入的分析和介绍，先 mark</p>
+</li>
+<li><p><a href="https://lowleveldesign.org/2018/08/15/randomness-in-net/" target="_blank" rel="external">Randomness in .NET – lowleveldesign.org</a> : 分析<code>.NET</code>环境下面伪随机数的安全性，其实只要知道内部状态，就可以快速知道后续的序列了, 另外一篇可以重点学习的文章是<a href="http://lcamtuf.coredump.cx/oldtcp/tcpseq.html" target="_blank" rel="external">Strange Attractors and TCP/IP Sequence Number Analysis</a>, 讨论”inserting a malicious packet into a TCP connection”可行性</p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><a href="https://hacks.mozilla.org/2018/08/dweb-building-a-resilient-web-with-webtorrent/" target="_blank" rel="external">Dweb: Building a Resilient Web with WebTorrent – Mozilla Hacks – the Web developer blog</a> : 之前讨论过<code>webTorrent</code>的情况，最近通过了解磁力链接等，对于其内部实现和机制有了进一步的了解, Maybe 是下一代互联网的趋势, 可以参考其<a href="https://webtorrent.io/faq" target="_blank" rel="external">官网</a>举例的一些应用场景，包括对等文件传输, <a href="https://peercloud.io/" target="_blank" rel="external">PeerCloud</a>“Serverless websites via WebTorrent”</li>
+</ul>
+<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404277899594202694" target="_blank" rel="external">卫夕 | 机器知道你会点广告：写给普通人的CTR预估科普</a> : 很好的的 CTR 入门介绍，值得了解</p>
+</li>
+<li><p><a href="https://github.com/TellinaTool/nl2bash" target="_blank" rel="external">TellinaTool/nl2bash: Generating bash command from natural language</a> :  </p>
+</li>
+<li><p><a href="http://www.styluslabs.com/" target="_blank" rel="external">Stylus Labs: Writer</a> : “writer is a word processor for handwriting”, 一个面向于手写场景的编辑器, 交互和功能支持方式很有针对性，可以参考下，不知道对中文输入场景的支持如何~</p>
+</li>
+<li><p><a href="https://nostarch.com/seriouscrypto" target="_blank" rel="external">Serious Cryptography | No Starch Press</a> : 一本介绍密码学相关的数据，看目录还不错，先 mark</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/ok4oCRNQ9lrgtyTrk-d6gA" target="_blank" rel="external">MacTalk: 推荐几款 Mac 上的效率利器</a> : 推荐了几个<a href="http://macshuo.com/?p=625" target="_blank" rel="external">Alfred</a>, <a href="https://www.alfredapp.com" target="_blank" rel="external">Paste</a>, <code>Magnet</code>, <a href="https://mubu.com" target="_blank" rel="external">幕布</a>等工具, 个人感觉用起来一般~</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-nginx_1_15_3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/30/nginx_1_15_3/">nginx 1.15.3 版本说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/08/30/nginx_1_15_3/" class="article-date">
+  <time datetime="2018-08-30T04:15:29.000Z" itemprop="datePublished">2018-08-30</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="0x00-Feature-List"><a href="#0x00-Feature-List" class="headerlink" title="0x00 Feature List"></a>0x00 Feature List</h2><p>主要包含如下两点: </p>
+<ul>
+<li><p>Feature: now TLSv1.3 can be used with BoringSSL.</p>
+</li>
+<li><p>Feature: the “ssl_early_data” directive, currently available with BoringSSL.</p>
+</li>
+<li><p>Feature: the “keepalive_timeout” and “keepalive_requests” directives in the “upstream” block.</p>
+</li>
+</ul>
+<p>前两者关于<code>BoringSSL</code>和 TLS 相关的优化，后者是 keepalive 特性的优化，下面分别介绍。</p>
+<h2 id="0x01-UPSTREAM-KEEPALIVE"><a href="#0x01-UPSTREAM-KEEPALIVE" class="headerlink" title="0x01 UPSTREAM KEEPALIVE"></a>0x01 UPSTREAM KEEPALIVE</h2><p>关于Nginx Upstream 长连接池的机制可以参看之前的<a href="http://shevacjs.com/2016/01/19/tcp_keepalive_proxy/">让nginx支持TCP长连接代理</a>这篇文章，这次主要现在如下两个指令, 如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">* Syntax:   keepalive_timeout timeout;</div><div class="line">* Default:  keepalive_timeout 60s;</div><div class="line">* Context:  upstream</div><div class="line">&gt; This directive appeared in version 1.15.3.</div><div class="line"></div><div class="line">Sets a timeout during which an idle keepalive connection to an upstream server will stay open</div></pre></td></tr></table></figure>
+<p>以及如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">* Syntax:    keepalive_requests number;</div><div class="line">* Default:   keepalive_requests 100;</div><div class="line">* Context:    upstream</div><div class="line">&gt; This directive appeared in version 1.15.3.</div><div class="line"></div><div class="line">After the maximum number of requests is made, the connection is closed.</div></pre></td></tr></table></figure>
+<p>可以看到其主要作用是，当一个请求空闲<code>一段时间</code>(keepalive_timeout)或者处理过<code>足够多</code>(keepalive_requests)的请求, 则会关闭连接，以便重启;</p>
+<p>其核心理念是希望长链接的请求能够回收重启, 原因是长连接容易造成一些边缘 case 和异常，比如<a href="https://trac.nginx.org/nginx/ticket/1170" target="_blank" rel="external">implement keepalive timeout for upstream</a> 和 <a href="https://trac.nginx.org/nginx/ticket/1484" target="_blank" rel="external">Timeouts when proxying to Apache and using Keepalive</a>, 提到的proxy server和 proxy 的竞争发送问题, Proxy server<code>time_wait</code>过多等问题; 代码修复实现相对比较简单，不再赘述。</p>
+<h2 id="0x02-BoringSSL与-TLS"><a href="#0x02-BoringSSL与-TLS" class="headerlink" title="0x02 BoringSSL与 TLS"></a>0x02 BoringSSL与 TLS</h2><p>我们知道 OpenSSL是应用最为广泛的TLS协议的实现, 由于 TLS 的重要性以及 OpenSSL 实现的复杂性，其安全问题一直都存在着; 所以，业内也有提出其他的 OpenSSL 的实现方式，比如基于OpenSSL修改衍生的<a href="https://en.wikipedia.org/wiki/BoringSSL" target="_blank" rel="external">BoringSSL</a> 和 <a href="https://en.wikipedia.org/wiki/LibreSSL" target="_blank" rel="external">LibreSSL</a>, 这一类实现和 OpenSSL 基本保持接口的兼容，也就意味着宿主程序可以以较低的成本进行迁移; 还有一类是独立实现的，比如说<a href="https://bearssl.org/index.html#overview" target="_blank" rel="external">BearSSL</a> (建议可以深入了解)之类，其有自己特意的针对性目标和场景，其接口和<code>openssl</code>也不一致, 迁移成本较大。所以, Nginx从<code>1.7.4</code>开始, 开始兼容<code>BoringSSL and LibreSSL</code>, 其兼容成本也不算特别高。</p>
+<p>具体编译的方法可以参考<a href="www.lidaren.com/archives/1702">Nginx替换OpenSSL为LibreSSL</a> 和 <a href="https://sometimesnaive.org/article/64" target="_blank" rel="external">Nginx 启用 BoringSSL</a>, 其核心是Nginx 编译脚本依赖的两类文件(考虑类Unix环境), 包括: </p>
+<ul>
+<li><code>$OPENSSL/.openssl/include/openssl/ssl.h</code>(参考auto/lib/openssl/make文件) : 头文件的依赖</li>
+<li><code>$CORE_LIBS $OPENSSL/.openssl/lib/libssl.a</code>和<code>$CORE_LIBS $OPENSSL/.openssl/lib/libcrypto.a</code>(参考参考auto/lib/openssl/conf文件) : 链接库的依赖</li>
+</ul>
+<p>由于编译的脚本是死的，所以在准备<code>LibreSSL</code>或者<code>BoringSSL</code>的时候，保证上面两者的兼容性就可以了</p>
+<p>再简单分析<code>LibreSSL/BoringSSL</code>和 OpenSSL 的一些差异点, 整体不同的TLS library的对比可以参考<a href="https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations" target="_blank" rel="external">Wiki:Comparison of TLS implementations</a>, 上面有比较详细的对比</p>
+<h2 id="0x03-Reference"><a href="#0x03-Reference" class="headerlink" title="0x03 Reference"></a>0x03 Reference</h2><ul>
+<li><p><a href="https://icmconference.org/wp-content/uploads/G12c-Bechis.pdf" target="_blank" rel="external">LibreSSL</a> : 比较系统的介绍<code>LibreSSL</code>项目初衷，目标以及如何实现(主要在代码实现方面有所取舍)的, 可以快速了解</p>
+</li>
+<li><p><a href="https://bearssl.org/" target="_blank" rel="external">BearSSL: Overview</a> : <code>BearSSL</code>也是一个TLS的实现, 里面保护很多比较最新的特性，比如说<code>时间无关</code>的支持, 是学习TLS的一个很好入门</p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/make-ssl-boring-again/" target="_blank" rel="external">Make SSL boring again</a> : CloudFlare的<code>BoringSSL</code>的迁移实践和总结, 包括其优势，比如说较早的TLS1.3的支持, <code>X25519</code>的支持等, 其不足之处, 比如说<code>Slow Base64</code>(因为保证constant-time的), <code>missing OCSP</code>等，可以看出和了解BoringSSL和Openssl 的异同点</p>
+</li>
+<li><p><a href="https://elib.uni-stuttgart.de/bitstream/11682/9311/1/thesis.pdf" target="_blank" rel="external">Analysing and improving the crypto ecosystem of Rust</a> : 我们知道OpenSSL 现在主要的核心问题实现方面的漏洞, 其和C/C++语言的内存模型有一些关系, Rust的语言设计能很大的规避这方面的问题，这篇长 paper(一百多页) 就是介绍了如果通过Rust 构建一个更健壮的密码系统</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20180812" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1128,197 +1275,6 @@
 <li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247491127&amp;idx=1&amp;sn=9897b560cb0350e8ece0f61b3dc461c4" target="_blank" rel="external">这是我看过解释TensorFlow最透彻的文章！</a> : 继续mark</p>
 </li>
 <li><p><a href="https://github.com/Valloric/YouCompleteMe" target="_blank" rel="external">Valloric/YouCompleteMe: A code-completion engine for Vim</a> : A code-completion engine for Vim, 一个比较系统的代码补全工具的合集, 还可以参看<a href="https://ops.tips/gists/navigating-the-linux-kernel-source-with-youcompleteme/" target="_blank" rel="external">Navigating the Linux Kernel source tree with YouCompleteMe | OpsTips</a>这个的介绍说明</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20180617" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/24/20180617/">weekly of 20180617</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2018/06/24/20180617/" class="article-date">
-  <time datetime="2018-06-24T05:36:45.000Z" itemprop="datePublished">2018-06-24</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzIzNjUxMzk2NQ==&amp;mid=2247489433&amp;idx=1&amp;sn=094e94e19baa62f7015dc1afd5c67576" target="_blank" rel="external">写好shell脚本的13个技巧</a> : 很多建议都非常中肯，有点琐碎，去能真正提供好用户体验, 具体如下(个人感觉最后有一个shell的lib自动提供如下的能力) :<ol>
-<li>提供–help标记</li>
-<li>检查所有命令的可用性</li>
-<li>独立于当前工作目录</li>
-<li>如何读取输入：环境变量 vs. 标记</li>
-<li>打印对系统执行的所有操作</li>
-<li>如果有必要，提供–silent选项</li>
-<li>重新开启显示</li>
-<li>用动画的方式显示进度</li>
-<li>用颜色编码输出</li>
-<li>出现错误立即退出脚本</li>
-<li>自己执行清理工作</li>
-<li>在退出时使用不同的错误码</li>
-<li>在结束时打印一个新行</li>
-</ol>
-</li>
-</ul>
-<ul>
-<li><p><a href="https://about.gitlab.com/2018/06/15/introducing-gitlab-s-integrated-development-environment/" target="_blank" rel="external">Meet the GitLab Web IDE</a> : 介绍Gitlab的web IDE背后设计的思路和发展历程，整体感觉集Web IDE集成在gitlab可以对开发流程提供的想象空间很大</p>
-</li>
-<li><p><a href="https://carbon.now.sh/" target="_blank" rel="external">Carbon</a> : “Create and share beautiful images of your source code”, 其可以生成渲染出好看的代码截图(不知道有什么用~)</p>
-</li>
-</ul>
-<ul>
-<li><a href="https://code.facebook.com/posts/1461914677288302/open-sourcing-sonar-a-new-extensible-debugging-tool/" target="_blank" rel="external">Open-sourcing Sonar, a new extensible debugging tool | Engineering Blog | Facebook Code</a> : Facebook发布的用于调试和追踪App行为的工具, 不过app事先嵌入相关的SDK，感觉有一定的成本</li>
-</ul>
-<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
-<li><p><a href="https://memcached.org/blog/nvm-caching/" target="_blank" rel="external">Caching beyond RAM: the case for NVMe</a> : 本文提供了一个memcached的新的解决方案，通过<code>exstore</code>机制，将部分缓存的<code>value</code>数据存储在独立的存储引擎上面(比如SSD或者本文的NVMe存储介质)，数据表明，其性价比和性能还是非常可观的, 其中的<a href="https://github.com/memcached/memcached/wiki/Extstore" target="_blank" rel="external">Extstore</a>值得关注</p>
-</li>
-<li><p><a href="https://blog.twitter.com/engineering/en_us/topics/insights/2018/twittertensorflow.html" target="_blank" rel="external">Twitter meets TensorFlow</a> : mark, 介绍twitter的tensorflow的接入历程</p>
-</li>
-<li><p><a href="https://code.facebook.com/posts/605721433136474/accelerate-large-scale-applications-with-bolt/" target="_blank" rel="external">Accelerate large-scale applications with BOLT | Engineering Blog | Facebook Code</a> : 现在多数软件系统的体积都会很大，这可能会导致其不能被CPU cache命中，进而会导致诸如<a href="https://software.intel.com/en-us/vtune-amplifier-help-instruction-starvation" target="_blank" rel="external">Instruction Starvation</a>的问题,  所以<code>Binary Optimization and Layout Tool</code>就有一定的发展空间；本文介绍了Facebook的BOLT的解决方案, 其通过链接优化，profile采集进而进行二进制优化，来提升整体程序的性能，支持多种CPU架构和编译器，可以感觉Facebook在基础技术的优化做的还是非常精细的</p>
-</li>
-</ul>
-<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247490909&amp;idx=1&amp;sn=cb8b69c0433c40b8d5e2ef0b9d2b58e2" target="_blank" rel="external">创业半年估值四亿！离开百度后他打造了中国版AutoML</a> : AutoML以后会是趋势，至少应该会有系统化或者成套的解决方案让机器学习工程师从调参等事情中解放出来</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw==&amp;mid=2247487968&amp;idx=1&amp;sn=2ff7b511f6727c7816ab02fc0e1c0361" target="_blank" rel="external">聊聊架构</a> :  不是特别喜欢行文风格，但是总结起来就是<code>如果你在使用 MySQL 或 MariaDB，不要用“utf8”编码，改用“utf8mb4”</code></p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247490919&amp;idx=1&amp;sn=7df7d148c1d3907654980d39500c94bd" target="_blank" rel="external">重磅！Netflix开源大数据发现服务框架Metacat</a> : 个人之前有设想过需要去构建的大数据服务系统，其”旨在让发现、处理和管理数据变得更为方便”</p>
-</li>
-<li><p><a href="http://jamie-wong.com/post/reverse-engineering-instruments-file-format/" target="_blank" rel="external">Reverse Engineering Instruments’ File Format</a> : 内容比较多，先mark</p>
-</li>
-<li><p>[<a href="http://www.saminiir.com/lets-code-tcp-ip-stack-1-ethernet-arp/" target="_blank" rel="external">Let’s code a TCP/IP stack, 1: Ethernet &amp; ARP</a>] : mark</p>
-</li>
-<li><p><a href="http://www.pcg-random.org/" target="_blank" rel="external">PCG, A Family of Better Random Number Generators | PCG, A Better Random Number Generator</a> : Mark, 有个具体说明的video，有空的时候可以看下</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20180610" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/24/20180610/">weekly of 20180610</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2018/06/24/20180610/" class="article-date">
-  <time datetime="2018-06-24T05:34:45.000Z" itemprop="datePublished">2018-06-24</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
-<li><p><a href="https://www.oschina.net/news/96686/side-channel-attacking-browsers" target="_blank" rel="external">令人惊叹的 CSS 漏洞攻击，Firefox 和 Chrome 中枪</a> :  文章介绍了一个比较精巧的用户隐私窃取方式, 可以关注其英文原文<a href="https://www.bleepingcomputer.com/news/security/css-is-so-overpowered-it-can-deanonymize-facebook-users/" target="_blank" rel="external">CSS Is So Overpowered It Can Deanonymize Facebook Users</a></p>
-</li>
-<li><p><a href="https://jasonhpriestley.com/lr" target="_blank" rel="external">LR Parsing: More Elegant Than You Think</a> : 对LR算法的更通俗，简单易懂的一个介绍</p>
-</li>
-<li><p><a href="http://dockone.io:82/article/5280" target="_blank" rel="external">gVisor：Google开源的新型沙箱容器运行时环境</a> : 谷歌发布了一款新型的沙箱容器运行时 gVisor，号称能够为容器提供更安全的隔离，同时比 VM 更轻量，其核心是希望补齐直接docker之类技术引入的安全性问题。沙箱的解决方案有多个，本文侧重介绍gVisor的实现机制，<a href="https://mp.weixin.qq.com/s?__biz=MzIzNjUxMzk2NQ==&amp;mid=2247489400&amp;idx=1&amp;sn=4f099bdfb41e046f430acb135d0817eb" target="_blank" rel="external">此文</a>有进一步的说明, 感觉虚拟化技术最近几年发展和变化速度非常迅猛</p>
-</li>
-</ul>
-<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
-<li><p><a href="https://techcrunch.com/2018/06/01/how-instagram-feed-works/" target="_blank" rel="external">How Instagram’s algorithm works | TechCrunch</a> : 本文介绍Instagram的新的排序算法，其相比于传统的基于回复时间排序的算法，对于文章的曝光率有了明显的提升，具体策略算法方面，只是介绍了一些核心的思路，细节之处没有做过多介绍，但是仍旧值得关注。 </p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw==&amp;mid=2247487946&amp;idx=1&amp;sn=69a96352c28d95db1620537e9ac65587" target="_blank" rel="external">重新理解微服务</a> : 感觉相对来说比较干货的文章，具体介绍了业务服务化改造后可能面临的问题，以及其解决方案，重点介绍了”服务粒度”, “服务组合”, “数据一致性”, “支撑系统” 等一些基础设施以及能力在落地时候的关键点</p>
-</li>
-<li><p><a href="https://medium.com/netflix-techblog/the-end-of-video-coding-40cf10e711a2" target="_blank" rel="external">The End of Video Coding? – Netflix TechBlog – Medium</a> : 一个反问的标题，其实对视频的编码技术的优化需求从来没这么迫切，随着视频时代到来，如果在有效带宽上面提供更好的用户体验一直是各厂商的需求，作者踢了几点思路，感觉可以参考：</p>
-<ul>
-<li>Let’s innovate beyond block-based hybrid encoding</li>
-<li>The community needs better ways to measure video quality</li>
-<li>Encouraging new ideas means discussing with new people(这个忽略)</li>
-</ul>
-</li>
-</ul>
-<h3 id="专题topic"><a href="#专题topic" class="headerlink" title="专题topic"></a>专题topic</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
-<li><p><a href="https://github.com/thosakwe/t2b" target="_blank" rel="external">thosakwe/t2b: A wicked-powerful text macro language for building binary files.</a> : 挺有意思的一个工具，通过描述性语言(DSL)快速生成一个二进制文件, 纯C实现~</p>
-</li>
-<li><p><a href="http://codebay.cn/post/9253.html" target="_blank" rel="external">Firefox 和 Tor 浏览器正进行整合，最终实现二合一 –</a> : 持续关注，后续希望无论在Chrome还是Firefox都有比较好的隐私浏览体验和保护</p>
-</li>
-<li><p><a href="https://weibo.com/5815864126/GjcIowhtU" target="_blank" rel="external">火币研究院最新发布的全球区块链产业全</a> : 对于区块链的近一年爆发式发展的一个概述，可以当做课外读物</p>
-</li>
-<li><p><a href="https://devpen.io/editor" target="_blank" rel="external">Devpen | Markdown Editor with GitHub Style</a> : 很简单精炼的Github样式支持的Markdowen编辑器</p>
-</li>
-<li><p>[<a href="https://jmperezperez.com/fostering-web-performance-culture/" target="_blank" rel="external">Fostering a Web Performance Culture - José M. Pérez</a>] : 很长的文章，介绍了作者对于如何构建一个对性能持续关注投入的团队，作者也提了自己的一些建议，包括:</p>
-<ul>
-<li>Your dev environment is not your user’s environment(Realistic environment)</li>
-<li>It’s better to learn the fundamentals than the library (Fundamentals over libraries)</li>
-<li>Get the time to experiment and validate (Experiment on your project)</li>
-<li>Educate your Colleagues </li>
-<li>Share and celebrate success (and failure) stories (Share &amp; Celebrate)</li>
-<li>Make performance part of your workflow(Integrate in workflow)</li>
-</ul>
-</li>
-<li><p><a href="https://medium.com/@CanHasCommunism/understanding-compilers-for-humans-ba970e045877" target="_blank" rel="external">Understanding Compilers</a> : 干货很少，但是可以学习如何用简单的语言去描述一个负责的编译过程，包括”the major concepts in compilers like tokenization, grammars, parsing, and code generation”</p>
-</li>
-<li><p><a href="http://blog.jamesdbloom.com/JVMInternals.html" target="_blank" rel="external">JVM Internals</a> : 关于JVM实现机制的介绍，内容没有细看，不过排版和图片非常赞，另外作者的blog的干货也是非常多，mark关注下</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw==&amp;mid=2247487964&amp;idx=1&amp;sn=dc8ed665b9fd684cc6f99cae09feb4ab" target="_blank" rel="external">如何防止密码被硬编码到代码中？Yelp开源了自己的解决方案</a> :  一个很简单的文章，Yelp开源了自己代码密码检测的工具，如果检测代码里面是否有密码呢？思路很简单，就是通过计算内容的<a href="http://blog.dkbza.org/2007/05/scanning-data-for-entropy-anomalies.html" target="_blank" rel="external"> Shannon entropy formula</a>, 如果信息熵越大，那就说明其是密码的概率就越高，关于其进一步介绍可以参看<a href="http://www.bearcave.com/misl/misl_tech/wavelets/compression/shannon.html" target="_blank" rel="external">Shannon Entropy
-</a></p>
-</li>
-<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404250830327963644" target="_blank" rel="external">10 款程序员必备的免费开源安全工具，助你成为极客</a> : mark，关注</p>
 </li>
 </ul>
 

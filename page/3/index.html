@@ -57,6 +57,303 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-20180401" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/06/20180401/">weekly of 20180401</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/04/06/20180401/" class="article-date">
+  <time datetime="2018-04-06T13:15:45.000Z" itemprop="datePublished">2018-04-06</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
+<li><p><a href="https://github.com/Microsoft/vscode-tips-and-tricks" target="_blank" rel="external">VS Code Tips and Tricks</a> : 关于VS的tips，简单看了一些，感觉干货还是很多的。之前个人习惯所有的编辑任务都是依赖于命令行的<code>vim</code></p>
+</li>
+<li><p><a href="https://www.charlesproxy.com/documentation/ios/" target="_blank" rel="external">Charles for iOS</a> : Charles支持在IOS系统的请求包分析和捕获,体验还是很不错的。</p>
+</li>
+<li><p><a href="https://bdupras.github.io/filter-tutorial/" target="_blank" rel="external">Probabilistic Filters By Example</a> : 本文简要介绍了<a href="https://brilliant.org/wiki/cuckoo-filter/#cuckoo-vs-bloom-filters" target="_blank" rel="external">Cuckoo Filter</a> 和<a href="https://en.wikipedia.org/wiki/Bloom_filter" target="_blank" rel="external">Blomm Filter</a>各自的特点以及区别, 并具体给出了不用应用场景下面如何选择两者的建议。(PS: 发现网上并没有很多的Cuckoo Filter的入门介绍文章，后续可以补充一个)</p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/dns-resolver-1-1-1-1/" target="_blank" rel="external">Announcing 1.1.1.1: the fastest, privacy-first consumer DNS service</a> : Cloudflare在4月1号发布了号称速度最快的DNS服务器<code>1.1.1.1</code>, 可以参看<a href="https://blog.cloudflare.com/dns-resolver-1-1-1-1/" target="_blank" rel="external">Introducing DNS Resolver, 1.1.1.1 (not a joke)</a>对其技术细节进行深入了解，包括对DNS查询的隐私保护，速度优化方面的策略，对DNS服务有兴趣的可以深入了解下, 正好也可以关注文章<a href="http://blog.jobbole.com/113809/" target="_blank" rel="external">DNS 解析器性能比较：CloudFlare vs Google vs Quad9</a>, 里面具体对比了几个大型DNS服务商的响应时间，cloudflare的确遥遥领先</p>
+</li>
+<li><p><a href="https://medium.com/@NetflixTechBlog/netflix-flamescope-a57ca19d47bb" target="_blank" rel="external">Netflix FlameScope</a> : Netflix开放了另外一个关于<code>flame graph</code>的工具，其主要特点是通过热力图的形式，以<code>100ms</code>为粒度，记录不同时刻的时间情况，并支持基于此粒度进行钻取。同时还可以关注二进制数据的可视化方法，<a href="https://github.com/cortesi/scurve" target="_blank" rel="external">lib库</a>和<a href="https://binvis.io/#/" target="_blank" rel="external">demo</a></p>
+</li>
+</ul>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
+<li><p><a href="https://medium.com/@NetflixTechBlog/performance-under-load-3e6fa9a60581" target="_blank" rel="external">Performance Under Load</a> : Netflix关于如何做过载保护的文章，其实这个topic，个人感觉也研究了一段时间，包括排队论等都做了一些分析。文章的核心思路是复用TCP拥塞控制的算法, 开始以较低流量去尝试，在流量逐渐增大的过程中，通过一些参数指标评估服务是否达到瓶颈，如果是，则流量回退(类似于拥塞窗口减少)($newLimit = currentLimit × gradient + queueSize$)。同时也直接开放了相关的<a href="https://github.com/Netflix/concurrency-limits" target="_blank" rel="external">lib库</a>, 支持Java/Grpc等，可以关注。</p>
+</li>
+<li><p><a href="https://blog.cloudflare.com/introducing-cloudflare-workers/" target="_blank" rel="external">Introducing Cloudflare Workers: Run JavaScript Service Workers at the Edge</a> :  CloudFlare的<code>Service Worker</code>概述，赋予了业务在Edge Node(类似于CDN)执行代码的能力，后端的同学可以通过这篇文章<a href="https://lzw.me/a/pwa-service-worker.html#1%20%E4%BB%80%E4%B9%88%E6%98%AF%20Service%20Worker" target="_blank" rel="external">Service Worker 应用详解</a>了解浏览器service worker的大概机制；整体而言，个人感觉思路和创新都是有的，不过对于应用场景还需要深入和进一步的思考</p>
+</li>
+<li><p><a href="https://medium.com/netflix-techblog/using-machine-learning-to-improve-streaming-quality-at-netflix-9651263ef09f" target="_blank" rel="external">Using Machine Learning to Improve Streaming Quality at Netflix</a> : 通过ML的方法，来预估网络的质量和延迟情况，先mark</p>
+</li>
+</ul>
+<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p><a href="http://cstaecker.fairfield.edu/~cstaecker/machines/longimeter.html" target="_blank" rel="external">Steinhaus Longimeter</a> : mark，一个测量曲线长度的办法，非常精巧，先mark</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/moyoJd1EnNziRPQgHbNXRw" target="_blank" rel="external">从抄书到开源之巅：章亦春的程序人生</a> : 非常敬佩的工程师, 每个成功故事的历程都有所不一样，但是持续努力奋斗是永恒的主题；</p>
+</li>
+<li><p><a href="https://www.dongqiudi.com/archive/596265.html" target="_blank" rel="external">西甲风云21：铁血军团，马德里竞技</a> : “催人泪下的卡尔德隆，这是我的家。它教会我怎样成长，怎样忍耐，怎样生活，怎样面对困境。不管贫富，我们永远是第一！Forza Atleti!”, 有点跑题的文章，不过写得很好，也mark</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzIwMzg1ODcwMw==&amp;mid=2247487637&amp;idx=1&amp;sn=d76a3e92036c0487c6f3e16b6afd3df8" target="_blank" rel="external">聊聊Chaos Engineering的历史、原则和最佳实践</a> : 我的理解<code>Chaos Engineering</code>应该属于SRE的一部分，其采用特殊的方法，去验证系统的容灾能力，评估系统的可用性。随着分布式系统的日趋复杂，这样的需求也会愈加强烈。</p>
+</li>
+<li><p><a href="https://weibo.com/ttarticle/p/show?id=2309404225376346895947" target="_blank" rel="external">既练轻功也练内功——面对风口的正确姿势</a> : 每个人都会面临各种选择和权衡，如何合适的机会和风口，让自己的职业生涯有进一步提升，是个需要深思的问题, 作者建议的三个原则，学会预测，需找开鱼刀，练轻功之前先修炼好内功, 可以采纳</p>
+</li>
+<li><p><a href="http://www.quickcode.co/engineer-blogs" target="_blank" rel="external">Engineering Blogs</a> : 一些公司的技术blog的list，感觉可以通过收藏夹或者其他的可以序列话的方式提供。</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-note_about_crypto101" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/28/note_about_crypto101/">Crypto101读书笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2018/03/28/note_about_crypto101/" class="article-date">
+  <time datetime="2018-03-28T07:58:45.000Z" itemprop="datePublished">2018-03-28</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/cryptography.jpg" alt="cryptography"></p>
+<blockquote>
+<p>最近要把去年的读书笔记补齐~</p>
+</blockquote>
+<p>电子书<a href="https://www.crypto101.io/" target="_blank" rel="external">Crypto 101</a>是我个人感觉最好的关于密码学的入门笔记; 深入浅出的介绍了整个密码学体系的各类算法，此文为此书的读书笔记</p>
+<h2 id="分层体系"><a href="#分层体系" class="headerlink" title="分层体系"></a>分层体系</h2><ul>
+<li><p>第一层: 最底层是基础算法原语的实现, 比如: md5, AES, RSA, SHA256等</p>
+</li>
+<li><p>第二层: 选定参数后，划分为符合密码学标准分类的算法, 几个基本能力:</p>
+<ul>
+<li>块加密算法</li>
+<li>流加密算法</li>
+<li>密钥交换算法</li>
+<li>公钥加密算法</li>
+<li>MAC算法</li>
+<li>签名算法</li>
+</ul>
+</li>
+<li><p>第三层: 基于标准分类算法进一步组合而成的半成品，比如说对称传输组件例如<code>aes-128-cbc + hmac-sha256</code>, 认证密钥协商算法<code>rsassa-OAEP + ecdh-secp256r1</code></p>
+</li>
+<li><p>第四层: 用各种组件拼装而成的各种成品密码学协议/软件, 比如TLS协议等</p>
+</li>
+</ul>
+<p>这里先介绍第一/二层的常见技术和方法，以后再深入分析第四层的业务应用。</p>
+<h2 id="标准密码学概述"><a href="#标准密码学概述" class="headerlink" title="标准密码学概述"></a>标准密码学概述</h2><h3 id="Block-ciphers"><a href="#Block-ciphers" class="headerlink" title="Block ciphers"></a>Block ciphers</h3><ul>
+<li>定义:</li>
+</ul>
+<p>A block cipher is an algorithm that allows us to encrypt blocks of a fixed length.  It provides an encryption function E that turns plaintext blocks P into ciphertext blocks C, using a secret key k:</p>
+<p>$$ C = E(k, P) \ \ encrpytion $$<br>$$ P = D(k, C) \ \ decryption $$</p>
+<p>一般情况下, 明文和密文的长度是一样的，这个是由密钥控制的；</p>
+<p>常见放的对称加密算法有: <code>AES</code>(Advanced Encryption Standard) 和 相对比较老的 <code>DES</code>和<code>3DES</code></p>
+<p>可以预见块加密算法有两个比较大的问题，具体包括:</p>
+<p>1) 块加密算法只能加密固定长度的信息，这个并不能很好应用于现实世界，所以我们需要引入<code>Stream ciphers</code></p>
+<p>2) 密钥非常重要，但我们仍会面临着如何在一个不安全的通道上面交互密钥；这个在<code>key exchange protocol</code>里面会介绍其解决方案</p>
+<h3 id="Stream-Ciphers"><a href="#Stream-Ciphers" class="headerlink" title="Stream Ciphers"></a>Stream Ciphers</h3><p>还是先看定义，英文如下:</p>
+<p>“A stream cipher is a symmetric-key encryption algorithm that encrypts a stream of bits. Ideally, that stream could be as long as we’d like;”</p>
+<p>如何实现, 初步的想法就是基于<code>Block Ciphers</code>去实现，将超长的文本切分为固定长度的子串，再分别加密。如何将<code>block ciphers</code>变成<code>stream ciphers</code>是需要精细考量的。比如最简单的ECB模式(Electronic Code Book Mode),  其过程大概如下:</p>
+<p><img src="/images/ECB_encryption.svg.png" alt="ECB加密过程"></p>
+<p><img src="/images/ECB_decryption.svg.png" alt="ECB解密过程"></p>
+<p>但是这个模块是的弱点非常明显, 比如攻击者可以方便地做流量重放，而且密文和原始明文的顺序也是一一对应，容易被攻击。</p>
+<p>我们可以考虑其他的几个方式，包括:</p>
+<ul>
+<li>CBC :  “plaintext blocks are XORed with the previous ciphertext block before being encrypted by the block cipher.”, 同时对于第一个block，我们通过引入初始向量解决(initialization vector, <code>IV</code>) ，其中<code>IV</code>我们要求满足不可预测的要求，所以一般用CBC模式加密的时候还需要双方达成<code>IV</code>的一致这个步骤(后续详解)</li>
+</ul>
+<p>如下是CBC的加解密过程示意图:</p>
+<p><img src="/images/CBC_encryption.svg.png" alt="CBC加密过程"><br><img src="/images/CBC_decryption.svg.png" alt="CBC加密过程"></p>
+<p>CBC模式对于初始向量有较大依赖，一旦<code>IV</code>被攻击者预测等，整个加密的安全性也难以得到保障</p>
+<p>一些数学形式化的说明如下，可以简单参考</p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Formulas</th>
+<th>Ciphertext</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECB</td>
+<td>$Y_i = F(Plaintext_i, Key)$</td>
+<td>$Y_i$</td>
+</tr>
+<tr>
+<td>CBC</td>
+<td>$Y_i = Plaintext_i XOR \ Ciphertext_{i-1}$</td>
+<td>$F(Y,key); Ciphertext_0 = IV$</td>
+</tr>
+<tr>
+<td>PCBC</td>
+<td>$Y_i = Plaintext_i XOR \ (Ciphertext_{i-1} XOR \ Plaintext_{i-1})$</td>
+<td>$F(Y,key); Ciphertext_0 = IV$</td>
+</tr>
+</tbody>
+</table>
+<p>虽然通过<code>CBC</code>等模式，我们可以实现对字节流的加密，但是如何达成密钥的一致性依旧是个问题，所以我们可以看下<code>Key Exchange Protocol</code></p>
+<p>(如上的内容和表格都来自于<a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation" target="_blank" rel="external">Wikipedia:Block cipher mode of operation</a>)</p>
+<h3 id="Key-exchange"><a href="#Key-exchange" class="headerlink" title="Key exchange"></a>Key exchange</h3><p>目标大概如下: “Key exchange protocols attempt to solve a problem that, at first glance, seems impossible. Alice and Bob, who’ve never met before, have to agree on a secret value.  the channel they use to communicate is insecure: we’re assuming that everything they send across the channel is being eavesdropped on.”</p>
+<p>该协议又称<code>Diffie-Hellman</code>算法, 一般有两个实现方式，包括<code>discrete logarithms</code>和<code>elliptic curves</code>，前者相对来说比较好理解，下面详细说明:</p>
+<p>离散对数问题基于如下的假设，对于等式:</p>
+<p>$$ g^x \equiv y (mod \ p) $$</p>
+<p>已知$g,p$, 给定$x$计算$y$很容易，反之则很难; 则我们可以推理如下: </p>
+<p>对于消息交换者Alice, Bob 和 窃听者Eve, 他们在传输消息时候有($r_a$和$r_b$是A，B产生的随机数), 则他们初步可以发送如下两个消息:</p>
+<p>$$ m_a \equiv g^{(r_a)}(mod\ p)$$ </p>
+<p>$$ m_b \equiv g^{(r_b)}(mod\ p)$$ </p>
+<p>依照约定，可以产生密钥$s$</p>
+<p>$$ s = (g^{(r_a)})^{r_b} (mod\ p)$$</p>
+<p>这两个消息，三个人都能看见；但是对Alice而言，他收到了$m_b$我们有:</p>
+<p>$$ s = m_b^{r_a} (mod\ p)$$ </p>
+<p>对Bob同理；</p>
+<p>$$ s = m_a^{r_b} (mod\ p)$$</p>
+<p>但是对于只有$m_a,m_b,g,p$的Eve来说是不能计算出$s$的, 即便$m_a, m_b$相乘:</p>
+<p>$$ t = m_a * m_b (mod\ p) = g^{r_a + r_b} (mod\ p)$$</p>
+<p>如下是从<a href="https://zh.wikipedia.org/wiki/%E8%BF%AA%E8%8F%B2-%E8%B5%AB%E7%88%BE%E6%9B%BC%E5%AF%86%E9%91%B0%E4%BA%A4%E6%8F%9B" target="_blank" rel="external">Wikipedia: 迪菲-赫尔曼密钥交换</a>摘录的示意图: </p>
+<p><img src="/images/Diffie-Hellman-demo.svg.png" alt="DH示意图"></p>
+<p>这个算法很优雅，但是存在很大的问题，就是中间人攻击。 所以我们需要一些新的基础能力，比如说去验证Alice和Bob的真假, 去保障我们消息的完整性。这个后续再讨论如何去保障。</p>
+<h3 id="Public-Key-encryption"><a href="#Public-Key-encryption" class="headerlink" title="Public-Key encryption"></a>Public-Key encryption</h3><p>定义: “People can encrypt information intended for you by using your public key.  the information is then impossible to decipher without your private key.”</p>
+<p>这里咬文嚼字一翻，公钥加密算法并不等同与『公钥算法』，后者的应用场景会更多，包括:</p>
+<ul>
+<li>密钥交换</li>
+<li>加密信息</li>
+<li>数字签名</li>
+</ul>
+<p>常见的公钥算法包括: </p>
+<ul>
+<li>RSA encryption algorithm (PKCS#1)</li>
+<li>Various elliptic curve techniques</li>
+<li>Diffie–Hellman key exchange protocol</li>
+<li>ElGamal</li>
+</ul>
+<p>现在主流的是RSA和基于椭圆曲线的加密算法。</p>
+<p>公钥算法是一个非常大的进步，而且直接感觉，好像所有的密码学问题都可以通过公钥算法解决。但是从现实角度而言,但是仅仅依靠此还不能构建健壮的安全体系，具体的问题包括:</p>
+<ul>
+<li>作用范围 : 公钥加密算法只能加密一小块的数据</li>
+<li>性能问题，这个可以通过混合加密体系解决(公钥+对称加密)</li>
+<li>合法性验证问题: 虽然我们可以加密解密任何消息，但是我们并不知道此消息是否来自真的发送者</li>
+</ul>
+<p>对与最后一个问题，我们需要一个机制去验证消息的合法性(完整性和不可否认性)；常见的做法是在发送消息的时候，增加一些额外信息，这次信息只能是正确的发送者才能构造的；同加密算法一样，验证消息机制同样有对称和非对称体系。如果发送方和接收方用同一个key进行验证，我们一般称为<code>MAC</code>(message authentication codes)；如果用不同的key进行验证，我们则称为<code>signature</code>(数字签名)</p>
+<p>在介绍着两者之前，我们先简单介绍他们的基础支持体系 – hash function</p>
+<h3 id="Hash-functions"><a href="#Hash-functions" class="headerlink" title="Hash functions"></a>Hash functions</h3><p>Hash函数一般而言是对一段文本的摘要(<code>digest</code>), 用于加密验证的hash function一般有更高的要求, 不再赘述，常见的有如下几个算法: </p>
+<ul>
+<li>MD5 : 不建议了</li>
+<li>SHA-1 : 不建议范畴了</li>
+<li>SHA-2 : 现在通用的</li>
+<li>SHA-3(Keccak) : 未来的标准</li>
+</ul>
+<p>可以区别和注意的是<code>SHA2</code>和<code>SHA3</code>,后者的设计理念和前者完全不一致，在硬件上面的性能也更为高效。可以参看<a href="https://en.wikipedia.org/wiki/SHA-3" target="_blank" rel="external">Wikipedia:SHA-3
+</a> 对比不同hash function的特性，表格太大，就不直接摘录了。</p>
+<h3 id="Message-authentication-code"><a href="#Message-authentication-code" class="headerlink" title="Message authentication code"></a>Message authentication code</h3><p>定义: A Message authentication code (MAC) is a small bit of information that can be used to check the authenticity and the integrity of a message.  else codes are often called ”tags”</p>
+<p>也就是说在双方共享$K_m$的情况下，需要达成一种协议，包括接收方能够快速的验证$P$的完整性。本质而言，就是需要一个$F$, 支持如下的模式:</p>
+<p>$$ t = F(P, K_m)$$</p>
+<p>对于如何将MAC和加密消息组合，有三种不同的方式，包括:</p>
+<ul>
+<li>Authenticate and encrypt : 分别进行消息验证和加密，类似于 $C = E(K_C, P), t = MAC(K_m, P)$, 同时发送$C$和$t$, SSH采用该方式</li>
+<li>Authenticate, then encrypt : 对消息进行验证，其次和明文组合一起后加密发送，如下方式 $t=MAC(K_m,P), C=E(K_C,P||t)$, 只要发送$C$ 就可以了, TLS采用的方式</li>
+<li>Encrypt, then authenticate : 先加密, 对加密串算MAC，后一起发送，类似$C=E(K_C,P), t=MAC(K_M,C)$, IPSec采用的方式</li>
+</ul>
+<p>普遍认为第三种方式是最好的，因为在解密之前就可以验证消息的合法性；</p>
+<p>对于<code>MAC</code>的具体实现方式，本质而言，就是需要一个$F$, 给定密钥</p>
+<ul>
+<li>简单的方式: $t=H(k||m)$, H可以选择一个hash function,  这类组合方式有较大的安全风险(不展开)</li>
+<li>HMAC(Hash-based Message Authentication Code<br>) : 其是通过特殊计算的消息验证码，有着更好的安全保障。可以参看其<a href="https://tools.ietf.org/html/rfc2104" target="_blank" rel="external">RFC文档</a></li>
+<li>One-times MAC</li>
+</ul>
+<p>从上面可以看到, 我们现在对于<code>加密</code>和<code>消息验证</code>是当做两个独立的操作，但是在现实生活中，我们很少会独立应用这两个场景，所以现在也提出了AEAD(Authenticated Encryption with Associated Data), 其能支持”验证加密”(authenticated encryption), 将AE的能力以直观的方式提供给业务方。</p>
+<h3 id="Signature-algorithms"><a href="#Signature-algorithms" class="headerlink" title="Signature algorithms"></a>Signature algorithms</h3><p>简单定义如下: </p>
+<p>A signature algorithm is the public-key equivalent of a message authentication code. It consists of three parts:</p>
+<ol>
+<li>a key generation algorithm, which can be shared with other public-key algorithms</li>
+<li>a signature generation algorithm </li>
+<li>a signature verification algorithm</li>
+</ol>
+<p>很自然而然的我们可以想到<code>RSA</code>可以用于数字签名</p>
+<p>下面我们简单分析另外一个数字签名算法<code>DSA</code>, 其分为两个缓解，一个是参数选择，另外一个是生成公钥私钥; 具体如下:</p>
+<blockquote>
+<p>TODO, 补充</p>
+</blockquote>
+<h4 id="DSA-Parameter-generation"><a href="#DSA-Parameter-generation" class="headerlink" title="DSA Parameter generation"></a>DSA Parameter generation</h4><h4 id="Key-generation"><a href="#Key-generation" class="headerlink" title="Key generation"></a>Key generation</h4><p>如下是常见的签名算法(<a href="https://en.wikipedia.org/wiki/Digital_signature" target="_blank" rel="external">Wikipedia: Digital signature
+</a>)</p>
+<ul>
+<li>RSA-based signature schemes, such as RSA-PSS</li>
+<li>DSA and its elliptic curve variant ECDSA</li>
+<li>Edwards-curve Digital Signature Algorithm and its Ed25519 variant.</li>
+</ul>
+<h2 id="通信过程概述"><a href="#通信过程概述" class="headerlink" title="通信过程概述"></a>通信过程概述</h2><p>通过如上的分析，我们可以认为拥有如下几个能力:</p>
+<ul>
+<li>对称加密能力 : 给定一个key，将内容进行加密的能力</li>
+<li>消息散列 : 通过一个key，可以验证消息的完整性和认证</li>
+<li>非对称加密能力: 可以通过公钥密钥进行加解密</li>
+<li>数字签名 : 通过非对称密钥验证消息完整性和认证</li>
+</ul>
+<p>基于此，可以构建上层更复杂丰富的业务场景，比如说<a href="https://en.wikipedia.org/wiki/Transport_Layer_Security" target="_blank" rel="external">TLS</a>; 这个里面的细节比较多，我们在以后的文章详细介绍TLS的协议流程。</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cryptography/">cryptography</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
       <article id="post-20180318" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -712,186 +1009,6 @@
       <footer class="article-footer">
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-20180114" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/15/20180114/">weekly of 20180114</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2018/01/15/20180114/" class="article-date">
-  <time datetime="2018-01-15T10:28:45.000Z" itemprop="datePublished">2018-01-15</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/Barcelona_Seaside.jpg" alt="巴塞罗那-海边"></p>
-<h3 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h3><ul>
-<li><p><a href="https://www.netguru.co/codestories/nginx-tutorial-performance" target="_blank" rel="external">Nginx Tutorial #2: Performance</a> : 关于nginx的介绍文章，这篇重点介绍nginx在性能优化方向做的事情，详细说明了<code>TCP_NODEALY</code>, <code>sendfile</code>等特性, 非常值得学习 </p>
-</li>
-<li><p><a href="http://servercoder.com/2018/01/10/protobuf-usages/" target="_blank" rel="external">你真的用对protobuf了吗?</a> : Protobuf使用的一些tips</p>
-</li>
-<li><p><a href="https://zoumiaojiang.com/article/common-web-security/" target="_blank" rel="external">常见 Web 安全攻防总结</a> : 概述的还是非常全面的，包括<code>XSS</code>, <code>CSRF</code>, <code>SQL注入</code></p>
-</li>
-<li><p><a href="http://facebook.github.io/zstd/" target="_blank" rel="external">Zstandard</a> : “Zstandard is a real-time compression algorithm, providing high compression ratios, It also offers a special mode for small data, called dictionary compression, and can create dictionaries from any sample set”; 后面的特性值得关注</p>
-</li>
-</ul>
-<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><ul>
-<li><p><a href="https://buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/" target="_blank" rel="external">What’s a service mesh? And why do I need one?</a> : 关于Service Mesh的初步介绍, 去年中旬到现在，是微服务框架的一个很多的概念, 其他可以参考的文章包括<a href="https://istio.io/docs/" target="_blank" rel="external">Istio Document</a>, <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650998746&amp;idx=1&amp;sn=5ef8234abc6855482db64b581e4e9a9a" target="_blank" rel="external">Service Mesh：下一代微服务？</a>, <a href="https://mp.weixin.qq.com/s?__biz=MzU0MTMyMDg1NQ==&amp;mid=2247483697&amp;idx=1&amp;sn=b5fdd3af4ae352942820cec9280257c3" target="_blank" rel="external">演讲实录 | Service Mesh 时代的选边与站队</a>, <a href="http://dockone.io/article/3022" target="_blank" rel="external">使用Istio治理微服务入门</a>, 感觉和自己之前琐碎梳理的想法很一致, 需要进一步提升对问题和解决方案的归纳总结能力</p>
-</li>
-<li><p><a href="http://blog.cnbang.net/tech/3531/" target="_blank" rel="external">移动 APP 网络优化概述</a> : 概括性的介绍了移动APP的网络优化思路，包括在弱网情况下的优化策略</p>
-</li>
-<li><p><a href="https://www.bbsmax.com/A/kmzLLLolzG/" target="_blank" rel="external">TLS协议分析 与 现代加密通信协议设计</a> : 对TLS和密码技术的非常全面的介绍，是之前个人比较想写的一类文章，非常赞，先mark</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/6V-zQYwvWuvu3bwtkpaM7w" target="_blank" rel="external">Jeff Dean晒谷歌大脑成绩单，TPU、AutoML、TensorFlow等重大突破</a> : 真心佩服这些无论在高屋建瓴还是技术细节方面，都能考虑周全，推进落地的人员,  其整体战略目标是非常清楚的</p>
-</li>
-</ul>
-<h3 id="琐事小记"><a href="#琐事小记" class="headerlink" title="琐事小记"></a>琐事小记</h3><ul>
-<li><a href="https://www.gnu.org/software/gawk/manual/html_node/Reference-to-Elements.html" target="_blank" rel="external">AWK: Referring to an Array Element</a> : 在AWK里面直接使用<code>array[index-expression]</code>是有副作用的，awk内部会自动为此index生成一个emtpy value, 所以判断一个arry的某个index是否存在，最合理的办法是<code>if inx in array</code>，而不是<code>array[index] == &quot;&quot;</code>, 也可以参看<a href="https://www.gnu.org/software/gawk/manual/html_node/Array-Intro.html#Array-Intro" target="_blank" rel="external">AWK:Introduction to Arrays</a></li>
-</ul>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
-<li><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&amp;mid=2247487608&amp;idx=3&amp;sn=a6392d5028f0f33bfeebf89baf9e2975" target="_blank" rel="external">Facebook开源端到端自动语音识别系统wav2letter</a> : 其是由Facebook AI 研究团队开源的一款简单而高效的端到端自动语音识别系统, 简单看了文档，感觉安装之类的还是很复杂的</p>
-</li>
-<li><p><a href="https://www.jiqizhixin.com/articles/2018-01-12-5/" target="_blank" rel="external">前端慌不慌？用深度学习自动生成HTML代码</a> : “如何用前端页面原型生成对应的代码一直是我们关注的问题，本文作者根据 pix2code 等论文构建了一个强大的前端代码生成模型，并详细解释了如何利用 LSTM 与 CNN 将设计原型编写为 HTML 和 CSS 网站”</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/Zaqj421ASh0kWGnR2ksHJA" target="_blank" rel="external">由全民吃鸡引发的网游加速学习总结</a> : 关于游戏网络速度优化的说明，可以了解国内的网络拓扑的大概情况</p>
-</li>
-<li><p><a href="https://www.toutiao.com/a6509770828173804045/" target="_blank" rel="external">10张图，看懂今日头条核心算法技术</a> : 初步介绍今日头条的算法策略, 后续应该还会有更详细的说明</p>
-</li>
-<li><p><a href="https://www.jianshu.com/p/56acbd66d525" target="_blank" rel="external">天天写业务代码很焦虑，怎么破?</a> : 关于业务和技术开发的常规讨论, “每一层技术实现，都服务于上一层，都以上一层的需求为业务”, 里面对于业务和技术的感受的区分点个人还是很认可的</p>
-</li>
-<li><p><a href="https://news.ycombinator.com/item?id=16140418" target="_blank" rel="external">iOS 11 Security[pdf]</a> : 苹果的官方文档，关于IOS系统安全性的白皮书, 文档写的非常系统，排版也非常漂亮，值得mark学习</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weekly/">weekly</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
-      <article id="post-nginx_1_13_8" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/03/nginx_1_13_8/">nginx 1.13.8 版本说明</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2018/01/03/nginx_1_13_8/" class="article-date">
-  <time datetime="2018-01-03T07:17:29.000Z" itemprop="datePublished">2018-01-03</time>
-</a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="原始feature说明"><a href="#原始feature说明" class="headerlink" title="原始feature说明"></a>原始feature说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">*) Feature: now nginx automatically preserves the CAP_NET_RAW capability</div><div class="line">   in worker processes when using the &quot;transparent&quot; parameter of the</div><div class="line">   &quot;proxy_bind&quot;, &quot;fastcgi_bind&quot;, &quot;memcached_bind&quot;, &quot;scgi_bind&quot;, and</div><div class="line">   &quot;uwsgi_bind&quot; directives.</div><div class="line"></div><div class="line">*) Feature: improved CPU cache line size detection.</div><div class="line">   Thanks to Debayan Ghosh.</div><div class="line"></div><div class="line">*) Feature: new directives in vim syntax highlighting scripts.</div><div class="line">   Thanks to Gena Makhomed.</div><div class="line">.....</div></pre></td></tr></table></figure>
-<p>这个我们主要关注<code>feature1</code>和<code>feature2</code>, 即是:</p>
-<ul>
-<li>对<code>xxx_bind</code>的指令支持<code>CAP_NET_RAW</code>方式</li>
-<li>改进对cpu cache line长度的检测</li>
-</ul>
-<p>我们分布研究这两个问题的背景以及nginx的解决方案</p>
-<h3 id="关于xxx-bind"><a href="#关于xxx-bind" class="headerlink" title="关于xxx_bind"></a>关于xxx_bind</h3><p>我们知道存在类似于<code>proxy_bind</code>, <code>fastcgi_bind</code>, <code>memcached_bind</code>之类的nginx指令，其重要是干嘛的呢? 如下是<a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_bind" target="_blank" rel="external">proxy_bind</a>的官方说明(精简):</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Syntax:    proxy_bind address [transparent] | off;</div><div class="line">Default:    —</div><div class="line">Context:    http, server, location</div><div class="line"></div><div class="line">Makes outgoing connections to a proxied server originate from the specified local IP address with an optional port (1.11.2). Parameter value can contain variables (1.3.12). The transparent parameter (1.11.0) allows outgoing connections to a proxied server originate from a non-local IP address, for example, from a real IP address of a client:</div><div class="line"></div><div class="line">&gt;&gt;&gt; proxy_bind $remote_addr transparent;</div><div class="line"></div><div class="line">In order for this parameter to work, it is usually necessary to run nginx worker processes with the superuser privileges. On Linux it is not required (1.13.8) as if the transparent parameter is specified, worker processes inherit the CAP_NET_RAW capability from the master process. It is also necessary to configure kernel routing table to intercept network traffic from the proxied server.</div></pre></td></tr></table></figure>
-<p>如上, 我们可以总结为<code>proxy_bind</code>实现代理时，和<code>upstream</code>交互，其使用的ip/port是可以调整的，具体包括:</p>
-<ol>
-<li>绑定本地的其他ip地址 </li>
-<li>绑定一个非本地的ip地址 : 这个需要加入<code>transparent</code>参数</li>
-</ol>
-<p>方法2可以实现真正的透明代理, 不过要具体实现这个功能，需要调整的地方还很多(要保障返回数据报地址是OK的)，具体可以参看nginx的官方blog的文章<a href="https://www.nginx.com/blog/ip-transparency-direct-server-return-nginx-plus-transparent-proxy/" target="_blank" rel="external">IP Transparency and Direct Server Return with NGINX and NGINX Plus as Transparent Proxy</a></p>
-<p>回到这次的版本升级的点，可以想像，如果一个机器A想伪造机器B的IP发送请求，是需要一些权限控制的(想想大家之前写的ping程序:) ), 这个传统上面是需要<code>root</code>权限的。显然，这个方案的缺点是，整个nginx都需要以<code>root</code>权限去执行，在安全性和隐私方案是存在风险的。随之，在新的内核和安卓系统强调更多是<a href="http://man7.org/linux/man-pages/man7/capabilities.7.html" target="_blank" rel="external">Capability</a>机制</p>
-<p>所以, nginx这次升级的策略就是, 如果存在这个capability，就无需要求root权限了，具体代码如下(添加些许注释): </p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> (NGX_HAVE_PR_SET_KEEPCAPS &amp;&amp; NGX_HAVE_CAPABILITIES)</span></div><div class="line"><span class="comment">/*</span></div><div class="line">* 使用prctl(PR_SET_KEEPCAPS, xxx)的效果是保证即便切换用户, 其capabilities依旧保留</div><div class="line">*/</div><div class="line">        <span class="keyword">if</span> (ccf-&gt;transparent &amp;&amp; ccf-&gt;user) &#123;</div><div class="line">            <span class="keyword">if</span> (prctl(PR_SET_KEEPCAPS, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>) == <span class="number">-1</span>) &#123;</div><div class="line">                ngx_log_error(NGX_LOG_EMERG, cycle-&gt;<span class="built_in">log</span>, ngx_errno,</div><div class="line">                              <span class="string">"prctl(PR_SET_KEEPCAPS, 1) failed"</span>);</div><div class="line">                <span class="comment">/* fatal */</span></div><div class="line">                <span class="built_in">exit</span>(<span class="number">2</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"></div><div class="line">...</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> (NGX_HAVE_CAPABILITIES)</span></div><div class="line">        <span class="keyword">if</span> (ccf-&gt;transparent &amp;&amp; ccf-&gt;user) &#123;</div><div class="line">            <span class="class"><span class="keyword">struct</span> __<span class="title">user_cap_data_struct</span>    <span class="title">data</span>;</span></div><div class="line">            <span class="class"><span class="keyword">struct</span> __<span class="title">user_cap_header_struct</span>  <span class="title">header</span>;</span></div><div class="line"></div><div class="line">            ngx_memzero(&amp;header, <span class="keyword">sizeof</span>(struct __user_cap_header_struct));</div><div class="line">            ngx_memzero(&amp;data, <span class="keyword">sizeof</span>(struct __user_cap_data_struct));</div><div class="line"></div><div class="line">            header.version = _LINUX_CAPABILITY_VERSION_1;</div><div class="line">            data.effective = CAP_TO_MASK(CAP_NET_RAW);</div><div class="line">            data.permitted = data.effective;</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">* 设置用户的CAP_NET_RAW权限</div><div class="line">*/</div><div class="line">            <span class="keyword">if</span> (syscall(SYS_capset, &amp;header, &amp;data) == <span class="number">-1</span>) &#123;</div><div class="line">                ngx_log_error(NGX_LOG_EMERG, cycle-&gt;<span class="built_in">log</span>, ngx_errno,</div><div class="line">                              <span class="string">"capset() failed"</span>);</div><div class="line">                <span class="comment">/* fatal */</span></div><div class="line">                <span class="built_in">exit</span>(<span class="number">2</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<h3 id="关于CPU-Cache-Line"><a href="#关于CPU-Cache-Line" class="headerlink" title="关于CPU Cache Line"></a>关于CPU Cache Line</h3><p>关于CPU Cache Line，我们分成三个细化的问题进行研究:</p>
-<ol>
-<li>CPU Cache 是什么，有什么作用/影响?</li>
-<li>Nginx如何实现对CPU Cache Line Size的检测?</li>
-<li>Nginx如何应用CPU Cache?</li>
-</ol>
-<p>下面依次分析</p>
-<h4 id="CPU-Cache-作用"><a href="#CPU-Cache-作用" class="headerlink" title="CPU Cache 作用"></a>CPU Cache 作用</h4><p><a href="http://cenalulu.github.io/linux/all-about-cpu-cache/" target="_blank" rel="external">关于CPU Cache – 程序猿需要知道的那些事</a>和<a href="http://www.aristeia.com/TalkNotes/ACCU2011_CPUCaches.pdf" target="_blank" rel="external">CPU Caches and Why You Care</a>这两篇文章对Cpu Cache有非常详细和深刻的说明，可以深入研究之, 简而言之, CPU Cache是一个CPU的硬件Cache，如何合理的利用其特性，可以极大提升程序的性能, 如下是<a href="http://www.aristeia.com/TalkNotes/ACCU2011_CPUCaches.pdf" target="_blank" rel="external">CPU Cache的示意图</a><br>:<br><img src="/images/cpu_cache.png" alt="CPU Cache"></p>
-<p>具体地，CPU CACHE是以<code>CPU CACHE LINE</code>为粒度进行组织管理的，不同的cpu其size会有所不同，但一般都是32/64/128位等; 基于次，我们很自然而然的想到，如果要充分利用CPU CACHE，我们的内存地址最好和<code>CPU CACHE LINE SIZE</code>对齐, 这样可以保障较好的cache命中率和cache利用率</p>
-<h4 id="Nginx对CPU-CACHE-LINE-SIZE的检测"><a href="#Nginx对CPU-CACHE-LINE-SIZE的检测" class="headerlink" title="Nginx对CPU CACHE LINE SIZE的检测"></a>Nginx对CPU CACHE LINE SIZE的检测</h4><p>这方面，就不详述其推理过程了，直接结论如下(有谬误之处，<a href="mailto:shevacjs@qq.com" target="_blank" rel="external">还请告知</a>) :</p>
-<ul>
-<li>在<code>configure</code>阶段, 通过获取CPU信息设置<code>NGX_CPU_CACHE_LINE</code>宏变量，在<code>auto/cc/gcc(clang)</code>里面都会有此类的代码，比如:</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">## file: auto/cc/gcc</span></div><div class="line"><span class="keyword">case</span> <span class="variable">$CPU</span> <span class="keyword">in</span></div><div class="line">    pentium)</div><div class="line">        <span class="comment"># optimize for Pentium and Athlon</span></div><div class="line">        CPU_OPT=<span class="string">"-march=pentium"</span></div><div class="line">        NGX_CPU_CACHE_LINE=32</div><div class="line">    ;;</div></pre></td></tr></table></figure>
-<ul>
-<li>在编译阶段, 验证是否支持<code>sysconf(_SC_LEVEL1_DCACHE_LINESIZE)</code>这个特性，如果支持, 则开启宏<code>NGX_HAVE_LEVEL1_DCACHE_LINESIZE</code>, 大概代码如下:</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">file: ./src/os/unix/ngx_posix_init.c</div><div class="line">如果宏 NGX_HAVE_LEVEL1_DCACHE_LINESIZE 设置，就通过sysconf获取*/</div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> (NGX_HAVE_LEVEL1_DCACHE_LINESIZE)</span></div><div class="line">    size = sysconf(_SC_LEVEL1_DCACHE_LINESIZE);</div><div class="line">    <span class="keyword">if</span> (size &gt; <span class="number">0</span>) &#123;</div><div class="line">        ngx_cacheline_size = size;</div><div class="line">    &#125;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
-<ul>
-<li>在运行启动时候获取(编译和运行的机器可能不一样), 所以还需要主动获取，这个里面主要使用<a href="https://en.wikipedia.org/wiki/CPUID#EAX=1:_Processor_Info_and_Feature_Bits" target="_blank" rel="external">cpuid</a>这个指令获取具体的CPU信息, 简要代码如下:</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">file: ./src/os/unix/ngx_posix_init.c 获取信息</div><div class="line">*/</div><div class="line">ngx_cpuinfo();</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">file: src/core/ngx_cpuinfo.c</div><div class="line">通过汇编指令获取cpu信息，结果存储在 ngx_cacheline_size</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> ngx_inline <span class="keyword">void</span></span></div><div class="line"><span class="title">ngx_cpuid</span><span class="params">(<span class="keyword">uint32_t</span> i, <span class="keyword">uint32_t</span> *buf)</span></div><div class="line">&#123;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line">     * we could not use %ebx as output parameter if gcc builds PIC,</div><div class="line">     * and we could not save %ebx on stack, because %esp is used,</div><div class="line">     * when the -fomit-frame-pointer optimization is specified.</div><div class="line">     */</div><div class="line"></div><div class="line">    __asm__ (</div><div class="line"></div><div class="line">    <span class="string">"    mov    %%ebx, %%esi;  "</span></div><div class="line"></div><div class="line">    <span class="string">"    cpuid;                "</span></div><div class="line">    <span class="string">"    mov    %%eax, (%1);   "</span></div><div class="line">    <span class="string">"    mov    %%ebx, 4(%1);  "</span></div><div class="line">    <span class="string">"    mov    %%edx, 8(%1);  "</span></div><div class="line">    <span class="string">"    mov    %%ecx, 12(%1); "</span></div><div class="line"></div><div class="line">    <span class="string">"    mov    %%esi, %%ebx;  "</span></div><div class="line"></div><div class="line">    : : <span class="string">"a"</span> (i), <span class="string">"D"</span> (buf) : <span class="string">"ecx"</span>, <span class="string">"edx"</span>, <span class="string">"esi"</span>, <span class="string">"memory"</span> );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="NGINX如何应用CPU-CACHE-LINE"><a href="#NGINX如何应用CPU-CACHE-LINE" class="headerlink" title="NGINX如何应用CPU CACHE LINE"></a>NGINX如何应用CPU CACHE LINE</h4><p>如上，nginx知道<code>cpu cache line size</code>之后，要想办法尽量的把申请的内存地址和<code>cpu cache line size</code>对齐，一个重要的示例就是<code>CRC32</code>的实现，具体如下:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// file: ./src/core/ngx_crc32.c</span></div><div class="line"></div><div class="line"><span class="keyword">ngx_int_t</span> ngx_crc32_table_init(<span class="keyword">void</span>)</div><div class="line">&#123;</div><div class="line">    <span class="comment">//申请空间，注意多申请了 ngx_cacheline_size</span></div><div class="line">    p = ngx_alloc(<span class="number">16</span> * <span class="keyword">sizeof</span>(<span class="keyword">uint32_t</span>) + ngx_cacheline_size, ngx_cycle-&gt;<span class="built_in">log</span>);</div><div class="line">    <span class="keyword">if</span> (p == <span class="literal">NULL</span>) &#123;</div><div class="line">        <span class="keyword">return</span> NGX_ERROR;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//将内存地址和ngx_cacheline_size对齐，注意，由于多申请了</span></div><div class="line">    <span class="comment">//一些空间，即便内存往前偏移一些，也不会发生内存越界</span></div><div class="line">    p = ngx_align_ptr(p, ngx_cacheline_size);</div><div class="line"></div><div class="line">    <span class="comment">// copy </span></div><div class="line">    ngx_memcpy(p, ngx_crc32_table16, <span class="number">16</span> * <span class="keyword">sizeof</span>(<span class="keyword">uint32_t</span>));</div><div class="line">    ngx_crc32_table_short = p;</div><div class="line"></div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><ul>
-<li><a href="https://www.ibm.com/developerworks/cn/linux/sdk/assemble/inline/" target="_blank" rel="external">Linux 中 x86 的内联汇编</a> : 可以用于了解nginx如何使用<code>cpuid</code>这个指令</li>
-<li><a href="http://man7.org/linux/man-pages/man7/capabilities.7.html" target="_blank" rel="external">Capabilities - overview of Linux capabilities</a> :  官方的man手册，对<code>capability</code>有个概述</li>
-<li><p><a href="http://rk700.github.io/2016/10/26/linux-capabilities/" target="_blank" rel="external">Linux的capabilities机制</a> : 简单的中文说明，可以作为入门了解</p>
-</li>
-<li><p><a href="http://www.aristeia.com/TalkNotes/ACCU2011_CPUCaches.pdf" target="_blank" rel="external">CPU Caches and Why You Care</a> : 对CPU CACHE有系统的介绍，其他的概述文章还包括<a href="http://cenalulu.github.io/linux/all-about-cpu-cache/" target="_blank" rel="external">关于CPU Cache – 程序猿需要知道的那些事</a>和<a href="https://coolshell.cn/articles/10249.html" target="_blank" rel="external">7个示例科普CPU CACHE</a></p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
 
       </footer>
     
